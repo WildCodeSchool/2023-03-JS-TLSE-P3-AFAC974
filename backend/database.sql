@@ -1,6 +1,5 @@
 -- Table `type`
 DROP TABLE IF EXISTS `type`;
-
 CREATE TABLE IF NOT EXISTS `type` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -9,7 +8,6 @@ CREATE TABLE IF NOT EXISTS `type` (
 
 -- Table `technique`
 DROP TABLE IF EXISTS `technique`;
-
 CREATE TABLE IF NOT EXISTS `technique` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -18,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `technique` (
 
 -- Table `art_trend`
 DROP TABLE IF EXISTS `art_trend`;
-
 CREATE TABLE IF NOT EXISTS `art_trend` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -27,23 +24,40 @@ CREATE TABLE IF NOT EXISTS `art_trend` (
 
 -- Table `artist`
 DROP TABLE IF EXISTS `artist`;
-
 CREATE TABLE IF NOT EXISTS `artist` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `lastname` VARCHAR(45) NOT NULL,
+  `firstname` VARCHAR(45) NOT NULL,
+  `nickname` VARCHAR(45),
+  `description` VARCHAR(1000),
+  `image_url_small` VARCHAR(255),
+  `image_url_medium` VARCHAR(255),
+  `image_url_large` VARCHAR(255),
+  `website_url` VARCHAR(255),
+  `facebook_url` VARCHAR(255),
+  `instagram_url` VARCHAR(255),
+  `twitter_url` VARCHAR(255),
   PRIMARY KEY (`id`)
 );
 
 -- Table `artwork`
 DROP TABLE IF EXISTS `artwork`;
-
 CREATE TABLE IF NOT EXISTS `artwork` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `description` TEXT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `year` INT,
+  `description` VARCHAR(1000),
+  `image_url_small` VARCHAR(255),
+  `image_url_medium` VARCHAR(255),
+  `image_url_large` VARCHAR(255),
+  `art_trend_id` INT NOT NULL,
   `type_id` INT NOT NULL,
   `technique_id` INT NOT NULL,
   `artist_id` INT NOT NULL,
+  `width_cm` INT,
+  `height_cm` INT,
+  `depth_cm` INT,
+  `artwork_location` VARCHAR(255),
   PRIMARY KEY (`id`),
   INDEX `fk_artwork_type1_idx` (`type_id`),
   INDEX `fk_artwork_technique1_idx` (`technique_id`),
@@ -55,7 +69,6 @@ CREATE TABLE IF NOT EXISTS `artwork` (
 
 -- Table `entity`
 DROP TABLE IF EXISTS `entity`;
-
 CREATE TABLE IF NOT EXISTS `entity` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -64,7 +77,6 @@ CREATE TABLE IF NOT EXISTS `entity` (
 
 -- Table `user`
 DROP TABLE IF EXISTS `user`;
-
 CREATE TABLE IF NOT EXISTS `user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `lastname` VARCHAR(255) NOT NULL,
@@ -81,7 +93,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Table `artwork_favorite`
 DROP TABLE IF EXISTS `artwork_favorite`;
-
 CREATE TABLE IF NOT EXISTS `artwork_favorite` (
   `user_id` INT NOT NULL,
   `artwork_id` INT NOT NULL,
@@ -94,7 +105,6 @@ CREATE TABLE IF NOT EXISTS `artwork_favorite` (
 
 -- Table `artist_technique`
 DROP TABLE IF EXISTS `artist_technique`;
-
 CREATE TABLE IF NOT EXISTS `artist_technique` (
   `artist_id` INT NOT NULL,
   `technique_id` INT NOT NULL,
@@ -107,7 +117,6 @@ CREATE TABLE IF NOT EXISTS `artist_technique` (
 
 -- Table `type_artist`
 DROP TABLE IF EXISTS `type_artist`;
-
 CREATE TABLE IF NOT EXISTS `type_artist` (
   `artist_id` INT NOT NULL,
   `type_id` INT NOT NULL,
@@ -120,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `type_artist` (
 
 -- Table `art_trend_artist`
 DROP TABLE IF EXISTS `art_trend_artist`;
-
 CREATE TABLE IF NOT EXISTS `art_trend_artist` (
   `artist_id` INT NOT NULL,
   `art_trend_id` INT NOT NULL,
