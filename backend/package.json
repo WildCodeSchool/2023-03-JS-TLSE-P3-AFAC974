@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
-    "mysql2": "^3.0.1"
+    "mysql2": "^3.3.5"
   },
   "devDependencies": {
     "eslint": "^8.32.0",
@@ -18,7 +18,7 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.22",
     "prettier": "2.8.3"
   }
 }
