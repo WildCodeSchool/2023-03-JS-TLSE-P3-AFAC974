@@ -10,4 +10,10 @@ router.put("/items/:id", itemControllers.edit);
 router.post("/items", itemControllers.add);
 router.delete("/items/:id", itemControllers.destroy);
 
+// artwork routes
+
+const artworkControllers = require("./controllers/artworkControllers");
+
+router.get("/artworks", artworkControllers.browse);
+
 module.exports = router;
