@@ -16,6 +16,7 @@ const artworkControllers = require("./controllers/artworkControllers");
 
 router.get("/artworks", artworkControllers.browse);
 router.post("/artworks", artworkControllers.create);
+router.put("/artworks/:id", artworkControllers.edit);
 
 // artist routes
 
