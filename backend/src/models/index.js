@@ -39,6 +39,11 @@ const ArtworkManager = require("./ArtworkManager");
 models.artwork = new ArtworkManager();
 models.artwork.setDatabase(pool);
 
+const ArtistManager = require("./ArtistManager");
+
+models.artist = new ArtistManager();
+models.artist.setDatabase(pool);
+
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

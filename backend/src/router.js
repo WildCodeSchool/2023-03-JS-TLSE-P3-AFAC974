@@ -16,4 +16,10 @@ const artworkControllers = require("./controllers/artworkControllers");
 
 router.get("/artworks", artworkControllers.browse);
 
+// artist routes
+
+const artistControllers = require("./controllers/artistControllers");
+
+router.get("/artists", artistControllers.browse);
+
 module.exports = router;
