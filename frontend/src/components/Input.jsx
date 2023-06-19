@@ -81,8 +81,14 @@ function Input({ text, type, typePicture, id }) {
 
 Input.propTypes = {
   text: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   typePicture: PropTypes.string,
+};
+
+Input.defaultProps = {
+  text: "text",
+  type: "text",
+  typePicture: "",
 };
 
 export default Input;

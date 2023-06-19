@@ -14,8 +14,14 @@ function RedButton({ text, nextStep, handleSubmit }) {
 }
 
 RedButton.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func,
+  nextStep: PropTypes.func,
+  text: PropTypes.string,
+};
+
+RedButton.defaultProps = {
+  handleSubmit: () => {},
+  nextStep: () => {},
+  text: "",
 };
 export default RedButton;

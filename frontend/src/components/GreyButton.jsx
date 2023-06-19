@@ -14,9 +14,15 @@ function GreyButton({ text, prevStep, handleCancel }) {
 }
 
 GreyButton.propTypes = {
-  handleCancel: PropTypes.func.isRequired,
-  prevStep: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+  handleCancel: PropTypes.func,
+  prevStep: PropTypes.func,
+  text: PropTypes.string,
+};
+
+GreyButton.defaultProps = {
+  handleCancel: () => {},
+  prevStep: () => {},
+  text: "",
 };
 
 export default GreyButton;

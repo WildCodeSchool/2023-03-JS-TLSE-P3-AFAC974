@@ -237,8 +237,12 @@ function AddArtwork({ isOpen, onClose }) {
 }
 
 AddArtwork.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
+};
+
+AddArtwork.defaultProps = {
+  isOpen: false,
 };
 
 export default AddArtwork;
