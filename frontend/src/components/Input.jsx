@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-function Input({ text, type, typePicture }) {
+function Input({ text, type, typePicture, id }) {
   const [searchInput, setSearchInput] = useState("");
 
   const handleSearch = (event) => {
@@ -14,7 +14,8 @@ function Input({ text, type, typePicture }) {
       return (
         <input
           className="input"
-          type="file"
+          type={type}
+          id={id}
           name={typePicture}
           accept="image/png, image/jpeg"
           placeholder={text}
@@ -26,7 +27,8 @@ function Input({ text, type, typePicture }) {
     if (type === "email") {
       return (
         <input
-          type="email"
+          type={type}
+          id={id}
           size="100"
           placeholder={text}
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -38,7 +40,8 @@ function Input({ text, type, typePicture }) {
     if (type === "url") {
       return (
         <input
-          type="url"
+          type={type}
+          id={id}
           name="url"
           size="100"
           placeholder={text}
@@ -48,10 +51,24 @@ function Input({ text, type, typePicture }) {
         />
       );
     }
+    if (type === "password") {
+      return (
+        <input
+          type={type}
+          id={id}
+          name="password"
+          pattern=".{5,}"
+          required
+          onChange={handleSearch}
+          value={searchInput}
+        />
+      );
+    }
     return (
       <input
         className="input"
         type={type}
+        id={id}
         placeholder={text}
         onChange={handleSearch}
         value={searchInput}
