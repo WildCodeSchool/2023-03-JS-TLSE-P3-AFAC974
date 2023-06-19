@@ -10,7 +10,7 @@ function App() {
       <div className="App">
         <NavBar />
         <Home />
-        <p>coucou</p>
+        <p className="text-blue-500">coucou</p>
       </div>
     </Router>
   );
