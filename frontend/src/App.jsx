@@ -8,7 +8,7 @@ function App() {
     <Router>
       <div className="App">
         <Home />
-        <p>coucou</p>
+        <p className="text-blue-500">coucou</p>
       </div>
     </Router>
   );
