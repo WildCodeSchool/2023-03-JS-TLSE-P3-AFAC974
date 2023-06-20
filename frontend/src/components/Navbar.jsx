@@ -44,7 +44,6 @@ function NavBar({ setLoginModalOpened, setLanguageModalOpened }) {
           className={`flex items-center gap-2 w-[28px] ${
             homeHovered ? "hovered" : ""
           }`}
-          id="homeLink"
           onMouseEnter={handleHomeHover}
           onMouseLeave={handleHomeLeave}
         >
@@ -56,7 +55,6 @@ function NavBar({ setLoginModalOpened, setLanguageModalOpened }) {
             }
             alt="hexagon"
             className="h-[28px] w-[26.32px]"
-            id="homePicture"
           />
           <Link to="/">HOME</Link>
         </div>
@@ -64,7 +62,6 @@ function NavBar({ setLoginModalOpened, setLanguageModalOpened }) {
           className={`flex items-center gap-2 w-[28px] ${
             galleryHovered ? "hovered" : ""
           }`}
-          id="galleryLink"
           onMouseEnter={handleGalleryHover}
           onMouseLeave={handleGalleryLeave}
         >
@@ -84,7 +81,6 @@ function NavBar({ setLoginModalOpened, setLanguageModalOpened }) {
           className={`flex items-center gap-2 w-[28px] whitespace-nowrap ${
             aboutHovered ? "hovered" : ""
           }`}
-          id="aboutLink"
           onMouseEnter={handleAboutHover}
           onMouseLeave={handleAboutLeave}
         >
