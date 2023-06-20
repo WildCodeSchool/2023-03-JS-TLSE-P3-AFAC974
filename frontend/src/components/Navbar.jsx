@@ -57,7 +57,9 @@ function NavBar() {
             className="h-[28px] w-[26.32px]"
             id="homePicture"
           />
-          <Link to="/">HOME</Link>
+          <Link to="/" className="hover:drop-shadow-2xl">
+            HOME
+          </Link>
         </div>
         <div
           className={`flex items-center gap-2 w-[28px] ${
