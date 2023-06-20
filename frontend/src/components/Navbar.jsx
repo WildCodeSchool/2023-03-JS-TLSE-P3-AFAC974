@@ -1,45 +1,102 @@
-import React from "react";
+import React, { useState } from "react";
 import { Turn as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 
 function NavBar() {
+  const [homeHovered, setHomeHovered] = useState(false);
+  const [galleryHovered, setGalleryHovered] = useState(false);
+  const [aboutHovered, setAboutHovered] = useState(false);
+
+  const handleHomeHover = () => {
+    setHomeHovered(true);
+  };
+
+  const handleHomeLeave = () => {
+    setHomeHovered(false);
+  };
+
+  const handleGalleryHover = () => {
+    setGalleryHovered(true);
+  };
+
+  const handleGalleryLeave = () => {
+    setGalleryHovered(false);
+  };
+
+  const handleAboutHover = () => {
+    setAboutHovered(true);
+  };
+
+  const handleAboutLeave = () => {
+    setAboutHovered(false);
+  };
+
   return (
-    <div
-      className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3
-    "
-    >
+    <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3">
       <img
-        className="logo h-[35px] w-auto sm:h-[55px] "
+        className="logo h-[35px] w-auto sm:h-[55px]"
         src="/src/assets/navbar_logo.png"
         alt="logo"
       />
-      <div className="hidden sm:flex navbar-links flex items-center gap-[100px] text-white">
-        <div className="flex items-center gap-2 w-[28px] ">
+      <div className="desktopLinks hidden sm:flex navbar-links items-center gap-[100px] text-white">
+        <div
+          className={`flex items-center gap-2 w-[28px] ${
+            homeHovered ? "hovered" : ""
+          }`}
+          id="homeLink"
+          onMouseEnter={handleHomeHover}
+          onMouseLeave={handleHomeLeave}
+        >
           <img
-            src="/src/assets/hexagon_blue_bg.png"
+            src={
+              homeHovered
+                ? "/src/assets/hexagon_red_bg.png"
+                : "/src/assets/hexagon_blue_bg.png"
+            }
             alt="hexagon"
-            className="h-[28px] w-[26.32 px]"
+            className="h-[28px] w-[26.32px]"
+            id="homePicture"
           />
-          {/* Link to home page */}
           <Link to="/">HOME</Link>
         </div>
-        <div className="flex items-center gap-2 w-[28px]">
+        <div
+          className={`flex items-center gap-2 w-[28px] ${
+            galleryHovered ? "hovered" : ""
+          }`}
+          id="galleryLink"
+          onMouseEnter={handleGalleryHover}
+          onMouseLeave={handleGalleryLeave}
+        >
           <img
-            src="/src/assets/hexagon_blue_bg.png"
+            src={
+              galleryHovered
+                ? "/src/assets/hexagon_red_bg.png"
+                : "/src/assets/hexagon_blue_bg.png"
+            }
             alt="hexagon"
-            className="h-[28px] w-[26.32 px]"
+            className="h-[28px] w-[26.32px]"
+            id="galleryPicture"
           />
-          {/* Link to Gallery page */}
           <Link to="/gallery">GALERIE</Link>
         </div>
-        {/* text doesn't wrap */}
-        <div className="flex items-center gap-2 w-[28px] whitespace-nowrap ">
+        <div
+          className={`flex items-center gap-2 w-[28px] whitespace-nowrap ${
+            aboutHovered ? "hovered" : ""
+          }`}
+          id="aboutLink"
+          onMouseEnter={handleAboutHover}
+          onMouseLeave={handleAboutLeave}
+        >
           <img
-            src="/src/assets/hexagon_blue_bg.png"
+            src={
+              aboutHovered
+                ? "/src/assets/hexagon_red_bg.png"
+                : "/src/assets/hexagon_blue_bg.png"
+            }
             alt="hexagon"
-            className="h-[28px] w-[26.32 px]"
+            className="h-[28px] w-[26.32px] "
+            id="aboutPicture"
           />
-          {/* Link to About page */}
           <Link to="/about">A PROPOS</Link>
         </div>
       </div>
