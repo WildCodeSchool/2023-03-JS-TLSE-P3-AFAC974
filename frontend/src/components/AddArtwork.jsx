@@ -6,7 +6,7 @@ import RedButton from "./RedButton";
 import GreyButton from "./GreyButton";
 import Input from "./Input";
 
-function AddArtwork({ isOpen, onClose }) {
+function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -26,8 +26,6 @@ function AddArtwork({ isOpen, onClose }) {
     },
   };
 
-  const [step, setStep] = useState(1);
-
   const nextStep = () => {
     setStep(step + 1);
   };
@@ -44,6 +42,13 @@ function AddArtwork({ isOpen, onClose }) {
   const handleSubmit = () => {
     setStep(1);
     onClose();
+    setModalConfirmation(true);
+  };
+
+  const [formData, setFormData] = useState("");
+
+  const handleInputChange = (e) => {
+    setFormData(e.target.value);
   };
 
   const renderContent = () => {
@@ -60,8 +65,8 @@ function AddArtwork({ isOpen, onClose }) {
               <h3>Ajouter une image de l'oeuvre</h3>
             </label>
             <div>
-              <GreyButton text="Annuler" handleCancel={handleCancel} />
-              <RedButton text="Suivant" nextStep={nextStep} />
+              <GreyButton text="Annuler" onClick={handleCancel} />
+              <RedButton text="Suivant" onClick={nextStep} />
             </div>
           </form>
         );
@@ -77,29 +82,45 @@ function AddArtwork({ isOpen, onClose }) {
                   <h3>Nom de l'oeuvre</h3>
                   <Input
                     type="text"
-                    text="Saisir le nom de l'oeuvre"
                     id="artwork_name"
+                    name="artworkName"
+                    placeholder="Saisir le nom de l'oeuvre"
+                    onChange={handleInputChange}
+                    value={formData}
                   />
                 </label>
                 <label htmlFor="artist_name_artwork">
                   <h3>Nom de l'artiste</h3>
                   <Input
                     type="text"
-                    text="Saisir un nom d'artiste"
-                    id="atist_name_artwork"
+                    id="artist_name_artwork"
+                    name="artistName"
+                    placeholder="Saisir un nom d'artiste"
+                    onChange={handleInputChange}
+                    value={formData}
                   />
                 </label>
                 <label htmlFor="creation">
                   <h3>Année de création</h3>
-                  <Input type="text" text="Année de création" id="creation" />
+                  <Input
+                    type="text"
+                    id="creationYear"
+                    name="creationYear"
+                    placeholder="Année de création"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
               </div>
               <label htmlFor="artwork_description">
                 <h3>Description</h3>
                 <Input
                   type="text"
-                  text="Description"
                   id="artwork_description"
+                  name="artworkDescription"
+                  placeholder="Description"
+                  onChange={handleInputChange}
+                  value={formData}
                 />
               </label>
               <div>
@@ -107,38 +128,76 @@ function AddArtwork({ isOpen, onClose }) {
                 <div>
                   <label htmlFor="length_artwork">
                     <h4>L</h4>
-                    <Input type="text" text="Longueur" id="length_artwork" />
+                    <Input
+                      type="text"
+                      id="length_artwork"
+                      name="lengthArtwork"
+                      placeholder="Longueur"
+                      onChange={handleInputChange}
+                      value={formData}
+                    />
                   </label>
                   <label htmlFor="width">
                     <h4>l</h4>
-                    <Input type="text" text="Largeur" id="width_artwork" />
+                    <Input
+                      type="text"
+                      id="width_artwork"
+                      name="widthArtwork"
+                      placeholder="Largeur"
+                      onChange={handleInputChange}
+                      value={formData}
+                    />
                   </label>
                   <label htmlFor="height_artwork">
                     <h4>h</h4>
-                    <Input type="text" text="Hauteur" id="height_artwork" />
+                    <Input
+                      type="text"
+                      id="height_artwork"
+                      name="heightArtwork"
+                      placeholder="Hauteur"
+                      onChange={handleInputChange}
+                      value={formData}
+                    />
                   </label>
                 </div>
               </div>
               <label htmlFor="type_artwork">
                 <h3>Type d'oeuvre</h3>
-                <Input type="text" text="Type d'oeuvre" id="type_artwork" />
+                <Input
+                  type="text"
+                  id="type_artwork"
+                  name="typeArtwork"
+                  placeholder="Type d'oeuvre"
+                  onChange={handleInputChange}
+                  value={formData}
+                />
               </label>
               <label htmlFor="art_trend_artwork">
                 <h3>Courant artistique</h3>
                 <Input
                   type="text"
-                  text="Courant artistique"
                   id="art_trend_artwork"
+                  name="artTrendArtwork"
+                  placeholder="Courant artistique"
+                  onChange={handleInputChange}
+                  value={formData}
                 />
               </label>
             </div>
             <label htmlFor="artwork_technical">
               <h3>Technique</h3>
-              <Input type="text" text="Technique" id="artwork_technical" />
+              <Input
+                type="text"
+                id="artwork_technical"
+                name="artworkTechnical"
+                placeholder="Technique"
+                onChange={handleInputChange}
+                value={formData}
+              />
             </label>
             <div>
-              <GreyButton text="Précédent" prevStep={prevStep} />
-              <RedButton text="Suivant" nextStep={nextStep} />
+              <GreyButton text="Précédent" onClick={prevStep} />
+              <RedButton type="submit" text="Suivant" onClick={nextStep} />
             </div>
           </form>
         );
@@ -152,57 +211,123 @@ function AddArtwork({ isOpen, onClose }) {
               <div>
                 <label htmlFor="lastname_artist">
                   <h3>Nom de l'artiste</h3>
-                  <Input type="text" text="Nom" id="lastname_artist" />
+                  <Input
+                    type="text"
+                    id="lastname_artist"
+                    name="lastnameArtist"
+                    placeholder="Nom"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
                 <label htmlFor="firstname_artist">
                   <h3>Prénom de l'artiste</h3>
-                  <Input type="text" text="Prénom" id="firstname_artist" />
+                  <Input
+                    type="text"
+                    id="firstname_artist"
+                    name="firstnameArtist"
+                    placeholder="Prénom"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
                 <label htmlFor="usual_name">
                   <h3>Nom d'usage</h3>
-                  <Input type="text" text="Nom d'usage" id="usual_name" />
+                  <Input
+                    type="text"
+                    id="usual_name"
+                    name="usualName"
+                    placeholder="Nom d'usage"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
               </div>
               <label htmlFor="artist_decription">
                 <h3>Description</h3>
-                <Input type="text" text="Description" id="artist_description" />
+                <Input
+                  type="text"
+                  id="artist_description"
+                  name="artistDescription"
+                  placeholder="Description"
+                  onChange={handleInputChange}
+                  value={formData}
+                />
               </label>
               <div>
                 <label htmlFor="artist_technical">
                   <h3>Techniques</h3>
-                  <Input type="text" text="Technique" id="rtist_technical" />
+                  <Input
+                    type="text"
+                    id="artist_technical"
+                    name="artistTechnical"
+                    placeholder="Technique"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
                 <label htmlFor="art_trend_artist">
                   <h3>Courant artistique</h3>
                   <Input
                     type="text"
-                    text="Courant artistique"
                     id="art_trend_artist"
+                    name="artTrendArtist"
+                    placeholder="Courant artistique"
+                    onChange={handleInputChange}
+                    value={formData}
                   />
                 </label>
                 <label htmlFor="web_site">
                   <h3>Lien site internet</h3>
-                  <Input type="url" text="Lien site internet" id="web_site" />
+                  <Input
+                    type="url"
+                    id="web_site"
+                    name="webSite"
+                    placeholder="Lien site internet"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
               </div>
               <div>
                 <label htmlFor="facebook">
                   <h3>Lien Facebook</h3>
-                  <Input type="url" text="Facebook" id="facebook" />
+                  <Input
+                    type="url"
+                    id="facebook"
+                    name="facebook"
+                    placeholder="Facebook"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
                 <label htmlFor="twitter">
                   <h3>Lien Twitter</h3>
-                  <Input type="url" text="Twitter" id="twitter" />
+                  <Input
+                    type="url"
+                    id="twitter"
+                    name="twitter"
+                    placeholder="Twitter"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
                 <label htmlFor="instagram">
                   <h3>Lien Instagram</h3>
-                  <Input type="url" text="Instagram" id="instagram" />
+                  <Input
+                    type="url"
+                    id="instagram"
+                    name="instagram"
+                    placeholder="Instagram"
+                    onChange={handleInputChange}
+                    value={formData}
+                  />
                 </label>
               </div>
             </div>
             <div>
-              <GreyButton text="Précédent" prevStep={prevStep} />
-              <RedButton text="Suivant" nextStep={nextStep} />
+              <GreyButton text="Précédent" onClick={prevStep} />
+              <RedButton text="Suivant" onClick={nextStep} />
             </div>
           </form>
         );
@@ -214,8 +339,8 @@ function AddArtwork({ isOpen, onClose }) {
               <h3>Ajouter une photo de l'artiste</h3>
             </label>
             <div>
-              <GreyButton text="Précédent" prevStep={prevStep} />
-              <RedButton text="Valider" handleSubmit={handleSubmit} />
+              <GreyButton text="Précédent" onClick={prevStep} />
+              <RedButton text="Valider" onClick={handleSubmit} />
             </div>
           </form>
         );
@@ -225,24 +350,32 @@ function AddArtwork({ isOpen, onClose }) {
   };
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onClose}
-      style={customModalStyles}
-      ariaHideApp={false}
-    >
-      {renderContent()}
-    </ReactModal>
+    <div>
+      <ReactModal
+        isOpen={isOpen}
+        onRequestClose={onClose}
+        style={customModalStyles}
+        ariaHideApp={false}
+      >
+        {renderContent()}
+      </ReactModal>
+    </div>
   );
 }
 
 AddArtwork.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
+  step: PropTypes.number,
+  setStep: PropTypes.func,
+  setModalConfirmation: PropTypes.func,
 };
 
 AddArtwork.defaultProps = {
   isOpen: false,
+  step: 1,
+  setStep: () => {},
+  setModalConfirmation: () => {},
 };
 
 export default AddArtwork;

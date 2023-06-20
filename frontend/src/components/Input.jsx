@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-function Input({ text, type, typePicture, id }) {
-  const [searchInput, setSearchInput] = useState("");
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    setSearchInput(event.target.value);
-  };
-
+function Input({ type, id, name, placeholder, onChange, value }) {
   const inputType = () => {
     if (type === "file") {
       return (
@@ -16,51 +9,53 @@ function Input({ text, type, typePicture, id }) {
           className="input"
           type={type}
           id={id}
-          name={typePicture}
+          name={name}
+          placeholder={placeholder}
           accept="image/png, image/jpeg"
-          placeholder={text}
-          onChange={handleSearch}
-          value={searchInput}
         />
       );
     }
     if (type === "email") {
       return (
         <input
+          className="input"
           type={type}
           id={id}
+          name={name}
+          placeholder={placeholder}
           size="100"
-          placeholder={text}
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          onChange={handleSearch}
-          value={searchInput}
+          onChange={onChange}
+          value={value}
         />
       );
     }
     if (type === "url") {
       return (
         <input
+          className="input"
           type={type}
           id={id}
-          name="url"
+          name={name}
+          placeholder={placeholder}
           size="100"
-          placeholder={text}
           pattern="https?://.+"
-          onChange={handleSearch}
-          value={searchInput}
+          onChange={onChange}
+          value={value}
         />
       );
     }
     if (type === "password") {
       return (
         <input
+          className="input"
           type={type}
           id={id}
-          name="password"
+          name={name}
           pattern=".{5,}"
           required
-          onChange={handleSearch}
-          value={searchInput}
+          onChange={onChange}
+          value={value}
         />
       );
     }
@@ -69,9 +64,10 @@ function Input({ text, type, typePicture, id }) {
         className="input"
         type={type}
         id={id}
-        placeholder={text}
-        onChange={handleSearch}
-        value={searchInput}
+        name={name}
+        placeholder={placeholder}
+        onChange={onChange}
+        value={value}
       />
     );
   };
@@ -80,15 +76,21 @@ function Input({ text, type, typePicture, id }) {
 }
 
 Input.propTypes = {
-  text: PropTypes.string,
   type: PropTypes.string,
-  typePicture: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
 
 Input.defaultProps = {
-  text: "text",
-  type: "text",
-  typePicture: "",
+  type: "",
+  id: "",
+  name: "",
+  placeholder: "",
+  onChange: () => {},
+  value: "",
 };
 
 export default Input;

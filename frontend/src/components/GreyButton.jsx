@@ -1,28 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function GreyButton({ text, prevStep, handleCancel }) {
+function GreyButton({ text, onClick, type }) {
   return (
-    <button
-      className="bg-red-800"
-      type="button"
-      onClick={prevStep || handleCancel}
-    >
+    <button type={type ? "submit" : "button"} onClick={onClick}>
       {text}
     </button>
   );
 }
 
 GreyButton.propTypes = {
-  handleCancel: PropTypes.func,
-  prevStep: PropTypes.func,
+  onClick: PropTypes.func,
   text: PropTypes.string,
+  type: PropTypes.string,
 };
 
 GreyButton.defaultProps = {
-  handleCancel: () => {},
-  prevStep: () => {},
+  onClick: () => {},
   text: "",
+  type: "button",
 };
 
 export default GreyButton;

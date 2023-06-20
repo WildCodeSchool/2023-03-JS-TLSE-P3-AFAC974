@@ -1,27 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function RedButton({ text, nextStep, handleSubmit }) {
+function RedButton({ text, onClick, type }) {
   return (
-    <button
-      className="bg-red-800"
-      type="button"
-      onClick={nextStep || handleSubmit}
-    >
+    <button type={type ? "submit" : "button"} onClick={onClick}>
       {text}
     </button>
   );
 }
 
 RedButton.propTypes = {
-  handleSubmit: PropTypes.func,
-  nextStep: PropTypes.func,
+  onClick: PropTypes.func,
   text: PropTypes.string,
+  type: PropTypes.string,
 };
 
 RedButton.defaultProps = {
-  handleSubmit: () => {},
-  nextStep: () => {},
+  onClick: () => {},
   text: "",
+  type: "button",
 };
 export default RedButton;
