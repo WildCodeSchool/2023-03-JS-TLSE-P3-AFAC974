@@ -3,73 +3,72 @@ import PropTypes from "prop-types";
 
 function Input({ type, id, name, placeholder, onChange, value }) {
   const inputType = () => {
-    if (type === "file") {
-      return (
-        <input
-          className="input"
-          type={type}
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          accept="image/png, image/jpeg"
-        />
-      );
+    switch (type) {
+      case "file":
+        return (
+          <input
+            className="input"
+            type={type}
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            accept="image/png, image/jpeg"
+          />
+        );
+      case "email":
+        return (
+          <input
+            className="input"
+            type={type}
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            size="100"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            onChange={onChange}
+            value={value}
+          />
+        );
+      case "url":
+        return (
+          <input
+            className="input"
+            type={type}
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            size="100"
+            pattern="https?://.+"
+            onChange={onChange}
+            value={value}
+          />
+        );
+      case "password":
+        return (
+          <input
+            className="input"
+            type={type}
+            id={id}
+            name={name}
+            pattern=".{5,}"
+            required
+            onChange={onChange}
+            value={value}
+          />
+        );
+      default:
+        return (
+          <input
+            className="input"
+            type={type}
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            onChange={onChange}
+            value={value}
+          />
+        );
     }
-    if (type === "email") {
-      return (
-        <input
-          className="input"
-          type={type}
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          size="100"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          onChange={onChange}
-          value={value}
-        />
-      );
-    }
-    if (type === "url") {
-      return (
-        <input
-          className="input"
-          type={type}
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          size="100"
-          pattern="https?://.+"
-          onChange={onChange}
-          value={value}
-        />
-      );
-    }
-    if (type === "password") {
-      return (
-        <input
-          className="input"
-          type={type}
-          id={id}
-          name={name}
-          pattern=".{5,}"
-          required
-          onChange={onChange}
-          value={value}
-        />
-      );
-    }
-    return (
-      <input
-        className="input"
-        type={type}
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        onChange={onChange}
-        value={value}
-      />
-    );
   };
 
   return inputType();
