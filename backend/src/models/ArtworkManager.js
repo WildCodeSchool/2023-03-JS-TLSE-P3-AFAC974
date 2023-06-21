@@ -6,7 +6,7 @@ class ArtworkManager extends AbstractManager {
     super({ table: "artwork" });
   }
 
-  createArtwork(artwork) {
+  createArtwork(body) {
     const {
         name,
         year,
