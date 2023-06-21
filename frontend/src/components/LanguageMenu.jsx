@@ -38,7 +38,7 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
           </p>
           <img
             src="/src/assets/french_flag_logo.png"
-            alt="french_flag"
+            alt="french flag"
             className="w-[20px]"
           />
         </button>
@@ -49,14 +49,14 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
           <p className="text-base font-semibold font-inter leading-6">
             English
           </p>
-          <img src="/src/assets/english_flag_logo.png" alt="french_flag" />
+          <img src="/src/assets/english_flag_logo.png" alt="english flag" />
         </button>
         <button
           className="w-[120px] h-[44px] flex justify-between items-center bg-gray-200 shadow-xs rounded-lg px-[8px] text-main-blue  hover:bg-[#257492] hover:text-white"
           type="button"
         >
           <p className="text-base font-semibold font-inter leading-6">Créole</p>
-          <img src="/src/assets/creole_flag_logo.png" alt="french_flag" />
+          <img src="/src/assets/creole_flag_logo.png" alt="creole flag" />
         </button>
       </div>
     </ReactModal>
