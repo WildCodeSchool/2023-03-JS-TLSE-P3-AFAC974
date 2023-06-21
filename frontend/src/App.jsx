@@ -1,13 +1,13 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserRouter as Router } from "react-router-dom";
-import ArtworksAdministration from "./pages/ArtworksAdministration";
+import Home from "./pages/Home";
 import "./App.css";
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <ArtworksAdministration />
+        <Home />
         <p className="text-blue-500">coucou</p>
       </div>
     </Router>
