@@ -69,15 +69,7 @@ class ArtworkManager extends AbstractManager {
     const values = Object.values(req.body);
     const valueQuery = keys.map((key) => `${key} = ?`).join(', ');
 
-    db.query(`update ${this.table} set ${valueQuery}`, [...values, id]).then(
-    ([result]) => {
-      if (result.affectedRows > 0) {
-        res.status(204).json(result);
-      } else {
-        res.status(404).send('Cannot update artwork');
-      }
-    }
-  );
+    return this.database.query(`update ${this.table} set ${valueQuery}`, [...values, id]);
   }
 }
    
