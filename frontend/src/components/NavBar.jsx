@@ -11,30 +11,6 @@ function NavBar() {
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
 
-  const handleHomeHover = () => {
-    setHomeHovered(true);
-  };
-
-  const handleHomeLeave = () => {
-    setHomeHovered(false);
-  };
-
-  const handleGalleryHover = () => {
-    setGalleryHovered(true);
-  };
-
-  const handleGalleryLeave = () => {
-    setGalleryHovered(false);
-  };
-
-  const handleAboutHover = () => {
-    setAboutHovered(true);
-  };
-
-  const handleAboutLeave = () => {
-    setAboutHovered(false);
-  };
-
   return (
     <>
       <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3">
@@ -48,8 +24,8 @@ function NavBar() {
             className={`flex items-center gap-2 w-[28px] ${
               homeHovered ? "hovered" : ""
             }`}
-            onMouseEnter={handleHomeHover}
-            onMouseLeave={handleHomeLeave}
+            onMouseEnter={() => setHomeHovered(true)}
+            onMouseLeave={() => setHomeHovered(false)}
           >
             <img
               src={
@@ -68,8 +44,8 @@ function NavBar() {
             className={`flex items-center gap-2 w-[28px] ${
               galleryHovered ? "hovered" : ""
             }`}
-            onMouseEnter={handleGalleryHover}
-            onMouseLeave={handleGalleryLeave}
+            onMouseEnter={() => setGalleryHovered(true)}
+            onMouseLeave={() => setGalleryHovered(false)}
           >
             <img
               src={
@@ -89,8 +65,8 @@ function NavBar() {
             className={`flex items-center gap-2 w-[28px] whitespace-nowrap ${
               aboutHovered ? "hovered" : ""
             }`}
-            onMouseEnter={handleAboutHover}
-            onMouseLeave={handleAboutLeave}
+            onMouseEnter={() => setAboutHovered(true)}
+            onMouseLeave={() => setAboutHovered(false)}
           >
             <img
               src={
