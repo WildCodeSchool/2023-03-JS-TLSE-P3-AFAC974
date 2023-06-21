@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Turn as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import LanguageMenu from "./LanguageMenu";
+import Login from "./Login";
 
-function NavBar({ setLoginModalOpened, setLanguageModalOpened }) {
+function NavBar() {
   const [homeHovered, setHomeHovered] = useState(false);
   const [galleryHovered, setGalleryHovered] = useState(false);
   const [aboutHovered, setAboutHovered] = useState(false);
+  const [loginModalOpened, setLoginModalOpened] = useState(false);
+  const [languageModalOpened, setLanguageModalOpened] = useState(false);
 
   const handleHomeHover = () => {
     setHomeHovered(true);
@@ -121,13 +124,12 @@ function NavBar({ setLoginModalOpened, setLanguageModalOpened }) {
           <Hamburger color="#fff" size={24} />
         </div>
       </div>
+      {languageModalOpened && (
+        <LanguageMenu setLanguageModalOpened={setLanguageModalOpened} />
+      )}
+      {loginModalOpened && <Login setLoginModalOpened={setLoginModalOpened} />}
     </div>
   );
 }
-
-NavBar.propTypes = {
-  setLoginModalOpened: PropTypes.func.isRequired,
-  setLanguageModalOpened: PropTypes.func.isRequired,
-};
 
 export default NavBar;
