@@ -29,10 +29,5 @@
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3"
-  },
-  "dependencies": {
-    "argon2": "^0.30.3",
-    "hamburger-react": "^2.5.0",
-    "jsonwebtoken": "^9.0.0"
   }
 }
