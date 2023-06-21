@@ -4,7 +4,7 @@ const browse = (req, res) => {
   models.artist
     .findAll()
     .then(([rows]) => {
-      res.send(rows);
+      res.send(rows).status(200);
     })
     .catch((err) => {
       console.error(err);
