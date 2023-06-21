@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 
 function RedButton({ text, onClick, type }) {
   return (
-    <button type={type ? "submit" : "button"} onClick={onClick}>
+    <button
+      className=" w-full h-full bg-[#7F253E] text-[#e2e3e4] px-[10px] py-[2px] rounded-[8px]"
+      type={type ? "submit" : "button"}
+      onClick={onClick}
+    >
       {text}
     </button>
   );

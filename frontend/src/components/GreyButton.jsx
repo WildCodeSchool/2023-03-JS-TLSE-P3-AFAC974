@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 
 function GreyButton({ text, onClick, type }) {
   return (
-    <button type={type ? "submit" : "button"} onClick={onClick}>
+    <button
+      className="w-full h-full text-[#7F253E] bg-[#e2e3e4] px-[10px] py-[2px] rounded-[8px]"
+      type={type ? "submit" : "button"}
+      onClick={onClick}
+    >
       {text}
     </button>
   );

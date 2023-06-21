@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import Validation from "../assets/Validation.png";
 
@@ -8,6 +8,27 @@ function ValidationModal({
   onCloseModalValidation,
   textValidationModal,
 }) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const getModalWidth = () => {
+    if (windowWidth < 1024) {
+      return "80vw";
+    }
+    return "400px";
+  };
+
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -15,15 +36,16 @@ function ValidationModal({
     },
     content: {
       border: "none",
-      borderRadius: "4px",
+      borderRadius: "20px",
       padding: "20px",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      maxWidth: "400px",
-      maxHeight: "80vh",
+      width: getModalWidth(),
+      height: "fit-content",
       overflow: "auto",
       background: "#fff",
+      display: "flex",
     },
   };
 
@@ -47,9 +69,15 @@ function ValidationModal({
       style={customModalStyles}
       ariaHideApp={false}
     >
-      <div>
-        <img className="validation-picture" src={Validation} alt="Validate" />
-        <p>{textValidationModal}</p>
+      <div className="flex flex-col-reverse justify-center items-center w-full">
+        <img
+          className="validation-picture w-[70px] h-[70px]"
+          src={Validation}
+          alt="Validate"
+        />
+        <p className="font-semibold text-[30px] py-[20px] text-center">
+          {textValidationModal}
+        </p>
       </div>
     </ReactModal>
   );
