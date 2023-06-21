@@ -10,9 +10,11 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   const [user, setUser] = useState({
     lastname: "",
     firstname: "",
+    pseudo: "",
     email: "",
     entity_id: "",
     password: "",
+    role: "",
   });
 
   function handleNext() {
