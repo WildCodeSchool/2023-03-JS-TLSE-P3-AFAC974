@@ -63,8 +63,6 @@ class ArtworkManager extends AbstractManager {
       artwork_location,
     } = body;
     
-    const { id } = req.params;
-    
     let keys = Object.keys(req.body);
     const values = Object.values(req.body);
     const valueQuery = keys.map((key) => `${key} = ?`).join(', ');
