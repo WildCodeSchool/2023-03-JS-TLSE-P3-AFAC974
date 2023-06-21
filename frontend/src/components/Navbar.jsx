@@ -111,7 +111,7 @@ function NavBar() {
           <button onClick={() => setLanguageModalOpened(true)} type="button">
             <img
               className="flag-logo px-1.5"
-              src="/src/assets/flag_logo.png"
+              src="/src/assets/french_flag_logo.png"
               alt="flag"
             />
           </button>
