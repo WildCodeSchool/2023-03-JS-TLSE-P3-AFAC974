@@ -32,10 +32,7 @@
   },
   "dependencies": {
     "argon2": "^0.30.3",
-    "dotenv": "^16.3.1",
-    "fs": "^0.0.1-security",
-    "jsonwebtoken": "^9.0.0",
-    "mysql2": "^3.4.0",
-    "reset-css": "^5.0.1"
+    "hamburger-react": "^2.5.0",
+    "jsonwebtoken": "^9.0.0"
   }
 }
