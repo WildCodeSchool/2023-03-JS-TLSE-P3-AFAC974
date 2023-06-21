@@ -44,12 +44,14 @@ class ArtworkManager extends AbstractManager {
     );
   }
 
-  updateArtwork(id, body) {  
-    let keys = Object.keys(req.body);
-    const values = Object.values(req.body);
-    const valueQuery = keys.map((key) => `${key} = ?`).join(', ');
-    return this.database.query(`update ${this.table} set ${valueQuery}`, [...values, id]);
-  }
+updateArtwork(id, body) {  
+    const keys = Object.keys(body);
+    const values = Object.values(body);
+    const valueQuery = keys.map((key) => `${key} = ?`).join(", ");
+    return this.database.query(`update ${this.table} set ${valueQuery}`, [
+      ...values, 
+      id]);
+}
 }
    
 module.exports = ArtworkManager;
