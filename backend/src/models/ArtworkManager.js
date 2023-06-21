@@ -23,7 +23,6 @@ class ArtworkManager extends AbstractManager {
       depth_cm,
       artwork_location,
     } = body;
-    
     return this.database.query(
       `insert into ${this.table} (name, year, description, image_url_small, image_url_medium, image_url_large, art_trend_id, type_id, technique_id, artist_id, width_cm, height_cm, depth_cm, artwork_location) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       [
@@ -45,28 +44,10 @@ class ArtworkManager extends AbstractManager {
     );
   }
 
-  updateArtwork(id, body) {
-    const {
-      name,
-      year,
-      description,
-      image_url_small,
-      image_url_medium,
-      image_url_large,
-      art_trend_id,
-      type_id,
-      technique_id,
-      artist_id,
-      width_cm,
-      height_cm,
-      depth_cm,
-      artwork_location,
-    } = body;
-    
+  updateArtwork(id, body) {  
     let keys = Object.keys(req.body);
     const values = Object.values(req.body);
     const valueQuery = keys.map((key) => `${key} = ?`).join(', ');
-
     return this.database.query(`update ${this.table} set ${valueQuery}`, [...values, id]);
   }
 }
