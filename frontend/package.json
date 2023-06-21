@@ -13,7 +13,9 @@
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.12.1",
-    "vite": "^4.0.4"
+    "vite": "^4.0.4",
+    "argon2": "^0.30.3",
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
