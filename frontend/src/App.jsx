@@ -1,12 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserRouter as Router } from "react-router-dom";
+import React from "react";
 import Home from "./pages/Home";
+import NavBar from "./components/NavBar";
 import "./App.css";
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <NavBar />
         <Home />
         <p className="text-blue-500">coucou</p>
       </div>

@@ -2,11 +2,11 @@ import React from "react";
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
 
-function Login({ loginModalOpened, setLoginModalOpened }) {
+function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
   return (
     <ReactModal
-      isOpen={loginModalOpened}
-      onRequestClose={() => setLoginModalOpened(false)}
+      isOpen={languageModalOpened}
+      onRequestClose={() => setLanguageModalOpened(false)}
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -27,27 +27,27 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       }}
     >
       <div>
-        <h1>Enregistrez vous</h1>
+        <h1>Choisissez une langue</h1>
         <div>
           <img src="" alt="" />
-          <p>Nom</p>
+          <p>Français</p>
         </div>
         <div>
           <img src="" alt="" />
-          <p>Prénom</p>
+          <p>English</p>
         </div>
         <div>
           <img src="" alt="" />
-          <p>Coucou</p>
+          <p>Créole</p>
         </div>
       </div>
     </ReactModal>
   );
 }
 
-Login.propTypes = {
-  loginModalOpened: PropTypes.bool.isRequired,
-  setLoginModalOpened: PropTypes.func.isRequired,
+LanguageMenu.propTypes = {
+  languageModalOpened: PropTypes.bool.isRequired,
+  setLanguageModalOpened: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default LanguageMenu;

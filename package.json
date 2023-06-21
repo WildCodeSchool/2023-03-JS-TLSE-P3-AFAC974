@@ -31,6 +31,5 @@
     "husky": "^8.0.3"
   },
   "dependencies": {
-    "reset-css": "^5.0.1"
   }
 }
