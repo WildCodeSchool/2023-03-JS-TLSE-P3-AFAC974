@@ -8,20 +8,20 @@ class ArtworkManager extends AbstractManager {
 
   createArtwork(body) {
     const {
-        name,
-        year,
-        description,
-        image_url_small,
-        image_url_medium,
-        image_url_large,
-        art_trend_id,
-        type_id,
-        technique_id,
-        artist_id,
-        width_cm,
-        height_cm,
-        depth_cm,
-        artwork_location,
+      name,
+      year,
+      description,
+      image_url_small,
+      image_url_medium,
+      image_url_large,
+      art_trend_id,
+      type_id,
+      technique_id,
+      artist_id,
+      width_cm,
+      height_cm,
+      depth_cm,
+      artwork_location,
     } = body;
     
     return this.database.query(
