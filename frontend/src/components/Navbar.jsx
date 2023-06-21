@@ -60,7 +60,9 @@ function NavBar() {
               alt="hexagon"
               className="h-[28px] w-[26.32px]"
             />
-            <Link to="/">HOME</Link>
+            <Link to="/" className="hover:font-medium">
+              HOME
+            </Link>
           </div>
           <div
             className={`flex items-center gap-2 w-[28px] ${
@@ -79,7 +81,9 @@ function NavBar() {
               className="h-[28px] w-[26.32px]"
               id="galleryPicture"
             />
-            <Link to="/gallery">GALERIE</Link>
+            <Link to="/gallery" className=" hover:font-medium">
+              GALERIE
+            </Link>
           </div>
           <div
             className={`flex items-center gap-2 w-[28px] whitespace-nowrap ${
@@ -98,7 +102,9 @@ function NavBar() {
               className="h-[28px] w-[26.32px] "
               id="aboutPicture"
             />
-            <Link to="/about">A PROPOS</Link>
+            <Link to="/about" className="hover:font-medium">
+              A PROPOS
+            </Link>
           </div>
         </div>
         <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
@@ -114,7 +120,9 @@ function NavBar() {
             type="button"
             className="flex items-center gap-2 text-sm font-semibold"
           >
-            <p className="hidden sm:block text-white ">COMPTE</p>
+            <p className="hidden sm:block text-white hover:font-bold ">
+              COMPTE
+            </p>
             <img
               className="login-logo h-[24px] px-1.5"
               src="/src/assets/login_logo.png"
