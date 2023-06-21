@@ -31,7 +31,5 @@
     "husky": "^8.0.3"
   },
   "dependencies": {
-    "react-modal": "^3.16.1",
-    "reset-css": "^5.0.1"
   }
 }
