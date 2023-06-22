@@ -137,10 +137,10 @@ function AddArtwork({
                 Ajouter une image de l'oeuvre
               </h3>
               <div className="flex justify-between py-4 w-full lg:justify-around">
-                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px] ">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
                   <GreyButton text="Annuler" onClick={handleCancel} />
                 </div>
-                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
                   <RedButton text="Suivant" onClick={nextStep} />
                 </div>
               </div>
@@ -317,10 +317,10 @@ function AddArtwork({
               </label>
             </div>
             <div className="flex justify-between py-4 lg:justify-around">
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
                 <GreyButton text="Précédent" onClick={prevStep} />
               </div>
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
                 <RedButton type="submit" text="Suivant" onClick={nextStep} />
               </div>
             </div>
@@ -473,10 +473,10 @@ function AddArtwork({
               </div>
             </div>
             <div className="flex justify-between py-4 lg:justify-around ">
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
                 <GreyButton text="Précédent" onClick={prevStep} />
               </div>
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
                 <RedButton text="Suivant" onClick={nextStep} />
               </div>
             </div>
@@ -506,10 +506,10 @@ function AddArtwork({
                 Ajouter une photo de l'artiste
               </h3>
               <div className="flex justify-between py-4 w-full lg:justify-around">
-                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px] ">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
                   <GreyButton text="Précédent" onClick={prevStep} />
                 </div>
-                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
                   <RedButton text="Valider" onClick={handleSubmit} />
                 </div>
               </div>
