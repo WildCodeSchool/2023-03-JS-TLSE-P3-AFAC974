@@ -65,7 +65,7 @@ const login = (req, res, next) => {
     .login(email)
     .then(([users]) => {
       if (users[0] != null) {
-        req.user = { ...users[0] };
+        req.user = [users];
 
         next();
       } else {
