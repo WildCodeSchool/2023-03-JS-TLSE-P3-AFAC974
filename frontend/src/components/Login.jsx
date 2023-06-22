@@ -61,7 +61,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
         );
       case 2:
         return (
-          <div className="flex flex-col items-center gap-5">
+          <div className="flex flex-col items-center justify-between gap-5">
             <p className="text-3xl font-semibold text-[#257492]">
               INSCRIPTION 1/3
             </p>
@@ -123,7 +123,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
         );
       case 3:
         return (
-          <div className="flex flex-col items-center gap-5">
+          <div className="flex flex-col items-center justify-between gap-5">
             <p className="text-3xl font-semibold text-[#257492]">
               INSCRIPTION 2/3
             </p>
