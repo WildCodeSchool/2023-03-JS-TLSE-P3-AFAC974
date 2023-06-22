@@ -50,10 +50,10 @@ class ArtworkManager extends AbstractManager {
     const keys = Object.keys(body);
     const values = Object.values(body);
     const valueQuery = keys.map((key) => `${key} = ?`).join(", ");
-    return this.database.query(`update ${this.table} set ${valueQuery}`, [
-      ...values,
-      id,
-    ]);
+    return this.database.query(
+      `update ${this.table} set ${valueQuery} where id = ?`,
+      [...values, id]
+    );
   }
 }
 
