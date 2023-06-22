@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `firstname` VARCHAR(255) NOT NULL,
   `pseudo` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `hashedPassword` VARCHAR(255) NOT NULL,
   `role` INT NOT NULL,
   `entity_id` INT NULL,
   PRIMARY KEY (`id`),
@@ -339,7 +339,7 @@ INSERT INTO
     firstname,
     pseudo,
     email,
-    password,
+    hashedPassword,
     role,
     entity_id
   )
@@ -349,7 +349,7 @@ VALUES
     'John',
     'johndoe',
     'johndoe@example.com',
-    'password',
+    '$argon2id$v=19$m=16,t=2,p=1$emVmemVmemZlenplZHpkZnpmemZlemFkYXpkZA$V1qAnJDyMuuWG7g9yoGYXA',
     1,
     NULL
   );
@@ -360,7 +360,7 @@ INSERT INTO
     firstname,
     pseudo,
     email,
-    password,
+    hashedPassword,
     role,
     entity_id
   )
@@ -370,7 +370,7 @@ VALUES
     'Jane',
     'janesmith',
     'janesmith@example.com',
-    'password',
+    '$argon2id$v=19$m=65536,t=5,p=1$6F4WFjpSx9bSq9k4lp2fiQ$cjVgCHF/voka5bZI9YAainiaT+LkaQxfNN638b/h4fQ',
     2,
     1
   );
