@@ -5,25 +5,12 @@ import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function ArtworksAdministration() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalValidation, setModalValidation] = useState(false);
   const [modalConfirmation, setModalConfirmation] = useState(false);
+  const [modalValidation, setModalValidation] = useState(false);
   const [step, setStep] = useState(1);
 
   const openModal = () => {
     setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setStep(1);
-  };
-
-  const closeModalValidation = () => {
-    setModalValidation(false);
-  };
-
-  const closeModalConfirmation = () => {
-    setModalConfirmation(false);
   };
 
   return (
@@ -33,7 +20,7 @@ export default function ArtworksAdministration() {
       </button>
       <AddArtwork
         isOpen={modalOpen}
-        onClose={closeModal}
+        setModalOpen={setModalOpen}
         step={step}
         setStep={setStep}
         setModalConfirmation={setModalConfirmation}
@@ -41,14 +28,14 @@ export default function ArtworksAdministration() {
       <ConfirmationModal
         textConfirmationModal="Voulez vous réellement ajouter cette oeuvre ?"
         isOpenModalConfirmation={modalConfirmation}
-        onCloseModalConfirmation={closeModalConfirmation}
+        setModalConfirmation={setModalConfirmation}
         setStep={setStep}
         setModalValidation={setModalValidation}
       />
       <ValidationModal
         textValidationModal="Oeuvre ajoutée"
         isOpenModalValidation={modalValidation}
-        onCloseModalValidation={closeModalValidation}
+        setModalValidation={setModalValidation}
       />
     </div>
   );

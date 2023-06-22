@@ -5,9 +5,10 @@ import Validation from "../assets/Validation.png";
 
 function ValidationModal({
   isOpenModalValidation,
-  onCloseModalValidation,
+  setModalValidation,
   textValidationModal,
 }) {
+  // setter with use effect for have a style responsive
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -24,9 +25,16 @@ function ValidationModal({
 
   const getModalWidth = () => {
     if (windowWidth < 1024) {
-      return "80vw";
+      return "60vw";
     }
-    return "400px";
+    return "25%";
+  };
+
+  const getModalheight = () => {
+    if (windowWidth < 1024) {
+      return "fit-content";
+    }
+    return "30vh";
   };
 
   const customModalStyles = {
@@ -42,30 +50,35 @@ function ValidationModal({
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: getModalWidth(),
-      height: "fit-content",
+      height: getModalheight(),
       overflow: "auto",
       background: "#fff",
       display: "flex",
     },
   };
 
+  const closeModalValidation = () => {
+    setModalValidation(false);
+  };
+
+  // useEffect for close modal after 2 secondes
   useEffect(() => {
     const timeout = setTimeout(() => {
-      onCloseModalValidation();
+      closeModalValidation();
     }, 2000); // 2 secondes
 
     return () => clearTimeout(timeout);
   }, [isOpenModalValidation]);
 
   const handleCloseModal = () => {
-    onCloseModalValidation();
+    closeModalValidation();
   };
 
   return (
     <ReactModal
       isOpen={isOpenModalValidation}
       onRequestClose={handleCloseModal}
-      onAfterClose={onCloseModalValidation}
+      onAfterClose={closeModalValidation}
       style={customModalStyles}
       ariaHideApp={false}
     >
@@ -75,9 +88,9 @@ function ValidationModal({
           src={Validation}
           alt="Validate"
         />
-        <p className="font-semibold text-[30px] py-[20px] text-center">
+        <h1 className="font-semibold text-[20px] lg:text-[30px] py-[20px] text-center ">
           {textValidationModal}
-        </p>
+        </h1>
       </div>
     </ReactModal>
   );
@@ -85,13 +98,13 @@ function ValidationModal({
 
 ValidationModal.propTypes = {
   isOpenModalValidation: PropTypes.bool,
-  onCloseModalValidation: PropTypes.func,
+  setModalValidation: PropTypes.func,
   textValidationModal: PropTypes.string,
 };
 
 ValidationModal.defaultProps = {
   isOpenModalValidation: false,
-  onCloseModalValidation: () => {},
+  setModalValidation: () => {},
   textValidationModal: "Pris en compte",
 };
 

@@ -7,7 +7,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
       case "file":
         return (
           <input
-            className="border border-gray-300 rounded-[4px] p-1 w-[100%]"
+            className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
             type="file"
             id={id}
             name={name}
@@ -18,7 +18,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
       case "email":
         return (
           <input
-            className="border border-gray-300 rounded-[4px] p-1 w-[100%]"
+            className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
             type={type}
             id={id}
             name={name}
@@ -32,7 +32,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
       case "url":
         return (
           <input
-            className="border border-gray-300 rounded-[4px] p-1 w-[100%]"
+            className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
             type={type}
             id={id}
             name={name}
@@ -46,7 +46,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
       case "password":
         return (
           <input
-            className="border border-gray-300 rounded-[4px] p-1 w-[100%]"
+            className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
             type={type}
             id={id}
             name={name}
@@ -59,7 +59,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
       default:
         return (
           <input
-            className="border border-gray-300 rounded-[4px] p-1 w-[100%]"
+            className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
             type={type}
             id={id}
             name={name}

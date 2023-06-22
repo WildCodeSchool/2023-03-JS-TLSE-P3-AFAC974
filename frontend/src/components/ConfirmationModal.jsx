@@ -6,11 +6,12 @@ import GreyButton from "./GreyButton";
 
 function ConfirmationModal({
   isOpenModalConfirmation,
-  onCloseModalConfirmation,
+  setModalConfirmation,
   textConfirmationModal,
   setStep,
   setModalValidation,
 }) {
+  // setter with use effect for have a style responsive
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -27,9 +28,16 @@ function ConfirmationModal({
 
   const getModalWidth = () => {
     if (windowWidth < 1024) {
-      return "80vw";
+      return "60vw";
     }
-    return "400px";
+    return "25%";
+  };
+
+  const getModalheight = () => {
+    if (windowWidth < 1024) {
+      return "fit-content";
+    }
+    return "30vh";
   };
 
   const customModalStyles = {
@@ -45,20 +53,23 @@ function ConfirmationModal({
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: getModalWidth(),
-      height: "fit-content",
+      height: getModalheight(),
       overflow: "auto",
       background: "#fff",
       display: "flex",
     },
   };
 
+  const closeModalConfirmation = () => {
+    setModalConfirmation(false);
+  };
   const handleCancel = () => {
     setStep(1);
-    onCloseModalConfirmation();
+    closeModalConfirmation();
   };
   const handleSubmit = () => {
     setStep(1);
-    onCloseModalConfirmation();
+    closeModalConfirmation();
     setModalValidation(true);
   };
 
@@ -69,15 +80,15 @@ function ConfirmationModal({
       style={customModalStyles}
       ariaHideApp={false}
     >
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center items-center w-[100%]">
         <p className="font-semibold text-[20px] py-[10px] text-center">
           {textConfirmationModal}
         </p>
         <div className="flex flex-col-reverse justify-between w-[100%]">
-          <div className="w-[100%] py-[5px] text-[20px] h-[55px]">
+          <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
             <GreyButton text="Annuler" onClick={handleCancel} />
           </div>
-          <div className="w-[100%] py-[5px] text-[20px] h-[55px]">
+          <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
             <RedButton text="Confirmer" onClick={handleSubmit} />
           </div>
         </div>
@@ -88,7 +99,7 @@ function ConfirmationModal({
 
 ConfirmationModal.propTypes = {
   isOpenModalConfirmation: PropTypes.bool,
-  onCloseModalConfirmation: PropTypes.func,
+  setModalConfirmation: PropTypes.func,
   textConfirmationModal: PropTypes.string,
   setStep: PropTypes.func,
   setModalValidation: PropTypes.func,
@@ -96,7 +107,7 @@ ConfirmationModal.propTypes = {
 
 ConfirmationModal.defaultProps = {
   isOpenModalConfirmation: false,
-  onCloseModalConfirmation: () => {},
+  setModalConfirmation: () => {},
   textConfirmationModal: "",
   setStep: () => {},
   setModalValidation: () => {},

@@ -7,7 +7,14 @@ import GreyButton from "./GreyButton";
 import Input from "./Input";
 import ChoosePicture from "../assets/ChoosePicture.png";
 
-function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
+function AddArtwork({
+  isOpen,
+  setModalOpen,
+  step,
+  setStep,
+  setModalConfirmation,
+}) {
+  // setter with use effect for have a style responsive
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -24,9 +31,23 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
 
   const getModalWidth = () => {
     if (windowWidth < 1024) {
+      return "60vw";
+    }
+    return "50vw";
+  };
+
+  const getModalheight = () => {
+    if (windowWidth < 1024) {
       return "fit-content";
     }
-    return "70vw";
+    return "60vh";
+  };
+
+  const getModalMinWidth = () => {
+    if (windowWidth < 1024) {
+      return "300px";
+    }
+    return "50vw";
   };
 
   const customModalStyles = {
@@ -42,7 +63,8 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: getModalWidth(),
-      height: "fit-content",
+      height: getModalheight(),
+      minWidth: getModalMinWidth(),
       maxWidth: "90vw",
       minHeight: "35vh",
       maxHeight: "80vh",
@@ -51,6 +73,8 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
       display: "flex",
     },
   };
+
+  // useRef is used for initialize the scroll to the top when you switch
   const modalRef = useRef(null);
   const nextStep = () => {
     setStep(step + 1);
@@ -65,15 +89,19 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
       modalRef.current.scrollIntoView({ behavior: "auto", block: "start" });
     }
   };
+  const closeModal = () => {
+    setModalOpen(false);
+    setStep(1);
+  };
 
   const handleCancel = () => {
     setStep(1);
-    onClose();
+    closeModal();
   };
 
   const handleSubmit = () => {
     setStep(1);
-    onClose();
+    closeModal();
     setModalConfirmation(true);
   };
 
@@ -87,7 +115,8 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
     switch (step) {
       case 1:
         return (
-          <form className="w-full flex flex-col justify-around py-[20px] px-[50px]">
+          <form className="w-full flex flex-col justify-between lg:w-[">
+            <div />
             <div className="flex justify-center items-center w-full">
               <div className="hidden w-full">
                 <Input
@@ -98,20 +127,20 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
               </div>
               <label
                 htmlFor="artwork_picture"
-                className="flex justify-center w-full items-center py-[10vh] lg:h-[50vh] "
+                className="flex justify-center w-full items-center cursor-pointer "
               >
                 <img src={ChoosePicture} alt="choose" className="w-[8vh]" />
               </label>
             </div>
-            <div className="items-bottom">
-              <h3 className="text-center w-full">
+            <div className="items-bottom justify-end">
+              <h3 className="text-center w-full text-[16px]">
                 Ajouter une image de l'oeuvre
               </h3>
-              <div className="flex justify-between py-4 w-full">
-                <div className="px-[10px] w-[100%] h-[30px]">
+              <div className="flex justify-between py-4 w-full lg:justify-around">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px] ">
                   <GreyButton text="Annuler" onClick={handleCancel} />
                 </div>
-                <div className="px-[10px] w-[100%] h-[30px]">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
                   <RedButton text="Suivant" onClick={nextStep} />
                 </div>
               </div>
@@ -122,14 +151,14 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
         return (
           <form ref={modalRef} className="flex flex-col justify-between">
             <div>
-              <h2 className="font-semibold text-[20px]">
+              <h2 className="font-semibold text-[16px]">
                 Informations de l'oeuvre
               </h2>
             </div>
             <div className="text-[16px] lg:flex flex-col lg:justify-between">
               <div className="lg:flex lg:justify-center lg:gap-4">
                 <label htmlFor="artwork_name" className="w-[100%]">
-                  <h3 className="py-4">Nom de l'oeuvre</h3>
+                  <h3 className="py-4 text-[14px]">Nom de l'oeuvre</h3>
                   <div>
                     <Input
                       type="text"
@@ -142,7 +171,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="artist_name_artwork" className="w-[100%]">
-                  <h3 className="py-4">Nom de l'artiste</h3>
+                  <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
                   <div>
                     <Input
                       type="text"
@@ -155,7 +184,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="creationYear" className="w-[100%]">
-                  <h3 className="py-4">Année de création</h3>
+                  <h3 className="py-4 text-[14px]">Année de création</h3>
                   <div>
                     <Input
                       type="text"
@@ -172,28 +201,30 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                 htmlFor="artwork_description"
                 className="w-[100%] lg:w-[70%] lg:justify-start"
               >
-                <h3 className="py-4">Description</h3>
+                <h3 className="py-4 text-[14px]">Description</h3>
                 <div>
-                  <Input
-                    type="text"
+                  <textarea
                     id="artwork_description"
                     name="artworkDescription"
                     placeholder="Description"
                     onChange={handleInputChange}
                     value={formData}
+                    className="border border-gray-300 rounded-[4px] p-1 w-[100%] resize-none outline-none overflow-x-hidden"
                   />
                 </div>
               </label>
               <div className="lg:flex lg:justify-between lg:gap-4">
-                <div className="lg:flex lg:justify-center">
+                <div className="lg:flex lg:justify-center w-[100%]">
                   <div className="lg:flex flex-col lg:justify-center">
-                    <h3 className="py-4">Dimensions (en cm)</h3>
-                    <div className="flex justify-between">
+                    <h3 className="py-4  w-[100%] text-[14px]">
+                      Dimensions (en cm)
+                    </h3>
+                    <div className="flex justify-between gap-4">
                       <label
                         htmlFor="length_artwork"
-                        className="flex justify-between items-center w-[100%]"
+                        className="flex justify-between items-center w-[100%] gap-4"
                       >
-                        <h4 className="w-content p-2">L</h4>
+                        <h4 className="w-content text-[14px]">L</h4>
                         <div>
                           <Input
                             type="text"
@@ -207,9 +238,9 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                       </label>
                       <label
                         htmlFor="width"
-                        className="flex justify-between items-center w-[100%]"
+                        className="flex justify-between items-center w-[100%] gap-4"
                       >
-                        <h4 className="w-content p-2">l</h4>
+                        <h4 className="w-content text-[14px]">l</h4>
                         <div>
                           <Input
                             type="text"
@@ -223,9 +254,9 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                       </label>
                       <label
                         htmlFor="height_artwork"
-                        className="flex justify-between items-center w-[100%]"
+                        className="flex justify-between items-center w-[100%] gap-4"
                       >
-                        <h4 className="w-content p-2">h</h4>
+                        <h4 className="w-content text-[14px]">h</h4>
                         <div>
                           <Input
                             type="text"
@@ -241,7 +272,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </div>
                 <label htmlFor="type_artwork" className="w-[100%]">
-                  <h3 className="py-4">Type d'oeuvre</h3>
+                  <h3 className="py-4 text-[14px]">Type d'oeuvre</h3>
                   <div>
                     <Input
                       type="text"
@@ -254,7 +285,9 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="art_trend_artwork" className="w-[100%]">
-                  <h3 className="py-4">Courant artistique</h3>
+                  <h3 className="py-4 flex-nowrap text-[14px]">
+                    Courant artistique
+                  </h3>
                   <div>
                     <Input
                       type="text"
@@ -270,7 +303,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
             </div>
             <div className="w-full lg:flex lg:justify-center">
               <label htmlFor="artwork_technical" className="w-[100%] lg:w-auto">
-                <h3 className="py-4">Technique</h3>
+                <h3 className="py-4 text-[14px]">Technique</h3>
                 <div>
                   <Input
                     type="text"
@@ -284,10 +317,10 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
               </label>
             </div>
             <div className="flex justify-between py-4 lg:justify-around">
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
                 <GreyButton text="Précédent" onClick={prevStep} />
               </div>
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
                 <RedButton type="submit" text="Suivant" onClick={nextStep} />
               </div>
             </div>
@@ -297,14 +330,14 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
         return (
           <form ref={modalRef} className="flex flex-col justify-between">
             <div>
-              <h2 className="font-semibold text-[20px]">
+              <h2 className="font-semibold text-[16px]">
                 Information relative à l'artiste
               </h2>
             </div>
             <div className="text-[16px] lg:flex flex-col lg:justify-between">
               <div className="lg:flex lg:justify-between lg:gap-4">
                 <label htmlFor="lastname_artist" className="w-[100%]">
-                  <h3 className="py-4">Nom de l'artiste</h3>
+                  <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
                   <div>
                     <Input
                       type="text"
@@ -317,7 +350,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="firstname_artist" className="w-[100%]">
-                  <h3 className="py-4">Prénom de l'artiste</h3>
+                  <h3 className="py-4 text-[14px]">Prénom de l'artiste</h3>
                   <div>
                     <Input
                       type="text"
@@ -330,7 +363,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="usual_name" className="w-[100%]">
-                  <h3 className="py-4">Nom d'usage</h3>
+                  <h3 className="py-4 text-[14px]">Nom d'usage</h3>
                   <div>
                     <Input
                       type="text"
@@ -344,21 +377,21 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                 </label>
               </div>
               <label htmlFor="artist_decription" className="w-[100%]">
-                <h3 className="py-4">Description</h3>
+                <h3 className="py-4 text-[14px]">Description</h3>
                 <div>
-                  <Input
-                    type="text"
+                  <textarea
                     id="artist_description"
                     name="artistDescription"
                     placeholder="Description"
                     onChange={handleInputChange}
                     value={formData}
+                    className="border border-gray-300 rounded-[4px] p-1 w-[100%] resize-none outline-none overflow-x-hidden"
                   />
                 </div>
               </label>
               <div className="lg:flex lg:justify-between lg:gap-4">
                 <label htmlFor="artist_technical" className="w-[100%]">
-                  <h3 className="py-4">Techniques</h3>
+                  <h3 className="py-4 text-[14px]">Techniques</h3>
                   <div>
                     <Input
                       type="text"
@@ -371,7 +404,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="art_trend_artist" className="w-[100%]">
-                  <h3 className="py-4">Courant artistique</h3>
+                  <h3 className="py-4 text-[14px]">Courant artistique</h3>
                   <div>
                     <Input
                       type="text"
@@ -384,7 +417,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="web_site" className="w-[100%]">
-                  <h3 className="py-4">Lien site internet</h3>
+                  <h3 className="py-4 text-[14px]">Lien site internet</h3>
                   <div>
                     <Input
                       type="url"
@@ -399,7 +432,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
               </div>
               <div className="lg:flex lg:justify-between lg:gap-4">
                 <label htmlFor="facebook" className="w-[100%]">
-                  <h3 className="py-4">Lien Facebook</h3>
+                  <h3 className="py-4 text-[14px]">Lien Facebook</h3>
                   <div>
                     <Input
                       type="url"
@@ -412,7 +445,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="twitter" className="w-[100%]">
-                  <h3 className="py-4">Lien Twitter</h3>
+                  <h3 className="py-4 text-[14px]">Lien Twitter</h3>
                   <div>
                     <Input
                       type="url"
@@ -425,7 +458,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                   </div>
                 </label>
                 <label htmlFor="instagram" className="w-[100%]">
-                  <h3 className="py-4">Lien Instagram</h3>
+                  <h3 className="py-4 text-[14px]">Lien Instagram</h3>
                   <div>
                     <Input
                       type="url"
@@ -439,11 +472,11 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
                 </label>
               </div>
             </div>
-            <div className="flex justify-between py-4 lg:justify-around">
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
+            <div className="flex justify-between py-4 lg:justify-around ">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
                 <GreyButton text="Précédent" onClick={prevStep} />
               </div>
-              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
+              <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
                 <RedButton text="Suivant" onClick={nextStep} />
               </div>
             </div>
@@ -451,7 +484,8 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
         );
       case 4:
         return (
-          <form className="w-full flex flex-col justify-between py-[20px]  px-[50px]">
+          <form className="w-full flex flex-col justify-between">
+            <div />
             <div className="flex justify-center items-center w-full">
               <div className="hidden w-full">
                 <Input
@@ -462,20 +496,20 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
               </div>
               <label
                 htmlFor="artist_picture"
-                className="flex justify-center w-full items-center py-[10vh] lg:h-[40vh] "
+                className="flex justify-center w-full items-center cursor-pointer"
               >
                 <img src={ChoosePicture} alt="choose" className="w-[8vh]" />
               </label>
             </div>
-            <div>
-              <h3 className="text-center w-full item">
+            <div className="items-bottom">
+              <h3 className="text-center w-full text-[16px]">
                 Ajouter une photo de l'artiste
               </h3>
-              <div className="flex justify-between py-4 w-full">
-                <div className="px-[10px] w-[100%] h-[30px]">
+              <div className="flex justify-between py-4 w-full lg:justify-around">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px] ">
                   <GreyButton text="Précédent" onClick={prevStep} />
                 </div>
-                <div className="px-[10px] w-[100%] h-[30px] text-[16px]">
+                <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] text-[16px]">
                   <RedButton text="Valider" onClick={handleSubmit} />
                 </div>
               </div>
@@ -491,7 +525,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
     <div>
       <ReactModal
         isOpen={isOpen}
-        onRequestClose={onClose}
+        onRequestClose={closeModal}
         style={customModalStyles}
         ariaHideApp={false}
       >
@@ -503,7 +537,7 @@ function AddArtwork({ isOpen, onClose, step, setStep, setModalConfirmation }) {
 
 AddArtwork.propTypes = {
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
+  setModalOpen: PropTypes.func,
   step: PropTypes.number,
   setStep: PropTypes.func,
   setModalConfirmation: PropTypes.func,
@@ -511,6 +545,7 @@ AddArtwork.propTypes = {
 
 AddArtwork.defaultProps = {
   isOpen: false,
+  setModalOpen: () => {},
   step: 1,
   setStep: () => {},
   setModalConfirmation: () => {},
