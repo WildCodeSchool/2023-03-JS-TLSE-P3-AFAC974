@@ -6,40 +6,42 @@ class ArtworkManager extends AbstractManager {
     super({ table: "artwork" });
   }
 
-  createArtwork(body) {
+  createArtwork(artwork) {
     const {
       name,
       year,
       description,
-      image_url_small,
-      image_url_medium,
-      image_url_large,
-      art_trend_id,
-      type_id,
-      technique_id,
-      artist_id,
-      width_cm,
-      height_cm,
-      depth_cm,
-      artwork_location,
-    } = body;
+      imageUrlSmall,
+      imageUrlMedium,
+      imageUrlLarge,
+      artTrendId,
+      typeId,
+      techniqueId,
+      artistId,
+      widthCm,
+      heightCm,
+      depthCm,
+      artworkLocation,
+    } = artwork;
+
     return this.database.query(
-      `insert into ${this.table} (name, year, description, image_url_small, image_url_medium, image_url_large, art_trend_id, type_id, technique_id, artist_id, width_cm, height_cm, depth_cm, artwork_location) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO ${this.table} (name, year, description, image_url_small, image_url_medium, image_url_large, art_trend_id, type_id, technique_id, artist_id, width_cm, height_cm, depth_cm, artwork_location) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+
       [
         name,
         year,
         description,
-        image_url_small,
-        image_url_medium,
-        image_url_large,
-        art_trend_id,
-        type_id,
-        technique_id,
-        artist_id,
-        width_cm,
-        height_cm,
-        depth_cm,
-        artwork_location,
+        imageUrlSmall,
+        imageUrlMedium,
+        imageUrlLarge,
+        artTrendId,
+        typeId,
+        techniqueId,
+        artistId,
+        widthCm,
+        heightCm,
+        depthCm,
+        artworkLocation,
       ]
     );
   }
