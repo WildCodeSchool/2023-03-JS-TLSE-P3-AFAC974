@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 
 const router = express.Router();
 
@@ -30,6 +31,11 @@ router.delete("/items/:id", itemControllers.destroy);
 
 // artwork routes
 
+const { storage } = require("./services/cloudinary");
+
+// Créer l'instance de multer avec la configuration de stockage Cloudinary
+const upload = multer({ storage });
+
 router.get("/artworks", artworkControllers.browse);
 
 // artist routes
@@ -53,7 +59,7 @@ router.use(verifyToken);
 
 // artwork routes
 
-router.post("/artworks", artworkControllers.create);
+router.post("/artworks", upload.single("image"), artworkControllers.create);
 router.put("/artworks/:id", artworkControllers.edit);
 
 // user routes
