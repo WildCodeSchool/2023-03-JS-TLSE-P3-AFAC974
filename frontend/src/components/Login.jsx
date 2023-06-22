@@ -25,14 +25,14 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     setCurrentStep(currentStep - 1);
   }
 
-  function handleFinish() {
-    setCurrentStep(1);
-    setLoginModalOpened(false);
-  }
-
   function handleInputChange(event) {
     const { id, value } = event.target;
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
+  }
+
+  function submitLoginModal() {
+    setCurrentStep(1);
+    setLoginModalOpened(false);
   }
 
   function renderContent() {
@@ -71,9 +71,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="lastname"
                   name="userLastname"
                   placeholder="Saisissez votre nom"
-                  onChange={() => {
-                    handleInputChange();
-                  }}
+                  onChange={() => handleInputChange()}
                   value={user.lastname}
                 />
               </label>
@@ -84,68 +82,105 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="firstname"
                   name="userFirstname"
                   placeholder="Saisissez votre prénom"
-                  onChange={() => {
-                    handleInputChange();
-                  }}
+                  onChange={() => handleInputChange()}
                   value={user.firstname}
                 />
               </label>
-              <h3>Email</h3>
+              <h3>Adresse email</h3>
               <label htmlFor="email">
                 <Input
                   type="email"
                   id="email"
                   name="userEmail"
                   placeholder="Saisissez votre adresse email"
-                  onChange={() => {
-                    handleInputChange();
-                  }}
+                  onChange={() => handleInputChange()}
                   value={user.email}
                 />
               </label>
-              <h3>Entité</h3>
+              <h3>Etablissement</h3>
               <label htmlFor="entity_id">
                 <Input
                   type="text"
                   id="entity_id"
                   name="userEntity"
                   placeholder="Saisissez votre entité"
-                  onChange={() => {
-                    handleInputChange();
-                  }}
+                  onChange={() => handleInputChange()}
                   value={user.entity_id}
                 />
               </label>
             </form>
 
-            <button onClick={handleNext} type="button">
+            <button onClick={() => handleNext()} type="button">
               Suivant
             </button>
           </div>
         );
       case 3:
         return (
-          <>
-            <p>Text for step 3</p>
+          <div>
+            <p>INSCRIPTION 2/3</p>
+            <form>
+              {/* crée les inputs pseudo / mot de passe / confirmer mot de passe */}
+              <h3>Pseudo</h3>
+              <label htmlFor="pseudo">
+                <Input
+                  type="text"
+                  id="pseudo"
+                  name="userPseudo"
+                  placeholder="Saisissez votre pseudo"
+                  onChange={() => handleInputChange()}
+                  value={user.pseudo}
+                />
+              </label>
+              <h3>Mot de passe</h3>
+              <label htmlFor="password">
+                <Input
+                  type="password"
+                  id="password"
+                  name="userPassword"
+                  placeholder="Saisissez votre mot de passe"
+                  onChange={() => handleInputChange()}
+                  value={user.password}
+                />
+              </label>
+              <h3>Confirmer mot de passe</h3>
+              <label htmlFor="password">
+                <Input
+                  type="password"
+                  id="password"
+                  name="userConfirmPassword"
+                  placeholder="Confirmez votre mot de passe"
+                  onChange={() => handleInputChange()}
+                  value={user.password}
+                />
+              </label>
+            </form>
+
             <button onClick={handlePrev} type="button">
-              Previous
+              Précédent
             </button>
+
             <button onClick={handleNext} type="button">
-              Next
+              Suivant
             </button>
-          </>
+          </div>
         );
       case 4:
         return (
-          <>
-            <p>Text for step 4</p>
+          <div>
+            <p>INSCRIPTION 3/3</p>
+            <form>
+              <h3>Choisir une photo de profil</h3>
+              <h2>(Optionnel)</h2>
+            </form>
             <button onClick={handlePrev} type="button">
-              Previous
+              Précédent
             </button>
-            <button onClick={handleFinish} type="button">
-              Finish
+
+            <button onClick={() => submitLoginModal()} type="button">
+              Terminer
             </button>
-          </>
+          </div>
         );
       default:
         return null;
