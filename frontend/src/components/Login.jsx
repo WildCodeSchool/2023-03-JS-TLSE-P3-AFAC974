@@ -30,13 +30,58 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
   }
 
+  function submitSigninModal() {
+    setCurrentStep(1);
+    setLoginModalOpened(false);
+    setUser({});
+  }
+
   function submitLoginModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
+    setUser({});
   }
 
   function renderContent() {
     switch (currentStep) {
+      case 0:
+        return (
+          <div className="loginModal flex flex-col items-center gap-5">
+            <button type="button">
+              <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
+                <img
+                  src="/src/assets/user_sample.png"
+                  alt="profile sample"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            </button>
+            <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px]">
+              <h3>Email</h3>
+              <Input
+                id="email"
+                type="email"
+                placeholder="user@domain.com"
+                value={user.email}
+                onChange={(event) => handleInputChange(event)}
+              />
+              <h3>Mot de passe</h3>
+              <Input
+                id="password"
+                type="password"
+                value={user.password}
+                onChange={(event) => handleInputChange(event)}
+              />
+            </form>
+            <button
+              onClick={() => submitLoginModal()}
+              type="button"
+              className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
+            >
+              Connexion
+            </button>
+          </div>
+        );
       case 1:
         return (
           <div className="flex flex-col items-center gap-5">
@@ -46,6 +91,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               <button
                 className="w-[70vw] sm:w-[350px] sm h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base hover:font-bold"
                 type="button"
+                onClick={() => setCurrentStep(0)}
               >
                 <p>Connexion</p>
               </button>
@@ -73,7 +119,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="lastname"
                   name="userLastname"
                   placeholder="Saisissez votre nom"
-                  onChange={() => handleInputChange()}
+                  onChange={(event) => handleInputChange(event)}
                   value={user.lastname}
                 />
               </label>
@@ -84,7 +130,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="firstname"
                   name="userFirstname"
                   placeholder="Saisissez votre prénom"
-                  onChange={() => handleInputChange()}
+                  onChange={(event) => handleInputChange(event)}
                   value={user.firstname}
                 />
               </label>
@@ -95,7 +141,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="email"
                   name="userEmail"
                   placeholder="Saisissez votre adresse email"
-                  onChange={() => handleInputChange()}
+                  onChange={(event) => handleInputChange(event)}
                   value={user.email}
                 />
               </label>
@@ -106,7 +152,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="entity_id"
                   name="userEntity"
                   placeholder="Saisissez votre entité"
-                  onChange={() => handleInputChange()}
+                  onChange={(event) => handleInputChange(event)}
                   value={user.entity_id}
                 />
               </label>
@@ -136,7 +182,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="pseudo"
                   name="userPseudo"
                   placeholder="Saisissez votre pseudo"
-                  onChange={() => handleInputChange()}
+                  onChange={(event) => handleInputChange(event)}
                   value={user.pseudo}
                 />
               </label>
@@ -147,7 +193,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="password"
                   name="userPassword"
                   placeholder="Saisissez votre mot de passe"
-                  onChange={() => handleInputChange()}
+                  onChange={(event) => handleInputChange(event)}
                   value={user.password}
                 />
               </label>
@@ -155,12 +201,17 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               <label htmlFor="password">
                 <Input
                   type="password"
-                  id="password"
+                  id="password2"
                   name="userConfirmPassword"
                   placeholder="Confirmez votre mot de passe"
-                  onChange={() => handleInputChange()}
-                  value={user.password}
+                  onChange={(event) => handleInputChange(event)}
+                  value={user.password2}
                 />
+                {user.password !== user.password2 && (
+                  <p className="text-red-500">
+                    Les mots de passe ne correspondent pas
+                  </p>
+                )}
               </label>
             </form>
             <div className="buttons flex justify-between w-[100%] px-[16px] ">
@@ -173,7 +224,9 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </button>
 
               <button
-                onClick={handleNext}
+                onClick={() =>
+                  user.password === user.password2 ? handleNext() : null
+                }
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
               >
@@ -214,7 +267,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </button>
 
               <button
-                onClick={() => submitLoginModal()}
+                onClick={() => submitSigninModal()}
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
               >
@@ -234,6 +287,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       onRequestClose={() => {
         setCurrentStep(1);
         setLoginModalOpened(false);
+        setUser({});
       }}
       style={{
         overlay: {
