@@ -51,9 +51,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </button>
               <button
                 className="w-[70vw] sm:w-[350px] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
-                onClick={() => {
-                  handleNext();
-                }}
+                onClick={() => setCurrentStep(2)}
                 type="button"
               >
                 <p>Inscription</p>
@@ -157,7 +155,10 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   return (
     <ReactModal
       isOpen={loginModalOpened}
-      onRequestClose={() => setLoginModalOpened(false)}
+      onRequestClose={() => {
+        setCurrentStep(1);
+        setLoginModalOpened(false);
+      }}
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
