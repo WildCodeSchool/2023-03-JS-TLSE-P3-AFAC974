@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
 import Input from "./Input";
