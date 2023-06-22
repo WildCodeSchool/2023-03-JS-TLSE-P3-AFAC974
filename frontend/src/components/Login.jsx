@@ -61,9 +61,11 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
         );
       case 2:
         return (
-          <div>
-            <p>INSCRIPTION 1/3</p>
-            <form>
+          <div className="flex flex-col items-center gap-5">
+            <p className="text-3xl font-semibold text-[#257492]">
+              INSCRIPTION 1/3
+            </p>
+            <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px]">
               <h3>Nom</h3>
               <label htmlFor="lastname">
                 <Input
@@ -110,16 +112,22 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </label>
             </form>
 
-            <button onClick={() => handleNext()} type="button">
+            <button
+              onClick={() => handleNext()}
+              type="button"
+              className="w-[70vw] sm:w-[350px] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
+            >
               Suivant
             </button>
           </div>
         );
       case 3:
         return (
-          <div>
-            <p>INSCRIPTION 2/3</p>
-            <form>
+          <div className="flex flex-col items-center gap-5">
+            <p className="text-3xl font-semibold text-[#257492]">
+              INSCRIPTION 2/3
+            </p>
+            <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] ">
               {/* crée les inputs pseudo / mot de passe / confirmer mot de passe */}
               <h3>Pseudo</h3>
               <label htmlFor="pseudo">
@@ -155,31 +163,64 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                 />
               </label>
             </form>
+            <div className="buttons flex justify-between w-[100%] px-[16px] ">
+              <button
+                onClick={handlePrev}
+                type="button"
+                className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
+              >
+                Précédent
+              </button>
 
-            <button onClick={handlePrev} type="button">
-              Précédent
-            </button>
-
-            <button onClick={handleNext} type="button">
-              Suivant
-            </button>
+              <button
+                onClick={handleNext}
+                type="button"
+                className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
+              >
+                Suivant
+              </button>
+            </div>
           </div>
         );
       case 4:
         return (
-          <div>
-            <p>INSCRIPTION 3/3</p>
-            <form>
-              <h3>Choisir une photo de profil</h3>
-              <h2>(Optionnel)</h2>
+          <div className="flex flex-col items-center gap-5">
+            <p className="text-3xl font-semibold text-[#257492]">
+              INSCRIPTION 3/3
+            </p>
+            <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] items-center">
+              <button type="button">
+                <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
+                  <img
+                    src="/src/assets/user_sample.png"
+                    alt="profile sample"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </button>
+              <h3 className="text-center">
+                Choisir une photo de profil
+                <br />
+                <span>(optionnel)</span>
+              </h3>
             </form>
-            <button onClick={handlePrev} type="button">
-              Précédent
-            </button>
+            <div className="buttons flex justify-between w-[100%] px-[16px] ">
+              <button
+                onClick={handlePrev}
+                type="button"
+                className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
+              >
+                Précédent
+              </button>
 
-            <button onClick={() => submitLoginModal()} type="button">
-              Terminer
-            </button>
+              <button
+                onClick={() => submitLoginModal()}
+                type="button"
+                className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
+              >
+                Terminer
+              </button>
+            </div>
           </div>
         );
       default:
