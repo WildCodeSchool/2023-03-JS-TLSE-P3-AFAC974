@@ -89,19 +89,15 @@ function AddArtwork({
       modalRef.current.scrollIntoView({ behavior: "auto", block: "start" });
     }
   };
-  const closeModal = () => {
-    setModalOpen(false);
-    setStep(1);
-  };
 
   const handleCancel = () => {
     setStep(1);
-    closeModal();
+    setModalOpen(false);
   };
 
   const handleSubmit = () => {
     setStep(1);
-    closeModal();
+    setModalOpen(false);
     setModalConfirmation(true);
   };
 
@@ -525,7 +521,7 @@ function AddArtwork({
     <div>
       <ReactModal
         isOpen={isOpen}
-        onRequestClose={closeModal}
+        onRequestClose={(() => setModalOpen(false), () => setStep(1))}
         style={customModalStyles}
         ariaHideApp={false}
       >

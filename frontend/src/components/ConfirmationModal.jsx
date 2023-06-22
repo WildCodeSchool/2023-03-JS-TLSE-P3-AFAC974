@@ -60,23 +60,19 @@ function ConfirmationModal({
     },
   };
 
-  const closeModalConfirmation = () => {
-    setModalConfirmation(false);
-  };
   const handleCancel = () => {
     setStep(1);
-    closeModalConfirmation();
+    setModalConfirmation(false);
   };
   const handleSubmit = () => {
     setStep(1);
-    closeModalConfirmation();
+    setModalConfirmation(false);
     setModalValidation(true);
   };
 
   return (
     <ReactModal
       isOpen={isOpenModalConfirmation}
-      onRequestClose={handleSubmit}
       style={customModalStyles}
       ariaHideApp={false}
     >

@@ -57,28 +57,20 @@ function ValidationModal({
     },
   };
 
-  const closeModalValidation = () => {
-    setModalValidation(false);
-  };
-
   // useEffect for close modal after 2 secondes
   useEffect(() => {
     const timeout = setTimeout(() => {
-      closeModalValidation();
+      setModalValidation(false);
     }, 2000); // 2 secondes
 
     return () => clearTimeout(timeout);
   }, [isOpenModalValidation]);
 
-  const handleCloseModal = () => {
-    closeModalValidation();
-  };
-
   return (
     <ReactModal
       isOpen={isOpenModalValidation}
-      onRequestClose={handleCloseModal}
-      onAfterClose={closeModalValidation}
+      onRequestClose={() => setModalValidation(false)}
+      onAfterClose={() => setModalValidation(false)}
       style={customModalStyles}
       ariaHideApp={false}
     >
