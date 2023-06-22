@@ -69,7 +69,7 @@ const create = (req, res) => {
       models.artwork
         .createArtwork(artwork)
         .then(([rows]) => {
-          res.send(rows);
+          res.send(rows).status(200);
         })
         .catch((err) => {
           console.error(err);
