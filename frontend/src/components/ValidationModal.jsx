@@ -1,13 +1,42 @@
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import Validation from "../assets/Validation.png";
 
 function ValidationModal({
   isOpenModalValidation,
-  onCloseModalValidation,
+  setModalValidation,
   textValidationModal,
 }) {
+  // setter with use effect for have a style responsive
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const getModalWidth = () => {
+    if (windowWidth < 1024) {
+      return "60vw";
+    }
+    return "25%";
+  };
+
+  const getModalheight = () => {
+    if (windowWidth < 1024) {
+      return "fit-content";
+    }
+    return "30vh";
+  };
+
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -15,41 +44,45 @@ function ValidationModal({
     },
     content: {
       border: "none",
-      borderRadius: "4px",
+      borderRadius: "20px",
       padding: "20px",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      maxWidth: "400px",
-      maxHeight: "80vh",
+      width: getModalWidth(),
+      height: getModalheight(),
       overflow: "auto",
       background: "#fff",
+      display: "flex",
     },
   };
 
+  // useEffect for close modal after 2 secondes
   useEffect(() => {
     const timeout = setTimeout(() => {
-      onCloseModalValidation();
+      setModalValidation(false);
     }, 2000); // 2 secondes
 
     return () => clearTimeout(timeout);
   }, [isOpenModalValidation]);
 
-  const handleCloseModal = () => {
-    onCloseModalValidation();
-  };
-
   return (
     <ReactModal
       isOpen={isOpenModalValidation}
-      onRequestClose={handleCloseModal}
-      onAfterClose={onCloseModalValidation}
+      onRequestClose={() => setModalValidation(false)}
+      onAfterClose={() => setModalValidation(false)}
       style={customModalStyles}
       ariaHideApp={false}
     >
-      <div>
-        <img className="validation-picture" src={Validation} alt="Validate" />
-        <p>{textValidationModal}</p>
+      <div className="flex flex-col-reverse justify-center items-center w-full">
+        <img
+          className="validation-picture w-[70px] h-[70px]"
+          src={Validation}
+          alt="Validate"
+        />
+        <h1 className="font-semibold text-[20px] lg:text-[30px] py-[20px] text-center ">
+          {textValidationModal}
+        </h1>
       </div>
     </ReactModal>
   );
@@ -57,13 +90,13 @@ function ValidationModal({
 
 ValidationModal.propTypes = {
   isOpenModalValidation: PropTypes.bool,
-  onCloseModalValidation: PropTypes.func,
+  setModalValidation: PropTypes.func,
   textValidationModal: PropTypes.string,
 };
 
 ValidationModal.defaultProps = {
   isOpenModalValidation: false,
-  onCloseModalValidation: () => {},
+  setModalValidation: () => {},
   textValidationModal: "Pris en compte",
 };
 
