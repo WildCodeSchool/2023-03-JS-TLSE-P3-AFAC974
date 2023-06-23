@@ -7,6 +7,7 @@ import navbarLogo from "../assets/navbar_logo.png";
 import hexagonRedBg from "../assets/hexagon_red_bg.png";
 import hexagonBlueBg from "../assets/hexagon_blue_bg.png";
 import frenchFlagLogo from "../assets/french_flag_logo.png";
+import loginLogo from "../assets/login_logo.png";
 
 function NavBar() {
   const [homeHovered, setHomeHovered] = useState(false);
@@ -89,7 +90,7 @@ function NavBar() {
             </p>
             <img
               className="login-logo h-[24px] px-1.5"
-              src="/src/assets/login_logo.png"
+              src={loginLogo}
               alt="login"
             />
           </button>
