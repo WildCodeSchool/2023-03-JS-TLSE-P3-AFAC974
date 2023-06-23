@@ -24,7 +24,7 @@ function NavBar() {
           src={navbarLogo}
           alt="logo"
         />
-        <div className="desktopLinks hidden md:flex navbar-links items-center gap-[120px] text-white ">
+        <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
           <div
             className={`flex items-center gap-2 w-[28px] ${
               homeHovered ? "hovered" : ""
