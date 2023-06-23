@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
 import Input from "./Input";
+import userSample from "../assets/user_sample.png";
 
 function Login({ loginModalOpened, setLoginModalOpened }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -49,7 +50,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             <button type="button">
               <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
                 <img
-                  src="/src/assets/user_sample.png"
+                  src={userSample}
                   alt="profile sample"
                   className="object-cover w-full h-full"
                 />
@@ -244,7 +245,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               <button type="button">
                 <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
                   <img
-                    src="/src/assets/user_sample.png"
+                    src={userSample}
                     alt="profile sample"
                     className="object-cover w-full h-full"
                   />

@@ -3,6 +3,11 @@ import { Turn as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 import LanguageMenu from "./LanguageMenu";
 import Login from "./Login";
+import navbarLogo from "../assets/navbar_logo.png";
+import hexagonRedBg from "../assets/hexagon_red_bg.png";
+import hexagonBlueBg from "../assets/hexagon_blue_bg.png";
+import frenchFlagLogo from "../assets/french_flag_logo.png";
+import loginLogo from "../assets/login_logo.png";
 
 function NavBar() {
   const [homeHovered, setHomeHovered] = useState(false);
@@ -16,7 +21,7 @@ function NavBar() {
       <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3">
         <img
           className="logo h-[35px] w-auto sm:h-[55px] "
-          src="/src/assets/navbar_logo.png"
+          src={navbarLogo}
           alt="logo"
         />
         <div className="desktopLinks hidden md:flex navbar-links items-center gap-[120px] text-white ">
@@ -28,11 +33,7 @@ function NavBar() {
             onMouseLeave={() => setHomeHovered(false)}
           >
             <img
-              src={
-                homeHovered
-                  ? "/src/assets/hexagon_red_bg.png"
-                  : "/src/assets/hexagon_blue_bg.png"
-              }
+              src={homeHovered ? hexagonRedBg : hexagonBlueBg}
               alt="hexagon"
               className="h-[28px] w-[26.32px]"
             />
@@ -48,11 +49,7 @@ function NavBar() {
             onMouseLeave={() => setGalleryHovered(false)}
           >
             <img
-              src={
-                galleryHovered
-                  ? "/src/assets/hexagon_red_bg.png"
-                  : "/src/assets/hexagon_blue_bg.png"
-              }
+              src={galleryHovered ? hexagonRedBg : hexagonBlueBg}
               alt="hexagon"
               className="h-[28px] w-[26.32px]"
               id="galleryPicture"
@@ -69,11 +66,7 @@ function NavBar() {
             onMouseLeave={() => setAboutHovered(false)}
           >
             <img
-              src={
-                aboutHovered
-                  ? "/src/assets/hexagon_red_bg.png"
-                  : "/src/assets/hexagon_blue_bg.png"
-              }
+              src={aboutHovered ? hexagonRedBg : hexagonBlueBg}
               alt="hexagon"
               className="h-[28px] w-[26.32px] "
               id="aboutPicture"
@@ -85,11 +78,7 @@ function NavBar() {
         </div>
         <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
           <button onClick={() => setLanguageModalOpened(true)} type="button">
-            <img
-              className="flag-logo px-1.5"
-              src="/src/assets/french_flag_logo.png"
-              alt="flag"
-            />
+            <img className="flag-logo px-1.5" src={frenchFlagLogo} alt="flag" />
           </button>
           <button
             onClick={() => setLoginModalOpened(true)}
@@ -101,7 +90,7 @@ function NavBar() {
             </p>
             <img
               className="login-logo h-[24px] px-1.5"
-              src="/src/assets/login_logo.png"
+              src={loginLogo}
               alt="login"
             />
           </button>

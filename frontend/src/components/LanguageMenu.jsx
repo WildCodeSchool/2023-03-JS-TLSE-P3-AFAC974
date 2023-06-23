@@ -1,6 +1,9 @@
 import React from "react";
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
+import frenchFlagLogo from "../assets/french_flag_logo.png";
+import englishFlagLogo from "../assets/english_flag_logo.png";
+import creoleFlagLogo from "../assets/creole_flag_logo.png";
 
 function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
   return (
@@ -36,11 +39,7 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
           <p className="text-base font-semibold font-inter leading-6">
             Français
           </p>
-          <img
-            src="/src/assets/french_flag_logo.png"
-            alt="french flag"
-            className="w-[20px]"
-          />
+          <img src={frenchFlagLogo} alt="french flag" className="w-[20px]" />
         </button>
         <button
           className="w-[120px] h-[44px] flex justify-between items-center bg-gray-200 shadow-xs rounded-lg px-[8px] text-main-blue  hover:bg-[#257492] hover:text-white"
@@ -49,14 +48,14 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
           <p className="text-base font-semibold font-inter leading-6">
             English
           </p>
-          <img src="/src/assets/english_flag_logo.png" alt="english flag" />
+          <img src={englishFlagLogo} alt="english flag" />
         </button>
         <button
           className="w-[120px] h-[44px] flex justify-between items-center bg-gray-200 shadow-xs rounded-lg px-[8px] text-main-blue  hover:bg-[#257492] hover:text-white"
           type="button"
         >
           <p className="text-base font-semibold font-inter leading-6">Créole</p>
-          <img src="/src/assets/creole_flag_logo.png" alt="creole flag" />
+          <img src={creoleFlagLogo} alt="creole flag" />
         </button>
       </div>
     </ReactModal>
