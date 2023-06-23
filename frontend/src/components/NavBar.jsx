@@ -15,6 +15,7 @@ function NavBar() {
   const [aboutHovered, setAboutHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
+  const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
 
   return (
     <>
@@ -78,7 +79,11 @@ function NavBar() {
         </div>
         <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
           <button onClick={() => setLanguageModalOpened(true)} type="button">
-            <img className="flag-logo px-1.5" src={frenchFlagLogo} alt="flag" />
+            <img
+              className="flag-logo px-1.5"
+              src={languageChosenFlag}
+              alt="flag"
+            />
           </button>
           <button
             onClick={() => setLoginModalOpened(true)}
@@ -103,6 +108,7 @@ function NavBar() {
       <LanguageMenu
         languageModalOpened={languageModalOpened}
         setLanguageModalOpened={setLanguageModalOpened}
+        setLanguageChosenFlag={setLanguageChosenFlag}
       />
 
       <Login
