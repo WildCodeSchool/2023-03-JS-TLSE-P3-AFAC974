@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Turn as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 import LanguageMenu from "./LanguageMenu";
+import BurgerMenu from "./BurgerMenu";
 import Login from "./Login";
 import navbarLogo from "../assets/navbar_logo.png";
 import hexagonRedBg from "../assets/hexagon_red_bg.png";
@@ -16,10 +17,11 @@ function NavBar() {
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
   const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
+  const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   return (
-    <>
-      <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3">
+    <div className="w-[100%] overflow-hidden">
+      <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3 ">
         <img
           className="logo h-[35px] w-auto sm:h-[55px] "
           src={navbarLogo}
@@ -39,7 +41,7 @@ function NavBar() {
               className="h-[28px] w-[26.32px]"
             />
             <Link to="/" className="hover:font-medium">
-              HOME
+              ACCUEIL
             </Link>
           </div>
           <div
@@ -100,7 +102,12 @@ function NavBar() {
             />
           </button>
           <div className="Hamburger lg:hidden">
-            <Hamburger color="#fff" size={24} />
+            <Hamburger
+              color="#fff"
+              size={24}
+              toggled={burgerMenuOpen}
+              toggle={setBurgerMenuOpen}
+            />
           </div>
         </div>
       </div>
@@ -115,7 +122,9 @@ function NavBar() {
         loginModalOpened={loginModalOpened}
         setLoginModalOpened={setLoginModalOpened}
       />
-    </>
+
+      <BurgerMenu burgerMenuOpen={burgerMenuOpen} />
+    </div>
   );
 }
 
