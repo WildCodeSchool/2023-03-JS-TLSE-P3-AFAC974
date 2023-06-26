@@ -11,7 +11,7 @@ function BurgerMenu({ burgerMenuOpen }) {
       }`}
     >
       <div
-        className={`burger-menu border border-black w-[90vw] flex flex-col items-center mx-auto font-bold text-xl px-[20px] py-[10px] justify-between gap-4 mt-[24px] ${
+        className={`w-[90vw] border-4 border-red flex flex-col items-center mx-auto font-bold text-xl px-[20px] py-[10px] justify-between gap-4 mt-[24px] ${
           burgerMenuOpen
             ? "transform translate-x-0"
             : "transform translate-x-full"
@@ -26,7 +26,7 @@ function BurgerMenu({ burgerMenuOpen }) {
         </Link>
         <Link
           to="/gallery"
-          className="flex w-[100%] justify-between items-center py-[4px] border-t border-black"
+          className="flex w-[100%] justify-between items-center py-[4px]"
         >
           GALERIE
           <img src={arrow} alt="flèche" />
