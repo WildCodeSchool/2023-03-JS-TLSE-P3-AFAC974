@@ -6,7 +6,7 @@ import arrow from "../assets/arrow.png";
 function BurgerMenu({ burgerMenuOpen }) {
   return (
     <div
-      className={`transition-container  relative transition-transform duration-500 py-[16px] ${
+      className={`transition-container  relative transition-transform duration-500 z-10 py-[16px] ${
         burgerMenuOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
