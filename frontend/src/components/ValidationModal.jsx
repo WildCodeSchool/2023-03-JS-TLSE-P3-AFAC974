@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactModal from "react-modal";
 import Validation from "../assets/Validation.png";
 
@@ -8,52 +8,10 @@ function ValidationModal({
   setModalValidation,
   textValidationModal,
 }) {
-  // setter with use effect for have a style responsive
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const getModalWidth = () => {
-    if (windowWidth < 1024) {
-      return "60vw";
-    }
-    return "25%";
-  };
-
-  const getModalheight = () => {
-    if (windowWidth < 1024) {
-      return "fit-content";
-    }
-    return "30vh";
-  };
-
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
       zIndex: 1000,
-    },
-    content: {
-      border: "none",
-      borderRadius: "20px",
-      padding: "20px",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: getModalWidth(),
-      height: getModalheight(),
-      overflow: "auto",
-      background: "#fff",
-      display: "flex",
     },
   };
 
@@ -73,6 +31,7 @@ function ValidationModal({
       onAfterClose={() => setModalValidation(false)}
       style={customModalStyles}
       ariaHideApp={false}
+      className="h-fit md:h-[30vh] lg:h-[35vh] max-h-[40vh] w-fit max-w-[40vh] border-none rounded-2xl p-20 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
     >
       <div className="flex flex-col-reverse justify-center items-center w-full">
         <img
