@@ -28,56 +28,45 @@ function NavBar() {
           alt="logo"
         />
         <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
-          <div
-            className={`flex items-center gap-2 w-[28px] ${
-              homeHovered ? "hovered" : ""
-            }`}
+          <Link
+            to="/"
+            className="hover:font-medium flex items-center w-[28px]"
             onMouseEnter={() => setHomeHovered(true)}
             onMouseLeave={() => setHomeHovered(false)}
           >
             <img
               src={homeHovered ? hexagonRedBg : hexagonBlueBg}
               alt="hexagon"
-              className="h-[28px] w-[26.32px]"
+              className="h-[28px] w-[26.32px] mr-2"
             />
-            <Link to="/" className="hover:font-medium">
-              ACCUEIL
-            </Link>
-          </div>
-          <div
-            className={`flex items-center gap-2 w-[28px] ${
-              galleryHovered ? "hovered" : ""
-            }`}
+            <p>HOME</p>
+          </Link>
+          <Link
+            to="/gallery"
+            className="hover:font-medium flex items-center w-[28px]"
             onMouseEnter={() => setGalleryHovered(true)}
             onMouseLeave={() => setGalleryHovered(false)}
           >
             <img
               src={galleryHovered ? hexagonRedBg : hexagonBlueBg}
               alt="hexagon"
-              className="h-[28px] w-[26.32px]"
-              id="galleryPicture"
+              className="h-[28px] w-[26.32px] mr-2"
             />
-            <Link to="/gallery" className=" hover:font-medium">
-              GALERIE
-            </Link>
-          </div>
-          <div
-            className={`flex items-center gap-2 w-[28px] whitespace-nowrap ${
-              aboutHovered ? "hovered" : ""
-            }`}
+            <p>GALERIE</p>
+          </Link>
+          <Link
+            to="/about"
+            className="hover:font-medium flex items-center w-[28px] whitespace-nowrap"
             onMouseEnter={() => setAboutHovered(true)}
             onMouseLeave={() => setAboutHovered(false)}
           >
             <img
               src={aboutHovered ? hexagonRedBg : hexagonBlueBg}
               alt="hexagon"
-              className="h-[28px] w-[26.32px] "
-              id="aboutPicture"
+              className="h-[28px] w-[26.32px] mr-2"
             />
-            <Link to="/about" className="hover:font-medium">
-              A PROPOS
-            </Link>
-          </div>
+            <p>A PROPOS</p>
+          </Link>
         </div>
         <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
           <button onClick={() => setLanguageModalOpened(true)} type="button">
