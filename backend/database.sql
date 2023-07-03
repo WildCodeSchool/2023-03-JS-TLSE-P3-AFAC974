@@ -375,6 +375,27 @@ VALUES
     1
   );
 
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Istrateur',
+    'Admin',
+    'admin',
+    'admin@admin.com',
+    '$argon2id$v=19$m=65536,t=5,p=1$G/OsyV5kacbLZuo6tQKM3w$xK5B1E4vr3+xInGB5qmomg+Cpx3S46DIcdn9d5SbRYI',
+    0,
+    null
+  );
+
 -- Table artwork_favorite
 INSERT INTO
   artwork_favorite (user_id, artwork_id)

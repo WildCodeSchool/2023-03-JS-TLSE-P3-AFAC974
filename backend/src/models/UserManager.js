@@ -27,8 +27,7 @@ class UserManager extends AbstractManager {
     );
   }
 
-  login(body) {
-    const { email } = body;
+  login(email) {
     return this.database.query(`SELECT * FROM ${this.table} WHERE email = ?`, [
       email,
     ]);
