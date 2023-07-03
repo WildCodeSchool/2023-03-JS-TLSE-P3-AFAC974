@@ -60,13 +60,13 @@ const edit = (req, res) => {
 };
 
 const login = (req, res, next) => {
-  const email = req.body;
+  const { email } = req.body;
   models.user
     .login(email)
     .then(([users]) => {
       if (users[0] != null) {
-        req.user = [users];
-
+        // eslint-disable-next-line prefer-destructuring
+        req.user = users[0];
         next();
       } else {
         res.sendStatus(401);

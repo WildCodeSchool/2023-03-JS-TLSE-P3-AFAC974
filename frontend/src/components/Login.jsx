@@ -112,7 +112,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               INSCRIPTION 1/3
             </p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px]">
-              <h3>Nom</h3>
+              <h3>Nom*</h3>
               <label htmlFor="lastname">
                 <Input
                   type="text"
@@ -123,7 +123,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.lastname}
                 />
               </label>
-              <h3>Prénom</h3>
+              <h3>Prénom*</h3>
               <label htmlFor="firstname">
                 <Input
                   type="text"
@@ -134,7 +134,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.firstname}
                 />
               </label>
-              <h3>Adresse email</h3>
+              <h3>Adresse email*</h3>
               <label htmlFor="email">
                 <Input
                   type="email"
@@ -175,7 +175,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             </p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] ">
               {/* crée les inputs pseudo / mot de passe / confirmer mot de passe */}
-              <h3>Pseudo</h3>
+              <h3>Pseudo*</h3>
               <label htmlFor="pseudo">
                 <Input
                   type="text"
@@ -186,7 +186,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.pseudo}
                 />
               </label>
-              <h3>Mot de passe</h3>
+              <h3>Mot de passe*</h3>
               <label htmlFor="password">
                 <Input
                   type="password"
@@ -197,7 +197,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.password}
                 />
               </label>
-              <h3>Confirmer mot de passe</h3>
+              <h3>Confirmer mot de passe*</h3>
               <label htmlFor="password">
                 <Input
                   type="password"
@@ -207,7 +207,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   onChange={(event) => handleInputChange(event)}
                   value={user.password2}
                 />
-                {user.password !== user.password2 && (
+                {user.password !== user.password2 && user.password !== "" && (
                   <p className="text-red-500">
                     Les mots de passe ne correspondent pas
                   </p>
@@ -225,7 +225,9 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
               <button
                 onClick={() =>
-                  user.password === user.password2 ? handleNext() : null
+                  user.password !== "" && user.password === user.password2
+                    ? handleNext()
+                    : null
                 }
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
