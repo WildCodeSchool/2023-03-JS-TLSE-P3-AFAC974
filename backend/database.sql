@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `firstname` VARCHAR(255) NOT NULL,
   `pseudo` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
+  `image` VARCHAR(255),
   `hashedPassword` VARCHAR(255) NOT NULL,
   `role` INT NOT NULL,
   `entity_id` INT NULL,
