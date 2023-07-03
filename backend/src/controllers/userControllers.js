@@ -48,8 +48,8 @@ const add = (req, res) => {
         };
         models.user
           .insert(data)
-          .then(([resultat]) => {
-            res.location(`/users/${resultat.insertId}`).sendStatus(201);
+          .then(([response]) => {
+            res.location(`/users/${response.insertId}`).sendStatus(201);
           })
           .catch((err) => {
             console.error(err);
