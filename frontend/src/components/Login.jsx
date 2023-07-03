@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import axios from "axios";
 import PropTypes from "prop-types";
 import Input from "./Input";
 import userSample from "../assets/user_sample.png";
@@ -12,9 +14,9 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     firstname: "",
     pseudo: "",
     email: "",
-    entity_id: "",
     password: "",
-    role: "",
+    role: 1,
+    entity_id: "",
   });
 
   function handleNext() {
@@ -33,12 +35,18 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   function submitSigninModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/register`, user)
+      .catch((error) => {
+        console.error(error);
+      });
     setUser({});
   }
 
   function submitLoginModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
+
     setUser({});
   }
 
