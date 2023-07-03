@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import axios from "axios";
 import PropTypes from "prop-types";
 import Input from "./Input";
@@ -9,11 +8,14 @@ import userSample from "../assets/user_sample.png";
 function Login({ loginModalOpened, setLoginModalOpened }) {
   const [currentStep, setCurrentStep] = useState(1);
 
+  const [userImage, setUserImage] = useState("");
+
   const [user, setUser] = useState({
     lastname: "",
     firstname: "",
     pseudo: "",
     email: "",
+    image: "",
     password: "",
     role: 1,
     entity_id: "",
@@ -30,13 +32,19 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   function handleInputChange(event) {
     const { id, value } = event.target;
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
+    if (id === "user_picture") {
+      setUserImage(value);
+    }
   }
 
   function submitSigninModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/register`, user)
+      .post(`${import.meta.env.VITE_BACKEND_URL}/register`, {
+        ...user,
+        role: 1,
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -252,19 +260,30 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               INSCRIPTION 3/3
             </p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] items-center">
-              <button type="button">
-                <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
+              <div className=" hidden w-full">
+                <Input
+                  type="file"
+                  text="Saisir l'image de l'oeuvre'"
+                  id="user_picture"
+                  name="image"
+                />
+              </div>
+              <label
+                htmlFor="user_picture"
+                className="flex justify-center w-full items-center cursor-pointer "
+              >
+                <div className="imageCircleContainer w-[130px] h-[130px] sm:w-[150px] sm:h-[150px] rounded-full overflow-hidden ">
                   <img
-                    src={userSample}
-                    alt="profile sample"
+                    src={userImage || userSample}
+                    alt="choose"
                     className="object-cover w-full h-full"
                   />
                 </div>
-              </button>
+              </label>
               <h3 className="text-center">
                 Choisir une photo de profil
                 <br />
-                <span>(optionnel)</span>
+                <span className="italic">(optionnel)</span>
               </h3>
             </form>
             <div className="buttons flex justify-between w-[100%] px-[16px] ">

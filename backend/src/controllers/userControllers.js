@@ -1,3 +1,4 @@
+const cloudinary = require("cloudinary").v2;
 const models = require("../models");
 
 const browse = (req, res) => {
@@ -30,7 +31,31 @@ const read = (req, res) => {
 };
 
 const add = (req, res) => {
-  const data = req.body;
+  let data = {};
+  if (req.file) {
+    const { path } = req.file;
+
+    let imageUrl;
+    cloudinary.uploader.upload(path, (error, result) => {
+      if (error) {
+        console.error(error);
+        res.sendStatus(500);
+      } else {
+        imageUrl = result.secure_url;
+      }
+    });
+
+    data = {
+      ...req.body,
+      imageUrlSmall: imageUrl,
+      imageUrlMedium: imageUrl,
+      imageUrlLarge: imageUrl,
+    };
+  } else {
+    data = {
+      ...req.body,
+    };
+  }
   models.user
     .insert(data)
     .then(([result]) => {

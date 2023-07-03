@@ -27,6 +27,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
             onChange={onChange}
             value={value}
+            autoComplete="new-email"
           />
         );
       case "url":
@@ -54,6 +55,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
             required
             onChange={onChange}
             value={value}
+            autoComplete="new-password"
           />
         );
       default:

@@ -17,13 +17,23 @@ class UserManager extends AbstractManager {
       firstname,
       pseudo,
       email,
+      image,
       hashedPassword,
       role,
       entityId,
     } = body;
     return this.database.query(
-      `INSERT INTO ${this.table}(lastname, firstname, pseudo, email, hashedPassword, role, entity_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [lastname, firstname, pseudo, email, hashedPassword, role, entityId]
+      `INSERT INTO ${this.table}(lastname, firstname, pseudo, email, image, hashedPassword, role, entity_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        lastname,
+        firstname,
+        pseudo,
+        email,
+        image,
+        hashedPassword,
+        role,
+        entityId,
+      ]
     );
   }
 
