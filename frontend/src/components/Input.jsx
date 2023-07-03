@@ -13,6 +13,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
             name={name}
             placeholder={placeholder}
             accept="image/png, image/jpeg"
+            onChange={onChange}
           />
         );
       case "email":

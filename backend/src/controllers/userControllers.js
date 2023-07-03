@@ -32,8 +32,8 @@ const read = (req, res) => {
 
 const add = (req, res) => {
   let data = {};
-  if (req.file) {
-    const { path } = req.file;
+  if (req.body.user_picture) {
+    const path = req.body.image_file;
 
     let imageUrl;
     cloudinary.uploader.upload(path, (error, result) => {
@@ -42,29 +42,35 @@ const add = (req, res) => {
         res.sendStatus(500);
       } else {
         imageUrl = result.secure_url;
+        data = {
+          ...req.body,
+          image: imageUrl,
+        };
+        models.user
+          .insert(data)
+          .then(([resultat]) => {
+            res.location(`/users/${resultat.insertId}`).sendStatus(201);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
       }
     });
-
-    data = {
-      ...req.body,
-      imageUrlSmall: imageUrl,
-      imageUrlMedium: imageUrl,
-      imageUrlLarge: imageUrl,
-    };
   } else {
     data = {
       ...req.body,
     };
+    models.user
+      .insert(data)
+      .then(([result]) => {
+        res.location(`/users/${result.insertId}`).sendStatus(201);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
   }
-  models.user
-    .insert(data)
-    .then(([result]) => {
-      res.location(`/users/${result.insertId}`).sendStatus(201);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
 };
 
 const edit = (req, res) => {

@@ -19,6 +19,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     password: "",
     role: 1,
     entity_id: "",
+    user_picture: "",
   });
 
   function handleNext() {
@@ -30,10 +31,20 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   }
 
   function handleInputChange(event) {
-    const { id, value } = event.target;
+    const { id, value, files, name } = event.target;
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
-    if (id === "user_picture") {
-      setUserImage(value);
+
+    if (name === "image") {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setUserImage(reader.result);
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
     }
   }
 
@@ -49,12 +60,12 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
         console.error(error);
       });
     setUser({});
+    setUserImage("");
   }
 
   function submitLoginModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
-
     setUser({});
   }
 
@@ -266,6 +277,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   text="Saisir l'image de l'oeuvre'"
                   id="user_picture"
                   name="image"
+                  onChange={(event) => handleInputChange(event)}
                 />
               </div>
               <label
@@ -317,6 +329,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
         setCurrentStep(1);
         setLoginModalOpened(false);
         setUser({});
+        setUserImage(null);
       }}
       style={{
         overlay: {
