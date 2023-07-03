@@ -62,6 +62,12 @@ router.use(verifyToken);
 router.post("/artworks", upload.single("image"), artworkControllers.create);
 router.put("/artworks/:id", artworkControllers.edit);
 
+// artist routes
+
+router.post("/artists", artistControllers.create);
+router.put("/artists/:id", artistControllers.edit);
+router.delete("/artists/:id", artistControllers.destroy);
+
 // user routes
 
 router.put("/users/:id", verifyEmail, userControllers.edit);
