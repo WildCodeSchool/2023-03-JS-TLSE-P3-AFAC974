@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Input({ type, id, name, placeholder, onChange, value }) {
+function Input({
+  type,
+  id,
+  name,
+  placeholder,
+  onChange,
+  value,
+  inputDisabled,
+}) {
   const inputType = () => {
     switch (type) {
       case "file":
@@ -13,6 +21,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
             name={name}
             placeholder={placeholder}
             accept="image/png, image/jpeg"
+            onChange={onChange}
           />
         );
       case "email":
@@ -66,6 +75,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
             placeholder={placeholder}
             onChange={onChange}
             value={value}
+            disabled={inputDisabled}
           />
         );
     }
@@ -81,6 +91,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
+  inputDisabled: PropTypes.bool,
 };
 
 Input.defaultProps = {
@@ -90,6 +101,7 @@ Input.defaultProps = {
   placeholder: "",
   onChange: () => {},
   value: "",
+  inputDisabled: false,
 };
 
 export default Input;

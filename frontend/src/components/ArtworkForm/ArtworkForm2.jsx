@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import axios from "axios";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 
 function ArtworkForm2({
-  formData,
-  handleInputChange,
+  formArtwork,
+  handleInputChangeArtwork,
   modalRef,
   prevStep,
   nextStep,
 }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [inputDisabled, setInputDisabled] = useState(true);
+  const [dataArtist, setDataArtist] = useState(false);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/artists`)
+      .then((res) => {
+        setDataArtist(res.data);
+        setIsLoaded(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+  // console.log(dataArtist);
+
+  const [artist, setArtist] = useState("");
+
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
-        <h2 className="font-semibold text-[16px]">Informations de l'oeuvre</h2>
+        <h2 className="font-semibold text-[20px]">Informations de l'oeuvre</h2>
       </div>
       <div className="text-[16px] lg:flex flex-col lg:justify-between">
         <div className="lg:flex lg:justify-center lg:gap-4">
@@ -24,24 +44,54 @@ function ArtworkForm2({
               <Input
                 type="text"
                 id="artwork_name"
-                name="artworkName"
+                name="name"
                 placeholder="Saisir le nom de l'oeuvre"
-                onChange={handleInputChange}
-                value={formData.artworkName}
+                onChange={handleInputChangeArtwork}
+                value={formArtwork.name}
               />
             </div>
           </label>
           <label htmlFor="artist_name_artwork" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
             <div>
-              <Input
-                type="text"
-                id="artist_name_artwork"
-                name="artistName"
-                placeholder="Saisir un nom d'artiste"
-                onChange={handleInputChange}
-                value={formData.artistName}
-              />
+              {isLoaded ? (
+                <select
+                  name="artist_id"
+                  id="artist-select"
+                  className={!artist ? "text-gray-400" : ""}
+                  value={artist || ""}
+                  onChange={(event) => {
+                    setArtist(event.target.value);
+                    setInputDisabled(
+                      parseInt(event.target.value, 10) !== dataArtist.length + 1
+                    );
+                    handleInputChangeArtwork(event);
+                  }}
+                >
+                  <option value="" className={artist ? "text-gray-400" : ""}>
+                    Artist
+                  </option>
+                  {dataArtist.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.nickname}
+                    </option>
+                  ))}
+                  <option value={dataArtist.length + 1}>Autre</option>
+                </select>
+              ) : null}
+              {inputDisabled === false ? (
+                <Input
+                  type="text"
+                  id="artist_name_artwork"
+                  name="artist_id"
+                  placeholder="Saisir un nom d'artiste"
+                  onChange={handleInputChangeArtwork}
+                  value={
+                    formArtwork.artist_id !== "3" ? formArtwork.artist_id : ""
+                  }
+                  inputDisabled={inputDisabled}
+                />
+              ) : null}
             </div>
           </label>
           <label htmlFor="creationYear" className="w-[100%]">
@@ -50,10 +100,10 @@ function ArtworkForm2({
               <Input
                 type="text"
                 id="creationYear"
-                name="creationYear"
+                name="year"
                 placeholder="Année de création"
-                onChange={handleInputChange}
-                value={formData.creationYear}
+                onChange={handleInputChangeArtwork}
+                value={formArtwork.year}
               />
             </div>
           </label>
@@ -66,10 +116,10 @@ function ArtworkForm2({
           <div>
             <textarea
               id="artwork_description"
-              name="artworkDescription"
+              name="description"
               placeholder="Description"
-              onChange={handleInputChange}
-              value={formData.artworkDescription}
+              onChange={handleInputChangeArtwork}
+              value={formArtwork.description}
               className="border border-gray-300 rounded-[4px] p-1 w-[100%] resize-none outline-none overflow-x-hidden"
             />
           </div>
@@ -81,49 +131,49 @@ function ArtworkForm2({
               <div className="flex justify-between gap-4">
                 <label
                   htmlFor="length_artwork"
-                  className="flex justify-between items-center w-[100%] gap-4"
+                  className="flex justify-between items-center w-[100%] gap-2"
                 >
                   <h4 className="w-content text-[14px]">L</h4>
-                  <div>
+                  <div className="lg:w-[40px] xl:w-[50px]">
                     <Input
                       type="text"
                       id="length_artwork"
-                      name="lengthArtwork"
+                      name="length_cm"
                       placeholder=""
-                      onChange={handleInputChange}
-                      value={formData.lengthArtwork}
+                      onChange={handleInputChangeArtwork}
+                      value={formArtwork.length_cm}
                     />
                   </div>
                 </label>
                 <label
                   htmlFor="width"
-                  className="flex justify-between items-center w-[100%] gap-4"
+                  className="flex justify-between items-center w-[100%] gap-2"
                 >
                   <h4 className="w-content text-[14px]">l</h4>
-                  <div>
+                  <div className="lg:w-[40px] xl:w-[50px]">
                     <Input
                       type="text"
                       id="width_artwork"
-                      name="widthArtwork"
+                      name="width_cm"
                       placeholder=""
-                      onChange={handleInputChange}
-                      value={formData.widthArtwork}
+                      onChange={handleInputChangeArtwork}
+                      value={formArtwork.width_cm}
                     />
                   </div>
                 </label>
                 <label
                   htmlFor="height_artwork"
-                  className="flex justify-between items-center w-[100%] gap-4"
+                  className="flex justify-between items-center w-[100%] gap-2"
                 >
                   <h4 className="w-content text-[14px]">h</h4>
-                  <div>
+                  <div className="lg:w-[40px] xl:w-[50px]">
                     <Input
                       type="text"
                       id="height_artwork"
-                      name="heightArtwork"
+                      name="height_cm"
                       placeholder=""
-                      onChange={handleInputChange}
-                      value={formData.heightArtwork}
+                      onChange={handleInputChangeArtwork}
+                      value={formArtwork.height_cm}
                     />
                   </div>
                 </label>
@@ -138,8 +188,8 @@ function ArtworkForm2({
                 id="type_artwork"
                 name="typeArtwork"
                 placeholder="Type d'oeuvre"
-                onChange={handleInputChange}
-                value={formData.typeArtwork}
+                onChange={handleInputChangeArtwork}
+                value={formArtwork.typeArtwork}
               />
             </div>
           </label>
@@ -151,8 +201,8 @@ function ArtworkForm2({
                 id="art_trend_artwork"
                 name="artTrendArtwork"
                 placeholder="Courant artistique"
-                onChange={handleInputChange}
-                value={formData.artTrendArtwork}
+                onChange={handleInputChangeArtwork}
+                value={formArtwork.artTrendArtwork}
               />
             </div>
           </label>
@@ -167,8 +217,8 @@ function ArtworkForm2({
               id="artwork_technical"
               name="artworkTechnical"
               placeholder="Technique"
-              onChange={handleInputChange}
-              value={formData.artworkTechnical}
+              onChange={handleInputChangeArtwork}
+              value={formArtwork.artworkTechnical}
             />
           </div>
         </label>
@@ -186,58 +236,38 @@ function ArtworkForm2({
 }
 
 ArtworkForm2.propTypes = {
-  formData: PropTypes.shape({
-    artworkName: PropTypes.string,
-    artistName: PropTypes.string,
-    creationYear: PropTypes.string,
-    artworkDescription: PropTypes.string,
-    lengthArtwork: PropTypes.string,
-    widthArtwork: PropTypes.string,
-    heightArtwork: PropTypes.string,
-    typeArtwork: PropTypes.string,
+  formArtwork: PropTypes.shape({
+    name: PropTypes.string,
+    year: PropTypes.string,
+    description: PropTypes.string,
     artTrendArtwork: PropTypes.string,
+    typeArtwork: PropTypes.string,
     artworkTechnical: PropTypes.string,
-    lastnameArtist: PropTypes.string,
-    firstnameArtist: PropTypes.string,
-    usualName: PropTypes.string,
-    artistDescription: PropTypes.string,
-    artistTechnical: PropTypes.string,
-    artTrendArtist: PropTypes.string,
-    webSite: PropTypes.string,
-    facebook: PropTypes.string,
-    twitter: PropTypes.string,
-    instagram: PropTypes.string,
+    artist_id: PropTypes.string,
+    width_cm: PropTypes.string,
+    length_cm: PropTypes.string,
+    height_cm: PropTypes.string,
   }),
-  handleInputChange: PropTypes.func,
+  handleInputChangeArtwork: PropTypes.func,
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
 };
 
 ArtworkForm2.defaultProps = {
-  formData: {
-    artworkName: "",
-    artistName: "",
-    creationYear: "",
-    artworkDescription: "",
-    lengthArtwork: "",
-    widthArtwork: "",
-    heightArtwork: "",
-    typeArtwork: "",
+  formArtwork: {
+    name: "",
+    year: "",
+    description: "",
     artTrendArtwork: "",
+    typeArtwork: "",
     artworkTechnical: "",
-    lastnameArtist: "",
-    firstnameArtist: "",
-    usualName: "",
-    artistDescription: "",
-    artistTechnical: "",
-    artTrendArtist: "",
-    webSite: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
+    artist_id: "",
+    width_cm: "",
+    length_cm: "",
+    height_cm: "",
   },
-  handleInputChange: () => {},
+  handleInputChangeArtwork: () => {},
   modalRef: {},
   prevStep: () => {},
   nextStep: () => {},

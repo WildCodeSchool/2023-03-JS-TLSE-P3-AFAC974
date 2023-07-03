@@ -42,53 +42,84 @@ function AddArtwork({
     setModalConfirmation(true);
   };
 
-  const [formData, setFormData] = useState({
-    artworkName: "",
-    artistName: "",
-    creationYear: "",
-    artworkDescription: "",
-    lengthArtwork: "",
-    widthArtwork: "",
-    heightArtwork: "",
-    typeArtwork: "",
-    artTrendArtwork: "",
-    artworkTechnical: "",
-    lastnameArtist: "",
-    firstnameArtist: "",
-    usualName: "",
-    artistDescription: "",
-    artistTechnical: "",
-    artTrendArtist: "",
-    webSite: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
+  const [formArtwork, setFormArtwork] = useState({
+    image: "",
+    name: "",
+    year: "",
+    description: "",
+    // art_trend_id: "",
+    // type_id: "",
+    // technique_id: "",
+    artist_id: "",
+    width_cm: "",
+    length_cm: "",
+    height_cm: "",
   });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+  const [formArtist, setFormArtist] = useState({
+    lastname: "",
+    firstname: "",
+    nickname: "",
+    description: "",
+    // artistTechnical: "",
+    // artTrendArtist: "",
+    webSite_url: "",
+    facebook_url: "",
+    instagram_url: "",
+    twitter_url: "",
+  });
+  const [imagePreview, setImagePreview] = useState("");
+  const handleInputChangeArtwork = (event) => {
+    const { name, value, files } = event.target;
+
+    if (name === "image") {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImagePreview(reader.result); // Mettre à jour l'état de prévisualisation avec l'URL de données de l'image
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    setFormArtwork((prevFormArtwork) => ({
+      ...prevFormArtwork,
       [name]: value,
     }));
   };
+
+  const handleInputChangeArtist = (event) => {
+    const { name, value } = event.target;
+    setFormArtist((prevFormArtist) => ({
+      ...prevFormArtist,
+      [name]: value,
+    }));
+  };
+
+  // console.log(formArtwork);
 
   const renderContent = () => {
     switch (step) {
       case 1:
         return (
           <ArtworkForm1
-            onClick={nextStep}
+            handleInputChangeArtwork={handleInputChangeArtwork}
+            nextStep={nextStep}
             setStep={setStep}
             setModalOpen={setModalOpen}
             text="Ajouter une image de l'oeuvre"
+            imagePreview={imagePreview}
+            setImagePreview={setImagePreview}
           />
         );
       case 2:
         return (
           <ArtworkForm2
-            formData={formData}
-            handleInputChange={handleInputChange}
+            formArtwork={formArtwork}
+            handleInputChangeArtwork={handleInputChangeArtwork}
             modalRef={modalRef}
             prevStep={prevStep}
             nextStep={nextStep}
@@ -97,8 +128,8 @@ function AddArtwork({
       case 3:
         return (
           <ArtworkForm3
-            formData={formData}
-            handleInputChange={handleInputChange}
+            formArtist={formArtist}
+            handleInputChangeArtist={handleInputChangeArtist}
             modalRef={modalRef}
             prevStep={prevStep}
             nextStep={nextStep}
@@ -125,10 +156,35 @@ function AddArtwork({
         onRequestClose={() => {
           setModalOpen(false);
           setStep(1);
+          formArtwork({
+            image: "",
+            name: "",
+            year: "",
+            description: "",
+            // artTrendArtwork: "",
+            // typeArtwork: "",
+            // artworkTechnical: "",
+            artist: "",
+            width_cm: "",
+            length_cm: "",
+            height_cm: "",
+          });
+          formArtist({
+            lastname: "",
+            firstname: "",
+            nickname: "",
+            description: "",
+            // artistTechnical: "",
+            // artTrendArtist: "",
+            webSite_url: "",
+            facebook_url: "",
+            instagram_url: "",
+            twitter_url: "",
+          });
         }}
         style={customModalStyles}
         ariaHideApp={false}
-        className="h-fit lg:h-[610px] min-h-[30vh] sm:min-h-[50vh] max-h-[80vh] lg:max-h-[60vh] w-[60vw] lg:w-[50vw] min-w-[50vw] lg:min-w-[42vw] lg:max-w-[30vw] max-w-90vw  border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
+        className="h-fit lg:h-[610px] min-h-[30vh] sm:min-h-[50vh] max-h-[80vh] lg:max-h-[70vh] w-[60vw] lg:w-[50vw] min-w-[45vw] lg:min-w-[600px] max-w-[90vw] md:max-w-[40vw] lg:max-w-[30vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
       >
         <form className="w-full">{renderContent()}</form>
       </ReactModal>

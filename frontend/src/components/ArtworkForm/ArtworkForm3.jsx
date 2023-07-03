@@ -5,8 +5,8 @@ import GreyButton from "../GreyButton";
 import Input from "../Input";
 
 function ArtworkForm3({
-  formData,
-  handleInputChange,
+  formArtist,
+  handleInputChangeArtist,
   modalRef,
   prevStep,
   nextStep,
@@ -14,7 +14,7 @@ function ArtworkForm3({
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
-        <h2 className="font-semibold text-[16px]">
+        <h2 className="font-semibold text-[20px]">
           Information relative à l'artiste
         </h2>
       </div>
@@ -26,10 +26,10 @@ function ArtworkForm3({
               <Input
                 type="text"
                 id="lastname_artist"
-                name="lastnameArtist"
+                name="lastname"
                 placeholder="Nom"
-                onChange={handleInputChange}
-                value={formData.lastnameArtist}
+                onChange={handleInputChangeArtist}
+                value={formArtist.lastname}
               />
             </div>
           </label>
@@ -39,10 +39,10 @@ function ArtworkForm3({
               <Input
                 type="text"
                 id="firstname_artist"
-                name="firstnameArtist"
+                name="firstname"
                 placeholder="Prénom"
-                onChange={handleInputChange}
-                value={formData.firstnameArtist}
+                onChange={handleInputChangeArtist}
+                value={formArtist.firstname}
               />
             </div>
           </label>
@@ -52,10 +52,10 @@ function ArtworkForm3({
               <Input
                 type="text"
                 id="usual_name"
-                name="usualName"
+                name="nickname"
                 placeholder="Nom d'usage"
-                onChange={handleInputChange}
-                value={formData.usualName}
+                onChange={handleInputChangeArtist}
+                value={formArtist.nickname}
               />
             </div>
           </label>
@@ -65,10 +65,10 @@ function ArtworkForm3({
           <div>
             <textarea
               id="artist_description"
-              name="artistDescription"
+              name="description"
               placeholder="Description"
-              onChange={handleInputChange}
-              value={formData.artistDescription}
+              onChange={handleInputChangeArtist}
+              value={formArtist.description}
               className="border border-gray-300 rounded-[4px] p-1 w-[100%] resize-none outline-none overflow-x-hidden"
             />
           </div>
@@ -82,8 +82,8 @@ function ArtworkForm3({
                 id="artist_technical"
                 name="artistTechnical"
                 placeholder="Technique"
-                onChange={handleInputChange}
-                value={formData.artistTechnical}
+                onChange={handleInputChangeArtist}
+                value={formArtist.artistTechnical}
               />
             </div>
           </label>
@@ -95,8 +95,8 @@ function ArtworkForm3({
                 id="art_trend_artist"
                 name="artTrendArtist"
                 placeholder="Courant artistique"
-                onChange={handleInputChange}
-                value={formData.artTrendArtist}
+                onChange={handleInputChangeArtist}
+                value={formArtist.artTrendArtist}
               />
             </div>
           </label>
@@ -106,10 +106,10 @@ function ArtworkForm3({
               <Input
                 type="url"
                 id="web_site"
-                name="webSite"
+                name="website_url"
                 placeholder="Lien site internet"
-                onChange={handleInputChange}
-                value={formData.webSite}
+                onChange={handleInputChangeArtist}
+                value={formArtist.website_url}
               />
             </div>
           </label>
@@ -121,10 +121,10 @@ function ArtworkForm3({
               <Input
                 type="url"
                 id="facebook"
-                name="facebook"
+                name="facebook_url"
                 placeholder="Facebook"
-                onChange={handleInputChange}
-                value={formData.facebook}
+                onChange={handleInputChangeArtist}
+                value={formArtist.facebook_url}
               />
             </div>
           </label>
@@ -134,10 +134,10 @@ function ArtworkForm3({
               <Input
                 type="url"
                 id="twitter"
-                name="twitter"
+                name="twitter_url"
                 placeholder="Twitter"
-                onChange={handleInputChange}
-                value={formData.twitter}
+                onChange={handleInputChangeArtist}
+                value={formArtist.twitter_url}
               />
             </div>
           </label>
@@ -147,10 +147,10 @@ function ArtworkForm3({
               <Input
                 type="url"
                 id="instagram"
-                name="instagram"
+                name="instagram_url"
                 placeholder="Instagram"
-                onChange={handleInputChange}
-                value={formData.instagram}
+                onChange={handleInputChangeArtist}
+                value={formArtist.instagram_url}
               />
             </div>
           </label>
@@ -169,58 +169,38 @@ function ArtworkForm3({
 }
 
 ArtworkForm3.propTypes = {
-  formData: PropTypes.shape({
-    artworkName: PropTypes.string,
-    artistName: PropTypes.string,
-    creationYear: PropTypes.string,
-    artworkDescription: PropTypes.string,
-    lengthArtwork: PropTypes.string,
-    widthArtwork: PropTypes.string,
-    heightArtwork: PropTypes.string,
-    typeArtwork: PropTypes.string,
-    artTrendArtwork: PropTypes.string,
-    artworkTechnical: PropTypes.string,
-    lastnameArtist: PropTypes.string,
-    firstnameArtist: PropTypes.string,
-    usualName: PropTypes.string,
-    artistDescription: PropTypes.string,
+  formArtist: PropTypes.shape({
+    lastname: PropTypes.string,
+    firstname: PropTypes.string,
+    nickname: PropTypes.string,
+    description: PropTypes.string,
     artistTechnical: PropTypes.string,
     artTrendArtist: PropTypes.string,
-    webSite: PropTypes.string,
-    facebook: PropTypes.string,
-    twitter: PropTypes.string,
-    instagram: PropTypes.string,
+    website_url: PropTypes.string,
+    facebook_url: PropTypes.string,
+    instagram_url: PropTypes.string,
+    twitter_url: PropTypes.string,
   }),
-  handleInputChange: PropTypes.func,
+  handleInputChangeArtist: PropTypes.func,
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
 };
 
 ArtworkForm3.defaultProps = {
-  formData: {
-    artworkName: "",
-    artistName: "",
-    creationYear: "",
-    artworkDescription: "",
-    lengthArtwork: "",
-    widthArtwork: "",
-    heightArtwork: "",
-    typeArtwork: "",
-    artTrendArtwork: "",
-    artworkTechnical: "",
-    lastnameArtist: "",
-    firstnameArtist: "",
-    usualName: "",
-    artistDescription: "",
+  formArtist: {
+    lastname: "",
+    firstname: "",
+    nickname: "",
+    description: "",
     artistTechnical: "",
     artTrendArtist: "",
-    webSite: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
+    website_url: "",
+    facebook_url: "",
+    instagram_url: "",
+    twitter_url: "",
   },
-  handleInputChange: () => {},
+  handleInputChangeArtist: () => {},
   modalRef: {},
   prevStep: () => {},
   nextStep: () => {},

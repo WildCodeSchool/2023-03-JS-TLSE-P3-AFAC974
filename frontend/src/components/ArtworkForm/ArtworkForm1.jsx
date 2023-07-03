@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
@@ -5,10 +6,19 @@ import GreyButton from "../GreyButton";
 import Input from "../Input";
 import ChoosePicture from "../../assets/ChoosePicture.png";
 
-function ArtworkForm1({ onClick, setStep, setModalOpen, text }) {
+function ArtworkForm1({
+  nextStep,
+  handleInputChangeArtwork,
+  setStep,
+  setModalOpen,
+  text,
+  imagePreview,
+  setImagePreview,
+}) {
   const handleCancel = () => {
     setStep(1);
     setModalOpen(false);
+    setImagePreview("");
   };
   return (
     <div className="w-full h-full flex flex-col justify-between">
@@ -17,15 +27,21 @@ function ArtworkForm1({ onClick, setStep, setModalOpen, text }) {
         <div className="hidden w-full">
           <Input
             type="file"
-            text="Saisir l'image de l'oeuvre'"
+            text="Saisir l'image de l'oeuvre"
+            name="image"
             id="artwork_picture"
+            onChange={handleInputChangeArtwork}
           />
         </div>
         <label
           htmlFor="artwork_picture"
           className="flex justify-center w-full items-center cursor-pointer "
         >
-          <img src={ChoosePicture} alt="choose" className="w-[8vh]" />
+          {imagePreview ? (
+            <img src={imagePreview} alt="Preview" className="w-[8vh]" />
+          ) : (
+            <img src={ChoosePicture} alt="choose" className="w-[8vh]" />
+          )}
         </label>
       </div>
       <div className="items-bottom justify-end">
@@ -35,7 +51,7 @@ function ArtworkForm1({ onClick, setStep, setModalOpen, text }) {
             <GreyButton text="Annuler" onClick={handleCancel} />
           </div>
           <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
-            <RedButton text="Suivant" onClick={onClick} />
+            <RedButton text="Suivant" onClick={nextStep} />
           </div>
         </div>
       </div>
@@ -44,14 +60,12 @@ function ArtworkForm1({ onClick, setStep, setModalOpen, text }) {
 }
 
 ArtworkForm1.propTypes = {
-  onClick: PropTypes.func,
   setStep: PropTypes.func,
   setModalOpen: PropTypes.func,
   text: PropTypes.string,
 };
 
 ArtworkForm1.defaultProps = {
-  onClick: () => {},
   setStep: () => {},
   setModalOpen: () => {},
   text: "",
