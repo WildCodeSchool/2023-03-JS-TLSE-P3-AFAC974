@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
@@ -9,11 +10,8 @@ function ArtworkForm1({
   nextStep,
   handleInputChangeArtwork,
   prevStep,
-  setStep,
-  setModalOpen,
   text,
   imagePreview,
-  setImagePreview,
 }) {
   return (
     <div className="w-full h-full flex flex-col justify-between">
@@ -55,14 +53,10 @@ function ArtworkForm1({
 }
 
 ArtworkForm1.propTypes = {
-  setStep: PropTypes.func,
-  setModalOpen: PropTypes.func,
   text: PropTypes.string,
 };
 
 ArtworkForm1.defaultProps = {
-  setStep: () => {},
-  setModalOpen: () => {},
   text: "",
 };
 

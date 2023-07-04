@@ -13,15 +13,57 @@ function ArtworkForm2({
   prevStep,
   nextStep,
 }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [inputDisabled, setInputDisabled] = useState(true);
+  const [isLoadedArtist, setIsLoadedArtist] = useState(false);
+  const [isLoadedType, setIsLoadedType] = useState(false);
+  const [isLoadedTechnique, setIsLoadedTechnique] = useState(false);
+  const [isLoadedArtTrend, setIsLoadedArtTrend] = useState(false);
   const [dataArtist, setDataArtist] = useState(false);
+  const [dataType, setDataType] = useState(false);
+  const [dataTechnique, setDataTechnique] = useState(false);
+  const [dataArtTrend, setDataArtTrend] = useState(false);
+
   useEffect(() => {
     axios
       .get(`http://localhost:8000/artists`)
       .then((res) => {
         setDataArtist(res.data);
-        setIsLoaded(true);
+        setIsLoadedArtist(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/type`)
+      .then((res) => {
+        setDataType(res.data);
+        setIsLoadedType(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/technique`)
+      .then((res) => {
+        setDataTechnique(res.data);
+        setIsLoadedTechnique(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/arttrend`)
+      .then((res) => {
+        setDataArtTrend(res.data);
+        setIsLoadedArtTrend(true);
       })
       .catch((err) => {
         console.error(err.message);
@@ -30,6 +72,9 @@ function ArtworkForm2({
 
   const [artist, setArtist] = useState("");
   // console.log(artist);
+  const [type, setType] = useState("");
+  const [artTrend, setArtTrend] = useState("");
+  const [technique, setTechnique] = useState("");
 
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
@@ -54,7 +99,7 @@ function ArtworkForm2({
           <label htmlFor="artist_name_artwork" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
             <div>
-              {isLoaded ? (
+              {isLoadedArtist ? (
                 <select
                   name="artist_id"
                   id="artist-select"
@@ -62,9 +107,6 @@ function ArtworkForm2({
                   value={artist || ""}
                   onChange={(event) => {
                     setArtist(event.target.value);
-                    setInputDisabled(
-                      parseInt(event.target.value, 10) !== dataArtist.length + 1
-                    );
                     handleInputChangeArtwork(event);
                   }}
                 >
@@ -79,7 +121,7 @@ function ArtworkForm2({
                   <option value={dataArtist.length + 1}>Autre</option>
                 </select>
               ) : null}
-              {inputDisabled === false ? (
+              {parseInt(artist, 10) === dataArtist.length + 1 ? (
                 <Input
                   type="text"
                   id="artist_name_artwork"
@@ -87,9 +129,9 @@ function ArtworkForm2({
                   placeholder="Saisir un nom d'artiste"
                   onChange={handleInputChangeArtwork}
                   value={
-                    formArtwork.artist_id !== "3" ? formArtwork.artist_id : ""
+                    parseInt(formArtwork.artist_id, 10) ===
+                      dataArtist.length + 1 && ""
                   }
-                  inputDisabled={inputDisabled}
                 />
               ) : null}
             </div>
@@ -183,27 +225,81 @@ function ArtworkForm2({
           <label htmlFor="type_artwork" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Type d'oeuvre</h3>
             <div>
-              <Input
-                type="text"
-                id="type_artwork"
-                name="typeArtwork"
-                placeholder="Type d'oeuvre"
-                onChange={handleInputChangeArtwork}
-                value={formArtwork.typeArtwork}
-              />
+              {isLoadedType ? (
+                <select
+                  name="type_id"
+                  id="type_artwork"
+                  className={!type ? "text-gray-400" : ""}
+                  value={type || ""}
+                  onChange={(event) => {
+                    setType(event.target.value);
+                    handleInputChangeArtwork(event);
+                  }}
+                >
+                  <option value="" className={type ? "text-gray-400" : ""}>
+                    {type || "Type"}
+                  </option>
+                  {dataType.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                  <option value={dataType.length + 1}>Autre</option>
+                </select>
+              ) : null}
+              {parseInt(type, 10) === dataType.length + 1 ? (
+                <Input
+                  type="text"
+                  id="type_artwork"
+                  name="type_id"
+                  placeholder="Type d'oeuvre"
+                  onChange={handleInputChangeArtwork}
+                  value={
+                    parseInt(formArtwork.type_id, 10) === dataType.length + 1 &&
+                    ""
+                  }
+                />
+              ) : null}
             </div>
           </label>
           <label htmlFor="art_trend_artwork" className="w-[100%]">
             <h3 className="py-4 flex-nowrap text-[14px]">Courant artistique</h3>
             <div>
-              <Input
-                type="text"
-                id="art_trend_artwork"
-                name="artTrendArtwork"
-                placeholder="Courant artistique"
-                onChange={handleInputChangeArtwork}
-                value={formArtwork.artTrendArtwork}
-              />
+              {isLoadedArtTrend ? (
+                <select
+                  name="art_trend_id"
+                  id="art_trend_artwork"
+                  className={!artTrend ? "text-gray-400" : ""}
+                  value={artTrend || ""}
+                  onChange={(event) => {
+                    setArtTrend(event.target.value);
+                    handleInputChangeArtwork(event);
+                  }}
+                >
+                  <option value="" className={artTrend ? "text-gray-400" : ""}>
+                    {artTrend || "Courant Artistique"}
+                  </option>
+                  {dataArtTrend.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                  <option value={dataArtTrend.length + 1}>Autre</option>
+                </select>
+              ) : null}
+              {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
+                <Input
+                  type="text"
+                  id="art_trend_artwork"
+                  name="art_trend_id"
+                  placeholder="Courant artistique"
+                  onChange={handleInputChangeArtwork}
+                  value={
+                    parseInt(formArtwork.art_trend_id, 10) ===
+                      dataArtTrend.length + 1 && ""
+                  }
+                />
+              ) : null}
             </div>
           </label>
         </div>
@@ -212,14 +308,41 @@ function ArtworkForm2({
         <label htmlFor="artwork_technical" className="w-[100%] lg:w-auto">
           <h3 className="py-4 text-[14px]">Technique</h3>
           <div>
-            <Input
-              type="text"
-              id="artwork_technical"
-              name="artworkTechnical"
-              placeholder="Technique"
-              onChange={handleInputChangeArtwork}
-              value={formArtwork.artworkTechnical}
-            />
+            {isLoadedTechnique ? (
+              <select
+                name="technique_id"
+                id="artwork_technical"
+                className={!technique ? "text-gray-400" : ""}
+                value={technique || ""}
+                onChange={(event) => {
+                  setTechnique(event.target.value);
+                  handleInputChangeArtwork(event);
+                }}
+              >
+                <option value="" className={technique ? "text-gray-400" : ""}>
+                  Technique
+                </option>
+                {dataTechnique.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+                <option value={dataTechnique.length + 1}>Autre</option>
+              </select>
+            ) : null}
+            {parseInt(technique, 10) === dataTechnique.length + 1 ? (
+              <Input
+                type="text"
+                id="artwork_technical"
+                name="technique_id"
+                placeholder="Technique"
+                onChange={handleInputChangeArtwork}
+                value={
+                  parseInt(formArtwork.technique_id, 10) ===
+                    dataArtTrend.length + 1 && ""
+                }
+              />
+            ) : null}
           </div>
         </label>
       </div>
@@ -240,9 +363,9 @@ ArtworkForm2.propTypes = {
     name: PropTypes.string,
     year: PropTypes.string,
     description: PropTypes.string,
-    artTrendArtwork: PropTypes.string,
-    typeArtwork: PropTypes.string,
-    artworkTechnical: PropTypes.string,
+    art_trend_id: PropTypes.string,
+    type_id: PropTypes.string,
+    technique_id: PropTypes.string,
     artist_id: PropTypes.string,
     width_cm: PropTypes.string,
     length_cm: PropTypes.string,
@@ -259,9 +382,9 @@ ArtworkForm2.defaultProps = {
     name: "",
     year: "",
     description: "",
-    artTrendArtwork: "",
-    typeArtwork: "",
-    artworkTechnical: "",
+    art_trend_id: "",
+    type_id: "",
+    technique_id: "",
     artist_id: "",
     width_cm: "",
     length_cm: "",
