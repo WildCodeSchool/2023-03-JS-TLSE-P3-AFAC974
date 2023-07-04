@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
@@ -9,17 +8,13 @@ import ChoosePicture from "../../assets/ChoosePicture.png";
 function ArtworkForm1({
   nextStep,
   handleInputChangeArtwork,
+  prevStep,
   setStep,
   setModalOpen,
   text,
   imagePreview,
   setImagePreview,
 }) {
-  const handleCancel = () => {
-    setStep(1);
-    setModalOpen(false);
-    setImagePreview("");
-  };
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div />
@@ -48,7 +43,7 @@ function ArtworkForm1({
         <h3 className="text-center w-full text-[16px]">{text}</h3>
         <div className="flex justify-between py-4 w-full lg:justify-around">
           <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
-            <GreyButton text="Annuler" onClick={handleCancel} />
+            <GreyButton text="Annuler" onClick={prevStep} />
           </div>
           <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
             <RedButton text="Suivant" onClick={nextStep} />

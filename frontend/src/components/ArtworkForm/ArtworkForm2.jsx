@@ -27,9 +27,9 @@ function ArtworkForm2({
         console.error(err.message);
       });
   }, []);
-  // console.log(dataArtist);
 
   const [artist, setArtist] = useState("");
+  // console.log(artist);
 
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
@@ -69,7 +69,7 @@ function ArtworkForm2({
                   }}
                 >
                   <option value="" className={artist ? "text-gray-400" : ""}>
-                    Artist
+                    {artist || "Artiste"}
                   </option>
                   {dataArtist.map((item) => (
                     <option key={item.id} value={item.id}>

@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
 import ArtworkForm1 from "./ArtworkForm/ArtworkForm1";
@@ -34,12 +33,6 @@ function AddArtwork({
     if (modalRef.current) {
       modalRef.current.scrollIntoView({ behavior: "auto", block: "start" });
     }
-  };
-
-  const handleSubmit = () => {
-    setStep(1);
-    setModalOpen(false);
-    setModalConfirmation(true);
   };
 
   const [formArtwork, setFormArtwork] = useState({
@@ -99,6 +92,18 @@ function AddArtwork({
     }));
   };
 
+  const handleSubmit = () => {
+    setStep(1);
+    setModalOpen(false);
+    setModalConfirmation(true);
+  };
+
+  const handleCancel = () => {
+    setStep(1);
+    setModalOpen(false);
+    setImagePreview("");
+  };
+
   // console.log(formArtwork);
 
   const renderContent = () => {
@@ -108,6 +113,7 @@ function AddArtwork({
           <ArtworkForm1
             handleInputChangeArtwork={handleInputChangeArtwork}
             nextStep={nextStep}
+            prevStep={handleCancel}
             setStep={setStep}
             setModalOpen={setModalOpen}
             text="Ajouter une image de l'oeuvre"
@@ -139,6 +145,7 @@ function AddArtwork({
         return (
           <ArtworkForm1
             onClick={handleSubmit}
+            prevStep={prevStep}
             setStep={setStep}
             setModalOpen={setModalOpen}
             text="Ajouter une photo de l'artiste"
