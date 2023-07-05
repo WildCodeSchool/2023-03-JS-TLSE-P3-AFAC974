@@ -17,6 +17,8 @@ function LanguageMenu({
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: "20",
+          backdropFilter: "blur(6px)",
         },
         content: {
           backgroundColor: "#fff",

@@ -11,7 +11,7 @@ function BurgerMenu({ burgerMenuOpen }) {
       }`}
     >
       <div
-        className={`w-[90vw] shadow-md drop-shadow-sm rounded-lg flex flex-col items-center mx-auto my-[8px]font-bold text-xl px-[20px] py-[10px] justify-between gap-4 mt-[24px] ${
+        className={`w-[90vw] shadow-md drop-shadow-sm rounded-lg flex flex-col items-center mx-auto my-[8px]font-bold text-xl px-[20px] py-[10px] justify-between gap-4 bg-white ${
           burgerMenuOpen
             ? "transform translate-x-0"
             : "transform translate-x-full"
