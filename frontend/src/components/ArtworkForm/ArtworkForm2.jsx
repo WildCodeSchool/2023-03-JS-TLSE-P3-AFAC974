@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import axios from "axios";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
+import SelectionInput from "../SelectionInput";
 
 function ArtworkForm2({
   formArtwork,
@@ -12,70 +13,31 @@ function ArtworkForm2({
   modalRef,
   prevStep,
   nextStep,
+  handleInputChangeArtist,
+  handleInputChangeType,
+  handleInputChangeArtTrend,
+  handleInputChangeTechnique,
+  formArtist,
+  formType,
+  formArtTrend,
+  formTechnique,
+  isLoadedArtist,
+  isLoadedType,
+  isLoadedTechnique,
+  isLoadedArtTrend,
+  dataArtist,
+  dataType,
+  dataTechnique,
+  dataArtTrend,
+  type,
+  setType,
+  artTrend,
+  setArtTrend,
+  technique,
+  setTechnique,
+  artist,
+  setArtist,
 }) {
-  const [isLoadedArtist, setIsLoadedArtist] = useState(false);
-  const [isLoadedType, setIsLoadedType] = useState(false);
-  const [isLoadedTechnique, setIsLoadedTechnique] = useState(false);
-  const [isLoadedArtTrend, setIsLoadedArtTrend] = useState(false);
-  const [dataArtist, setDataArtist] = useState(false);
-  const [dataType, setDataType] = useState(false);
-  const [dataTechnique, setDataTechnique] = useState(false);
-  const [dataArtTrend, setDataArtTrend] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/artists`)
-      .then((res) => {
-        setDataArtist(res.data);
-        setIsLoadedArtist(true);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/type`)
-      .then((res) => {
-        setDataType(res.data);
-        setIsLoadedType(true);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/technique`)
-      .then((res) => {
-        setDataTechnique(res.data);
-        setIsLoadedTechnique(true);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/arttrend`)
-      .then((res) => {
-        setDataArtTrend(res.data);
-        setIsLoadedArtTrend(true);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, []);
-
-  const [artist, setArtist] = useState("");
-  // console.log(artist);
-  const [type, setType] = useState("");
-  const [artTrend, setArtTrend] = useState("");
-  const [technique, setTechnique] = useState("");
-
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -98,43 +60,26 @@ function ArtworkForm2({
           </label>
           <label htmlFor="artist_name_artwork" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
-            <div>
-              {isLoadedArtist ? (
-                <select
-                  name="artist_id"
-                  id="artist-select"
-                  className={!artist ? "text-gray-400" : ""}
-                  value={artist || ""}
-                  onChange={(event) => {
-                    setArtist(event.target.value);
-                    handleInputChangeArtwork(event);
-                  }}
-                >
-                  <option value="" className={artist ? "text-gray-400" : ""}>
-                    {artist || "Artiste"}
-                  </option>
-                  {dataArtist.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.nickname}
-                    </option>
-                  ))}
-                  <option value={dataArtist.length + 1}>Autre</option>
-                </select>
-              ) : null}
-              {parseInt(artist, 10) === dataArtist.length + 1 ? (
-                <Input
-                  type="text"
-                  id="artist_name_artwork"
-                  name="artist_id"
-                  placeholder="Saisir un nom d'artiste"
-                  onChange={handleInputChangeArtwork}
-                  value={
-                    parseInt(formArtwork.artist_id, 10) ===
-                      dataArtist.length + 1 && ""
-                  }
-                />
-              ) : null}
-            </div>
+            <SelectionInput
+              handleInputChange={handleInputChangeArtwork}
+              idSelection={artist}
+              setIdSelection={setArtist}
+              isLoaded={isLoadedArtist}
+              data={dataArtist}
+              name="artist_id"
+              id="artist-select"
+              text="Artiste"
+            />
+            {parseInt(artist, 10) === dataArtist.length + 1 ? (
+              <Input
+                type="text"
+                id="artist-select"
+                name="nickname"
+                placeholder="Saisir un nom d'artiste"
+                onChange={handleInputChangeArtist}
+                value={formArtist.nickname}
+              />
+            ) : null}
           </label>
           <label htmlFor="creationYear" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Année de création</h3>
@@ -224,126 +169,76 @@ function ArtworkForm2({
           </div>
           <label htmlFor="type_artwork" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Type d'oeuvre</h3>
-            <div>
-              {isLoadedType ? (
-                <select
-                  name="type_id"
-                  id="type_artwork"
-                  className={!type ? "text-gray-400" : ""}
-                  value={type || ""}
-                  onChange={(event) => {
-                    setType(event.target.value);
-                    handleInputChangeArtwork(event);
-                  }}
-                >
-                  <option value="" className={type ? "text-gray-400" : ""}>
-                    {type || "Type"}
-                  </option>
-                  {dataType.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                  <option value={dataType.length + 1}>Autre</option>
-                </select>
-              ) : null}
-              {parseInt(type, 10) === dataType.length + 1 ? (
-                <Input
-                  type="text"
-                  id="type_artwork"
-                  name="type_id"
-                  placeholder="Type d'oeuvre"
-                  onChange={handleInputChangeArtwork}
-                  value={
-                    parseInt(formArtwork.type_id, 10) === dataType.length + 1 &&
-                    ""
-                  }
-                />
-              ) : null}
-            </div>
+            <SelectionInput
+              handleInputChange={handleInputChangeArtwork}
+              idSelection={type}
+              setIdSelection={setType}
+              isLoaded={isLoadedType}
+              data={dataType}
+              name="type_id"
+              id="type_artwork"
+              text="Type"
+            />
+            {parseInt(type, 10) === dataType.length + 1 ? (
+              <Input
+                type="text"
+                id="type_artwork"
+                name="name"
+                placeholder="Type d'oeuvre"
+                onChange={handleInputChangeType}
+                value={formType.name}
+              />
+            ) : null}
           </label>
           <label htmlFor="art_trend_artwork" className="w-[100%]">
             <h3 className="py-4 flex-nowrap text-[14px]">Courant artistique</h3>
-            <div>
-              {isLoadedArtTrend ? (
-                <select
-                  name="art_trend_id"
-                  id="art_trend_artwork"
-                  className={!artTrend ? "text-gray-400" : ""}
-                  value={artTrend || ""}
-                  onChange={(event) => {
-                    setArtTrend(event.target.value);
-                    handleInputChangeArtwork(event);
-                  }}
-                >
-                  <option value="" className={artTrend ? "text-gray-400" : ""}>
-                    {artTrend || "Courant Artistique"}
-                  </option>
-                  {dataArtTrend.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                  <option value={dataArtTrend.length + 1}>Autre</option>
-                </select>
-              ) : null}
-              {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
-                <Input
-                  type="text"
-                  id="art_trend_artwork"
-                  name="art_trend_id"
-                  placeholder="Courant artistique"
-                  onChange={handleInputChangeArtwork}
-                  value={
-                    parseInt(formArtwork.art_trend_id, 10) ===
-                      dataArtTrend.length + 1 && ""
-                  }
-                />
-              ) : null}
-            </div>
+            <SelectionInput
+              handleInputChange={handleInputChangeArtwork}
+              idSelection={artTrend}
+              setIdSelection={setArtTrend}
+              isLoaded={isLoadedArtTrend}
+              data={dataArtTrend}
+              name="art_trend_id"
+              id="art_trend_artwork"
+              text="Courant Artistique"
+            />
+            {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
+              <Input
+                type="text"
+                id="art_trend_artwork"
+                name="name"
+                placeholder="Courant artistique"
+                onChange={handleInputChangeArtTrend}
+                value={formArtTrend.name}
+              />
+            ) : null}
           </label>
         </div>
       </div>
       <div className="w-full lg:flex lg:justify-center">
         <label htmlFor="artwork_technical" className="w-[100%] lg:w-auto">
           <h3 className="py-4 text-[14px]">Technique</h3>
-          <div>
-            {isLoadedTechnique ? (
-              <select
-                name="technique_id"
-                id="artwork_technical"
-                className={!technique ? "text-gray-400" : ""}
-                value={technique || ""}
-                onChange={(event) => {
-                  setTechnique(event.target.value);
-                  handleInputChangeArtwork(event);
-                }}
-              >
-                <option value="" className={technique ? "text-gray-400" : ""}>
-                  Technique
-                </option>
-                {dataTechnique.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-                <option value={dataTechnique.length + 1}>Autre</option>
-              </select>
-            ) : null}
-            {parseInt(technique, 10) === dataTechnique.length + 1 ? (
-              <Input
-                type="text"
-                id="artwork_technical"
-                name="technique_id"
-                placeholder="Technique"
-                onChange={handleInputChangeArtwork}
-                value={
-                  parseInt(formArtwork.technique_id, 10) ===
-                    dataArtTrend.length + 1 && ""
-                }
-              />
-            ) : null}
-          </div>
+          <SelectionInput
+            handleInputChange={handleInputChangeArtwork}
+            idSelection={technique}
+            setIdSelection={setTechnique}
+            isLoaded={isLoadedTechnique}
+            data={dataTechnique}
+            name="technique_id"
+            id="artwork_technical"
+            placeholder="Technique"
+            text="Technique"
+          />
+          {parseInt(technique, 10) === dataTechnique.length + 1 ? (
+            <Input
+              type="text"
+              id="artwork_technical"
+              name="name"
+              placeholder="Technique"
+              onChange={handleInputChangeTechnique}
+              value={formTechnique.name}
+            />
+          ) : null}
         </label>
       </div>
       <div className="flex justify-between py-4 lg:justify-around">

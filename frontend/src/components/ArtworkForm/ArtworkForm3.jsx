@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
+import SelectionInput from "../SelectionInput";
 
 function ArtworkForm3({
   formArtist,
@@ -10,6 +12,18 @@ function ArtworkForm3({
   modalRef,
   prevStep,
   nextStep,
+  handleInputChangeArtTrend,
+  handleInputChangeTechnique,
+  formArtTrend,
+  formTechnique,
+  isLoadedTechnique,
+  isLoadedArtTrend,
+  dataTechnique,
+  dataArtTrend,
+  artTrend,
+  setArtTrend,
+  technique,
+  setTechnique,
 }) {
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
@@ -77,27 +91,52 @@ function ArtworkForm3({
           <label htmlFor="artist_technical" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Techniques</h3>
             <div>
-              <Input
-                type="text"
-                id="artist_technical"
-                name="artistTechnical"
+              <SelectionInput
+                handleInputChange={handleInputChangeTechnique}
+                idSelection={technique}
+                setIdSelection={setTechnique}
+                isLoaded={isLoadedTechnique}
+                data={dataTechnique}
+                name="technique_id"
+                id="artwork_technical"
                 placeholder="Technique"
-                onChange={handleInputChangeArtist}
-                value={formArtist.artistTechnical}
+                text="Technique"
               />
+              {parseInt(technique, 10) === dataTechnique.length + 1 ? (
+                <Input
+                  type="text"
+                  id="artwork_technical"
+                  name="name"
+                  placeholder="Technique"
+                  onChange={handleInputChangeTechnique}
+                  value={formTechnique.name}
+                />
+              ) : null}
             </div>
           </label>
           <label htmlFor="art_trend_artist" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Courant artistique</h3>
             <div>
-              <Input
-                type="text"
-                id="art_trend_artist"
-                name="artTrendArtist"
-                placeholder="Courant artistique"
-                onChange={handleInputChangeArtist}
-                value={formArtist.artTrendArtist}
+              <SelectionInput
+                handleInputChange={handleInputChangeArtTrend}
+                idSelection={artTrend}
+                setIdSelection={setArtTrend}
+                isLoaded={isLoadedArtTrend}
+                data={dataArtTrend}
+                name="art_trend_id"
+                id="art_trend_artwork"
+                text="Courant Artistique"
               />
+              {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
+                <Input
+                  type="text"
+                  id="art_trend_artwork"
+                  name="name"
+                  placeholder="Courant artistique"
+                  onChange={handleInputChangeArtTrend}
+                  value={formArtTrend.name}
+                />
+              ) : null}
             </div>
           </label>
           <label htmlFor="web_site" className="w-[100%]">

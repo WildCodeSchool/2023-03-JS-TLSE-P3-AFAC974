@@ -62,6 +62,14 @@ router.get("/technique", techniqueControllers.browse);
 
 router.get("/type", typeControllers.browse);
 
+// technique routes
+
+router.post("/technique", techniqueControllers.addTechnique);
+
+// art_trend routes
+
+router.post("/arttrend", artTrendControllers.addArtTrend);
+
 // --- PASSWORD NEEDED ROUTE --- //
 
 // user routes

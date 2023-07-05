@@ -12,6 +12,19 @@ const browse = (req, res) => {
     });
 };
 
+const addArtTrend = (req, res) => {
+  models.artTrend
+    .createArtTrend(req.body)
+    .then((rows) => {
+      res.status(200).send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 module.exports = {
   browse,
+  addArtTrend,
 };
