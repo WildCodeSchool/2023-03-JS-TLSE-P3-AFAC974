@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import ReactModal from "react-modal";
-import Validation from "../assets/Validation.png";
 
 function ValidationModal({
   isOpenModalValidation,
   setModalValidation,
   textValidationModal,
+  // pictureValidationModal,
 }) {
   const customModalStyles = {
     overlay: {
@@ -36,7 +36,7 @@ function ValidationModal({
       <div className="flex flex-col-reverse justify-center items-center w-full">
         <img
           className="validation-picture w-[70px] h-[70px]"
-          src={Validation}
+          // src={pictureValidationModal}
           alt="Validate"
         />
         <h1 className="font-semibold text-[20px] lg:text-[30px] py-[20px] text-center ">

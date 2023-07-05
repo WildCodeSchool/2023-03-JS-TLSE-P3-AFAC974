@@ -1,30 +1,33 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import SelectionInput from "../SelectionInput";
+import { AddArtworkContext } from "../../context/AddArtworkContext";
+import { DataProjectContext } from "../../context/DataProjectContext";
 
-function ArtworkForm3({
-  formArtist,
-  handleInputChangeArtist,
-  modalRef,
-  prevStep,
-  nextStep,
-  handleInputChangeArtTrend,
-  handleInputChangeTechnique,
-  formArtTrend,
-  formTechnique,
-  isLoadedTechnique,
-  isLoadedArtTrend,
-  dataTechnique,
-  dataArtTrend,
-  artTrend,
-  setArtTrend,
-  technique,
-  setTechnique,
-}) {
+function ArtworkForm3({ modalRef, prevStep, nextStep }) {
+  const {
+    artTrend,
+    setArtTrend,
+    technique,
+    setTechnique,
+    formArtist,
+    formTechnique,
+    formArtTrend,
+    handleInputChangeArtTrend,
+    handleInputChangeArtist,
+    handleInputChangeTechnique,
+  } = useContext(AddArtworkContext);
+  const { isLoadedTechnique, isLoadedArtTrend, dataTechnique, dataArtTrend } =
+    useContext(DataProjectContext);
+  // console.log(formArtwork);
+  // console.log(formArtist);
+  // console.log(formArtTrend);
+  // console.log(formTechnique);
+  // console.log(formType);
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -220,7 +223,6 @@ ArtworkForm3.propTypes = {
     instagram_url: PropTypes.string,
     twitter_url: PropTypes.string,
   }),
-  handleInputChangeArtist: PropTypes.func,
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
@@ -239,7 +241,6 @@ ArtworkForm3.defaultProps = {
     instagram_url: "",
     twitter_url: "",
   },
-  handleInputChangeArtist: () => {},
   modalRef: {},
   prevStep: () => {},
   nextStep: () => {},

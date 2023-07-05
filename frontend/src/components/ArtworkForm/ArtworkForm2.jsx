@@ -1,43 +1,45 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useContext } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import SelectionInput from "../SelectionInput";
+import { AddArtworkContext } from "../../context/AddArtworkContext";
+import { DataProjectContext } from "../../context/DataProjectContext";
 
-function ArtworkForm2({
-  formArtwork,
-  handleInputChangeArtwork,
-  modalRef,
-  prevStep,
-  nextStep,
-  handleInputChangeArtist,
-  handleInputChangeType,
-  handleInputChangeArtTrend,
-  handleInputChangeTechnique,
-  formArtist,
-  formType,
-  formArtTrend,
-  formTechnique,
-  isLoadedArtist,
-  isLoadedType,
-  isLoadedTechnique,
-  isLoadedArtTrend,
-  dataArtist,
-  dataType,
-  dataTechnique,
-  dataArtTrend,
-  type,
-  setType,
-  artTrend,
-  setArtTrend,
-  technique,
-  setTechnique,
-  artist,
-  setArtist,
-}) {
+function ArtworkForm2({ modalRef, prevStep, nextStep }) {
+  const {
+    artist,
+    setArtist,
+    type,
+    setType,
+    artTrend,
+    setArtTrend,
+    technique,
+    setTechnique,
+    formArtwork,
+    formArtist,
+    formType,
+    formTechnique,
+    formArtTrend,
+    handleInputChangeArtTrend,
+    handleInputChangeArtist,
+    handleInputChangeArtwork,
+    handleInputChangeTechnique,
+    handleInputChangeType,
+  } = useContext(AddArtworkContext);
+  const {
+    isLoadedArtist,
+    isLoadedType,
+    isLoadedTechnique,
+    isLoadedArtTrend,
+    dataArtist,
+    dataType,
+    dataTechnique,
+    dataArtTrend,
+  } = useContext(DataProjectContext);
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -266,7 +268,6 @@ ArtworkForm2.propTypes = {
     length_cm: PropTypes.string,
     height_cm: PropTypes.string,
   }),
-  handleInputChangeArtwork: PropTypes.func,
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
@@ -285,7 +286,6 @@ ArtworkForm2.defaultProps = {
     length_cm: "",
     height_cm: "",
   },
-  handleInputChangeArtwork: () => {},
   modalRef: {},
   prevStep: () => {},
   nextStep: () => {},

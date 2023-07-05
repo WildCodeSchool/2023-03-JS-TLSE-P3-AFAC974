@@ -64,6 +64,16 @@ const TechniqueManager = require("./TechniqueManager");
 models.technique = new TechniqueManager();
 models.technique.setDatabase(pool);
 
+const ArtistTechniqueManager = require("./ArtistTechniqueManager");
+
+models.artistTechnique = new ArtistTechniqueManager();
+models.artistTechnique.setDatabase(pool);
+
+const ArtTrendArtistManager = require("./ArtTrendArtistManager");
+
+models.artTrendArtist = new ArtTrendArtistManager();
+models.artTrendArtist.setDatabase(pool);
+
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

@@ -21,6 +21,8 @@ const userControllers = require("./controllers/userControllers");
 const artTrendControllers = require("./controllers/artTrendControllers");
 const techniqueControllers = require("./controllers/techniqueControllers");
 const typeControllers = require("./controllers/typeControllers");
+const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
+const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -62,6 +64,15 @@ router.get("/technique", techniqueControllers.browse);
 
 router.get("/type", typeControllers.browse);
 
+// artist_technique routes
+
+router.get("/artisttechnique", artistTechniqueControllers.browse);
+
+// art_trend routes
+
+router.get("/arttrendartist", artTrendArtistControllers.browse);
+
+// PENSEZ A PASSER EN PRIVER (VERIFY TOKEN)
 // technique routes
 
 router.post("/technique", techniqueControllers.addTechnique);

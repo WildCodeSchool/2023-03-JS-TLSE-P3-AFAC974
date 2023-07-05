@@ -1,18 +1,16 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import ChoosePicture from "../../assets/ChoosePicture.png";
+import { AddArtworkContext } from "../../context/AddArtworkContext";
 
-function ArtworkForm1({
-  nextStep,
-  handleInputChangeArtwork,
-  prevStep,
-  text,
-  imagePreview,
-}) {
+function ArtworkForm1({ onClickNext, onClickPrev, text, textNext, textPrev }) {
+  const { imagePreview, handleInputChangeArtwork } =
+    useContext(AddArtworkContext);
+
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div />
@@ -41,10 +39,10 @@ function ArtworkForm1({
         <h3 className="text-center w-full text-[16px]">{text}</h3>
         <div className="flex justify-between py-4 w-full lg:justify-around">
           <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
-            <GreyButton text="Annuler" onClick={prevStep} />
+            <GreyButton text={textPrev} onClick={onClickPrev} />
           </div>
           <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
-            <RedButton text="Suivant" onClick={nextStep} />
+            <RedButton text={textNext} onClick={onClickNext} />
           </div>
         </div>
       </div>
