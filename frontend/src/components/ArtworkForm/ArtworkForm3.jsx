@@ -4,25 +4,19 @@ import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
-import SelectionInput from "../SelectionInput";
 import { AddArtworkContext } from "../../context/AddArtworkContext";
 import { DataProjectContext } from "../../context/DataProjectContext";
 
 function ArtworkForm3({ modalRef, prevStep, nextStep }) {
   const {
     artTrend,
-    setArtTrend,
     technique,
-    setTechnique,
     formArtist,
     formTechnique,
     formArtTrend,
-    handleInputChangeArtTrend,
     handleInputChangeArtist,
-    handleInputChangeTechnique,
   } = useContext(AddArtworkContext);
-  const { isLoadedTechnique, isLoadedArtTrend, dataTechnique, dataArtTrend } =
-    useContext(DataProjectContext);
+  const { dataTechnique, dataArtTrend } = useContext(DataProjectContext);
   // console.log(formArtwork);
   // console.log(formArtist);
   // console.log(formArtTrend);
@@ -63,19 +57,12 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
               />
             </div>
           </label>
-          <label htmlFor="usual_name" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Nom d'usage</h3>
-            <div>
-              <Input
-                type="text"
-                id="usual_name"
-                name="nickname"
-                placeholder="Nom d'usage"
-                onChange={handleInputChangeArtist}
-                value={formArtist.nickname}
-              />
+          <div className="w-[10dvw]">
+            <h3>Nom d'usage</h3>
+            <div className="border-4 border-solid border-gray-500">
+              <p className="overflow-hidden">{formArtist.nickname}</p>
             </div>
-          </label>
+          </div>
         </div>
         <label htmlFor="artist_decription" className="w-[100%]">
           <h3 className="py-4 text-[14px]">Description</h3>
@@ -91,57 +78,26 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
           </div>
         </label>
         <div className="lg:flex lg:justify-between lg:gap-4">
-          <label htmlFor="artist_technical" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Techniques</h3>
-            <div>
-              <SelectionInput
-                handleInputChange={handleInputChangeTechnique}
-                idSelection={technique}
-                setIdSelection={setTechnique}
-                isLoaded={isLoadedTechnique}
-                data={dataTechnique}
-                name="technique_id"
-                id="artwork_technical"
-                placeholder="Technique"
-                text="Technique"
-              />
-              {parseInt(technique, 10) === dataTechnique.length + 1 ? (
-                <Input
-                  type="text"
-                  id="artwork_technical"
-                  name="name"
-                  placeholder="Technique"
-                  onChange={handleInputChangeTechnique}
-                  value={formTechnique.name}
-                />
-              ) : null}
+          <div className="w-[5dvw]">
+            <h3>Techniques</h3>
+            <div className="border-4 border-solid border-gray-600 p-3">
+              <p className="overflow-hidden text-black">
+                {formTechnique.name
+                  ? formTechnique.name
+                  : dataTechnique[technique - 1].name}
+              </p>
             </div>
-          </label>
-          <label htmlFor="art_trend_artist" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Courant artistique</h3>
-            <div>
-              <SelectionInput
-                handleInputChange={handleInputChangeArtTrend}
-                idSelection={artTrend}
-                setIdSelection={setArtTrend}
-                isLoaded={isLoadedArtTrend}
-                data={dataArtTrend}
-                name="art_trend_id"
-                id="art_trend_artwork"
-                text="Courant Artistique"
-              />
-              {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
-                <Input
-                  type="text"
-                  id="art_trend_artwork"
-                  name="name"
-                  placeholder="Courant artistique"
-                  onChange={handleInputChangeArtTrend}
-                  value={formArtTrend.name}
-                />
-              ) : null}
+          </div>
+          <div className="w-[5dvw]">
+            <h3>Courant Artistique</h3>
+            <div className="border-4 border-solid border-gray-600 p-3">
+              <p className="overflow-hidden text-black">
+                {formArtTrend.name
+                  ? formArtTrend.name
+                  : dataArtTrend[artTrend - 1].name}
+              </p>
             </div>
-          </label>
+          </div>
           <label htmlFor="web_site" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Lien site internet</h3>
             <div>

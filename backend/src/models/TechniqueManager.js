@@ -5,15 +5,14 @@ class TechniqueManager extends AbstractManager {
     super({ table: "technique" });
   }
 
-  createTechnique(techniqueArray) {
-    const insertPromises = techniqueArray.map((technique) =>
-      this.database.query(
-        `INSERT INTO ${this.table} (name) VALUES (?)`,
+  createTechnique(technique) {
+    const { name } = technique;
 
-        [technique.name]
-      )
+    return this.database.query(
+      `INSERT INTO ${this.table} (name) VALUES (?)`,
+
+      [name]
     );
-    return Promise.all(insertPromises);
   }
 }
 

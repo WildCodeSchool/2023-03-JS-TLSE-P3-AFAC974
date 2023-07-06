@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
@@ -40,6 +40,7 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
     dataTechnique,
     dataArtTrend,
   } = useContext(DataProjectContext);
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -71,6 +72,7 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
               name="artist_id"
               id="artist-select"
               text="Artiste"
+              setIsOptionSelected={setIsOptionSelected}
             />
             {parseInt(artist, 10) === dataArtist.length + 1 ? (
               <Input
@@ -248,7 +250,12 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
           <GreyButton text="Précédent" onClick={prevStep} />
         </div>
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
-          <RedButton type="submit" text="Suivant" onClick={nextStep} />
+          {!isOptionSelected ||
+          parseInt(artist, 10) === dataArtist.length + 1 ? (
+            <RedButton type="submit" text="Suivant" onClick={nextStep} />
+          ) : (
+            <RedButton type="submit" text="Submit" onClick={nextStep} />
+          )}
         </div>
       </div>
     </div>

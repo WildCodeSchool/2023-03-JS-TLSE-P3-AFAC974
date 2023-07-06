@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
@@ -10,6 +11,7 @@ function ConfirmationModal({
   textConfirmationModal,
   setStep,
   setModalValidation,
+  handleArtworkUpload,
 }) {
   const customModalStyles = {
     overlay: {
@@ -44,7 +46,13 @@ function ConfirmationModal({
             <GreyButton text="Annuler" onClick={handleCancel} />
           </div>
           <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
-            <RedButton text="Confirmer" onClick={handleSubmit} />
+            <RedButton
+              text="Confirmer"
+              onClick={() => {
+                handleSubmit();
+                handleArtworkUpload();
+              }}
+            />
           </div>
         </div>
       </div>

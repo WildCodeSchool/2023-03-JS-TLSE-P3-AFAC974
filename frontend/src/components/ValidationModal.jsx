@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import ReactModal from "react-modal";
+// import Validation from "../assets/Validation.png";
+// import Erreur from "../assets/Erreur.png";
 
 function ValidationModal({
   isOpenModalValidation,

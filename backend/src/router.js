@@ -9,7 +9,7 @@ const {
   verifyEmail,
   hashPassword,
   verifyPassword,
-  verifyToken,
+  // verifyToken,
 } = require("./auth");
 
 // controllers import
@@ -72,15 +72,6 @@ router.get("/artisttechnique", artistTechniqueControllers.browse);
 
 router.get("/arttrendartist", artTrendArtistControllers.browse);
 
-// PENSEZ A PASSER EN PRIVER (VERIFY TOKEN)
-// technique routes
-
-router.post("/technique", techniqueControllers.addTechnique);
-
-// art_trend routes
-
-router.post("/arttrend", artTrendControllers.addArtTrend);
-
 // --- PASSWORD NEEDED ROUTE --- //
 
 // user routes
@@ -89,16 +80,47 @@ router.post("/login", userControllers.login, verifyPassword);
 
 // --- TOKEN NEEDED ROUTES --- //
 
-router.use(verifyToken);
+// router.use(verifyToken);
 
 // artwork routes
 
 router.post("/artworks", upload.single("image"), artworkControllers.create);
 router.put("/artworks/:id", artworkControllers.edit);
+router.delete("/artworks/:id", artworkControllers.destroy);
 
 // user routes
 
 router.put("/users/:id", verifyEmail, userControllers.edit);
 router.delete("/users/:id", userControllers.destroy);
+
+// technique routes
+
+router.post("/technique", techniqueControllers.addTechnique);
+router.delete("/technique/:id", techniqueControllers.destroy);
+
+// art_trend routes
+
+router.post("/arttrend", artTrendControllers.addArtTrend);
+router.delete("/arttrend/:id", artTrendControllers.destroy);
+
+// artist_technique routes
+
+router.post("/artisttechnique", artistTechniqueControllers.addArtistTechnique);
+router.delete("/artisttechnique/:id", artistTechniqueControllers.destroy);
+
+// art_trend routes
+
+router.post("/arttrendartist", artTrendArtistControllers.addArtTrendArtist);
+router.delete("/arttrendartist/:id", artTrendArtistControllers.destroy);
+
+// artist_technique routes
+
+router.post("/artists", upload.single("image"), artistControllers.addArtist);
+router.delete("/artists/:id", artistControllers.destroy);
+
+// art_trend routes
+
+router.post("/type", typeControllers.addType);
+router.delete("/type/:id", typeControllers.destroy);
 
 module.exports = router;

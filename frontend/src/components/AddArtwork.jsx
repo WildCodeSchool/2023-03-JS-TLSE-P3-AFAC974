@@ -26,7 +26,17 @@ function AddArtwork({
     setFormType,
     setFormTechnique,
     setFormArtTrend,
-    setImagePreview,
+    artworkPreview,
+    setArtworkPreview,
+    artistPreview,
+    setArtistPreview,
+    setFormArtTrendArtist,
+    setFormArtistTechnique,
+    handleInputChangeArtist,
+    handleInputChangeArtwork,
+    artist,
+    artTrend,
+    technique,
   } = useContext(AddArtworkContext);
 
   // useRef is used for initialize the scroll to the top when you switch
@@ -49,14 +59,19 @@ function AddArtwork({
     setStep(1);
     setModalOpen(false);
     setModalConfirmation(true);
+    setFormArtTrendArtist({ artiste_id: artist, art_trend_id: artTrend });
+    setFormArtistTechnique({ artiste_id: artist, technique_id: technique });
   };
 
   const handleCancel = () => {
     setStep(1);
     setModalOpen(false);
-    setImagePreview("");
+    setArtworkPreview("");
+    setArtistPreview("");
     setFormArtwork({
-      image: "",
+      image_url_small: "",
+      image_url_medium: "",
+      image_url_large: "",
       name: "",
       year: "",
       description: "",
@@ -69,7 +84,9 @@ function AddArtwork({
       height_cm: "",
     });
     setFormArtist({
-      image: "",
+      image_url_small: "",
+      image_url_medium: "",
+      image_url_large: "",
       lastname: "",
       firstname: "",
       nickname: "",
@@ -82,6 +99,8 @@ function AddArtwork({
     setFormType({ name: "" });
     setFormArtTrend({ name: "" });
     setFormTechnique({ name: "" });
+    setFormArtTrendArtist({ artiste_id: "", art_trend_id: "" });
+    setFormArtistTechnique({ artiste_id: "", technique_id: "" });
   };
 
   const renderContent = () => {
@@ -96,6 +115,8 @@ function AddArtwork({
             text="Ajouter une image de l'oeuvre"
             textPrev="Annuler"
             textNext="Suivant"
+            onChange={handleInputChangeArtwork}
+            imagePreview={artworkPreview}
           />
         );
       case 2:
@@ -124,6 +145,8 @@ function AddArtwork({
             text="Ajouter une photo de l'artiste"
             textPrev="Précédent"
             textNext="Valider"
+            onChange={handleInputChangeArtist}
+            imagePreview={artistPreview}
           />
         );
       default:

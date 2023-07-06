@@ -1,16 +1,20 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import ChoosePicture from "../../assets/ChoosePicture.png";
-import { AddArtworkContext } from "../../context/AddArtworkContext";
 
-function ArtworkForm1({ onClickNext, onClickPrev, text, textNext, textPrev }) {
-  const { imagePreview, handleInputChangeArtwork } =
-    useContext(AddArtworkContext);
-
+function ArtworkForm1({
+  onClickNext,
+  onClickPrev,
+  text,
+  textNext,
+  textPrev,
+  onChange,
+  imagePreview,
+}) {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div />
@@ -19,9 +23,9 @@ function ArtworkForm1({ onClickNext, onClickPrev, text, textNext, textPrev }) {
           <Input
             type="file"
             text="Saisir l'image de l'oeuvre"
-            name="image"
+            name="image_url_medium"
             id="artwork_picture"
-            onChange={handleInputChangeArtwork}
+            onChange={onChange}
           />
         </div>
         <label

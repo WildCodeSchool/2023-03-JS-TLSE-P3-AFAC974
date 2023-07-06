@@ -9,10 +9,13 @@ export function AddArtworkProvider({ children }) {
   const [artTrend, setArtTrend] = useState("");
   const [technique, setTechnique] = useState("");
 
-  const [imagePreview, setImagePreview] = useState("");
+  const [artworkPreview, setArtworkPreview] = useState("");
+  const [artistPreview, setArtistPreview] = useState("");
 
   const [formArtwork, setFormArtwork] = useState({
-    image: "",
+    image_url_small: "",
+    image_url_medium: "",
+    image_url_large: "",
     name: "",
     year: "",
     description: "",
@@ -26,7 +29,9 @@ export function AddArtworkProvider({ children }) {
   });
 
   const [formArtist, setFormArtist] = useState({
-    image: "",
+    image_url_small: "",
+    image_url_medium: "",
+    image_url_large: "",
     lastname: "",
     firstname: "",
     nickname: "",
@@ -47,6 +52,16 @@ export function AddArtworkProvider({ children }) {
 
   const [formTechnique, setFormTechnique] = useState({
     name: "",
+  });
+
+  const [formArtistTechnique, setFormArtistTechnique] = useState({
+    artiste_id: "",
+    technique_id: "",
+  });
+
+  const [formArtTrendArtist, setFormArtTrendArtist] = useState({
+    artiste_id: "",
+    art_trend_id: "",
   });
 
   const handleInputChangeType = (event) => {
@@ -76,12 +91,12 @@ export function AddArtworkProvider({ children }) {
   const handleInputChangeArtwork = (event) => {
     const { name, value, files } = event.target;
 
-    if (name === "image") {
+    if (name === "image_url_medium") {
       const file = files[0];
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setArtworkPreview(reader.result);
       };
 
       if (file) {
@@ -98,12 +113,12 @@ export function AddArtworkProvider({ children }) {
   const handleInputChangeArtist = (event) => {
     const { name, value, files } = event.target;
 
-    if (name === "image") {
+    if (name === "image_url_medium") {
       const file = files[0];
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setArtistPreview(reader.result);
       };
 
       if (file) {
@@ -127,8 +142,10 @@ export function AddArtworkProvider({ children }) {
       setArtTrend,
       technique,
       setTechnique,
-      imagePreview,
-      setImagePreview,
+      artworkPreview,
+      setArtworkPreview,
+      artistPreview,
+      setArtistPreview,
       formArtwork,
       setFormArtwork,
       formArtist,
@@ -139,6 +156,10 @@ export function AddArtworkProvider({ children }) {
       setFormTechnique,
       formArtTrend,
       setFormArtTrend,
+      formArtTrendArtist,
+      setFormArtTrendArtist,
+      formArtistTechnique,
+      setFormArtistTechnique,
       handleInputChangeArtTrend,
       handleInputChangeArtist,
       handleInputChangeArtwork,
@@ -154,8 +175,10 @@ export function AddArtworkProvider({ children }) {
       setArtTrend,
       technique,
       setTechnique,
-      imagePreview,
-      setImagePreview,
+      artworkPreview,
+      setArtworkPreview,
+      artistPreview,
+      setArtistPreview,
       formArtwork,
       setFormArtwork,
       formArtist,
@@ -166,6 +189,10 @@ export function AddArtworkProvider({ children }) {
       setFormTechnique,
       formArtTrend,
       setFormArtTrend,
+      formArtTrendArtist,
+      setFormArtTrendArtist,
+      formArtistTechnique,
+      setFormArtistTechnique,
       handleInputChangeArtTrend,
       handleInputChangeArtist,
       handleInputChangeArtwork,

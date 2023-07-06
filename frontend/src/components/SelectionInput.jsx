@@ -11,6 +11,7 @@ function SelectionInput({
   name,
   id,
   text,
+  setIsOptionSelected,
 }) {
   return (
     <div>
@@ -23,6 +24,11 @@ function SelectionInput({
           onChange={(event) => {
             setIdSelection(event.target.value);
             handleInputChange(event);
+            if (event.target.value !== "") {
+              setIsOptionSelected(true);
+            } else {
+              setIsOptionSelected(false);
+            }
           }}
         >
           <option value="" className={idSelection ? "text-gray-400" : ""}>

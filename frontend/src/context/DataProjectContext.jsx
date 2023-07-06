@@ -89,7 +89,6 @@ export function DataProjectProvider({ children }) {
         console.error(err.message);
       });
   }, []);
-  // console.log(dataArtTrendArtist);
   const contextValue = useMemo(
     () => ({
       isLoadedArtist,

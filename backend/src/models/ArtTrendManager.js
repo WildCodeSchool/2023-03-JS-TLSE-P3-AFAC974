@@ -5,15 +5,14 @@ class ArtTrendManager extends AbstractManager {
     super({ table: "art_trend" });
   }
 
-  createArtTrend(artTrendArray) {
-    const insertPromises = artTrendArray.map((artTrend) =>
-      this.database.query(
-        `INSERT INTO ${this.table} (name) VALUES (?)`,
+  createArtTrend(artTrend) {
+    const { name } = artTrend;
 
-        [artTrend.name]
-      )
+    return this.database.query(
+      `INSERT INTO ${this.table} (name) VALUES (?)`,
+
+      [name]
     );
-    return Promise.all(insertPromises);
   }
 }
 
