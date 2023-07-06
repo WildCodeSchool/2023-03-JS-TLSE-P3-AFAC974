@@ -5,6 +5,10 @@ class UserManager extends AbstractManager {
     super({ table: "user" });
   }
 
+  findByRole() {
+    return this.database.query(`select * from ${this.table} where role = 0`);
+  }
+
   findByEmail(email) {
     return this.database.query(`select * from ${this.table} where email = ?`, [
       email,
