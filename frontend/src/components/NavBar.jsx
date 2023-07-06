@@ -20,8 +20,8 @@ function NavBar() {
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   return (
-    <div className="w-[100%] overflow-hidden">
-      <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3 ">
+    <div className="absolute w-[100%] overflow-hidden z-10">
+      <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3 shadow-[0px_-3px_15px_#333]">
         <img
           className="logo h-[35px] w-auto sm:h-[55px] "
           src={navbarLogo}
