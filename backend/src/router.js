@@ -46,6 +46,7 @@ router.get("/artists", artistControllers.browse);
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
+router.get("/findadmin", userControllers.browseAdmin);
 
 // --- PASSWORD NEEDED ROUTE --- //
 

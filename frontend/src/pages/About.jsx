@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import regularLogo from "../assets/logo_regular.png";
 
 export default function About() {
   const [isClicked, setIsClicked] = useState(false);
+  const [emailAdmin, setEmailAdmin] = useState("");
+
+  useEffect(() => {
+    try {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/findadmin`).then((res) => {
+        const data = res.data[0];
+        setEmailAdmin(data[0].email);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
-    <div className="flex flex-col justify-evenly items-center md:h-screen">
+    <div className="flex flex-col justify-evenly items-center md:mt-20md:h-screen">
       <img src={regularLogo} alt="afac_logo" className="mt-14" />
       <h2 className="font-bold my-6 text-[#275492] text-3xl drop-shadow-xl md:text-[35px]">
         Qui sommes-nous ?
@@ -92,7 +105,7 @@ export default function About() {
             demander la limitation de leur utilisation. Pour exercer ces droits
             ou pour toute question concernant notre politique de
             confidentialité, veuillez nous contacter à l'adresse{" "}
-            <u>admin@admin.com</u>. Nous nous engageons à protéger vos données
+            <u>{emailAdmin}</u>. Nous nous engageons à protéger vos données
             personnelles et à respecter vos droits conformément aux dispositions
             du RGPD.
           </p>

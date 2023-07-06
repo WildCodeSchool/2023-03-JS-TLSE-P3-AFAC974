@@ -30,6 +30,19 @@ const read = (req, res) => {
     });
 };
 
+const browseAdmin = (req, res) => {
+  const { isAdmin } = req.body;
+  models.user
+    .findByRole(isAdmin)
+    .then(([users]) => {
+      res.send([users]).status(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 const add = (req, res) => {
   let data = {};
   if (req.body.user_picture) {
@@ -129,6 +142,7 @@ const destroy = (req, res) => {
 module.exports = {
   browse,
   read,
+  browseAdmin,
   add,
   edit,
   login,
