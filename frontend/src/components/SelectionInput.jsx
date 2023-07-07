@@ -12,6 +12,8 @@ function SelectionInput({
   id,
   text,
   setIsOptionSelected,
+  handleJointureArtisteTechnique,
+  handleJointureArtisteArtTrend,
 }) {
   return (
     <div>
@@ -24,6 +26,12 @@ function SelectionInput({
           onChange={(event) => {
             setIdSelection(event.target.value);
             handleInputChange(event);
+            if (handleJointureArtisteTechnique) {
+              handleJointureArtisteTechnique(event);
+            }
+            if (handleJointureArtisteArtTrend) {
+              handleJointureArtisteArtTrend(event);
+            }
             if (event.target.value !== "") {
               setIsOptionSelected(true);
             } else {

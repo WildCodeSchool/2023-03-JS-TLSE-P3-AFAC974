@@ -14,6 +14,13 @@ class ArtistTechnique extends AbstractManager {
       [artistId, techniqueId]
     );
   }
+
+  deleteJointuretechnique(body) {
+    return this.database.query(
+      `delete from ${this.table} where artist_id = ? AND technique_id = ? `,
+      [body]
+    );
+  }
 }
 
 module.exports = ArtistTechnique;

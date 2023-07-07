@@ -24,10 +24,10 @@ const addArtistTechnique = (req, res) => {
     });
 };
 
-const destroy = (req, res) => {
-  const { id } = req.params;
+const destroyJointureTechnique = (req, res) => {
+  const { body } = req.body;
   models.artistTechnique
-    .delete(id)
+    .deleteJointuretechnique(body)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -44,5 +44,5 @@ const destroy = (req, res) => {
 module.exports = {
   browse,
   addArtistTechnique,
-  destroy,
+  destroyJointureTechnique,
 };

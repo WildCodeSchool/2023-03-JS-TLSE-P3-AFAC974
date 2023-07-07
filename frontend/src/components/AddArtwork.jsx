@@ -1,4 +1,6 @@
-import React, { useRef, useContext } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useRef, useContext, useEffect, useState } from "react";
+import axios from "axios";
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
 import ArtworkForm1 from "./ArtworkForm/ArtworkForm1";
@@ -34,9 +36,15 @@ function AddArtwork({
     setFormArtistTechnique,
     handleInputChangeArtist,
     handleInputChangeArtwork,
+    // artisteTechniqueUpload,
+    setArtisteTechniqueUpload,
+    // artTrendArtistUpload,
+    setArtTrendArtistUpload,
     artist,
     artTrend,
     technique,
+    handleJointureArtisteTechnique,
+    handleJointureArtisteArtTrend,
   } = useContext(AddArtworkContext);
 
   // useRef is used for initialize the scroll to the top when you switch
@@ -55,52 +63,154 @@ function AddArtwork({
     }
   };
 
-  const handleSubmit = () => {
-    setStep(1);
-    setModalOpen(false);
-    setModalConfirmation(true);
-    setFormArtTrendArtist({ artiste_id: artist, art_trend_id: artTrend });
-    setFormArtistTechnique({ artiste_id: artist, technique_id: technique });
-  };
-
   const handleCancel = () => {
     setStep(1);
     setModalOpen(false);
     setArtworkPreview("");
     setArtistPreview("");
     setFormArtwork({
-      image_url_small: "",
-      image_url_medium: "",
-      image_url_large: "",
       name: "",
       year: "",
       description: "",
-      art_trend_id: "",
-      type_id: "",
-      technique_id: "",
-      artist: "",
-      width_cm: "",
-      length_cm: "",
-      height_cm: "",
+      imageUrlSmall: "",
+      imageUrlMedium: "",
+      imageUrlLarge: "",
+      artTrendId: "",
+      typeId: "",
+      techniqueId: "",
+      artistId: "",
+      widthCm: "",
+      heightCm: "",
+      depthCm: "",
+      artworkLocation: "",
     });
     setFormArtist({
-      image_url_small: "",
-      image_url_medium: "",
-      image_url_large: "",
       lastname: "",
       firstname: "",
       nickname: "",
       description: "",
-      webSite_url: "",
-      facebook_url: "",
-      instagram_url: "",
-      twitter_url: "",
+      imageUrlSmall: "",
+      imageUrlMedium: "",
+      imageUrlLarge: "",
+      websiteUrl: "",
+      facebookUrl: "",
+      instagramUrl: "",
+      twitterUrl: "",
     });
     setFormType({ name: "" });
     setFormArtTrend({ name: "" });
     setFormTechnique({ name: "" });
-    setFormArtTrendArtist({ artiste_id: "", art_trend_id: "" });
-    setFormArtistTechnique({ artiste_id: "", technique_id: "" });
+    setFormArtTrendArtist({ artistId: "", artTrendId: "" });
+    setFormArtistTechnique({ artistId: "", techniqueId: "" });
+  };
+
+  const [isLoadedArtist, setIsLoadedArtist] = useState(false);
+  const [isLoadedType, setIsLoadedType] = useState(false);
+  const [isLoadedTechnique, setIsLoadedTechnique] = useState(false);
+  const [isLoadedArtTrend, setIsLoadedArtTrend] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isLoadedArtistTechnique, setIsLoadedArtistTechnique] = useState(false);
+  const [isLoadedArtTrendArtist, setIsLoadedArtTrendArtist] = useState(false);
+  const [dataArtist, setDataArtist] = useState(false);
+  const [dataType, setDataType] = useState(false);
+  const [dataTechnique, setDataTechnique] = useState(false);
+  const [dataArtTrend, setDataArtTrend] = useState(false);
+  const [dataArtistTechnique, setDataArtistTechnique] = useState(false);
+  const [dataArtTrendArtist, setDataArtTrendArtist] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artists`)
+      .then((res) => {
+        setDataArtist(res.data);
+        setIsLoadedArtist(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/type`)
+      .then((res) => {
+        setDataType(res.data);
+        setIsLoadedType(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/technique`)
+      .then((res) => {
+        setDataTechnique(res.data);
+        setIsLoadedTechnique(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend`)
+      .then((res) => {
+        setDataArtTrend(res.data);
+        setIsLoadedArtTrend(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artisttechnique`)
+      .then((res) => {
+        setDataArtistTechnique(res.data);
+        setIsLoadedArtistTechnique(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrendartist`)
+      .then((res) => {
+        setDataArtTrendArtist(res.data);
+        setIsLoadedArtTrendArtist(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  const jointureVerify = () => {
+    const foundArtTrendArtist = dataArtTrendArtist.some(
+      (item) =>
+        item.artist_id === parseInt(artist, 10) &&
+        item.art_trend_id === parseInt(artTrend, 10)
+    );
+    setArtTrendArtistUpload(foundArtTrendArtist);
+
+    const foundArtistTechnique = dataArtistTechnique.some(
+      (item) =>
+        item.artist_id === parseInt(artist, 10) &&
+        item.technique_id === parseInt(technique, 10)
+    );
+    setArtisteTechniqueUpload(foundArtistTechnique);
+  };
+
+  const handleSubmit = () => {
+    jointureVerify();
+    setStep(1);
+    setModalOpen(false);
+    setModalConfirmation(true);
   };
 
   const renderContent = () => {
@@ -122,9 +232,24 @@ function AddArtwork({
       case 2:
         return (
           <ArtworkForm2
+            jointureVerify={jointureVerify}
             modalRef={modalRef}
             prevStep={prevStep}
-            nextStep={nextStep}
+            nextStep={
+              parseInt(artist, 10) === dataArtist.length + 1
+                ? nextStep
+                : handleSubmit
+            }
+            isLoadedArtist={isLoadedArtist}
+            isLoadedType={isLoadedType}
+            isLoadedTechnique={isLoadedTechnique}
+            isLoadedArtTrend={isLoadedArtTrend}
+            dataArtist={dataArtist}
+            dataType={dataType}
+            dataTechnique={dataTechnique}
+            dataArtTrend={dataArtTrend}
+            handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
+            handleJointureArtisteTechnique={handleJointureArtisteTechnique}
           />
         );
       case 3:
@@ -133,6 +258,9 @@ function AddArtwork({
             modalRef={modalRef}
             prevStep={prevStep}
             nextStep={nextStep}
+            dataType={dataType}
+            dataTechnique={dataTechnique}
+            dataArtTrend={dataArtTrend}
           />
         );
       case 4:

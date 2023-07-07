@@ -7,9 +7,23 @@ import GreyButton from "../GreyButton";
 import Input from "../Input";
 import SelectionInput from "../SelectionInput";
 import { AddArtworkContext } from "../../context/AddArtworkContext";
-import { DataProjectContext } from "../../context/DataProjectContext";
 
-function ArtworkForm2({ modalRef, prevStep, nextStep }) {
+function ArtworkForm2({
+  modalRef,
+  prevStep,
+  nextStep,
+  isLoadedArtist,
+  isLoadedType,
+  isLoadedTechnique,
+  isLoadedArtTrend,
+  dataArtist,
+  dataType,
+  dataTechnique,
+  dataArtTrend,
+  handleJointureArtisteArtTrend,
+  handleJointureArtisteTechnique,
+  jointureVerify,
+}) {
   const {
     artist,
     setArtist,
@@ -30,17 +44,9 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
     handleInputChangeTechnique,
     handleInputChangeType,
   } = useContext(AddArtworkContext);
-  const {
-    isLoadedArtist,
-    isLoadedType,
-    isLoadedTechnique,
-    isLoadedArtTrend,
-    dataArtist,
-    dataType,
-    dataTechnique,
-    dataArtTrend,
-  } = useContext(DataProjectContext);
+
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -65,11 +71,13 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
             <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
             <SelectionInput
               handleInputChange={handleInputChangeArtwork}
+              handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
+              handleJointureArtisteTechnique={handleJointureArtisteTechnique}
               idSelection={artist}
               setIdSelection={setArtist}
               isLoaded={isLoadedArtist}
               data={dataArtist}
-              name="artist_id"
+              name="artistId"
               id="artist-select"
               text="Artiste"
               setIsOptionSelected={setIsOptionSelected}
@@ -121,34 +129,18 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
               <h3 className="py-4  w-[100%] text-[14px]">Dimensions (en cm)</h3>
               <div className="flex justify-between gap-4">
                 <label
-                  htmlFor="length_artwork"
+                  htmlFor="width_artwork"
                   className="flex justify-between items-center w-[100%] gap-2"
                 >
                   <h4 className="w-content text-[14px]">L</h4>
                   <div className="lg:w-[40px] xl:w-[50px]">
                     <Input
                       type="text"
-                      id="length_artwork"
-                      name="length_cm"
-                      placeholder=""
-                      onChange={handleInputChangeArtwork}
-                      value={formArtwork.length_cm}
-                    />
-                  </div>
-                </label>
-                <label
-                  htmlFor="width"
-                  className="flex justify-between items-center w-[100%] gap-2"
-                >
-                  <h4 className="w-content text-[14px]">l</h4>
-                  <div className="lg:w-[40px] xl:w-[50px]">
-                    <Input
-                      type="text"
                       id="width_artwork"
-                      name="width_cm"
+                      name="widthCm"
                       placeholder=""
                       onChange={handleInputChangeArtwork}
-                      value={formArtwork.width_cm}
+                      value={formArtwork.widthCm}
                     />
                   </div>
                 </label>
@@ -161,10 +153,26 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
                     <Input
                       type="text"
                       id="height_artwork"
-                      name="height_cm"
+                      name="heightCm"
                       placeholder=""
                       onChange={handleInputChangeArtwork}
-                      value={formArtwork.height_cm}
+                      value={formArtwork.heightCm}
+                    />
+                  </div>
+                </label>
+                <label
+                  htmlFor="depth_artwork"
+                  className="flex justify-between items-center w-[100%] gap-2"
+                >
+                  <h4 className="w-content text-[14px]">P</h4>
+                  <div className="lg:w-[40px] xl:w-[50px]">
+                    <Input
+                      type="text"
+                      id="depth_artwork"
+                      name="depthCm"
+                      placeholder=""
+                      onChange={handleInputChangeArtwork}
+                      value={formArtwork.depthCm}
                     />
                   </div>
                 </label>
@@ -179,9 +187,10 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
               setIdSelection={setType}
               isLoaded={isLoadedType}
               data={dataType}
-              name="type_id"
+              name="typeId"
               id="type_artwork"
               text="Type"
+              setIsOptionSelected={setIsOptionSelected}
             />
             {parseInt(type, 10) === dataType.length + 1 ? (
               <Input
@@ -198,13 +207,15 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
             <h3 className="py-4 flex-nowrap text-[14px]">Courant artistique</h3>
             <SelectionInput
               handleInputChange={handleInputChangeArtwork}
+              handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
               idSelection={artTrend}
               setIdSelection={setArtTrend}
               isLoaded={isLoadedArtTrend}
               data={dataArtTrend}
-              name="art_trend_id"
+              name="artTrendId"
               id="art_trend_artwork"
               text="Courant Artistique"
+              setIsOptionSelected={setIsOptionSelected}
             />
             {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
               <Input
@@ -219,19 +230,21 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
           </label>
         </div>
       </div>
-      <div className="w-full lg:flex lg:justify-center">
+      <div className="w-full lg:flex lg:justify-center gap-8">
         <label htmlFor="artwork_technical" className="w-[100%] lg:w-auto">
           <h3 className="py-4 text-[14px]">Technique</h3>
           <SelectionInput
             handleInputChange={handleInputChangeArtwork}
+            handleJointureArtisteTechnique={handleJointureArtisteTechnique}
             idSelection={technique}
             setIdSelection={setTechnique}
             isLoaded={isLoadedTechnique}
             data={dataTechnique}
-            name="technique_id"
+            name="techniqueId"
             id="artwork_technical"
             placeholder="Technique"
             text="Technique"
+            setIsOptionSelected={setIsOptionSelected}
           />
           {parseInt(technique, 10) === dataTechnique.length + 1 ? (
             <Input
@@ -244,6 +257,19 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
             />
           ) : null}
         </label>
+        <label htmlFor="location_artwork" className="w-[30%]">
+          <h3 className="py-4 text-[14px]">Lieu de conservation</h3>
+          <div>
+            <Input
+              type="text"
+              id="location_artwork"
+              name="artworkLocation"
+              placeholder=""
+              onChange={handleInputChangeArtwork}
+              value={formArtwork.artworkLocation}
+            />
+          </div>
+        </label>
       </div>
       <div className="flex justify-between py-4 lg:justify-around">
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
@@ -252,7 +278,15 @@ function ArtworkForm2({ modalRef, prevStep, nextStep }) {
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
           {!isOptionSelected ||
           parseInt(artist, 10) === dataArtist.length + 1 ? (
-            <RedButton type="submit" text="Suivant" onClick={nextStep} />
+            <RedButton
+              type="submit"
+              text="Suivant"
+              onClick={() => {
+                nextStep();
+                // prevPost();
+                jointureVerify();
+              }}
+            />
           ) : (
             <RedButton type="submit" text="Submit" onClick={nextStep} />
           )}

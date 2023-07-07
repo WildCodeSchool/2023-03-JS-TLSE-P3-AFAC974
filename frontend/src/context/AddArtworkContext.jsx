@@ -13,33 +13,34 @@ export function AddArtworkProvider({ children }) {
   const [artistPreview, setArtistPreview] = useState("");
 
   const [formArtwork, setFormArtwork] = useState({
-    image_url_small: "",
-    image_url_medium: "",
-    image_url_large: "",
     name: "",
     year: "",
     description: "",
-    art_trend_id: "",
-    type_id: "",
-    technique_id: "",
-    artist_id: "",
-    width_cm: "",
-    length_cm: "",
-    height_cm: "",
+    imageUrlSmall: "",
+    imageUrlMedium: "",
+    imageUrlLarge: "",
+    artTrendId: "",
+    typeId: "",
+    techniqueId: "",
+    artistId: "",
+    widthCm: "",
+    heightCm: "",
+    depthCm: "",
+    artworkLocation: "",
   });
 
   const [formArtist, setFormArtist] = useState({
-    image_url_small: "",
-    image_url_medium: "",
-    image_url_large: "",
     lastname: "",
     firstname: "",
     nickname: "",
     description: "",
-    website_url: "",
-    facebook_url: "",
-    instagram_url: "",
-    twitter_url: "",
+    imageUrlSmall: "",
+    imageUrlMedium: "",
+    imageUrlLarge: "",
+    websiteUrl: "",
+    facebookUrl: "",
+    instagramUrl: "",
+    twitterUrl: "",
   });
 
   const [formType, setFormType] = useState({
@@ -55,15 +56,30 @@ export function AddArtworkProvider({ children }) {
   });
 
   const [formArtistTechnique, setFormArtistTechnique] = useState({
-    artiste_id: "",
-    technique_id: "",
+    artistId: "",
+    techniqueId: "",
   });
 
   const [formArtTrendArtist, setFormArtTrendArtist] = useState({
-    artiste_id: "",
-    art_trend_id: "",
+    artistId: "",
+    artTrendId: "",
   });
 
+  const handleJointureArtisteTechnique = (event) => {
+    const { name, value } = event.target;
+    setFormArtistTechnique((prevFormArtistTechnique) => ({
+      ...prevFormArtistTechnique,
+      [name]: value,
+    }));
+  };
+
+  const handleJointureArtisteArtTrend = (event) => {
+    const { name, value } = event.target;
+    setFormArtTrendArtist((prevFormArtTrendArtist) => ({
+      ...prevFormArtTrendArtist,
+      [name]: value,
+    }));
+  };
   const handleInputChangeType = (event) => {
     const { value } = event.target;
     setFormType((prevFormType) => ({
@@ -109,7 +125,8 @@ export function AddArtworkProvider({ children }) {
       [name]: value,
     }));
   };
-
+  // console.log("formArtTrendArtist:", formArtTrendArtist);
+  // console.log("formArtistTechnique:", formArtistTechnique);
   const handleInputChangeArtist = (event) => {
     const { name, value, files } = event.target;
 
@@ -131,9 +148,20 @@ export function AddArtworkProvider({ children }) {
       [name]: value,
     }));
   };
+  const [artisteTechniqueUpload, setArtisteTechniqueUpload] = useState(false);
+  const [artTrendArtistUpload, setArtTrendArtistUpload] = useState(false);
+
+  // console.log("artisteTechniqueUpload:", artisteTechniqueUpload);
+  // console.log("artTrendArtistUpload:", artTrendArtistUpload);
 
   const contextValue = useMemo(
     () => ({
+      handleJointureArtisteTechnique,
+      handleJointureArtisteArtTrend,
+      artisteTechniqueUpload,
+      setArtisteTechniqueUpload,
+      artTrendArtistUpload,
+      setArtTrendArtistUpload,
       artist,
       setArtist,
       type,
@@ -167,6 +195,12 @@ export function AddArtworkProvider({ children }) {
       handleInputChangeType,
     }),
     [
+      handleJointureArtisteTechnique,
+      handleJointureArtisteArtTrend,
+      artisteTechniqueUpload,
+      setArtisteTechniqueUpload,
+      artTrendArtistUpload,
+      setArtTrendArtistUpload,
       artist,
       setArtist,
       type,

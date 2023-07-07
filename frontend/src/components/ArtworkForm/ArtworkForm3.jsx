@@ -5,9 +5,16 @@ import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import { AddArtworkContext } from "../../context/AddArtworkContext";
-import { DataProjectContext } from "../../context/DataProjectContext";
+// import { DataProjectContext } from "../../context/DataProjectContext";
 
-function ArtworkForm3({ modalRef, prevStep, nextStep }) {
+function ArtworkForm3({
+  modalRef,
+  prevStep,
+  nextStep,
+  // dataType,
+  dataTechnique,
+  dataArtTrend,
+}) {
   const {
     artTrend,
     technique,
@@ -15,13 +22,16 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
     formTechnique,
     formArtTrend,
     handleInputChangeArtist,
+    // formType,
   } = useContext(AddArtworkContext);
-  const { dataTechnique, dataArtTrend } = useContext(DataProjectContext);
+  // const { dataTechnique, dataArtTrend } = useContext(DataProjectContext);
   // console.log(formArtwork);
   // console.log(formArtist);
   // console.log(formArtTrend);
   // console.log(formTechnique);
   // console.log(formType);
+  // console.log(dataType);
+
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -104,10 +114,10 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
               <Input
                 type="url"
                 id="web_site"
-                name="website_url"
+                name="websiteUrl"
                 placeholder="Lien site internet"
                 onChange={handleInputChangeArtist}
-                value={formArtist.website_url}
+                value={formArtist.websiteUrl}
               />
             </div>
           </label>
@@ -119,10 +129,10 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
               <Input
                 type="url"
                 id="facebook"
-                name="facebook_url"
+                name="facebookUrl"
                 placeholder="Facebook"
                 onChange={handleInputChangeArtist}
-                value={formArtist.facebook_url}
+                value={formArtist.facebookUrl}
               />
             </div>
           </label>
@@ -132,10 +142,10 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
               <Input
                 type="url"
                 id="twitter"
-                name="twitter_url"
+                name="twitterUrl"
                 placeholder="Twitter"
                 onChange={handleInputChangeArtist}
-                value={formArtist.twitter_url}
+                value={formArtist.twitterUrl}
               />
             </div>
           </label>
@@ -145,10 +155,10 @@ function ArtworkForm3({ modalRef, prevStep, nextStep }) {
               <Input
                 type="url"
                 id="instagram"
-                name="instagram_url"
+                name="instagramUrl"
                 placeholder="Instagram"
                 onChange={handleInputChangeArtist}
-                value={formArtist.instagram_url}
+                value={formArtist.instagramUrl}
               />
             </div>
           </label>

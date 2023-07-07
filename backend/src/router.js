@@ -106,7 +106,10 @@ router.delete("/arttrend/:id", artTrendControllers.destroy);
 // artist_technique routes
 
 router.post("/artisttechnique", artistTechniqueControllers.addArtistTechnique);
-router.delete("/artisttechnique/:id", artistTechniqueControllers.destroy);
+router.delete(
+  "/artisttechnique/:id",
+  artistTechniqueControllers.destroyJointureTechnique
+);
 
 // art_trend routes
 
