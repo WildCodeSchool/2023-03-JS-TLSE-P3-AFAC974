@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import GalleryButton from "../components/GalleryButton";
 
 export default function Home() {
+  const bgImg = "url('../src/assets/bg_home.jpg')";
+
   return (
     <div
       className="h-screen w-[100%] relative bg-cover z-0 bg-no-repeat bg-center opacity-95"
-      style={{ backgroundImage: "url('../src/assets/bg_home.jpg')" }}
+      style={{ backgroundImage: bgImg }}
     >
       <div className="flex flex-col h-[100%] justify-center items-center gap-28 md:gap-48">
         <h1 className="font-bold mt-14 text-white text-4xl drop-shadow-[5px_5px_5px_#222] md:text-[53px] md:mt-10">
