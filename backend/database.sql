@@ -67,9 +67,11 @@ CREATE TABLE IF NOT EXISTS `artwork` (
   INDEX `fk_artwork_type1_idx` (`type_id`),
   INDEX `fk_artwork_technique1_idx` (`technique_id`),
   INDEX `fk_artwork_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artwork_type1` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`),
-  CONSTRAINT `fk_artwork_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`),
-  CONSTRAINT `fk_artwork_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
+  INDEX `fk_artwork_arttrend1_idx` (`art_trend_id`),
+  CONSTRAINT `fk_artwork_type1` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_artwork_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_artwork_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_artwork_arttrend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`) ON DELETE CASCADE
 );
 
 -- Table `entity`
@@ -108,8 +110,8 @@ CREATE TABLE IF NOT EXISTS `artwork_favorite` (
   PRIMARY KEY (`user_id`, `artwork_id`),
   INDEX `fk_user_has_artwork_artwork1_idx` (`artwork_id`),
   INDEX `fk_user_has_artwork_user1_idx` (`user_id`),
-  CONSTRAINT `fk_user_has_artwork_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `fk_user_has_artwork_artwork1` FOREIGN KEY (`artwork_id`) REFERENCES `artwork` (`id`)
+  CONSTRAINT `fk_user_has_artwork_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_has_artwork_artwork1` FOREIGN KEY (`artwork_id`) REFERENCES `artwork` (`id`) ON DELETE CASCADE
 );
 
 -- Table `artist_technique`
@@ -123,19 +125,6 @@ CREATE TABLE IF NOT EXISTS `artist_technique` (
   INDEX `fk_artist_has_technique_artist1_idx` (`artist_id`),
   CONSTRAINT `fk_artist_has_technique_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`),
   CONSTRAINT `fk_artist_has_technique_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`)
-);
-
--- Table `type_artist`
-DROP TABLE IF EXISTS `type_artist`;
-
-CREATE TABLE IF NOT EXISTS `type_artist` (
-  `artist_id` INT NOT NULL,
-  `type_id` INT NOT NULL,
-  PRIMARY KEY (`artist_id`, `type_id`),
-  INDEX `fk_artist_has_type_type1_idx` (`type_id`),
-  INDEX `fk_artist_has_type_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artist_has_type_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`),
-  CONSTRAINT `fk_artist_has_type_type1` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`)
 );
 
 -- Table `art_trend_artist`
@@ -416,17 +405,6 @@ VALUES
 
 INSERT INTO
   artist_technique (artist_id, technique_id)
-VALUES
-  (2, 2);
-
--- Table type_artist
-INSERT INTO
-  type_artist (artist_id, type_id)
-VALUES
-  (1, 1);
-
-INSERT INTO
-  type_artist (artist_id, type_id)
 VALUES
   (2, 2);
 
