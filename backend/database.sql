@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `firstname` VARCHAR(255) NOT NULL,
   `pseudo` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
+  `image` VARCHAR(255),
   `hashedPassword` VARCHAR(255) NOT NULL,
   `role` INT NOT NULL,
   `entity_id` INT NULL,
@@ -373,6 +374,27 @@ VALUES
     '$argon2id$v=19$m=65536,t=5,p=1$6F4WFjpSx9bSq9k4lp2fiQ$cjVgCHF/voka5bZI9YAainiaT+LkaQxfNN638b/h4fQ',
     2,
     1
+  );
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Istrateur',
+    'Admin',
+    'admin',
+    'admin@admin.com',
+    '$argon2id$v=19$m=65536,t=5,p=1$G/OsyV5kacbLZuo6tQKM3w$xK5B1E4vr3+xInGB5qmomg+Cpx3S46DIcdn9d5SbRYI',
+    0,
+    null
   );
 
 -- Table artwork_favorite

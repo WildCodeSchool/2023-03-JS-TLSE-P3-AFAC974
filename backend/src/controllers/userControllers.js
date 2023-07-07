@@ -1,3 +1,4 @@
+const cloudinary = require("cloudinary").v2;
 const models = require("../models");
 
 const browse = (req, res) => {
@@ -29,17 +30,60 @@ const read = (req, res) => {
     });
 };
 
-const add = (req, res) => {
-  const data = req.body;
+const browseAdmin = (req, res) => {
+  const { isAdmin } = req.body;
   models.user
-    .insert(data)
-    .then(([result]) => {
-      res.location(`/users/${result.insertId}`).sendStatus(201);
+    .findByRole(isAdmin)
+    .then(([users]) => {
+      res.send([users]).status(200);
     })
     .catch((err) => {
       console.error(err);
       res.sendStatus(500);
     });
+};
+
+const add = (req, res) => {
+  let data = {};
+  if (req.body.user_picture) {
+    const path = req.body.image_file;
+
+    let imageUrl;
+    cloudinary.uploader.upload(path, (error, result) => {
+      if (error) {
+        console.error(error);
+        res.sendStatus(500);
+      } else {
+        imageUrl = result.secure_url;
+        data = {
+          ...req.body,
+          image: imageUrl,
+        };
+        models.user
+          .insert(data)
+          .then(([response]) => {
+            res.location(`/users/${response.insertId}`).sendStatus(201);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
+      }
+    });
+  } else {
+    data = {
+      ...req.body,
+    };
+    models.user
+      .insert(data)
+      .then(([result]) => {
+        res.location(`/users/${result.insertId}`).sendStatus(201);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
+  }
 };
 
 const edit = (req, res) => {
@@ -60,13 +104,13 @@ const edit = (req, res) => {
 };
 
 const login = (req, res, next) => {
-  const email = req.body;
+  const { email } = req.body;
   models.user
     .login(email)
     .then(([users]) => {
       if (users[0] != null) {
-        req.user = [users];
-
+        // eslint-disable-next-line prefer-destructuring
+        req.user = users[0];
         next();
       } else {
         res.sendStatus(401);
@@ -98,6 +142,7 @@ const destroy = (req, res) => {
 module.exports = {
   browse,
   read,
+  browseAdmin,
   add,
   edit,
   login,

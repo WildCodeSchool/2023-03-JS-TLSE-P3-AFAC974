@@ -5,7 +5,11 @@ import frenchFlagLogo from "../assets/french_flag_logo.png";
 import englishFlagLogo from "../assets/english_flag_logo.png";
 import creoleFlagLogo from "../assets/creole_flag_logo.png";
 
-function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
+function LanguageMenu({
+  languageModalOpened,
+  setLanguageModalOpened,
+  setLanguageChosenFlag,
+}) {
   return (
     <ReactModal
       isOpen={languageModalOpened}
@@ -13,6 +17,8 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: "20",
+          backdropFilter: "blur(6px)",
         },
         content: {
           backgroundColor: "#fff",
@@ -35,6 +41,10 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
         <button
           className="w-[120px] h-[44px] flex justify-between items-center bg-gray-200 shadow-xs rounded-lg px-[8px] text-main-blue  hover:bg-[#257492] hover:text-white"
           type="button"
+          onClick={() => {
+            setLanguageChosenFlag(frenchFlagLogo);
+            setLanguageModalOpened(false);
+          }}
         >
           <p className="text-base font-semibold font-inter leading-6">
             Français
@@ -44,6 +54,10 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
         <button
           className="w-[120px] h-[44px] flex justify-between items-center bg-gray-200 shadow-xs rounded-lg px-[8px] text-main-blue  hover:bg-[#257492] hover:text-white"
           type="button"
+          onClick={() => {
+            setLanguageChosenFlag(englishFlagLogo);
+            setLanguageModalOpened(false);
+          }}
         >
           <p className="text-base font-semibold font-inter leading-6">
             English
@@ -53,6 +67,10 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
         <button
           className="w-[120px] h-[44px] flex justify-between items-center bg-gray-200 shadow-xs rounded-lg px-[8px] text-main-blue  hover:bg-[#257492] hover:text-white"
           type="button"
+          onClick={() => {
+            setLanguageChosenFlag(creoleFlagLogo);
+            setLanguageModalOpened(false);
+          }}
         >
           <p className="text-base font-semibold font-inter leading-6">Créole</p>
           <img src={creoleFlagLogo} alt="creole flag" />
@@ -65,6 +83,7 @@ function LanguageMenu({ languageModalOpened, setLanguageModalOpened }) {
 LanguageMenu.propTypes = {
   languageModalOpened: PropTypes.bool.isRequired,
   setLanguageModalOpened: PropTypes.func.isRequired,
+  setLanguageChosenFlag: PropTypes.func.isRequired,
 };
 
 export default LanguageMenu;
