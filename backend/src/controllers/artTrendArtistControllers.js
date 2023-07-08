@@ -24,15 +24,18 @@ const addArtTrendArtist = (req, res) => {
     });
 };
 
-const destroy = (req, res) => {
-  const { id } = req.params;
+const destroyJointureArtTrend = (req, res) => {
+  const filters = {
+    artist_id: req.query.artist_id,
+    art_trend_id: req.query.art_trend_id,
+  };
   models.artTrendArtist
-    .delete(id)
-    .then(([result]) => {
-      if (result.affectedRows === 0) {
+    .deleteJointureArtTrend(filters)
+    .then(([rows]) => {
+      if (rows[0] == null) {
         res.sendStatus(404);
       } else {
-        res.sendStatus(204);
+        res.send(rows);
       }
     })
     .catch((err) => {
@@ -44,5 +47,5 @@ const destroy = (req, res) => {
 module.exports = {
   browse,
   addArtTrendArtist,
-  destroy,
+  destroyJointureArtTrend,
 };

@@ -107,16 +107,19 @@ router.delete("/arttrend/:id", artTrendControllers.destroy);
 
 router.post("/artisttechnique", artistTechniqueControllers.addArtistTechnique);
 router.delete(
-  "/artisttechnique/:id",
+  "/artisttechnique",
   artistTechniqueControllers.destroyJointureTechnique
 );
 
 // art_trend routes
 
 router.post("/arttrendartist", artTrendArtistControllers.addArtTrendArtist);
-router.delete("/arttrendartist/:id", artTrendArtistControllers.destroy);
+router.delete(
+  "/arttrendartist",
+  artTrendArtistControllers.destroyJointureArtTrend
+);
 
-// artist_technique routes
+// artist routes
 
 router.post("/artists", upload.single("image"), artistControllers.addArtist);
 router.delete("/artists/:id", artistControllers.destroy);

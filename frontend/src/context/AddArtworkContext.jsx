@@ -8,13 +8,11 @@ export function AddArtworkProvider({ children }) {
   const [type, setType] = useState("");
   const [artTrend, setArtTrend] = useState("");
   const [technique, setTechnique] = useState("");
-
   const [artworkPreview, setArtworkPreview] = useState("");
   const [artistPreview, setArtistPreview] = useState("");
-
   const [formArtwork, setFormArtwork] = useState({
     name: "",
-    year: "",
+    year: 0,
     description: "",
     imageUrlSmall: "",
     imageUrlMedium: "",
@@ -23,12 +21,11 @@ export function AddArtworkProvider({ children }) {
     typeId: "",
     techniqueId: "",
     artistId: "",
-    widthCm: "",
-    heightCm: "",
-    depthCm: "",
+    widthCm: 0,
+    heightCm: 0,
+    depthCm: 0,
     artworkLocation: "",
   });
-
   const [formArtist, setFormArtist] = useState({
     lastname: "",
     firstname: "",
@@ -42,29 +39,23 @@ export function AddArtworkProvider({ children }) {
     instagramUrl: "",
     twitterUrl: "",
   });
-
   const [formType, setFormType] = useState({
     name: "",
   });
-
   const [formArtTrend, setFormArtTrend] = useState({
     name: "",
   });
-
   const [formTechnique, setFormTechnique] = useState({
     name: "",
   });
-
   const [formArtistTechnique, setFormArtistTechnique] = useState({
     artistId: "",
     techniqueId: "",
   });
-
   const [formArtTrendArtist, setFormArtTrendArtist] = useState({
     artistId: "",
     artTrendId: "",
   });
-
   const handleJointureArtisteTechnique = (event) => {
     const { name, value } = event.target;
     setFormArtistTechnique((prevFormArtistTechnique) => ({
@@ -72,7 +63,6 @@ export function AddArtworkProvider({ children }) {
       [name]: value,
     }));
   };
-
   const handleJointureArtisteArtTrend = (event) => {
     const { name, value } = event.target;
     setFormArtTrendArtist((prevFormArtTrendArtist) => ({
@@ -87,7 +77,6 @@ export function AddArtworkProvider({ children }) {
       name: value,
     }));
   };
-
   const handleInputChangeArtTrend = (event) => {
     const { value } = event.target;
     setFormArtTrend((prevFormArtTrend) => ({
@@ -95,7 +84,6 @@ export function AddArtworkProvider({ children }) {
       name: value,
     }));
   };
-
   const handleInputChangeTechnique = (event) => {
     const { value } = event.target;
     setFormTechnique((prevFormTechnique) => ({
@@ -103,7 +91,6 @@ export function AddArtworkProvider({ children }) {
       name: value,
     }));
   };
-
   const handleInputChangeArtwork = (event) => {
     const { name, value, files } = event.target;
 
@@ -120,13 +107,25 @@ export function AddArtworkProvider({ children }) {
       }
     }
 
-    setFormArtwork((prevFormArtwork) => ({
-      ...prevFormArtwork,
-      [name]: value,
-    }));
+    if (
+      name === "year" ||
+      name === "widthCm" ||
+      name === "heightCm" ||
+      name === "depthCm"
+    ) {
+      const numericValue = value.replace(/[^0-9]/g, "");
+
+      setFormArtwork((prevFormArtwork) => ({
+        ...prevFormArtwork,
+        [name]: numericValue,
+      }));
+    } else {
+      setFormArtwork((prevFormArtwork) => ({
+        ...prevFormArtwork,
+        [name]: value,
+      }));
+    }
   };
-  // console.log("formArtTrendArtist:", formArtTrendArtist);
-  // console.log("formArtistTechnique:", formArtistTechnique);
   const handleInputChangeArtist = (event) => {
     const { name, value, files } = event.target;
 
@@ -151,17 +150,10 @@ export function AddArtworkProvider({ children }) {
   const [artisteTechniqueUpload, setArtisteTechniqueUpload] = useState(false);
   const [artTrendArtistUpload, setArtTrendArtistUpload] = useState(false);
 
-  // console.log("artisteTechniqueUpload:", artisteTechniqueUpload);
-  // console.log("artTrendArtistUpload:", artTrendArtistUpload);
+  const [needToFetch, setNeedToFetch] = useState(false);
 
   const contextValue = useMemo(
     () => ({
-      handleJointureArtisteTechnique,
-      handleJointureArtisteArtTrend,
-      artisteTechniqueUpload,
-      setArtisteTechniqueUpload,
-      artTrendArtistUpload,
-      setArtTrendArtistUpload,
       artist,
       setArtist,
       type,
@@ -180,27 +172,29 @@ export function AddArtworkProvider({ children }) {
       setFormArtist,
       formType,
       setFormType,
-      formTechnique,
-      setFormTechnique,
       formArtTrend,
       setFormArtTrend,
-      formArtTrendArtist,
-      setFormArtTrendArtist,
+      formTechnique,
+      setFormTechnique,
       formArtistTechnique,
       setFormArtistTechnique,
-      handleInputChangeArtTrend,
-      handleInputChangeArtist,
-      handleInputChangeArtwork,
-      handleInputChangeTechnique,
+      formArtTrendArtist,
+      setFormArtTrendArtist,
+      handleJointureArtisteTechnique,
+      handleJointureArtisteArtTrend,
       handleInputChangeType,
+      handleInputChangeArtTrend,
+      handleInputChangeTechnique,
+      handleInputChangeArtwork,
+      handleInputChangeArtist,
+      artisteTechniqueUpload,
+      setArtisteTechniqueUpload,
+      artTrendArtistUpload,
+      setArtTrendArtistUpload,
+      needToFetch,
+      setNeedToFetch,
     }),
     [
-      handleJointureArtisteTechnique,
-      handleJointureArtisteArtTrend,
-      artisteTechniqueUpload,
-      setArtisteTechniqueUpload,
-      artTrendArtistUpload,
-      setArtTrendArtistUpload,
       artist,
       setArtist,
       type,
@@ -219,19 +213,27 @@ export function AddArtworkProvider({ children }) {
       setFormArtist,
       formType,
       setFormType,
-      formTechnique,
-      setFormTechnique,
       formArtTrend,
       setFormArtTrend,
-      formArtTrendArtist,
-      setFormArtTrendArtist,
+      formTechnique,
+      setFormTechnique,
       formArtistTechnique,
       setFormArtistTechnique,
-      handleInputChangeArtTrend,
-      handleInputChangeArtist,
-      handleInputChangeArtwork,
-      handleInputChangeTechnique,
+      formArtTrendArtist,
+      setFormArtTrendArtist,
+      handleJointureArtisteTechnique,
+      handleJointureArtisteArtTrend,
       handleInputChangeType,
+      handleInputChangeArtTrend,
+      handleInputChangeTechnique,
+      handleInputChangeArtwork,
+      handleInputChangeArtist,
+      artisteTechniqueUpload,
+      setArtisteTechniqueUpload,
+      artTrendArtistUpload,
+      setArtTrendArtistUpload,
+      needToFetch,
+      setNeedToFetch,
     ]
   );
   return (

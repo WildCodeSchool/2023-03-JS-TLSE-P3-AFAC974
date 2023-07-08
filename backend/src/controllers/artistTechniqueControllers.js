@@ -12,11 +12,19 @@ const browse = (req, res) => {
     });
 };
 
-const addArtistTechnique = (req, res) => {
+const destroyJointureTechnique = (req, res) => {
+  const filters = {
+    artist_id: req.query.artist_id,
+    technique_id: req.query.technique_id,
+  };
   models.artistTechnique
-    .createArtistTechnique(req.body)
-    .then((rows) => {
-      res.status(200).send(rows);
+    .deleteJointureTechnique(filters)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404);
+      } else {
+        res.send(rows);
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -24,16 +32,11 @@ const addArtistTechnique = (req, res) => {
     });
 };
 
-const destroyJointureTechnique = (req, res) => {
-  const { body } = req.body;
+const addArtistTechnique = (req, res) => {
   models.artistTechnique
-    .deleteJointuretechnique(body)
-    .then(([result]) => {
-      if (result.affectedRows === 0) {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(204);
-      }
+    .createArtistTechnique(req.body)
+    .then((rows) => {
+      res.status(200).send(rows);
     })
     .catch((err) => {
       console.error(err);

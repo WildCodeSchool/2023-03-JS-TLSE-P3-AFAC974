@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useRef, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import ReactModal from "react-modal";
@@ -14,6 +13,7 @@ function AddArtwork({
   step,
   setStep,
   setModalConfirmation,
+  handleCancel,
 }) {
   const customModalStyles = {
     overlay: {
@@ -23,28 +23,18 @@ function AddArtwork({
   };
 
   const {
-    setFormArtwork,
-    setFormArtist,
-    setFormType,
-    setFormTechnique,
-    setFormArtTrend,
     artworkPreview,
-    setArtworkPreview,
     artistPreview,
-    setArtistPreview,
-    setFormArtTrendArtist,
-    setFormArtistTechnique,
     handleInputChangeArtist,
     handleInputChangeArtwork,
-    // artisteTechniqueUpload,
     setArtisteTechniqueUpload,
-    // artTrendArtistUpload,
     setArtTrendArtistUpload,
     artist,
     artTrend,
     technique,
     handleJointureArtisteTechnique,
     handleJointureArtisteArtTrend,
+    needToFetch,
   } = useContext(AddArtworkContext);
 
   // useRef is used for initialize the scroll to the top when you switch
@@ -63,52 +53,10 @@ function AddArtwork({
     }
   };
 
-  const handleCancel = () => {
-    setStep(1);
-    setModalOpen(false);
-    setArtworkPreview("");
-    setArtistPreview("");
-    setFormArtwork({
-      name: "",
-      year: "",
-      description: "",
-      imageUrlSmall: "",
-      imageUrlMedium: "",
-      imageUrlLarge: "",
-      artTrendId: "",
-      typeId: "",
-      techniqueId: "",
-      artistId: "",
-      widthCm: "",
-      heightCm: "",
-      depthCm: "",
-      artworkLocation: "",
-    });
-    setFormArtist({
-      lastname: "",
-      firstname: "",
-      nickname: "",
-      description: "",
-      imageUrlSmall: "",
-      imageUrlMedium: "",
-      imageUrlLarge: "",
-      websiteUrl: "",
-      facebookUrl: "",
-      instagramUrl: "",
-      twitterUrl: "",
-    });
-    setFormType({ name: "" });
-    setFormArtTrend({ name: "" });
-    setFormTechnique({ name: "" });
-    setFormArtTrendArtist({ artistId: "", artTrendId: "" });
-    setFormArtistTechnique({ artistId: "", techniqueId: "" });
-  };
-
   const [isLoadedArtist, setIsLoadedArtist] = useState(false);
   const [isLoadedType, setIsLoadedType] = useState(false);
   const [isLoadedTechnique, setIsLoadedTechnique] = useState(false);
   const [isLoadedArtTrend, setIsLoadedArtTrend] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [isLoadedArtistTechnique, setIsLoadedArtistTechnique] = useState(false);
   const [isLoadedArtTrendArtist, setIsLoadedArtTrendArtist] = useState(false);
   const [dataArtist, setDataArtist] = useState(false);
@@ -128,7 +76,7 @@ function AddArtwork({
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  }, [needToFetch]);
 
   useEffect(() => {
     axios
@@ -140,7 +88,7 @@ function AddArtwork({
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  }, [needToFetch]);
 
   useEffect(() => {
     axios
@@ -152,7 +100,7 @@ function AddArtwork({
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  }, [needToFetch]);
 
   useEffect(() => {
     axios
@@ -164,7 +112,7 @@ function AddArtwork({
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  }, [needToFetch]);
 
   useEffect(() => {
     axios
@@ -176,7 +124,7 @@ function AddArtwork({
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  }, [needToFetch]);
 
   useEffect(() => {
     axios
@@ -188,22 +136,24 @@ function AddArtwork({
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  }, [needToFetch]);
 
   const jointureVerify = () => {
-    const foundArtTrendArtist = dataArtTrendArtist.some(
-      (item) =>
-        item.artist_id === parseInt(artist, 10) &&
-        item.art_trend_id === parseInt(artTrend, 10)
-    );
-    setArtTrendArtistUpload(foundArtTrendArtist);
+    if (isLoadedArtTrendArtist && isLoadedArtistTechnique) {
+      const foundArtTrendArtist = dataArtTrendArtist.some(
+        (item) =>
+          item.artist_id === parseInt(artist, 10) &&
+          item.art_trend_id === parseInt(artTrend, 10)
+      );
+      setArtTrendArtistUpload(foundArtTrendArtist);
 
-    const foundArtistTechnique = dataArtistTechnique.some(
-      (item) =>
-        item.artist_id === parseInt(artist, 10) &&
-        item.technique_id === parseInt(technique, 10)
-    );
-    setArtisteTechniqueUpload(foundArtistTechnique);
+      const foundArtistTechnique = dataArtistTechnique.some(
+        (item) =>
+          item.artist_id === parseInt(artist, 10) &&
+          item.technique_id === parseInt(technique, 10)
+      );
+      setArtisteTechniqueUpload(foundArtistTechnique);
+    }
   };
 
   const handleSubmit = () => {
@@ -236,7 +186,8 @@ function AddArtwork({
             modalRef={modalRef}
             prevStep={prevStep}
             nextStep={
-              parseInt(artist, 10) === dataArtist.length + 1
+              parseInt(artist, 10) ===
+              Math.max(...dataArtist.map((item) => item.id)) + 1
                 ? nextStep
                 : handleSubmit
             }
@@ -286,40 +237,10 @@ function AddArtwork({
     <div>
       <ReactModal
         isOpen={isOpen}
-        onRequestClose={() => {
-          setModalOpen(false);
-          setStep(1);
-          setFormArtwork({
-            image: "",
-            name: "",
-            year: "",
-            description: "",
-            art_trend_id: "",
-            type_id: "",
-            technique_id: "",
-            artist: "",
-            width_cm: "",
-            length_cm: "",
-            height_cm: "",
-          });
-          setFormArtist({
-            image: "",
-            lastname: "",
-            firstname: "",
-            nickname: "",
-            description: "",
-            webSite_url: "",
-            facebook_url: "",
-            instagram_url: "",
-            twitter_url: "",
-          });
-          setFormType({ name: "" });
-          setFormArtTrend({ name: "" });
-          setFormTechnique({ name: "" });
-        }}
+        onRequestClose={handleCancel}
         style={customModalStyles}
         ariaHideApp={false}
-        className="h-fit lg:h-[610px] min-h-[30vh] sm:min-h-[50vh] max-h-[80vh] lg:max-h-[70vh] w-[60vw] lg:w-[50vw] min-w-[45vw] lg:min-w-[600px] max-w-[90vw] md:max-w-[40vw] lg:max-w-[30vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
+        className="h-fit lg:h-fit min-h-[30vh] sm:min-h-[50vh] max-h-[80vh] lg:max-h-[70vh] w-[60vw] lg:w-[60vw] min-w-[45vw] lg:min-w-[600px] max-w-[90vw] md:max-w-[40vw] lg:max-w-[30vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
       >
         <form className="w-full">{renderContent()}</form>
       </ReactModal>
@@ -333,6 +254,7 @@ AddArtwork.propTypes = {
   step: PropTypes.number,
   setStep: PropTypes.func,
   setModalConfirmation: PropTypes.func,
+  handleCancel: PropTypes.func.isRequired,
 };
 
 AddArtwork.defaultProps = {

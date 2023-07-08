@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
@@ -33,9 +32,9 @@ function ArtworkForm1({
           className="flex justify-center w-full items-center cursor-pointer "
         >
           {imagePreview ? (
-            <img src={imagePreview} alt="Preview" className="w-[8vh]" />
+            <img src={imagePreview} alt="Preview" className="w-[90%]" />
           ) : (
-            <img src={ChoosePicture} alt="choose" className="w-[8vh]" />
+            <img src={ChoosePicture} alt="choose" className="w-[30%]" />
           )}
         </label>
       </div>
@@ -55,11 +54,20 @@ function ArtworkForm1({
 }
 
 ArtworkForm1.propTypes = {
+  onClickNext: PropTypes.func.isRequired,
+  onClickPrev: PropTypes.func.isRequired,
   text: PropTypes.string,
+  textNext: PropTypes.string,
+  textPrev: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  imagePreview: PropTypes.string,
 };
 
 ArtworkForm1.defaultProps = {
   text: "",
+  textNext: "Suivant",
+  textPrev: "Précédent",
+  imagePreview: "",
 };
 
 export default ArtworkForm1;

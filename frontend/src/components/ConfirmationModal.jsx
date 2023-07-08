@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 import RedButton from "./RedButton";
 import GreyButton from "./GreyButton";
+import { AddArtworkContext } from "../context/AddArtworkContext";
 
 function ConfirmationModal({
   isOpenModalConfirmation,
@@ -12,6 +12,11 @@ function ConfirmationModal({
   setStep,
   setModalValidation,
   handleArtworkUpload,
+  isLoadedArtist,
+  isLoadedType,
+  isLoadedTechnique,
+  isLoadedArtTrend,
+  handleCancel,
 }) {
   const customModalStyles = {
     overlay: {
@@ -19,15 +24,78 @@ function ConfirmationModal({
       zIndex: 1000,
     },
   };
+  const {
+    setFormArtwork,
+    setFormArtist,
+    setFormType,
+    setFormArtTrend,
+    setFormTechnique,
+    setFormArtistTechnique,
+    setFormArtTrendArtist,
+    setArtist,
+    setType,
+    setArtTrend,
+    setTechnique,
+    setArtworkPreview,
+    setArtistPreview,
+  } = useContext(AddArtworkContext);
 
-  const handleCancel = () => {
-    setStep(1);
-    setModalConfirmation(false);
-  };
   const handleSubmit = () => {
     setStep(1);
     setModalConfirmation(false);
     setModalValidation(true);
+    setFormArtwork({
+      name: "",
+      year: 0,
+      description: "",
+      imageUrlSmall: "",
+      imageUrlMedium: "",
+      imageUrlLarge: "",
+      artTrendId: "",
+      typeId: "",
+      techniqueId: "",
+      artistId: "",
+      widthCm: 0,
+      heightCm: 0,
+      depthCm: 0,
+      artworkLocation: "",
+    });
+    setFormArtist({
+      lastname: "",
+      firstname: "",
+      nickname: "",
+      description: "",
+      imageUrlSmall: "",
+      imageUrlMedium: "",
+      imageUrlLarge: "",
+      websiteUrl: "",
+      facebookUrl: "",
+      instagramUrl: "",
+      twitterUrl: "",
+    });
+    setFormType({
+      name: "",
+    });
+    setFormArtTrend({
+      name: "",
+    });
+    setFormTechnique({
+      name: "",
+    });
+    setFormArtistTechnique({
+      artistId: "",
+      techniqueId: "",
+    });
+    setFormArtTrendArtist({
+      artistId: "",
+      artTrendId: "",
+    });
+    setArtist("");
+    setType("");
+    setArtTrend("");
+    setTechnique("");
+    setArtworkPreview("");
+    setArtistPreview("");
   };
 
   return (
@@ -50,7 +118,14 @@ function ConfirmationModal({
               text="Confirmer"
               onClick={() => {
                 handleSubmit();
-                handleArtworkUpload();
+                if (
+                  isLoadedArtTrend &&
+                  isLoadedArtist &&
+                  isLoadedTechnique &&
+                  isLoadedType
+                ) {
+                  handleArtworkUpload();
+                }
               }}
             />
           </div>
@@ -66,6 +141,12 @@ ConfirmationModal.propTypes = {
   textConfirmationModal: PropTypes.string,
   setStep: PropTypes.func,
   setModalValidation: PropTypes.func,
+  handleArtworkUpload: PropTypes.func.isRequired,
+  isLoadedArtist: PropTypes.bool.isRequired,
+  isLoadedType: PropTypes.bool.isRequired,
+  isLoadedTechnique: PropTypes.bool.isRequired,
+  isLoadedArtTrend: PropTypes.bool.isRequired,
+  handleCancel: PropTypes.func.isRequired,
 };
 
 ConfirmationModal.defaultProps = {

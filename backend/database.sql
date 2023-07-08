@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `technique` (
   PRIMARY KEY (`id`)
 );
 
+
 -- Table `art_trend`
 DROP TABLE IF EXISTS `art_trend`;
 

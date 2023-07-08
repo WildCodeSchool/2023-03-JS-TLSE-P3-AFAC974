@@ -1,17 +1,14 @@
-/* eslint-disable react/prop-types */
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import { AddArtworkContext } from "../../context/AddArtworkContext";
-// import { DataProjectContext } from "../../context/DataProjectContext";
 
 function ArtworkForm3({
   modalRef,
   prevStep,
   nextStep,
-  // dataType,
   dataTechnique,
   dataArtTrend,
 }) {
@@ -22,15 +19,7 @@ function ArtworkForm3({
     formTechnique,
     formArtTrend,
     handleInputChangeArtist,
-    // formType,
   } = useContext(AddArtworkContext);
-  // const { dataTechnique, dataArtTrend } = useContext(DataProjectContext);
-  // console.log(formArtwork);
-  // console.log(formArtist);
-  // console.log(formArtTrend);
-  // console.log(formTechnique);
-  // console.log(formType);
-  // console.log(dataType);
 
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
@@ -67,10 +56,12 @@ function ArtworkForm3({
               />
             </div>
           </label>
-          <div className="w-[10dvw]">
-            <h3>Nom d'usage</h3>
-            <div className="border-4 border-solid border-gray-500">
-              <p className="overflow-hidden">{formArtist.nickname}</p>
+          <div className="w-[100%]">
+            <h3 className="py-4 text-[14px]">Nom d'usage</h3>
+            <div>
+              <p className="border-solid border-[1px] border-gray-300 rounded-[4px] p-1 w-[100%]">
+                {formArtist.nickname}
+              </p>
             </div>
           </div>
         </div>
@@ -88,20 +79,20 @@ function ArtworkForm3({
           </div>
         </label>
         <div className="lg:flex lg:justify-between lg:gap-4">
-          <div className="w-[5dvw]">
-            <h3>Techniques</h3>
-            <div className="border-4 border-solid border-gray-600 p-3">
-              <p className="overflow-hidden text-black">
+          <div className="w-[100%]">
+            <h3 className="py-4 text-[14px]">Techniques</h3>
+            <div>
+              <p className="border-solid border-[1px] border-gray-300 rounded-[4px] p-1 w-[100%]">
                 {formTechnique.name
                   ? formTechnique.name
                   : dataTechnique[technique - 1].name}
               </p>
             </div>
           </div>
-          <div className="w-[5dvw]">
-            <h3>Courant Artistique</h3>
-            <div className="border-4 border-solid border-gray-600 p-3">
-              <p className="overflow-hidden text-black">
+          <div className="w-[100%]">
+            <h3 className="py-4 text-[14px]">Courant Artistique</h3>
+            <div>
+              <p className="border-solid border-[1px] border-gray-300 rounded-[4px] p-1 w-[100%]">
                 {formArtTrend.name
                   ? formArtTrend.name
                   : dataArtTrend[artTrend - 1].name}
@@ -164,12 +155,21 @@ function ArtworkForm3({
           </label>
         </div>
       </div>
+      {!formArtist.firstname || !formArtist.lastname ? (
+        <p className="text-red-500 text-center">
+          Les champs suivis d'un * sont obligatoires.
+        </p>
+      ) : null}
       <div className="flex justify-between py-4 lg:justify-around ">
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
           <GreyButton text="Précédent" onClick={prevStep} />
         </div>
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
-          <RedButton text="Suivant" onClick={nextStep} />
+          <RedButton
+            text="Suivant"
+            onClick={nextStep}
+            disabled={!formArtist.firstname || !formArtist.lastname}
+          />
         </div>
       </div>
     </div>
@@ -177,39 +177,27 @@ function ArtworkForm3({
 }
 
 ArtworkForm3.propTypes = {
-  formArtist: PropTypes.shape({
-    lastname: PropTypes.string,
-    firstname: PropTypes.string,
-    nickname: PropTypes.string,
-    description: PropTypes.string,
-    artistTechnical: PropTypes.string,
-    artTrendArtist: PropTypes.string,
-    website_url: PropTypes.string,
-    facebook_url: PropTypes.string,
-    instagram_url: PropTypes.string,
-    twitter_url: PropTypes.string,
-  }),
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
+  dataTechnique: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  dataArtTrend: PropTypes.shape({
+    name: PropTypes.string,
+  }),
 };
 
 ArtworkForm3.defaultProps = {
-  formArtist: {
-    lastname: "",
-    firstname: "",
-    nickname: "",
-    description: "",
-    artistTechnical: "",
-    artTrendArtist: "",
-    website_url: "",
-    facebook_url: "",
-    instagram_url: "",
-    twitter_url: "",
-  },
   modalRef: {},
   prevStep: () => {},
   nextStep: () => {},
+  dataTechnique: {
+    name: "",
+  },
+  dataArtTrend: {
+    name: "",
+  },
 };
 
 export default ArtworkForm3;

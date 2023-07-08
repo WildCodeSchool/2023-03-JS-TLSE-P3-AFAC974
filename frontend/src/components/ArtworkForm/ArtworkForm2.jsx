@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-import React, { useContext, useState } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
@@ -45,8 +43,6 @@ function ArtworkForm2({
     handleInputChangeType,
   } = useContext(AddArtworkContext);
 
-  const [isOptionSelected, setIsOptionSelected] = useState(false);
-
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
       <div>
@@ -55,7 +51,7 @@ function ArtworkForm2({
       <div className="text-[16px] lg:flex flex-col lg:justify-between">
         <div className="lg:flex lg:justify-center lg:gap-4">
           <label htmlFor="artwork_name" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Nom de l'oeuvre</h3>
+            <h3 className="py-4 text-[14px]">Nom de l'oeuvre *</h3>
             <div>
               <Input
                 type="text"
@@ -68,30 +64,34 @@ function ArtworkForm2({
             </div>
           </label>
           <label htmlFor="artist_name_artwork" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
-            <SelectionInput
-              handleInputChange={handleInputChangeArtwork}
-              handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
-              handleJointureArtisteTechnique={handleJointureArtisteTechnique}
-              idSelection={artist}
-              setIdSelection={setArtist}
-              isLoaded={isLoadedArtist}
-              data={dataArtist}
-              name="artistId"
-              id="artist-select"
-              text="Artiste"
-              setIsOptionSelected={setIsOptionSelected}
-            />
-            {parseInt(artist, 10) === dataArtist.length + 1 ? (
-              <Input
-                type="text"
+            <h3 className="py-4 text-[14px]">Nom de l'artiste *</h3>
+            <div>
+              <SelectionInput
+                handleInputChange={handleInputChangeArtwork}
+                handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
+                handleJointureArtisteTechnique={handleJointureArtisteTechnique}
+                idSelection={artist}
+                setIdSelection={setArtist}
+                isLoaded={isLoadedArtist}
+                data={dataArtist}
+                name="artistId"
                 id="artist-select"
-                name="nickname"
-                placeholder="Saisir un nom d'artiste"
-                onChange={handleInputChangeArtist}
-                value={formArtist.nickname}
+                text="Artiste"
               />
-            ) : null}
+            </div>
+            <div className="mt-3">
+              {parseInt(artist, 10) ===
+              Math.max(...dataArtist.map((item) => item.id)) + 1 ? (
+                <Input
+                  type="text"
+                  id="artist-select"
+                  name="nickname"
+                  placeholder="Saisir un nom d'artiste"
+                  onChange={handleInputChangeArtist}
+                  value={formArtist.nickname}
+                />
+              ) : null}
+            </div>
           </label>
           <label htmlFor="creationYear" className="w-[100%]">
             <h3 className="py-4 text-[14px]">Année de création</h3>
@@ -102,7 +102,7 @@ function ArtworkForm2({
                 name="year"
                 placeholder="Année de création"
                 onChange={handleInputChangeArtwork}
-                value={formArtwork.year}
+                value={formArtwork.year === 0 ? "" : formArtwork.year}
               />
             </div>
           </label>
@@ -140,7 +140,9 @@ function ArtworkForm2({
                       name="widthCm"
                       placeholder=""
                       onChange={handleInputChangeArtwork}
-                      value={formArtwork.widthCm}
+                      value={
+                        formArtwork.widthCm === 0 ? "" : formArtwork.widthCm
+                      }
                     />
                   </div>
                 </label>
@@ -156,7 +158,9 @@ function ArtworkForm2({
                       name="heightCm"
                       placeholder=""
                       onChange={handleInputChangeArtwork}
-                      value={formArtwork.heightCm}
+                      value={
+                        formArtwork.heightCm === 0 ? "" : formArtwork.heightCm
+                      }
                     />
                   </div>
                 </label>
@@ -172,7 +176,9 @@ function ArtworkForm2({
                       name="depthCm"
                       placeholder=""
                       onChange={handleInputChangeArtwork}
-                      value={formArtwork.depthCm}
+                      value={
+                        formArtwork.depthCm === 0 ? "" : formArtwork.depthCm
+                      }
                     />
                   </div>
                 </label>
@@ -180,82 +186,96 @@ function ArtworkForm2({
             </div>
           </div>
           <label htmlFor="type_artwork" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Type d'oeuvre</h3>
-            <SelectionInput
-              handleInputChange={handleInputChangeArtwork}
-              idSelection={type}
-              setIdSelection={setType}
-              isLoaded={isLoadedType}
-              data={dataType}
-              name="typeId"
-              id="type_artwork"
-              text="Type"
-              setIsOptionSelected={setIsOptionSelected}
-            />
-            {parseInt(type, 10) === dataType.length + 1 ? (
-              <Input
-                type="text"
+            <h3 className="py-4 text-[14px]">Type d'oeuvre *</h3>
+            <div>
+              <SelectionInput
+                handleInputChange={handleInputChangeArtwork}
+                idSelection={type}
+                setIdSelection={setType}
+                isLoaded={isLoadedType}
+                data={dataType}
+                name="typeId"
                 id="type_artwork"
-                name="name"
-                placeholder="Type d'oeuvre"
-                onChange={handleInputChangeType}
-                value={formType.name}
+                text="Type"
               />
-            ) : null}
+            </div>
+            <div className="mt-3">
+              {parseInt(type, 10) ===
+              Math.max(...dataType.map((item) => item.id)) + 1 ? (
+                <Input
+                  type="text"
+                  id="type_artwork"
+                  name="name"
+                  placeholder="Type d'oeuvre"
+                  onChange={handleInputChangeType}
+                  value={formType.name}
+                />
+              ) : null}
+            </div>
           </label>
           <label htmlFor="art_trend_artwork" className="w-[100%]">
-            <h3 className="py-4 flex-nowrap text-[14px]">Courant artistique</h3>
-            <SelectionInput
-              handleInputChange={handleInputChangeArtwork}
-              handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
-              idSelection={artTrend}
-              setIdSelection={setArtTrend}
-              isLoaded={isLoadedArtTrend}
-              data={dataArtTrend}
-              name="artTrendId"
-              id="art_trend_artwork"
-              text="Courant Artistique"
-              setIsOptionSelected={setIsOptionSelected}
-            />
-            {parseInt(artTrend, 10) === dataArtTrend.length + 1 ? (
-              <Input
-                type="text"
+            <h3 className="py-4 flex-nowrap text-[14px]">
+              Courant artistique *
+            </h3>
+            <div>
+              <SelectionInput
+                handleInputChange={handleInputChangeArtwork}
+                handleJointureArtisteArtTrend={handleJointureArtisteArtTrend}
+                idSelection={artTrend}
+                setIdSelection={setArtTrend}
+                isLoaded={isLoadedArtTrend}
+                data={dataArtTrend}
+                name="artTrendId"
                 id="art_trend_artwork"
-                name="name"
-                placeholder="Courant artistique"
-                onChange={handleInputChangeArtTrend}
-                value={formArtTrend.name}
+                text="Courant Artistique"
               />
-            ) : null}
+            </div>
+            <div className="mt-3">
+              {parseInt(artTrend, 10) ===
+              Math.max(...dataArtTrend.map((item) => item.id)) + 1 ? (
+                <Input
+                  type="text"
+                  id="art_trend_artwork"
+                  name="name"
+                  placeholder="Courant artistique"
+                  onChange={handleInputChangeArtTrend}
+                  value={formArtTrend.name}
+                />
+              ) : null}
+            </div>
           </label>
         </div>
       </div>
       <div className="w-full lg:flex lg:justify-center gap-8">
         <label htmlFor="artwork_technical" className="w-[100%] lg:w-auto">
-          <h3 className="py-4 text-[14px]">Technique</h3>
-          <SelectionInput
-            handleInputChange={handleInputChangeArtwork}
-            handleJointureArtisteTechnique={handleJointureArtisteTechnique}
-            idSelection={technique}
-            setIdSelection={setTechnique}
-            isLoaded={isLoadedTechnique}
-            data={dataTechnique}
-            name="techniqueId"
-            id="artwork_technical"
-            placeholder="Technique"
-            text="Technique"
-            setIsOptionSelected={setIsOptionSelected}
-          />
-          {parseInt(technique, 10) === dataTechnique.length + 1 ? (
-            <Input
-              type="text"
+          <h3 className="py-4 text-[14px]">Technique *</h3>
+          <div>
+            <SelectionInput
+              handleInputChange={handleInputChangeArtwork}
+              handleJointureArtisteTechnique={handleJointureArtisteTechnique}
+              idSelection={technique}
+              setIdSelection={setTechnique}
+              isLoaded={isLoadedTechnique}
+              data={dataTechnique}
+              name="techniqueId"
               id="artwork_technical"
-              name="name"
               placeholder="Technique"
-              onChange={handleInputChangeTechnique}
-              value={formTechnique.name}
+              text="Technique"
             />
-          ) : null}
+          </div>
+          <div className="mt-3">
+            {parseInt(technique, 10) ===
+            Math.max(...dataTechnique.map((item) => item.id)) + 1 ? (
+              <Input
+                type="text"
+                id="artwork_technical"
+                name="name"
+                placeholder="Technique"
+                onChange={handleInputChangeTechnique}
+                value={formTechnique.name}
+              />
+            ) : null}
+          </div>
         </label>
         <label htmlFor="location_artwork" className="w-[30%]">
           <h3 className="py-4 text-[14px]">Lieu de conservation</h3>
@@ -271,24 +291,85 @@ function ArtworkForm2({
           </div>
         </label>
       </div>
+      {!formArtwork.name ||
+      !artist ||
+      !type ||
+      !artTrend ||
+      !technique ||
+      (!formTechnique.name &&
+        parseInt(technique, 10) ===
+          Math.max(...dataTechnique.map((item) => item.id)) + 1) ||
+      (!formArtTrend.name &&
+        parseInt(artTrend, 10) ===
+          Math.max(...dataArtTrend.map((item) => item.id)) + 1) ? (
+        <p className="text-red-500 text-center">
+          Les champs suivis d'un * sont obligatoires.
+        </p>
+      ) : null}
       <div className="flex justify-between py-4 lg:justify-around">
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
           <GreyButton text="Précédent" onClick={prevStep} />
         </div>
         <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
-          {!isOptionSelected ||
-          parseInt(artist, 10) === dataArtist.length + 1 ? (
+          {parseInt(artist, 10) ===
+            Math.max(...dataArtist.map((item) => item.id)) + 1 &&
+          technique &&
+          artTrend &&
+          formArtwork.name ? (
             <RedButton
-              type="submit"
+              type="button"
               text="Suivant"
               onClick={() => {
                 nextStep();
-                // prevPost();
                 jointureVerify();
               }}
+              disabled={
+                !formArtwork.name ||
+                !artist ||
+                !type ||
+                !artTrend ||
+                !technique ||
+                (!formTechnique.name &&
+                  parseInt(technique, 10) ===
+                    Math.max(...dataTechnique.map((item) => item.id)) + 1) ||
+                (!formArtTrend.name &&
+                  parseInt(artTrend, 10) ===
+                    Math.max(...dataArtTrend.map((item) => item.id)) + 1) ||
+                (!formArtist.nickname &&
+                  parseInt(artist, 10) ===
+                    Math.max(...dataArtist.map((item) => item.id)) + 1) ||
+                (!formType.name &&
+                  parseInt(type, 10) ===
+                    Math.max(...dataType.map((item) => item.id)) + 1)
+              }
             />
           ) : (
-            <RedButton type="submit" text="Submit" onClick={nextStep} />
+            <RedButton
+              type="submit"
+              text={
+                parseInt(artist, 10) ===
+                Math.max(...dataArtist.map((item) => item.id)) + 1
+                  ? "Suivant"
+                  : "Submit"
+              }
+              onClick={nextStep}
+              disabled={
+                !formArtwork.name ||
+                !artist ||
+                !type ||
+                !artTrend ||
+                !technique ||
+                (!formTechnique.name &&
+                  parseInt(technique, 10) ===
+                    Math.max(...dataTechnique.map((item) => item.id)) + 1) ||
+                (!formArtTrend.name &&
+                  parseInt(artTrend, 10) ===
+                    Math.max(...dataArtTrend.map((item) => item.id)) + 1) ||
+                (!formType.name &&
+                  parseInt(type, 10) ===
+                    Math.max(...dataType.map((item) => item.id)) + 1)
+              }
+            />
           )}
         </div>
       </div>
@@ -297,39 +378,74 @@ function ArtworkForm2({
 }
 
 ArtworkForm2.propTypes = {
-  formArtwork: PropTypes.shape({
-    name: PropTypes.string,
-    year: PropTypes.string,
-    description: PropTypes.string,
-    art_trend_id: PropTypes.string,
-    type_id: PropTypes.string,
-    technique_id: PropTypes.string,
-    artist_id: PropTypes.string,
-    width_cm: PropTypes.string,
-    length_cm: PropTypes.string,
-    height_cm: PropTypes.string,
-  }),
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
+  isLoadedArtist: PropTypes.bool.isRequired,
+  isLoadedType: PropTypes.bool.isRequired,
+  isLoadedTechnique: PropTypes.bool.isRequired,
+  isLoadedArtTrend: PropTypes.bool.isRequired,
+  dataArtist: PropTypes.arrayOf([
+    {
+      lastname: PropTypes.string,
+      firstname: PropTypes.string,
+      nickname: PropTypes.string,
+      description: PropTypes.string,
+      imageUrlSmall: PropTypes.string,
+      imageUrlMedium: PropTypes.string,
+      imageUrlLarge: PropTypes.string,
+      websiteUrl: PropTypes.string,
+      facebookUrl: PropTypes.string,
+      instagramUrl: PropTypes.string,
+      twitterUrl: PropTypes.string,
+    },
+  ]),
+  dataType: PropTypes.arrayOf([
+    {
+      name: PropTypes.string,
+    },
+  ]),
+  dataTechnique: PropTypes.arrayOf([
+    {
+      name: PropTypes.string,
+    },
+  ]),
+  dataArtTrend: PropTypes.arrayOf([
+    {
+      name: PropTypes.string,
+    },
+  ]),
+  handleJointureArtisteArtTrend: PropTypes.func.isRequired,
+  handleJointureArtisteTechnique: PropTypes.func.isRequired,
+  jointureVerify: PropTypes.func.isRequired,
 };
 
 ArtworkForm2.defaultProps = {
-  formArtwork: {
-    name: "",
-    year: "",
-    description: "",
-    art_trend_id: "",
-    type_id: "",
-    technique_id: "",
-    artist_id: "",
-    width_cm: "",
-    length_cm: "",
-    height_cm: "",
-  },
   modalRef: {},
   prevStep: () => {},
   nextStep: () => {},
+  dataArtist: {
+    lastname: "",
+    firstname: "",
+    nickname: "",
+    description: "",
+    imageUrlSmall: "",
+    imageUrlMedium: "",
+    imageUrlLarge: "",
+    websiteUrl: "",
+    facebookUrl: "",
+    instagramUrl: "",
+    twitterUrl: "",
+  },
+  dataType: {
+    name: "",
+  },
+  dataTechnique: {
+    name: "",
+  },
+  dataArtTrend: {
+    name: "",
+  },
 };
 
 export default ArtworkForm2;

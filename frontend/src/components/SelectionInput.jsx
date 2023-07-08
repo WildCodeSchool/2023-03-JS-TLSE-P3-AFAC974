@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -11,7 +10,6 @@ function SelectionInput({
   name,
   id,
   text,
-  setIsOptionSelected,
   handleJointureArtisteTechnique,
   handleJointureArtisteArtTrend,
 }) {
@@ -21,7 +19,9 @@ function SelectionInput({
         <select
           name={name}
           id={id}
-          className={!idSelection ? "text-gray-400" : ""}
+          className={`${
+            !idSelection ? "text-gray-400" : ""
+          } h-[34px] border-solid border-[1px] border-gray-300 rounded-[4px] p-1 w-[100%] outline-none`}
           value={idSelection || ""}
           onChange={(event) => {
             setIdSelection(event.target.value);
@@ -32,14 +32,14 @@ function SelectionInput({
             if (handleJointureArtisteArtTrend) {
               handleJointureArtisteArtTrend(event);
             }
-            if (event.target.value !== "") {
-              setIsOptionSelected(true);
-            } else {
-              setIsOptionSelected(false);
-            }
           }}
         >
-          <option value="" className={idSelection ? "text-gray-400" : ""}>
+          <option
+            value=""
+            className={`${
+              !idSelection ? "text-gray-400" : ""
+            }border-solid border-[1px] border-gray-300 rounded-[4px] p-1 w-[100%]`}
+          >
             {text}
           </option>
           {data.map((item) => (
@@ -47,7 +47,9 @@ function SelectionInput({
               {item.nickname || item.name}
             </option>
           ))}
-          <option value={data.length + 1}>Autre</option>
+          <option value={Math.max(...data.map((item) => item.id)) + 1}>
+            Autre
+          </option>
         </select>
       ) : null}
     </div>
@@ -61,6 +63,10 @@ SelectionInput.propTypes = {
   setIdSelection: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  handleJointureArtisteTechnique: PropTypes.func.isRequired,
+  handleJointureArtisteArtTrend: PropTypes.func.isRequired,
+  data: PropTypes.shape.isRequired,
 };
 
 export default SelectionInput;
