@@ -22,7 +22,7 @@ function ArtworkForm1({
           <Input
             type="file"
             text="Saisir l'image de l'oeuvre"
-            name="image_url_medium"
+            name="picture"
             id="artwork_picture"
             onChange={onChange}
           />

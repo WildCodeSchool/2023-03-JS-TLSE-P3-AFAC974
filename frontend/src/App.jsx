@@ -1,17 +1,14 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
 import Home from "./pages/Home";
 import AdminHome from "./pages/AdminHome";
 import NavBar from "./components/NavBar";
-import { AddArtworkProvider } from "./context/AddArtworkContext";
-// import { DataProjectProvider } from "./context/DataProjectContext";
+import { FormArtworkArtistProvider } from "./context/FormArtworkArtistContext";
 import "./App.css";
 
 function App() {
   return (
-    // <DataProjectProvider>
-    <AddArtworkProvider>
+    <FormArtworkArtistProvider>
       <Router>
         <div className="App">
           <NavBar />
@@ -21,8 +18,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </AddArtworkProvider>
-    // </DataProjectProvider>
+    </FormArtworkArtistProvider>
   );
 }
 

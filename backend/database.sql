@@ -123,8 +123,8 @@ CREATE TABLE IF NOT EXISTS `artist_technique` (
   PRIMARY KEY (`artist_id`, `technique_id`),
   INDEX `fk_artist_has_technique_technique1_idx` (`technique_id`),
   INDEX `fk_artist_has_technique_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artist_has_technique_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`),
-  CONSTRAINT `fk_artist_has_technique_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`)
+  CONSTRAINT `fk_artist_has_technique_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artist_has_technique_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `type_artist`
@@ -149,8 +149,8 @@ CREATE TABLE IF NOT EXISTS `art_trend_artist` (
   PRIMARY KEY (`artist_id`, `art_trend_id`),
   INDEX `fk_artist_has_art_trend_art_trend1_idx` (`art_trend_id`),
   INDEX `fk_artist_has_art_trend_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artist_has_art_trend_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`),
-  CONSTRAINT `fk_artist_has_art_trend_art_trend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`)
+  CONSTRAINT `fk_artist_has_art_trend_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artist_has_art_trend_art_trend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table type

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
-import { AddArtworkContext } from "../../context/AddArtworkContext";
+import { FormArtworkArtistContext } from "../../context/FormArtworkArtistContext";
 
 function ArtworkForm3({
   modalRef,
@@ -19,7 +19,7 @@ function ArtworkForm3({
     formTechnique,
     formArtTrend,
     handleInputChangeArtist,
-  } = useContext(AddArtworkContext);
+  } = useContext(FormArtworkArtistContext);
 
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
@@ -31,7 +31,7 @@ function ArtworkForm3({
       <div className="text-[16px] lg:flex flex-col lg:justify-between">
         <div className="lg:flex lg:justify-between lg:gap-4">
           <label htmlFor="lastname_artist" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Nom de l'artiste</h3>
+            <h3 className="py-4 text-[14px]">Nom de l'artiste *</h3>
             <div>
               <Input
                 type="text"
@@ -44,7 +44,7 @@ function ArtworkForm3({
             </div>
           </label>
           <label htmlFor="firstname_artist" className="w-[100%]">
-            <h3 className="py-4 text-[14px]">Prénom de l'artiste</h3>
+            <h3 className="py-4 text-[14px]">Prénom de l'artiste *</h3>
             <div>
               <Input
                 type="text"

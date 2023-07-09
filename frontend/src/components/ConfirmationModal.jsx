@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 import RedButton from "./RedButton";
 import GreyButton from "./GreyButton";
-import { AddArtworkContext } from "../context/AddArtworkContext";
+import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 
 function ConfirmationModal({
   isOpenModalConfirmation,
@@ -11,7 +11,7 @@ function ConfirmationModal({
   textConfirmationModal,
   setStep,
   setModalValidation,
-  handleArtworkUpload,
+  handleExecution,
   isLoadedArtist,
   isLoadedType,
   isLoadedTechnique,
@@ -38,7 +38,7 @@ function ConfirmationModal({
     setTechnique,
     setArtworkPreview,
     setArtistPreview,
-  } = useContext(AddArtworkContext);
+  } = useContext(FormArtworkArtistContext);
 
   const handleSubmit = () => {
     setStep(1);
@@ -101,6 +101,7 @@ function ConfirmationModal({
   return (
     <ReactModal
       isOpen={isOpenModalConfirmation}
+      onRequestClose={handleCancel}
       style={customModalStyles}
       ariaHideApp={false}
       className="h-fit md:h-[30vh] lg:h-[35vh] w-fit md:w-[30vw] lg:w-[30vw] lg:max-w-[25vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
@@ -114,6 +115,7 @@ function ConfirmationModal({
             <GreyButton text="Annuler" onClick={handleCancel} />
           </div>
           <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
+            {/* <form encType="multipart/form-data" > */}
             <RedButton
               text="Confirmer"
               onClick={() => {
@@ -124,10 +126,11 @@ function ConfirmationModal({
                   isLoadedTechnique &&
                   isLoadedType
                 ) {
-                  handleArtworkUpload();
+                  handleExecution();
                 }
               }}
             />
+            {/* </form> */}
           </div>
         </div>
       </div>
@@ -141,7 +144,7 @@ ConfirmationModal.propTypes = {
   textConfirmationModal: PropTypes.string,
   setStep: PropTypes.func,
   setModalValidation: PropTypes.func,
-  handleArtworkUpload: PropTypes.func.isRequired,
+  handleExecution: PropTypes.func.isRequired,
   isLoadedArtist: PropTypes.bool.isRequired,
   isLoadedType: PropTypes.bool.isRequired,
   isLoadedTechnique: PropTypes.bool.isRequired,

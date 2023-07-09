@@ -4,7 +4,7 @@ import RedButton from "../RedButton";
 import GreyButton from "../GreyButton";
 import Input from "../Input";
 import SelectionInput from "../SelectionInput";
-import { AddArtworkContext } from "../../context/AddArtworkContext";
+import { FormArtworkArtistContext } from "../../context/FormArtworkArtistContext";
 
 function ArtworkForm2({
   modalRef,
@@ -41,7 +41,7 @@ function ArtworkForm2({
     handleInputChangeArtwork,
     handleInputChangeTechnique,
     handleInputChangeType,
-  } = useContext(AddArtworkContext);
+  } = useContext(FormArtworkArtistContext);
 
   return (
     <div ref={modalRef} className="h-full flex flex-col justify-between">
@@ -77,6 +77,7 @@ function ArtworkForm2({
                 name="artistId"
                 id="artist-select"
                 text="Artiste"
+                isLoadedId
               />
             </div>
             <div className="mt-3">
@@ -197,6 +198,7 @@ function ArtworkForm2({
                 name="typeId"
                 id="type_artwork"
                 text="Type"
+                isLoadedId
               />
             </div>
             <div className="mt-3">
@@ -228,6 +230,7 @@ function ArtworkForm2({
                 name="artTrendId"
                 id="art_trend_artwork"
                 text="Courant Artistique"
+                isLoadedId
               />
             </div>
             <div className="mt-3">
@@ -261,6 +264,7 @@ function ArtworkForm2({
               id="artwork_technical"
               placeholder="Technique"
               text="Technique"
+              isLoadedId
             />
           </div>
           <div className="mt-3">
@@ -352,7 +356,10 @@ function ArtworkForm2({
                   ? "Suivant"
                   : "Submit"
               }
-              onClick={nextStep}
+              onClick={() => {
+                nextStep();
+                jointureVerify();
+              }}
               disabled={
                 !formArtwork.name ||
                 !artist ||
@@ -400,6 +407,7 @@ ArtworkForm2.propTypes = {
       twitterUrl: PropTypes.string,
     },
   ]),
+
   dataType: PropTypes.arrayOf([
     {
       name: PropTypes.string,

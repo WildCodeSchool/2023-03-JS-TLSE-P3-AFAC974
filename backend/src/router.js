@@ -42,10 +42,12 @@ const { storage } = require("./services/cloudinary");
 const upload = multer({ storage });
 
 router.get("/artworks", artworkControllers.browse);
+router.get("/artworks/:id", artworkControllers.read);
 
 // artist routes
 
 router.get("/artists", artistControllers.browse);
+router.get("/artists/:id", artistControllers.read);
 
 // user routes
 
@@ -55,14 +57,17 @@ router.get("/users/:id", userControllers.read);
 // art_trend routes
 
 router.get("/arttrend", artTrendControllers.browse);
+router.get("/arttrend/:id", artTrendControllers.read);
 
 // technique routes
 
 router.get("/technique", techniqueControllers.browse);
+router.get("/technique/:id", techniqueControllers.read);
 
 // type routes
 
 router.get("/type", typeControllers.browse);
+router.get("/type/:id", typeControllers.read);
 
 // artist_technique routes
 

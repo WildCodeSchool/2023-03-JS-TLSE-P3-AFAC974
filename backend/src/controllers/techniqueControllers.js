@@ -12,6 +12,22 @@ const browse = (req, res) => {
     });
 };
 
+const read = (req, res) => {
+  models.technique
+    .find(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404);
+      } else {
+        res.send(rows[0]);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 const addTechnique = (req, res) => {
   models.technique
     .createTechnique(req.body)
@@ -45,4 +61,5 @@ module.exports = {
   browse,
   addTechnique,
   destroy,
+  read,
 };

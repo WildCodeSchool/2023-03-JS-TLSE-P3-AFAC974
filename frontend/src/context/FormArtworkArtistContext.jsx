@@ -1,9 +1,9 @@
 import { createContext, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 
-export const AddArtworkContext = createContext();
+export const FormArtworkArtistContext = createContext();
 
-export function AddArtworkProvider({ children }) {
+export function FormArtworkArtistProvider({ children }) {
   const [artist, setArtist] = useState("");
   const [type, setType] = useState("");
   const [artTrend, setArtTrend] = useState("");
@@ -91,12 +91,14 @@ export function AddArtworkProvider({ children }) {
       name: value,
     }));
   };
-  const handleInputChangeArtwork = (event) => {
-    const { name, value, files } = event.target;
+  const [artworkPicture, setArtworkPicture] = useState("");
 
-    if (name === "image_url_medium") {
+  const uploadPictureArtwork = (event) => {
+    const { name, files } = event.target;
+    if (name === "picture") {
       const file = files[0];
       const reader = new FileReader();
+      setArtworkPicture(file);
 
       reader.onloadend = () => {
         setArtworkPreview(reader.result);
@@ -106,6 +108,10 @@ export function AddArtworkProvider({ children }) {
         reader.readAsDataURL(file);
       }
     }
+  };
+
+  const handleInputChangeArtwork = (event) => {
+    const { name, value } = event.target;
 
     if (
       name === "year" ||
@@ -129,7 +135,7 @@ export function AddArtworkProvider({ children }) {
   const handleInputChangeArtist = (event) => {
     const { name, value, files } = event.target;
 
-    if (name === "image_url_medium") {
+    if (name === "picture") {
       const file = files[0];
       const reader = new FileReader();
 
@@ -193,6 +199,8 @@ export function AddArtworkProvider({ children }) {
       setArtTrendArtistUpload,
       needToFetch,
       setNeedToFetch,
+      artworkPicture,
+      uploadPictureArtwork,
     }),
     [
       artist,
@@ -234,15 +242,17 @@ export function AddArtworkProvider({ children }) {
       setArtTrendArtistUpload,
       needToFetch,
       setNeedToFetch,
+      artworkPicture,
+      uploadPictureArtwork,
     ]
   );
   return (
-    <AddArtworkContext.Provider value={contextValue}>
+    <FormArtworkArtistContext.Provider value={contextValue}>
       {children}
-    </AddArtworkContext.Provider>
+    </FormArtworkArtistContext.Provider>
   );
 }
 
-AddArtworkProvider.propTypes = {
+FormArtworkArtistProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
