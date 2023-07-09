@@ -115,7 +115,6 @@ function ConfirmationModal({
             <GreyButton text="Annuler" onClick={handleCancel} />
           </div>
           <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
-            {/* <form encType="multipart/form-data" > */}
             <RedButton
               text="Confirmer"
               onClick={() => {
@@ -130,7 +129,6 @@ function ConfirmationModal({
                 }
               }}
             />
-            {/* </form> */}
           </div>
         </div>
       </div>

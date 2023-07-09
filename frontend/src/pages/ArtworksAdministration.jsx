@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import AddArtwork from "../components/AddArtwork";
 import ModifyArtwork from "../components/ModifyArtwork";
+// import ModifyArtist from "../components/ModifyArtist";
 import ValidationModal from "../components/ValidationModal";
 import ConfirmationModal from "../components/ConfirmationModal";
 import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
@@ -43,16 +44,37 @@ export default function ArtworksAdministration() {
   const [modalOpenAdd, setModalOpenAdd] = useState(false);
   const [modalConfirmationAdd, setModalConfirmationAdd] = useState(false);
   const [modalValidationAdd, setModalValidationAdd] = useState(false);
-  const [step, setStep] = useState(1);
   const [modalErrorAdd, setModalErrorAdd] = useState(false);
-  const [modalErrorDelete, setModalErrorDelete] = useState(false);
-  const [modalErrorModify, setModalErrorModify] = useState(false);
-  const [modalConfirmationDelete, setModalConfirmationDelete] = useState(false);
-  const [modalValidationDelete, setModalValidationDelete] = useState(false);
+
+  const [modalConfirmationDeleteArtwork, setModalConfirmationDeleteArtwork] =
+    useState(false);
+  const [modalValidationDeleteArtwork, setModalValidationDeleteArtwork] =
+    useState(false);
+  const [modalErrorDeleteArtwork, setModalErrorDeleteArtwork] = useState(false);
+
+  const [modalConfirmationDeleteArtist, setModalConfirmationDeleteArtist] =
+    useState(false);
+  const [modalValidationDeleteArtist, setModalValidationDeleteArtist] =
+    useState(false);
+  const [modalErrorDeleteArtist, setModalErrorDeleteArtist] = useState(false);
+
+  const [modalOpenModifyArtwork, setModalOpenModifyArtwork] = useState(false);
+  const [modalConfirmationModifyArtwork, setModalConfirmationModifyArtwork] =
+    useState(false);
+  const [modalValidationModifyArtwork, setModalValidationModifyArtwork] =
+    useState(false);
+  const [modalErrorModifyArtwork, setModalErrorModifyArtwork] = useState(false);
+
+  // const [modalOpenModifyArtist, setModalOpenModifyArtist] = useState(false);
+  // const [modalConfirmationModifyArtist, setModalConfirmationModifyArtist] =
+  //   useState(false);
+  // const [modalValidationModifyArtist, setModalValidationModifyArtist] =
+  //   useState(false);
+  // const [modalErrorModifyArtist, setModalErrorModifyArtist] = useState(false);
+
+  const [step, setStep] = useState(1);
+
   const [selectedArtworkId, setSelectedArtworkId] = useState(null);
-  const [modalConfirmationModify, setModalConfirmationModify] = useState(false);
-  const [modalValidationModify, setModalValidationModify] = useState(false);
-  const [modalOpenModify, setModalOpenModify] = useState(false);
   const [selectedTypeId, setSelectedTypeId] = useState(null);
   const [selectedTechniqueId, setSelectedTechniqueId] = useState(null);
   const [selectedArtTrendId, setSelectedArtTrendId] = useState(null);
@@ -62,14 +84,18 @@ export default function ArtworksAdministration() {
     setModalOpenAdd(true);
   };
 
-  const openModalModify = () => {
-    setModalOpenModify(true);
+  const openModalModifyArtwork = () => {
+    setModalOpenModifyArtwork(true);
   };
 
-  const handleCancelModify = () => {
+  // const openModalModifyArtist = () => {
+  //   setModalOpenModifyArtist(true);
+  // };
+
+  const handleCancelModifyArtwork = () => {
     setStep(1);
-    setModalOpenModify(false);
-    setModalConfirmationModify(false);
+    setModalOpenModifyArtwork(false);
+    setModalConfirmationModifyArtwork(false);
     setFormArtwork({
       name: "",
       year: 0,
@@ -89,6 +115,25 @@ export default function ArtworksAdministration() {
     setFormArtTrendArtist({ artistId: "", artTrendId: "" });
     setFormArtistTechnique({ artistId: "", techniqueId: "" });
   };
+
+  // const handleCancelModifyArtist = () => {
+  //   setStep(1);
+  //   setModalOpenModifyArtist(false);
+  //   setModalConfirmationModifyArtist(false);
+  //   setFormArtist({
+  //     lastname: "",
+  //     firstname: "",
+  //     nickname: "",
+  //     description: "",
+  //     imageUrlSmall: "",
+  //     imageUrlMedium: "",
+  //     imageUrlLarge: "",
+  //     websiteUrl: "",
+  //     facebookUrl: "",
+  //     instagramUrl: "",
+  //     twitterUrl: "",
+  //   });
+  // };
 
   const handleCancelAdd = () => {
     setStep(1);
@@ -135,8 +180,12 @@ export default function ArtworksAdministration() {
     setArtTrend("");
     setType("");
   };
-  const handleCancelDelete = () => {
-    setModalConfirmationDelete(false);
+  const handleCancelDeleteArtwork = () => {
+    setModalConfirmationDeleteArtwork(false);
+  };
+
+  const handleCancelDeleteArtist = () => {
+    setModalConfirmationDeleteArtist(false);
   };
 
   const [isLoadedArtist, setIsLoadedArtist] = useState(false);
@@ -534,12 +583,27 @@ export default function ArtworksAdministration() {
       .delete(`${import.meta.env.VITE_BACKEND_URL}/artworks/${id}`)
       .then(() => {
         setNeedToFetch(!needToFetch);
-        setModalValidationDelete(true);
+        setModalValidationDeleteArtwork(true);
       })
       .catch((error) => {
         console.error("Erreur lors de la suppression de l'oeuvre :", error);
         setNeedToFetch(!needToFetch);
-        setModalErrorDelete(true);
+        setModalErrorDeleteArtwork(true);
+        deleteError();
+      });
+  };
+
+  const handleArtistDelete = (id) => {
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`)
+      .then(() => {
+        setNeedToFetch(!needToFetch);
+        setModalValidationDeleteArtist(true);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppression de l'artiste :", error);
+        setNeedToFetch(!needToFetch);
+        setModalErrorDeleteArtist(true);
         deleteError();
       });
   };
@@ -574,10 +638,10 @@ export default function ArtworksAdministration() {
               );
             });
           setNeedToFetch(!needToFetch);
-          setModalValidationDelete(true);
+          setModalValidationDeleteArtwork(true);
         }
         setNeedToFetch(!needToFetch);
-        setModalValidationModify(true);
+        setModalValidationModifyArtwork(true);
       })
       .catch((error) => {
         console.error(
@@ -585,10 +649,56 @@ export default function ArtworksAdministration() {
           error
         );
         setNeedToFetch(!needToFetch);
-        setModalErrorModify(true);
+        setModalErrorModifyArtwork(true);
         deleteError();
       });
   };
+
+  // const handleArtistModify = (id) => {
+  //   axios
+  //     .put(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, formArtist)
+  //     .then(() => {
+  //       if (!artisteTechniqueUpload) {
+  //         axios
+  //           .post(
+  //             `${import.meta.env.VITE_BACKEND_URL}/artisttechnique`,
+  //             formArtistTechnique
+  //           )
+  //           .catch((error) => {
+  //             console.error(
+  //               "Erreur lors de l'envoi sur la jointure entre la technique et l'artiste :",
+  //               error
+  //             );
+  //           });
+  //       }
+  //       if (!artTrendArtistUpload) {
+  //         axios
+  //           .post(
+  //             `${import.meta.env.VITE_BACKEND_URL}/arttrendartist`,
+  //             formArtTrendArtist
+  //           )
+  //           .catch((error) => {
+  //             console.error(
+  //               "Erreur lors de l'envoi sur la jointure entre artTrend et artist :",
+  //               error
+  //             );
+  //           });
+  //         setNeedToFetch(!needToFetch);
+  //         setModalValidationDeleteArtwork(true);
+  //       }
+  //       setNeedToFetch(!needToFetch);
+  //       setModalValidationModifyArtwork(true);
+  //     })
+  //     .catch((error) => {
+  //       console.error(
+  //         "Erreur lors de la modification de l'oeuvre de l'oeuvre :",
+  //         error
+  //       );
+  //       setNeedToFetch(!needToFetch);
+  //       setModalErrorModifyArtwork(true);
+  //       deleteError();
+  //     });
+  // };
 
   return (
     <div>
@@ -644,7 +754,7 @@ export default function ArtworksAdministration() {
               <button
                 type="button"
                 onClick={() => {
-                  setModalConfirmationDelete(true);
+                  setModalConfirmationDeleteArtwork(true);
                   setSelectedArtworkId(item.id);
                   setNeedToFetch(!needToFetch);
                 }}
@@ -654,7 +764,7 @@ export default function ArtworksAdministration() {
               <button
                 type="button"
                 onClick={() => {
-                  openModalModify();
+                  openModalModifyArtwork();
                   setSelectedArtworkId(item.id);
                   setNeedToFetch(!needToFetch);
                   setSelectedTypeId(item.type_id);
@@ -694,36 +804,36 @@ export default function ArtworksAdministration() {
       </div>
       <ConfirmationModal
         textConfirmationModal="Voulez vous réellement supprimer cette oeuvre ?"
-        isOpenModalConfirmation={modalConfirmationDelete}
-        setModalConfirmation={setModalConfirmationDelete}
+        isOpenModalConfirmation={modalConfirmationDeleteArtwork}
+        setModalConfirmation={setModalConfirmationDeleteArtwork}
         setStep={setStep}
-        setModalValidation={setModalValidationDelete}
+        setModalValidation={setModalValidationDeleteArtwork}
         handleExecution={() => handleArtworkDelete(selectedArtworkId)}
         isLoadedArtist={isLoadedArtist}
         isLoadedType={isLoadedType}
         isLoadedTechnique={isLoadedTechnique}
         isLoadedArtTrend={isLoadedArtTrend}
-        handleCancel={handleCancelDelete}
+        handleCancel={handleCancelDeleteArtwork}
       />
       <ValidationModal
         textValidationModal="Oeuvre supprimée"
-        isOpenModalValidation={modalValidationDelete}
-        setModalValidation={setModalValidationDelete}
+        isOpenModalValidation={modalValidationDeleteArtwork}
+        setModalValidation={setModalValidationDeleteArtwork}
         pictureValidationModal={ValidationPicture}
       />
       <ValidationModal
         textValidationModal="Une erreur est survenue lors de la suppression"
-        isOpenModalValidation={modalErrorDelete}
-        setModalValidation={setModalErrorDelete}
+        isOpenModalValidation={modalErrorDeleteArtwork}
+        setModalValidation={setModalErrorDeleteArtwork}
         pictureValidationModal={ErrorPicture}
       />
       <ModifyArtwork
-        isOpen={modalOpenModify}
-        setModalOpen={setModalOpenModify}
+        isOpen={modalOpenModifyArtwork}
+        setModalOpen={setModalOpenModifyArtwork}
         step={step}
         setStep={setStep}
-        setModalConfirmation={setModalConfirmationModify}
-        handleCancel={handleCancelModify}
+        setModalConfirmation={setModalConfirmationModifyArtwork}
+        handleCancel={handleCancelModifyArtwork}
         selectedArtworkId={selectedArtworkId}
         selectedArtistId={selectedArtistId}
         selectedTypeId={selectedTypeId}
@@ -732,29 +842,133 @@ export default function ArtworksAdministration() {
       />
       <ConfirmationModal
         textConfirmationModal="Voulez vous réellement modifier cette oeuvre ?"
-        isOpenModalConfirmation={modalConfirmationModify}
-        setModalConfirmation={setModalConfirmationModify}
+        isOpenModalConfirmation={modalConfirmationModifyArtwork}
+        setModalConfirmation={setModalConfirmationModifyArtwork}
         setStep={setStep}
-        setModalValidation={setModalValidationModify}
+        setModalValidation={setModalValidationModifyArtwork}
         handleExecution={() => handleArtworkModify(selectedArtworkId)}
         isLoadedArtist={isLoadedArtist}
         isLoadedType={isLoadedType}
         isLoadedTechnique={isLoadedTechnique}
         isLoadedArtTrend={isLoadedArtTrend}
-        handleCancel={handleCancelModify}
+        handleCancel={handleCancelModifyArtwork}
       />
       <ValidationModal
         textValidationModal="Oeuvre modifiée"
-        isOpenModalValidation={modalValidationModify}
-        setModalValidation={setModalValidationModify}
+        isOpenModalValidation={modalValidationModifyArtwork}
+        setModalValidation={setModalValidationModifyArtwork}
         pictureValidationModal={ValidationPicture}
       />
       <ValidationModal
         textValidationModal="Une erreur est survenue lors de la modification"
-        isOpenModalValidation={modalErrorModify}
-        setModalValidation={setModalErrorModify}
+        isOpenModalValidation={modalErrorModifyArtwork}
+        setModalValidation={setModalErrorModifyArtwork}
         pictureValidationModal={ErrorPicture}
       />
+      <div className="flex justify-center gap-10">
+        {isLoadedArtist &&
+          dataArtist.map((item) => (
+            <div key={item.id} className="flex flex-col">
+              <p className="border-solid border-2 border-black">
+                {item.nickname}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setModalConfirmationDeleteArtist(true);
+                  setSelectedArtistId(item.id);
+                  setNeedToFetch(!needToFetch);
+                }}
+              >
+                Delete
+              </button>
+              {/* <button
+                type="button"
+                onClick={() => {
+                  openModalModifyArtist();
+                  setNeedToFetch(!needToFetch);
+                  setFormArtist({
+                    lastname: item.lastname,
+                    firstname: item.firstname,
+                    nickname: item.nickname,
+                    description: item.description,
+                    imageUrlSmall: item.image_url_small,
+                    imageUrlMedium: item.image_url_medium,
+                    imageUrlLarge: item.image_url_large,
+                    websiteUrl: item.web_site_url,
+                    facebookUrl: item.facebook_url,
+                    instagramUrl: item.instagram_url,
+                    twitterUrl: item.twitter_url,
+                  });
+                }}
+              >
+                Modify
+              </button> */}
+            </div>
+          ))}
+      </div>
+      <ConfirmationModal
+        textConfirmationModal="Voulez vous réellement supprimer cet artiste ?"
+        isOpenModalConfirmation={modalConfirmationDeleteArtist}
+        setModalConfirmation={setModalConfirmationDeleteArtist}
+        setStep={setStep}
+        setModalValidation={setModalValidationDeleteArtist}
+        handleExecution={() => handleArtistDelete(selectedArtistId)}
+        isLoadedArtist={isLoadedArtist}
+        handleCancel={handleCancelDeleteArtist}
+        isLoadedType={isLoadedType}
+        isLoadedTechnique={isLoadedTechnique}
+        isLoadedArtTrend={isLoadedArtTrend}
+      />
+      <ValidationModal
+        textValidationModal="Artiste supprimé"
+        isOpenModalValidation={modalValidationDeleteArtist}
+        setModalValidation={setModalValidationDeleteArtist}
+        pictureValidationModal={ValidationPicture}
+      />
+      <ValidationModal
+        textValidationModal="Une erreur est survenue lors de la suppression"
+        isOpenModalValidation={modalErrorDeleteArtist}
+        setModalValidation={setModalErrorDeleteArtist}
+        pictureValidationModal={ErrorPicture}
+      />
+      {/* <ModifyArtist
+        isOpen={modalOpenModifyArtist}
+        setModalOpen={setModalOpenModifyArtist}
+        step={step}
+        setStep={setStep}
+        setModalConfirmation={setModalConfirmationModifyArtist}
+        handleCancel={handleCancelModifyArtist}
+        selectedArtistId={selectedArtistId}
+        selectedTypeId={selectedTypeId}
+        selectedTechniqueId={selectedTechniqueId}
+        selectedArtTrendId={selectedArtTrendId}
+      />
+      <ConfirmationModal
+        textConfirmationModal="Voulez vous réellement modifier cette oeuvre ?"
+        isOpenModalConfirmation={modalConfirmationModifyArtist}
+        setModalConfirmation={setModalConfirmationModifyArtist}
+        setStep={setStep}
+        setModalValidation={setModalValidationModifyArtist}
+        handleExecution={() => handleArtistModify(selectedArtistId)}
+        isLoadedArtist={isLoadedArtist}
+        isLoadedType={isLoadedType}
+        isLoadedTechnique={isLoadedTechnique}
+        isLoadedArtTrend={isLoadedArtTrend}
+        handleCancel={handleCancelModifyArtist}
+      />
+      <ValidationModal
+        textValidationModal="Oeuvre modifiée"
+        isOpenModalValidation={modalValidationModifyArtist}
+        setModalValidation={setModalValidationModifyArtist}
+        pictureValidationModal={ValidationPicture}
+      />
+      <ValidationModal
+        textValidationModal="Une erreur est survenue lors de la modification"
+        isOpenModalValidation={modalErrorModifyArtist}
+        setModalValidation={setModalErrorModifyArtist}
+        pictureValidationModal={ErrorPicture}
+      /> */}
     </div>
   );
 }

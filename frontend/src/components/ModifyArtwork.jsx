@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
-import ArtworkFormModify from "./ArtworkFormModify/ArtworkFormModify";
+import ArtworkFormModify from "./FormModify/ArtworkFormModify";
 import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 
 function ModifyArtwork({

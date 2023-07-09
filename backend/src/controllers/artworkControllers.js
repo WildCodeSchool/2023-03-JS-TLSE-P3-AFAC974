@@ -1,4 +1,3 @@
-// const cloudinary = require("cloudinary").v2;
 const models = require("../models");
 
 const browse = (req, res) => {
@@ -30,58 +29,6 @@ const read = (req, res) => {
 };
 
 const create = (req, res) => {
-  // const {
-  //   name,
-  //   year,
-  //   description,
-  //   artTrendId,
-  //   typeId,
-  //   techniqueId,
-  //   artistId,
-  //   widthCm,
-  //   heightCm,
-  //   depthCm,
-  //   artworkLocation,
-  // } = req.body;
-
-  // const { path } = req.file;
-
-  // cloudinary.uploader.upload(path, (error, result) => {
-  //   if (error) {
-  //     console.error(error);
-  //     res.sendStatus(500);
-  //   } else {
-  //     const { secure_url: imageUrl, width, height } = result;
-
-  //     let imageUrlSmall;
-  //     let imageUrlMedium;
-  //     let imageUrlLarge;
-
-  //     if (width <= 100 && height <= 100) {
-  //       imageUrlSmall = imageUrl;
-  //     } else if (width <= 500 && height <= 500) {
-  //       imageUrlMedium = imageUrl;
-  //     } else {
-  //       imageUrlLarge = imageUrl;
-  //     }
-
-  // const artwork = {
-  //   name,
-  //   year,
-  //   description,
-  //   imageUrlSmall,
-  //   imageUrlMedium,
-  //   imageUrlLarge,
-  //   artTrendId,
-  //   typeId,
-  //   techniqueId,
-  //   artistId,
-  //   widthCm,
-  //   heightCm,
-  //   depthCm,
-  //   artworkLocation,
-  // };
-
   models.artwork
     .createArtwork(req.body)
     .then((rows) => {
@@ -92,8 +39,6 @@ const create = (req, res) => {
       res.sendStatus(500);
     });
 };
-//   });
-// };
 
 const edit = (req, res) => {
   const { id } = req.params;
