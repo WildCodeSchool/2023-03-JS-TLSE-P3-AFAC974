@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import UserCard from "./UserCard";
 import SortBy from "./SortBy";
@@ -79,9 +80,9 @@ function UsersDisplay() {
           </div>
           <p>Gestion des utilisateurs</p>
         </div>
-        <div>
-          <p className="hidden md:block mx-[70px]">Bouton retour</p>
-        </div>
+        <Link to="/admin" className="hidden md:block mx-[70px]">
+          Bouton retour
+        </Link>
       </div>
       <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:w-[100%] items-center sm:px-[100px]">
         <SortBy handleChange={handleChange} />
