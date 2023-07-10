@@ -17,8 +17,18 @@ function UsersDisplay() {
     let sortedData = [...data];
     if (searchTerm) {
       sortedData = sortedData.filter((item) => {
-        if (item.lastname && typeof item.lastname === "string") {
-          return item.lastname.toLowerCase().includes(searchTerm.toLowerCase());
+        if (
+          (item.lastname &&
+            typeof item.lastname === "string" &&
+            item.lastname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (item.firstname &&
+            typeof item.firstname === "string" &&
+            item.firstname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (item.pseudo &&
+            typeof item.pseudo === "string" &&
+            item.pseudo.toLowerCase().includes(searchTerm.toLowerCase()))
+        ) {
+          return true;
         }
         return false;
       });
