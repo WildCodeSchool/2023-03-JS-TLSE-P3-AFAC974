@@ -1,10 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
 import Modal from "react-modal";
 import Home from "./pages/Home";
@@ -17,7 +12,6 @@ import "./App.css";
 
 Modal.setAppElement("#root");
 function App() {
-  const { artworkId } = useParams();
   return (
     <Router>
       <div className="App">
@@ -26,7 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path={`/gallery/:${artworkId}`} element={<Artwork />} />
+          <Route path="/gallery/:artworkId" element={<Artwork />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>

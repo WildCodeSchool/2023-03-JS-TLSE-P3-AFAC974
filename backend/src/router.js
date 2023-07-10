@@ -37,10 +37,12 @@ const { storage } = require("./services/cloudinary");
 const upload = multer({ storage });
 
 router.get("/artworks", artworkControllers.browse);
+router.get("/artworks/:id", artworkControllers.read);
 
 // artist routes
 
 router.get("/artists", artistControllers.browse);
+router.get("/artists/:id", artistControllers.read);
 
 // user routes
 
