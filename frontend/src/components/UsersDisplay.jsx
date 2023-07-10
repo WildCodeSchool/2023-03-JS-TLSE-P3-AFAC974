@@ -44,10 +44,10 @@ function UsersDisplay() {
           <p>Bouton retour</p>
         </div>
       </div>
-      <div className="flex justify-between items-center mx-[100px]">
+      <div className="flex justify-between items-center sm:mx-[100px] z-20">
         <SortBy handleChange={handleUsersSorting} />
         <SearchBar searchTerm="hey" handleInputChange="blabla" />
-        <p className="text-transparent">|</p>
+        <p className="text-transparent sm:w-[15%]">|</p>
       </div>
       {data.map((user) => {
         return (
