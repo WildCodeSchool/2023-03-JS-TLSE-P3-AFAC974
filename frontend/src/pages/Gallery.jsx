@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import SortBy from "../components/SortBy";
+import SearchBar from "../components/SearchBar";
 import FavIcon from "../assets/heart.svg";
 import RedFavIcon from "../assets/heart_red.svg";
 
@@ -89,26 +91,12 @@ export default function Gallery() {
           </p>
           <p className="text-[21px] py-4">Rechercher :</p>
           <div className="flex flex-row justify-center items-center gap-2">
-            <input
-              type="text"
-              placeholder="Rechercher une oeuvre..."
-              className="border-solid border-2 border-gray-300 py-1 pl-2 rounded-md my-2"
-              value={searchTerm}
-              onChange={handleInputChange}
+            <SearchBar
+              searchTerm={searchTerm}
+              handleinputChange={handleInputChange}
             />
           </div>
-          <select
-            name="select"
-            className="border-solid border-2 border-gray-300 p-1 rounded-md mt-2 mb-6"
-            onChange={handleChange}
-            defaultValue="default"
-          >
-            <option value="default" disabled>
-              Ordre
-            </option>
-            <option value="asc">Alphabétique</option>
-            <option value="desc">Inversé</option>
-          </select>
+          <SortBy handleChange={handleChange} />
         </div>
         <div className="flex flex-col justify-center md:flex-row md:grid md:grid-cols-4 md:gap-5">
           {filteredAndSortedData.map((artwork) => (
