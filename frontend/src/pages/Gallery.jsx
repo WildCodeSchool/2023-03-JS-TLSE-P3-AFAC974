@@ -132,7 +132,7 @@ export default function Gallery() {
                       type="button"
                       className="h-6 w-6"
                     >
-                      {favorite.indexOf(artwork.id) !== -1 ? (
+                      {favorite.includes(artwork.id) ? (
                         <img src={RedFavIcon} alt="fav" />
                       ) : (
                         <img src={FavIcon} alt="fav" />
