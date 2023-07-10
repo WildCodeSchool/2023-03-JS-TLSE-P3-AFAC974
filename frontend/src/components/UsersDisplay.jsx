@@ -81,7 +81,7 @@ function UsersDisplay() {
   return (
     <div className="absolute mt-[60px] w-full flex flex-col items-center">
       <div className="flex justify-center xl:justify-between items-center w-[100%]">
-        <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px] xl:my-[50px]">
+        <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px] xl:my-[30px]">
           <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-500 border-solid  rounded-full overflow-hidden">
             <img
               src={userSample}
@@ -93,7 +93,10 @@ function UsersDisplay() {
             Gestion des utilisateurs
           </p>
         </div>
-        <Link to="/admin" className="hidden md:flex mx-[70px] gap-1">
+        <Link
+          to="/admin"
+          className="hidden md:flex mx-[70px] gap-1 text-xl items-center"
+        >
           <img src={backArrow} alt="fleche retour" />
           <p>Retour</p>
         </Link>
