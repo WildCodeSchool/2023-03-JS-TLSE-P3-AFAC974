@@ -3,7 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import DeleteUser from "./DeleteUser";
 
-function UserCard({ user }) {
+function UserCard({ user, setDeletedUserId }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [status, setStatus] = useState("");
   useEffect(() => {
@@ -82,7 +82,7 @@ function UserCard({ user }) {
             </select>
           </div>
           <div className="flex flex-1 justify-end">
-            <DeleteUser user={user} />
+            <DeleteUser user={user} setDeletedUserId={setDeletedUserId} />
           </div>
         </div>
       ) : (
@@ -101,6 +101,7 @@ UserCard.propTypes = {
     email: PropTypes.string,
     image: PropTypes.string,
   }).isRequired,
+  setDeletedUserId: PropTypes.func.isRequired,
 };
 
 export default UserCard;

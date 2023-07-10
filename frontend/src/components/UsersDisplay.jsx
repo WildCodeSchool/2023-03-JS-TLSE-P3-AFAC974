@@ -7,6 +7,7 @@ import userSample from "../assets/user_sample.png";
 
 function UsersDisplay() {
   const [data, setData] = useState([]);
+  const [deletedUserId, setDeletedUserId] = useState(null);
 
   const handleUsersSorting = (someData) => {
     return someData.sort((a, b) => {
@@ -25,7 +26,7 @@ function UsersDisplay() {
       const data2 = res.data;
       setData(data2);
     });
-  }, []);
+  }, [deletedUserId]);
 
   return (
     <div className="absolute mt-[60px] w-full flex flex-col items-center">
@@ -52,7 +53,7 @@ function UsersDisplay() {
       {data.map((user) => {
         return (
           <div key={user.id} className="w-[100%] sm:px-[100px]">
-            <UserCard user={user} />
+            <UserCard user={user} setDeletedUserId={setDeletedUserId} />
           </div>
         );
       })}
