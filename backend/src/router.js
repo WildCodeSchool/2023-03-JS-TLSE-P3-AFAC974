@@ -1,5 +1,9 @@
 const express = require("express");
-// const multer = require("multer");
+const multer = require("multer");
+
+const { storage } = require("./services/cloudinary");
+
+const upload = multer({ storage });
 
 const router = express.Router();
 
@@ -23,6 +27,7 @@ const techniqueControllers = require("./controllers/techniqueControllers");
 const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
 const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
+const uploadControllers = require("./controllers/uploadControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -43,6 +48,8 @@ router.get("/artworks/:id", artworkControllers.read);
 
 router.get("/artists", artistControllers.browse);
 router.get("/artists/:id", artistControllers.read);
+router.get("/arttrendartist/:id", artistControllers.readArtTrendName);
+router.get("/artiststechnique/:id", artistControllers.readTechniqueName);
 
 // user routes
 
@@ -122,11 +129,15 @@ router.delete(
 // artist routes
 
 router.post("/artists", artistControllers.addArtist);
+router.put("/artists/:id", artistControllers.edit);
 router.delete("/artists/:id", artistControllers.destroy);
 
 // art_trend routes
 
 router.post("/type", typeControllers.addType);
 router.delete("/type/:id", typeControllers.destroy);
+
+router.post("/upload", upload.single("myfile"), uploadControllers.upload);
+router.delete("/upload", uploadControllers.destroy);
 
 module.exports = router;

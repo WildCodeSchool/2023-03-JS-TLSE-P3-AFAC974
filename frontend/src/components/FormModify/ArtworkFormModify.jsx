@@ -8,30 +8,20 @@ import SelectionInput from "../SelectionInput";
 import { FormArtworkArtistContext } from "../../context/FormArtworkArtistContext";
 
 function ArtworkFormModify({
-  modalRef,
   prevStep,
   nextStep,
-  isLoadedArtist,
-  isLoadedType,
-  isLoadedTechnique,
-  isLoadedArtTrend,
-  dataArtist,
-  dataType,
-  dataTechnique,
-  dataArtTrend,
-  handleJointureArtisteArtTrend,
-  handleJointureArtisteTechnique,
-  jointureVerify,
   modify,
-  isLoadedArtwork,
-  dataArtwork,
+  selectedArtistId,
   selectedTypeId,
   selectedTechniqueId,
   selectedArtTrendId,
-  selectedArtistId,
 }) {
   const {
     artist,
+    setArtisteTechniqueUpload,
+    setArtTrendArtistUpload,
+    handleJointureArtisteTechnique,
+    handleJointureArtisteArtTrend,
     setArtist,
     type,
     setType,
@@ -43,6 +33,95 @@ function ArtworkFormModify({
     handleInputChangeArtwork,
     needToFetch,
   } = useContext(FormArtworkArtistContext);
+
+  const [isLoadedArtist, setIsLoadedArtist] = useState(false);
+  const [isLoadedType, setIsLoadedType] = useState(false);
+  const [isLoadedTechnique, setIsLoadedTechnique] = useState(false);
+  const [isLoadedArtTrend, setIsLoadedArtTrend] = useState(false);
+  const [isLoadedArtistTechnique, setIsLoadedArtistTechnique] = useState(false);
+  const [isLoadedArtTrendArtist, setIsLoadedArtTrendArtist] = useState(false);
+  const [dataArtist, setDataArtist] = useState(false);
+  const [dataType, setDataType] = useState(false);
+  const [dataTechnique, setDataTechnique] = useState(false);
+  const [dataArtTrend, setDataArtTrend] = useState(false);
+  const [dataArtistTechnique, setDataArtistTechnique] = useState(false);
+  const [dataArtTrendArtist, setDataArtTrendArtist] = useState(false);
+
+  // useEffect for recup all artists, types, techniques, art trends and jonction between art-trend/artist and technique/artist
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artists`)
+      .then((res) => {
+        setDataArtist(res.data);
+        setIsLoadedArtist(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, [needToFetch]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/type`)
+      .then((res) => {
+        setDataType(res.data);
+        setIsLoadedType(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, [needToFetch]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/technique`)
+      .then((res) => {
+        setDataTechnique(res.data);
+        setIsLoadedTechnique(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, [needToFetch]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend`)
+      .then((res) => {
+        setDataArtTrend(res.data);
+        setIsLoadedArtTrend(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, [needToFetch]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artisttechnique`)
+      .then((res) => {
+        setDataArtistTechnique(res.data);
+        setIsLoadedArtistTechnique(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, [needToFetch]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrendartist`)
+      .then((res) => {
+        setDataArtTrendArtist(res.data);
+        setIsLoadedArtTrendArtist(true);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, [needToFetch]);
+
+  // useEffect for recup artist, type, technique, art trend of the artwork
 
   const [isLoadedArtistId, setIsLoadedArtistId] = useState(false);
   const [isLoadedTypeId, setIsLoadedTypeId] = useState(false);
@@ -103,14 +182,37 @@ function ArtworkFormModify({
       });
   }, [needToFetch, selectedArtTrendId]);
 
+  const jointureVerify = () => {
+    if (isLoadedArtTrendArtist && isLoadedArtistTechnique) {
+      const foundArtTrendArtist = dataArtTrendArtist.some(
+        (item) =>
+          item.artist_id === parseInt(artist, 10) &&
+          item.art_trend_id === parseInt(artTrend, 10)
+      );
+      setArtTrendArtistUpload(foundArtTrendArtist);
+
+      const foundArtistTechnique = dataArtistTechnique.some(
+        (item) =>
+          item.artist_id === parseInt(artist, 10) &&
+          item.technique_id === parseInt(technique, 10)
+      );
+      setArtisteTechniqueUpload(foundArtistTechnique);
+    }
+  };
+
   return (
     <div>
-      {isLoadedArtwork &&
+      {isLoadedArtist &&
+      isLoadedType &&
+      isLoadedTechnique &&
+      isLoadedArtTrend &&
+      isLoadedArtistTechnique &&
+      isLoadedArtTrendArtist &&
       isLoadedArtistId &&
       isLoadedTypeId &&
       isLoadedTechniqueId &&
       isLoadedArtTrendId ? (
-        <div ref={modalRef} className="h-full flex flex-col justify-between">
+        <div className="h-full flex flex-col justify-between">
           <div>
             <h2 className="font-semibold text-[20px]">
               Informations de l'oeuvre
@@ -148,7 +250,6 @@ function ArtworkFormModify({
                     isLoadedId={isLoadedArtistId}
                     dataId={dataArtistId}
                     dataNameId={dataArtistId}
-                    dataArtwork={dataArtwork}
                     data={dataArtist}
                     name="artistId"
                     id="artist-select"
@@ -257,7 +358,6 @@ function ArtworkFormModify({
                     dataId={dataTypeId}
                     dataNameId={dataTypeId}
                     data={dataType}
-                    dataArtwork={dataArtwork}
                     name="typeId"
                     id="type_artwork"
                     text="Type"
@@ -282,7 +382,6 @@ function ArtworkFormModify({
                     isLoadedId={isLoadedArtTrendId}
                     dataId={dataArtTrendId}
                     dataNameId={dataArtTrendId}
-                    dataArtwork={dataArtwork}
                     name="artTrendId"
                     id="art_trend_artwork"
                     text="Courant Artistique"
@@ -308,7 +407,6 @@ function ArtworkFormModify({
                   isLoadedId={isLoadedTechniqueId}
                   dataId={dataTechniqueId}
                   dataNameId={dataTechniqueId}
-                  dataArtwork={dataArtwork}
                   name="techniqueId"
                   id="artwork_technical"
                   placeholder="Technique"
@@ -359,63 +457,8 @@ function ArtworkFormModify({
 }
 
 ArtworkFormModify.propTypes = {
-  modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
-  isLoadedArtist: PropTypes.bool.isRequired,
-  isLoadedType: PropTypes.bool.isRequired,
-  isLoadedTechnique: PropTypes.bool.isRequired,
-  isLoadedArtTrend: PropTypes.bool.isRequired,
-  isLoadedArtwork: PropTypes.bool.isRequired,
-  dataArtwork: PropTypes.shape({
-    name: PropTypes.string,
-    year: PropTypes.number,
-    description: PropTypes.string,
-    imageUrlSmall: PropTypes.string,
-    imageUrlMedium: PropTypes.string,
-    imageUrlLarge: PropTypes.string,
-    artTrend_id: PropTypes.number,
-    type_id: PropTypes.number,
-    technique_id: PropTypes.number,
-    artist_id: PropTypes.number,
-    width_cm: PropTypes.number,
-    height_cm: PropTypes.number,
-    depth_cm: PropTypes.number,
-    artwork_location: PropTypes.string,
-  }),
-  dataArtist: PropTypes.arrayOf([
-    {
-      lastname: PropTypes.string,
-      firstname: PropTypes.string,
-      nickname: PropTypes.string,
-      description: PropTypes.string,
-      imageUrlSmall: PropTypes.string,
-      imageUrlMedium: PropTypes.string,
-      imageUrlLarge: PropTypes.string,
-      websiteUrl: PropTypes.string,
-      facebookUrl: PropTypes.string,
-      instagramUrl: PropTypes.string,
-      twitterUrl: PropTypes.string,
-    },
-  ]),
-  dataType: PropTypes.arrayOf([
-    {
-      name: PropTypes.string,
-    },
-  ]),
-  dataTechnique: PropTypes.arrayOf([
-    {
-      name: PropTypes.string,
-    },
-  ]),
-  dataArtTrend: PropTypes.arrayOf([
-    {
-      name: PropTypes.string,
-    },
-  ]),
-  handleJointureArtisteArtTrend: PropTypes.func.isRequired,
-  handleJointureArtisteTechnique: PropTypes.func.isRequired,
-  jointureVerify: PropTypes.func.isRequired,
   modify: PropTypes.bool,
   selectedTypeId: PropTypes.number,
   selectedTechniqueId: PropTypes.number,
@@ -424,47 +467,8 @@ ArtworkFormModify.propTypes = {
 };
 
 ArtworkFormModify.defaultProps = {
-  modalRef: {},
   prevStep: () => {},
   nextStep: () => {},
-  dataArtwork: {
-    name: "",
-    year: 0,
-    description: "",
-    imageUrlSmall: "",
-    imageUrlMedium: "",
-    imageUrlLarge: "",
-    art_trend_id: 0,
-    type_id: 0,
-    technique_id: 0,
-    artist_id: 0,
-    width_cm: 0,
-    height_cm: 0,
-    depth_cm: 0,
-    artwork_location: "",
-  },
-  dataArtist: {
-    lastname: "",
-    firstname: "",
-    nickname: "",
-    description: "",
-    imageUrlSmall: "",
-    imageUrlMedium: "",
-    imageUrlLarge: "",
-    websiteUrl: "",
-    facebookUrl: "",
-    instagramUrl: "",
-    twitterUrl: "",
-  },
-  dataType: {
-    name: "",
-  },
-  dataTechnique: {
-    name: "",
-  },
-  dataArtTrend: {
-    name: "",
-  },
   modify: false,
   selectedTypeId: 0,
   selectedTechniqueId: 0,

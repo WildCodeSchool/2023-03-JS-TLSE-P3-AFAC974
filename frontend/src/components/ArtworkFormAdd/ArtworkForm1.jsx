@@ -13,6 +13,7 @@ function ArtworkForm1({
   textPrev,
   onChange,
   imagePreview,
+  name,
 }) {
   return (
     <div className="w-full h-full flex flex-col justify-between">
@@ -22,13 +23,13 @@ function ArtworkForm1({
           <Input
             type="file"
             text="Saisir l'image de l'oeuvre"
-            name="picture"
-            id="artwork_picture"
+            name={name}
+            id="picture"
             onChange={onChange}
           />
         </div>
         <label
-          htmlFor="artwork_picture"
+          htmlFor="picture"
           className="flex justify-center w-full items-center cursor-pointer "
         >
           {imagePreview ? (
@@ -61,6 +62,7 @@ ArtworkForm1.propTypes = {
   textPrev: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   imagePreview: PropTypes.string,
+  name: PropTypes.string,
 };
 
 ArtworkForm1.defaultProps = {
@@ -68,6 +70,7 @@ ArtworkForm1.defaultProps = {
   textNext: "Suivant",
   textPrev: "Précédent",
   imagePreview: "",
+  name: "pictureChoice",
 };
 
 export default ArtworkForm1;

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const AbstractManager = require("./AbstractManager");
 
 class ArtworkManager extends AbstractManager {

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
-// import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
+import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 
 function SelectionInput({
   handleInputChange,
@@ -11,13 +11,13 @@ function SelectionInput({
   name,
   id,
   text,
-  handleJointureArtisteTechnique,
-  handleJointureArtisteArtTrend,
   modify,
   isLoadedId,
   dataId,
   dataNameId,
 }) {
+  const { handleJointureArtisteTechnique, handleJointureArtisteArtTrend } =
+    useContext(FormArtworkArtistContext);
   return (
     <div>
       {isLoaded && isLoadedId ? (
@@ -82,12 +82,33 @@ SelectionInput.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  handleJointureArtisteTechnique: PropTypes.func.isRequired,
-  handleJointureArtisteArtTrend: PropTypes.func.isRequired,
-  data: PropTypes.shape.isRequired,
+  data: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        lastname: PropTypes.string,
+        firstname: PropTypes.string,
+        nickname: PropTypes.string,
+        description: PropTypes.string,
+        image_url_small: PropTypes.string,
+        image_url_medium: PropTypes.string,
+        image_url_large: PropTypes.string,
+        website_url: PropTypes.string,
+        facebook_url: PropTypes.string,
+        instagram_url: PropTypes.string,
+        twitter_url: PropTypes.string,
+      })
+    ),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
+  ]).isRequired,
   modify: PropTypes.bool,
   isLoadedId: PropTypes.bool.isRequired,
-  dataId: PropTypes.number.isRequired,
+  dataId: PropTypes.string.isRequired,
   dataNameId: PropTypes.string.isRequired,
 };
 

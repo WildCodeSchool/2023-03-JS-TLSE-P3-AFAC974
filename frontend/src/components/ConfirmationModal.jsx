@@ -1,4 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 import RedButton from "./RedButton";
@@ -17,6 +20,7 @@ function ConfirmationModal({
   isLoadedTechnique,
   isLoadedArtTrend,
   handleCancel,
+  add,
 }) {
   const customModalStyles = {
     overlay: {
@@ -38,9 +42,10 @@ function ConfirmationModal({
     setTechnique,
     setArtworkPreview,
     setArtistPreview,
+    formArtwork,
   } = useContext(FormArtworkArtistContext);
 
-  const handleSubmit = () => {
+  const endRequest = () => {
     setStep(1);
     setModalConfirmation(false);
     setModalValidation(true);
@@ -98,6 +103,34 @@ function ConfirmationModal({
     setArtistPreview("");
   };
 
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    if (data.myfile.length > 0) {
+      const artworkPictureData = new FormData();
+      artworkPictureData.append("myfile", data.myfile[0]);
+
+      axios
+        .post(`${import.meta.env.VITE_BACKEND_URL}/upload`, artworkPictureData)
+        .then((res) => {
+          const temporary = {
+            ...formArtwork,
+            imageUrlMedium: res.data.imageUrl,
+          };
+          handleExecution(temporary);
+        })
+        .then(() => {
+          endRequest();
+        })
+        .catch((error) => {
+          console.error("Une erreur s'est produite :", error);
+        });
+    } else {
+      handleExecution(formArtwork);
+      endRequest();
+    }
+  };
+
   return (
     <ReactModal
       isOpen={isOpenModalConfirmation}
@@ -115,20 +148,27 @@ function ConfirmationModal({
             <GreyButton text="Annuler" onClick={handleCancel} />
           </div>
           <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
-            <RedButton
-              text="Confirmer"
-              onClick={() => {
-                handleSubmit();
-                if (
-                  isLoadedArtTrend &&
-                  isLoadedArtist &&
-                  isLoadedTechnique &&
-                  isLoadedType
-                ) {
-                  handleExecution();
-                }
-              }}
-            />
+            {add ? (
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <input {...register("myfile")} type="file" />
+                <RedButton text="Confirmer" type="submit" />
+              </form>
+            ) : (
+              <RedButton
+                text="Confirmer"
+                onClick={() => {
+                  if (
+                    isLoadedArtTrend &&
+                    isLoadedArtist &&
+                    isLoadedTechnique &&
+                    isLoadedType
+                  ) {
+                    handleExecution();
+                  }
+                  endRequest();
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -143,11 +183,12 @@ ConfirmationModal.propTypes = {
   setStep: PropTypes.func,
   setModalValidation: PropTypes.func,
   handleExecution: PropTypes.func.isRequired,
-  isLoadedArtist: PropTypes.bool.isRequired,
-  isLoadedType: PropTypes.bool.isRequired,
-  isLoadedTechnique: PropTypes.bool.isRequired,
-  isLoadedArtTrend: PropTypes.bool.isRequired,
+  isLoadedArtist: PropTypes.bool,
+  isLoadedType: PropTypes.bool,
+  isLoadedTechnique: PropTypes.bool,
+  isLoadedArtTrend: PropTypes.bool,
   handleCancel: PropTypes.func.isRequired,
+  add: PropTypes.bool,
 };
 
 ConfirmationModal.defaultProps = {
@@ -156,6 +197,11 @@ ConfirmationModal.defaultProps = {
   textConfirmationModal: "",
   setStep: () => {},
   setModalValidation: () => {},
+  add: false,
+  isLoadedArtist: false,
+  isLoadedType: false,
+  isLoadedTechnique: false,
+  isLoadedArtTrend: false,
 };
 
 export default ConfirmationModal;

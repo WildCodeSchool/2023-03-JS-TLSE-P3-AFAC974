@@ -90,7 +90,7 @@ Input.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   inputDisabled: PropTypes.bool,
 };
 

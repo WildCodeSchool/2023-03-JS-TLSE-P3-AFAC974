@@ -177,6 +177,7 @@ function AddArtwork({
             textNext="Suivant"
             onChange={uploadPictureArtwork}
             imagePreview={artworkPreview}
+            name="picture"
           />
         );
       case 2:
