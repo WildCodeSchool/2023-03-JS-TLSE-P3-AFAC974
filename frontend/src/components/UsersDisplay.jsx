@@ -28,30 +28,30 @@ function UsersDisplay() {
   }, []);
 
   return (
-    <div className="absolute mt-[60px] w-full">
-      <div className="flex justify-between items-center mx-[50px]">
-        <div className="flex flex-row justify-between items-center gap-[50px] p-[20px]">
-          <div className="imageCircleContainer w-[110px] h-[110px]  rounded-full overflow-hidden ">
+    <div className="absolute mt-[60px] w-full flex flex-col items-center">
+      <div className="flex justify-center sm:justify-between items-center w-[100%]">
+        <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px]">
+          <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-500 border-solid  rounded-full overflow-hidden ">
             <img
               src={userSample}
               alt="profile sample"
               className="object-cover w-[full] h-full"
             />
           </div>
-          <p>Utilisateurs</p>
+          <p>Gestion des utilisateurs</p>
         </div>
         <div>
-          <p>Bouton retour</p>
+          <p className="hidden md:block mx-[70px] ">Bouton retour</p>
         </div>
       </div>
-      <div className="flex justify-between items-center sm:mx-[100px] z-20">
-        <SortBy handleChange={handleUsersSorting} />
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:w-[100%] items-center sm:px-[100px] z-20">
+        <SortBy handleChange={handleUsersSorting(data)} />
         <SearchBar searchTerm="hey" handleInputChange="blabla" />
         <p className="text-transparent sm:w-[15%]">|</p>
       </div>
       {data.map((user) => {
         return (
-          <div key={user.id}>
+          <div key={user.id} className="w-[100%] sm:px-[100px]">
             <UserCard user={user} />
           </div>
         );

@@ -8,9 +8,9 @@ function UserCard({ user }) {
   };
 
   return (
-    <div className="flex mx-[100px] ">
-      <div>{user.lastname}</div>
-      <div className="self-center mx-auto">
+    <div className="flex flex-col sm:flex-row w-full items-center justify-center">
+      <div className="flex flex-1 justify-start">{user.pseudo}</div>
+      <div className="flex flex-1 items-center justify-center">
         <input
           type="text"
           placeholder="Status"
@@ -24,7 +24,7 @@ function UserCard({ user }) {
           <option value="Ban">Ban</option>
         </select>
       </div>
-      <div>
+      <div className="flex flex-1 justify-end">
         <p>Bouton supprimer</p>
       </div>
     </div>
