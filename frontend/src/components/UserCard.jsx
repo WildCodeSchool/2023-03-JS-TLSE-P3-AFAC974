@@ -73,11 +73,11 @@ function UserCard({ user, setDeletedUserId }) {
           </div>
           <div className="flex gap-2 items-center justify-center xl:gap-[30vw]">
             <div className="flex items-center justify-center text-base gap-[8px] px-[10px] py-[8px] border border-solid border-gray-300 rounded-md w-[40vw] xl:w-auto">
-              <p className="text-base whitespace-nowrap">Status :</p>
+              <p className="text-sm xl:text-base whitespace-nowrap">Status :</p>
               <select
                 value={status}
                 onChange={handleStatusChange}
-                className="text-base"
+                className="text-sm xl:text-base"
               >
                 <option value="User" className="text-center ">
                   User

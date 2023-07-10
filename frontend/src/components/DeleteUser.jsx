@@ -15,7 +15,7 @@ function DeleteUser({ user, setDeletedUserId }) {
     <button
       type="button"
       onClick={() => handleDeleteUser()}
-      className="flex items-center justify-center text-base gap-[8px] px-[10px] py-[8px] border border-solid rounded-md w-[40vw] xl:w-auto "
+      className="flex items-center justify-center text-sm xl:text-base gap-[8px] px-[10px] py-[8px] border border-solid rounded-md w-[40vw] xl:w-auto "
     >
       <p>Supprimer</p>
       <img src={trash} alt="poubelle" className="w-[20px] h-auto" />

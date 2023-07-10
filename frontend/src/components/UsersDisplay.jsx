@@ -5,6 +5,7 @@ import UserCard from "./UserCard";
 import SortBy from "./SortBy";
 import SearchBar from "./SearchBar";
 import userSample from "../assets/user_sample.png";
+import backArrow from "../assets/back-arrow.png";
 
 function UsersDisplay() {
   const [data, setData] = useState([]);
@@ -80,7 +81,7 @@ function UsersDisplay() {
   return (
     <div className="absolute mt-[60px] w-full flex flex-col items-center">
       <div className="flex justify-center xl:justify-between items-center w-[100%]">
-        <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px]">
+        <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px] xl:my-[50px]">
           <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-500 border-solid  rounded-full overflow-hidden">
             <img
               src={userSample}
@@ -88,21 +89,27 @@ function UsersDisplay() {
               className="object-cover w-[full] h-full"
             />
           </div>
-          <p className="text-4xl text-rose-900 font-semibold">
+          <p className="text-3xl xl:text-4xl text-rose-900 font-semibold whitespace-nowrap mb-[24px] xl:mb-[0px]">
             Gestion des utilisateurs
           </p>
         </div>
-        <Link to="/admin" className="hidden md:block mx-[70px]">
-          Bouton retour
+        <Link to="/admin" className="hidden md:flex mx-[70px] gap-1">
+          <img src={backArrow} alt="fleche retour" />
+          <p>Retour</p>
         </Link>
       </div>
-      <div className="flex flex-col-reverse xl:flex-row xl:justify-between xl:w-[100%] items-center xl:px-[100px]">
-        <SortBy handleChange={handleChange} />
-        <SearchBar
-          searchTerm={searchTerm}
-          handleInputChange={handleInputChange}
-        />
-        <p className="text-transparent xl:w-[15%]">|</p>
+      <div className="flex flex-col-reverse xl:flex-row xl:w-[100%] items-center  xl:px-[100px]">
+        <div className="flex flex-1">
+          <SortBy handleChange={handleChange} className="flex flex-1" />
+        </div>
+        <div className="flex flex-1 justify-center">
+          <SearchBar
+            searchTerm={searchTerm}
+            handleInputChange={handleInputChange}
+            className="flex flex-2"
+          />
+        </div>
+        <div className="flex flex-1" />
       </div>
       {filteredAndSortedData.map((user) => (
         <div
