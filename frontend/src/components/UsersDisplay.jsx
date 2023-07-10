@@ -44,7 +44,7 @@ function UsersDisplay() {
           <p className="hidden md:block mx-[70px] ">Bouton retour</p>
         </div>
       </div>
-      <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:w-[100%] items-center sm:px-[100px] z-20">
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:w-[100%] items-center sm:px-[100px] ">
         <SortBy handleChange={handleUsersSorting(data)} />
         <SearchBar searchTerm="hey" handleInputChange="blabla" />
         <p className="text-transparent sm:w-[15%]">|</p>
