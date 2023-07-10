@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserCard from "./UserCard";
+import SortBy from "./SortBy";
+import SearchBar from "./SearchBar";
 import userSample from "../assets/user_sample.png";
 
 function UsersDisplay() {
   const [data, setData] = useState([]);
 
+  const handleUsersSorting = (someData) => {
+    return someData.sort((a, b) => {
+      if (a.pseudo < b.pseudo) {
+        return -1;
+      }
+      if (a.pseudo > b.pseudo) {
+        return 1;
+      }
+      return 0;
+    });
+  };
+
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/users`).then((res) => {
-      const { data2 } = res;
+      const data2 = res.data;
       setData(data2);
     });
   }, []);
@@ -31,8 +45,8 @@ function UsersDisplay() {
         </div>
       </div>
       <div className="flex justify-between items-center mx-[100px]">
-        <p>Trier par</p>
-        <p>Rechercher un user</p>
+        <SortBy handleChange={handleUsersSorting} />
+        <SearchBar searchTerm="hey" handleInputChange="blabla" />
         <p className="text-transparent">|</p>
       </div>
       {data.map((user) => {

@@ -20,7 +20,11 @@ function SortBy({ handleChange }) {
 }
 
 SortBy.propTypes = {
-  handleChange: PropTypes.string.isRequired,
+  handleChange: PropTypes.func,
+};
+
+SortBy.defaultProps = {
+  handleChange: () => {},
 };
 
 export default SortBy;
