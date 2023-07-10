@@ -79,7 +79,7 @@ function UsersDisplay() {
 
   return (
     <div className="absolute mt-[60px] w-full flex flex-col items-center">
-      <div className="flex justify-center sm:justify-between items-center w-[100%]">
+      <div className="flex justify-center xl:justify-between items-center w-[100%]">
         <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px]">
           <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-500 border-solid  rounded-full overflow-hidden">
             <img
@@ -88,23 +88,29 @@ function UsersDisplay() {
               className="object-cover w-[full] h-full"
             />
           </div>
-          <p>Gestion des utilisateurs</p>
+          <p className="text-4xl text-rose-900 font-semibold">
+            Gestion des utilisateurs
+          </p>
         </div>
         <Link to="/admin" className="hidden md:block mx-[70px]">
           Bouton retour
         </Link>
       </div>
-      <div className="flex flex-col-reverse sm:flex-row sm:justify-between sm:w-[100%] items-center sm:px-[100px]">
+      <div className="flex flex-col-reverse xl:flex-row xl:justify-between xl:w-[100%] items-center xl:px-[100px]">
         <SortBy handleChange={handleChange} />
         <SearchBar
           searchTerm={searchTerm}
           handleInputChange={handleInputChange}
         />
-        <p className="text-transparent sm:w-[15%]">|</p>
+        <p className="text-transparent xl:w-[15%]">|</p>
       </div>
       {filteredAndSortedData.map((user) => (
-        <div key={user.id} className="w-[100%] sm:px-[100px]">
+        <div
+          key={user.id}
+          className="w-[100%] xl:px-[100px] flex flex-col gap-2 xl:gap-7 xl:mt-[28px]"
+        >
           <UserCard user={user} setDeletedUserId={setDeletedUserId} />
+          <hr className=" w-[100%] border border-solid border-gray-200 xl:border-gray-400" />
         </div>
       ))}
     </div>

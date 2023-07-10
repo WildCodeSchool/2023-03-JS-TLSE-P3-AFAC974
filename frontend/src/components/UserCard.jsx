@@ -67,22 +67,32 @@ function UserCard({ user, setDeletedUserId }) {
   return (
     <div>
       {isLoaded ? (
-        <div className="flex flex-col sm:flex-row w-full items-center justify-center">
-          <div className="flex flex-1 justify-start">{user.pseudo}</div>
-          <div className="flex flex-1 gap-2 items-center justify-center">
-            <p>Status</p>
-            <select
-              value={status}
-              onChange={handleStatusChange}
-              className="w-[150px]"
-            >
-              <option value="User">User</option>
-              <option value="Admin">Admin</option>
-              <option value="Ban">Ban</option>
-            </select>
+        <div className="flex flex-col xl:flex-row xl:justify-between w-full items-center gap-[15px] py-[20px]">
+          <div className="flex text-2xl font-semibold xl:w-[20%]">
+            {user.pseudo}
           </div>
-          <div className="flex flex-1 justify-end">
-            <DeleteUser user={user} setDeletedUserId={setDeletedUserId} />
+          <div className="flex gap-2 items-center justify-center xl:gap-[30vw]">
+            <div className="flex items-center justify-center text-base gap-[8px] px-[10px] py-[8px] border border-solid border-gray-300 rounded-md w-[40vw] xl:w-auto">
+              <p className="text-base whitespace-nowrap">Status :</p>
+              <select
+                value={status}
+                onChange={handleStatusChange}
+                className="text-base"
+              >
+                <option value="User" className="text-center ">
+                  User
+                </option>
+                <option value="Admin" className="text-center">
+                  Admin
+                </option>
+                <option value="Ban" className="text-center align-middle">
+                  Ban
+                </option>
+              </select>
+            </div>
+            <div className="flex justify-end">
+              <DeleteUser user={user} setDeletedUserId={setDeletedUserId} />
+            </div>
           </div>
         </div>
       ) : (
