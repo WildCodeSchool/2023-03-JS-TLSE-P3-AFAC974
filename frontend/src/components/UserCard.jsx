@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import DeleteUser from "./DeleteUser";
+import DeleteUserConfirmation from "./DeleteUserConfirmation";
 
 function UserCard({ user, setDeletedUserId }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [status, setStatus] = useState("");
+  const [isOpenDeleteConfirmation, setIsOpenDeleteConfirmation] =
+    useState(false);
+
   useEffect(() => {
     let fetchedStatus;
     axios
@@ -67,33 +71,47 @@ function UserCard({ user, setDeletedUserId }) {
   return (
     <div>
       {isLoaded ? (
-        <div className="flex flex-col xl:flex-row xl:justify-between w-full items-center gap-[15px] py-[20px]">
-          <div className="flex text-2xl font-semibold xl:w-[20%]">
-            {user.pseudo}
-          </div>
-          <div className="flex gap-2 items-center justify-center xl:gap-[30vw]">
-            <div className="flex items-center justify-center text-base gap-[8px] px-[10px] py-[8px] border border-solid border-gray-300 rounded-md w-[40vw] xl:w-auto">
-              <p className="text-sm xl:text-base whitespace-nowrap">Status :</p>
-              <select
-                value={status}
-                onChange={handleStatusChange}
-                className="text-sm xl:text-base"
-              >
-                <option value="User" className="text-center ">
-                  User
-                </option>
-                <option value="Admin" className="text-center">
-                  Admin
-                </option>
-                <option value="Ban" className="text-center align-middle">
-                  Ban
-                </option>
-              </select>
+        <div>
+          <div className="flex flex-col xl:flex-row xl:justify-between w-full items-center gap-[15px] py-[20px]">
+            <div className="flex text-2xl font-semibold xl:w-[20%]">
+              {user.pseudo}
             </div>
-            <div className="flex justify-end">
-              <DeleteUser user={user} setDeletedUserId={setDeletedUserId} />
+            <div className="flex gap-2 items-center justify-center xl:gap-[30vw]">
+              <div className="flex items-center justify-center text-base gap-[8px] px-[10px] py-[8px] border border-solid border-gray-300 rounded-md w-[40vw] xl:w-auto">
+                <p className="text-sm xl:text-base whitespace-nowrap">
+                  Status :
+                </p>
+                <select
+                  value={status}
+                  onChange={handleStatusChange}
+                  className="text-sm xl:text-base"
+                >
+                  <option value="User" className="text-center ">
+                    User
+                  </option>
+                  <option value="Admin" className="text-center">
+                    Admin
+                  </option>
+                  <option value="Ban" className="text-center align-middle">
+                    Ban
+                  </option>
+                </select>
+              </div>
+              <div className="flex justify-end">
+                <DeleteUser
+                  user={user}
+                  setDeletedUserId={setDeletedUserId}
+                  setIsOpenDeleteConfirmation={setIsOpenDeleteConfirmation}
+                />
+              </div>
             </div>
           </div>
+          <DeleteUserConfirmation
+            isOpenDeleteConfirmation={isOpenDeleteConfirmation}
+            user={user}
+            setDeletedUserId={setDeletedUserId}
+            setIsOpenDeleteConfirmation={setIsOpenDeleteConfirmation}
+          />
         </div>
       ) : (
         <p>Loading...</p>
