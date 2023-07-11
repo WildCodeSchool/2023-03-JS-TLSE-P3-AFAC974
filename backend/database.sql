@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `entity_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_entity1_idx` (`entity_id`),
-  CONSTRAINT `fk_user_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`)
+  CONSTRAINT `fk_user_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `artwork_favorite`
