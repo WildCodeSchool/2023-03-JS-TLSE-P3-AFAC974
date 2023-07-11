@@ -106,6 +106,22 @@ const destroy = (req, res) => {
     });
 };
 
+const readArtworkUrl = (req, res) => {
+  models.artist
+    .selectedUrlByArtistId(req.params.id)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404);
+      } else {
+        res.send(rows.map((row) => row.image_url_medium));
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 module.exports = {
   browse,
   addArtist,
@@ -114,4 +130,5 @@ module.exports = {
   readArtTrendName,
   readTechniqueName,
   edit,
+  readArtworkUrl,
 };

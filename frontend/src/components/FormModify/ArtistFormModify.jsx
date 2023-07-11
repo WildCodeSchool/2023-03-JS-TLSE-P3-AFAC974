@@ -21,7 +21,7 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
       .get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/artiststechnique/${selectedArtistId}`
+        }/artists-technique/${selectedArtistId}`
       )
       .then((res) => {
         setDataTechniqueName(res.data);
@@ -35,7 +35,9 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_URL}/arttrendartist/${selectedArtistId}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/arttrend-artist/${selectedArtistId}`
       )
       .then((res) => {
         setDataArtTrendName(res.data);

@@ -25,7 +25,6 @@ function AddArtwork({
   const {
     artworkPreview,
     artistPreview,
-    handleInputChangeArtist,
     setArtisteTechniqueUpload,
     setArtTrendArtistUpload,
     artist,
@@ -35,6 +34,7 @@ function AddArtwork({
     handleJointureArtisteArtTrend,
     needToFetch,
     uploadPictureArtwork,
+    uploadPictureArtist,
   } = useContext(FormArtworkArtistContext);
 
   // useRef is used for initialize the scroll to the top when you switch
@@ -116,7 +116,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/artisttechnique`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artists-technique`)
       .then((res) => {
         setDataArtistTechnique(res.data);
         setIsLoadedArtistTechnique(true);
@@ -128,7 +128,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrendartist`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`)
       .then((res) => {
         setDataArtTrendArtist(res.data);
         setIsLoadedArtTrendArtist(true);
@@ -177,7 +177,7 @@ function AddArtwork({
             textNext="Suivant"
             onChange={uploadPictureArtwork}
             imagePreview={artworkPreview}
-            name="picture"
+            name="pictureArtwork"
           />
         );
       case 2:
@@ -225,8 +225,9 @@ function AddArtwork({
             text="Ajouter une photo de l'artiste"
             textPrev="Précédent"
             textNext="Valider"
-            onChange={handleInputChangeArtist}
+            onChange={uploadPictureArtist}
             imagePreview={artistPreview}
+            name="pictureArtist"
           />
         );
       default:

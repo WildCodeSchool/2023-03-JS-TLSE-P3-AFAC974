@@ -86,6 +86,13 @@ class ArtistManager extends AbstractManager {
       ]
     );
   }
+
+  selectedUrlByArtistId(id) {
+    return this.database.query(
+      `select artwork.image_url_medium from ${this.table} Join artwork on artwork.artist_id = artist.id where artist.id = ?`,
+      [id]
+    );
+  }
 }
 
 module.exports = ArtistManager;

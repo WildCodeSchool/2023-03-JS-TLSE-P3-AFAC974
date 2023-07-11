@@ -26,6 +26,9 @@ export default function ArtistAdministration() {
   const [modalErrorModifyArtist, setModalErrorModifyArtist] = useState(false);
 
   const [selectedArtistId, setSelectedArtistId] = useState(null);
+  const [selectedUrlArtistId, setSelectedUrlArtistId] = useState(null);
+  // console.log("artistId", selectedArtistId);
+  // console.log("url-artist", selectedUrlArtistId);
 
   const openModalModifyArtist = () => {
     setModalOpenModifyArtist(true);
@@ -68,15 +71,36 @@ export default function ArtistAdministration() {
       });
   }, [needToFetch]);
 
-  const handleArtistDelete = (id) => {
+  const handleArtistDelete = (id, url) => {
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`)
       .then(() => {
-        setNeedToFetch(!needToFetch);
-        setModalValidationDeleteArtist(true);
+        if (url !== "") {
+          const isolationNamePicture = url.match(/([^/]+).jpg$/);
+          const namePicture = isolationNamePicture[1];
+          axios
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+              data: { namePicture },
+            })
+            .then(() => {
+              setNeedToFetch(!needToFetch);
+              setModalValidationDeleteArtist(true);
+            })
+            .catch((error) => {
+              console.error(
+                "Erreur lors de la suppression sur cloudinary de l'artiste :",
+                error
+              );
+              setNeedToFetch(!needToFetch);
+              setModalErrorDeleteArtist(true);
+            });
+        } else {
+          setNeedToFetch(!needToFetch);
+          setModalValidationDeleteArtist(true);
+        }
       })
       .catch((error) => {
-        console.error("Erreur lors de la suppression de l'artiste :", error);
+        console.error("Erreur lors de la suppression de l'oeuvre :", error);
         setNeedToFetch(!needToFetch);
         setModalErrorDeleteArtist(true);
       });
@@ -106,13 +130,14 @@ export default function ArtistAdministration() {
             <div key={item.id} className="flex flex-col">
               <p className="border-solid border-2 border-black">
                 {item.nickname}
+                <img src={item.image_url_medium} alt="oeuvre" />
               </p>
               <button
                 type="button"
                 onClick={() => {
-                  setModalConfirmationDeleteArtist(true);
                   setSelectedArtistId(item.id);
-                  setNeedToFetch(!needToFetch);
+                  setSelectedUrlArtistId(item.image_url_medium);
+                  setModalConfirmationDeleteArtist(true);
                 }}
               >
                 Delete
@@ -148,8 +173,13 @@ export default function ArtistAdministration() {
         isOpenModalConfirmation={modalConfirmationDeleteArtist}
         setModalConfirmation={setModalConfirmationDeleteArtist}
         setModalValidation={setModalValidationDeleteArtist}
-        handleExecution={() => handleArtistDelete(selectedArtistId)}
+        handleExecution={() =>
+          handleArtistDelete(selectedArtistId, selectedUrlArtistId)
+        }
         isLoadedArtist={isLoadedArtist}
+        isLoadedArtTrend
+        isLoadedTechnique
+        isLoadedType
         handleCancel={handleCancelDeleteArtist}
       />
       <ValidationModal

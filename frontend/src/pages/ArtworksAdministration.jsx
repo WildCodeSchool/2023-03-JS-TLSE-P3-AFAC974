@@ -15,7 +15,6 @@ export default function ArtworksAdministration() {
     artTrend,
     technique,
     formArtwork,
-    formArtist,
     formType,
     formTechnique,
     formArtTrend,
@@ -38,6 +37,8 @@ export default function ArtworksAdministration() {
     setTechnique,
     setArtTrend,
     setType,
+    setArtistPicture,
+    setArtworkPicture,
   } = useContext(FormArtworkArtistContext);
 
   const [modalOpenAdd, setModalOpenAdd] = useState(false);
@@ -143,6 +144,8 @@ export default function ArtworksAdministration() {
     setTechnique("");
     setArtTrend("");
     setType("");
+    setArtistPicture(null);
+    setArtworkPicture(null);
   };
   const handleCancelDeleteArtwork = () => {
     setModalConfirmationDeleteArtwork(false);
@@ -277,7 +280,7 @@ export default function ArtworksAdministration() {
     }
   };
 
-  const handleArtworkUpload = async (temporary) => {
+  const handleArtworkUpload = async (temporaryArtwork, temporaryArtist) => {
     try {
       const postArtwork = (newFormArtwork) => {
         axios
@@ -305,7 +308,7 @@ export default function ArtworksAdministration() {
         if (!artisteTechniqueUpload) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/artisttechnique`,
+              `${import.meta.env.VITE_BACKEND_URL}/artists-technique`,
               newFormArtistTechnique
             )
             .then(() => {
@@ -338,7 +341,7 @@ export default function ArtworksAdministration() {
         if (!artTrendArtistUpload) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/arttrendartist`,
+              `${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`,
               newFormArtTrendArtist
             )
             .then(() => {
@@ -376,14 +379,17 @@ export default function ArtworksAdministration() {
           Math.max(...dataArtist.map((item) => item.id)) + 1
         ) {
           axios
-            .post(`${import.meta.env.VITE_BACKEND_URL}/artists`, formArtist)
+            .post(
+              `${import.meta.env.VITE_BACKEND_URL}/artists`,
+              temporaryArtist
+            )
             .then((artistResponse) => {
               rollbackData.push({
                 endpoint: "artists",
                 id: artistResponse.data[0].insertId,
               });
               const newFormArtwork = {
-                ...temporary,
+                ...temporaryArtwork,
                 artistId: artistResponse.data[0].insertId,
                 techniqueId: techniqueResponseSend,
                 artTrendId: artTrendResponseSend,
@@ -423,7 +429,7 @@ export default function ArtworksAdministration() {
             techniqueId: techniqueResponseSend,
           };
           const newFormArtwork = {
-            ...temporary,
+            ...temporaryArtwork,
             artistId: parseInt(artist, 10),
             techniqueId: techniqueResponseSend,
             artTrendId: artTrendResponseSend,
@@ -582,7 +588,7 @@ export default function ArtworksAdministration() {
         if (!artisteTechniqueUpload) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/artisttechnique`,
+              `${import.meta.env.VITE_BACKEND_URL}/artists-technique`,
               formArtistTechnique
             )
             .catch((error) => {
@@ -595,7 +601,7 @@ export default function ArtworksAdministration() {
         if (!artTrendArtistUpload) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/arttrendartist`,
+              `${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`,
               formArtTrendArtist
             )
             .catch((error) => {
@@ -653,6 +659,7 @@ export default function ArtworksAdministration() {
           isLoadedTechnique={isLoadedTechnique}
           isLoadedArtTrend={isLoadedArtTrend}
           handleCancel={handleCancelAdd}
+          isLoadedUrlArtworks
           add
         />
         <ValidationModal
@@ -740,6 +747,7 @@ export default function ArtworksAdministration() {
         isLoadedTechnique={isLoadedTechnique}
         isLoadedArtTrend={isLoadedArtTrend}
         handleCancel={handleCancelDeleteArtwork}
+        isLoadedUrlArtworks
       />
       <ValidationModal
         textValidationModal="Oeuvre supprimée"
@@ -777,6 +785,7 @@ export default function ArtworksAdministration() {
         isLoadedType={isLoadedType}
         isLoadedTechnique={isLoadedTechnique}
         isLoadedArtTrend={isLoadedArtTrend}
+        isLoadedUrlArtworks
         handleCancel={handleCancelModifyArtwork}
       />
       <ValidationModal

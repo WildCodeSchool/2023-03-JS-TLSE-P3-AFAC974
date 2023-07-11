@@ -91,11 +91,11 @@ export function FormArtworkArtistProvider({ children }) {
       name: value,
     }));
   };
-  const [artworkPicture, setArtworkPicture] = useState("");
+  const [artworkPicture, setArtworkPicture] = useState(null);
 
   const uploadPictureArtwork = (event) => {
     const { name, files } = event.target;
-    if (name === "picture") {
+    if (name === "pictureArtwork") {
       const file = files[0];
       const reader = new FileReader();
       setArtworkPicture(file);
@@ -132,12 +132,15 @@ export function FormArtworkArtistProvider({ children }) {
       }));
     }
   };
-  const handleInputChangeArtist = (event) => {
-    const { name, value, files } = event.target;
 
-    if (name === "picture") {
+  const [artistPicture, setArtistPicture] = useState(null);
+  const uploadPictureArtist = (event) => {
+    const { name, files } = event.target;
+
+    if (name === "pictureArtist") {
       const file = files[0];
       const reader = new FileReader();
+      setArtistPicture(file);
 
       reader.onloadend = () => {
         setArtistPreview(reader.result);
@@ -147,12 +150,23 @@ export function FormArtworkArtistProvider({ children }) {
         reader.readAsDataURL(file);
       }
     }
+  };
+  const handleInputChangeArtist = (event) => {
+    const { name, value } = event.target;
 
     setFormArtist((prevFormArtist) => ({
       ...prevFormArtist,
       [name]: value,
     }));
   };
+
+  // console.log("artwork", formArtwork);
+  // console.log("artist", formArtist);
+  // console.log("previewartwork", artworkPreview);
+  // console.log("previewartist", artistPreview);
+  // console.log("fileartwork", artworkPicture);
+  // console.log("fileartist", artistPicture);
+
   const [artisteTechniqueUpload, setArtisteTechniqueUpload] = useState(false);
   const [artTrendArtistUpload, setArtTrendArtistUpload] = useState(false);
 
@@ -201,6 +215,10 @@ export function FormArtworkArtistProvider({ children }) {
       setNeedToFetch,
       artworkPicture,
       uploadPictureArtwork,
+      artistPicture,
+      setArtistPicture,
+      uploadPictureArtist,
+      setArtworkPicture,
     }),
     [
       artist,
@@ -244,6 +262,10 @@ export function FormArtworkArtistProvider({ children }) {
       setNeedToFetch,
       artworkPicture,
       uploadPictureArtwork,
+      artistPicture,
+      setArtistPicture,
+      uploadPictureArtist,
+      setArtworkPicture,
     ]
   );
   return (

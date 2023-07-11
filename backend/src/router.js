@@ -48,8 +48,9 @@ router.get("/artworks/:id", artworkControllers.read);
 
 router.get("/artists", artistControllers.browse);
 router.get("/artists/:id", artistControllers.read);
-router.get("/arttrendartist/:id", artistControllers.readArtTrendName);
-router.get("/artiststechnique/:id", artistControllers.readTechniqueName);
+router.get("/artists-artworks-url/:id", artistControllers.readArtworkUrl);
+router.get("/arttrend-artist/:id", artistControllers.readArtTrendName);
+router.get("/artists-technique/:id", artistControllers.readTechniqueName);
 
 // user routes
 
@@ -73,11 +74,11 @@ router.get("/type/:id", typeControllers.read);
 
 // artist_technique routes
 
-router.get("/artisttechnique", artistTechniqueControllers.browse);
+router.get("/artists-technique", artistTechniqueControllers.browse);
 
 // art_trend routes
 
-router.get("/arttrendartist", artTrendArtistControllers.browse);
+router.get("/arttrend-artist", artTrendArtistControllers.browse);
 
 // --- PASSWORD NEEDED ROUTE --- //
 
@@ -112,17 +113,20 @@ router.delete("/arttrend/:id", artTrendControllers.destroy);
 
 // artist_technique routes
 
-router.post("/artisttechnique", artistTechniqueControllers.addArtistTechnique);
+router.post(
+  "/artists-technique",
+  artistTechniqueControllers.addArtistTechnique
+);
 router.delete(
-  "/artisttechnique",
+  "/artists-technique",
   artistTechniqueControllers.destroyJointureTechnique
 );
 
 // art_trend routes
 
-router.post("/arttrendartist", artTrendArtistControllers.addArtTrendArtist);
+router.post("/arttrend-artist", artTrendArtistControllers.addArtTrendArtist);
 router.delete(
-  "/arttrendartist",
+  "/arttrend-artist",
   artTrendArtistControllers.destroyJointureArtTrend
 );
 
@@ -139,5 +143,6 @@ router.delete("/type/:id", typeControllers.destroy);
 
 router.post("/upload", upload.single("myfile"), uploadControllers.upload);
 router.delete("/upload", uploadControllers.destroy);
+router.delete("/upload/group", uploadControllers.destroyGroup);
 
 module.exports = router;

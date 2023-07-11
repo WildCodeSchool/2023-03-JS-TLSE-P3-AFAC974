@@ -43,6 +43,11 @@ function ConfirmationModal({
     setArtworkPreview,
     setArtistPreview,
     formArtwork,
+    artworkPicture,
+    artistPicture,
+    setArtworkPicture,
+    setArtistPicture,
+    formArtist,
   } = useContext(FormArtworkArtistContext);
 
   const endRequest = () => {
@@ -101,32 +106,55 @@ function ConfirmationModal({
     setTechnique("");
     setArtworkPreview("");
     setArtistPreview("");
+    setArtistPicture(null);
+    setArtworkPicture(null);
   };
 
-  const { register, handleSubmit } = useForm();
-
-  const onSubmit = (data) => {
-    if (data.myfile.length > 0) {
+  const { handleSubmit } = useForm();
+  const onSubmit = () => {
+    if (artworkPicture) {
       const artworkPictureData = new FormData();
-      artworkPictureData.append("myfile", data.myfile[0]);
+      artworkPictureData.append("myfile", artworkPicture);
 
       axios
         .post(`${import.meta.env.VITE_BACKEND_URL}/upload`, artworkPictureData)
-        .then((res) => {
-          const temporary = {
+        .then((resArtwork) => {
+          const temporaryFormArtwork = {
             ...formArtwork,
-            imageUrlMedium: res.data.imageUrl,
+            imageUrlMedium: resArtwork.data.imageUrl,
           };
-          handleExecution(temporary);
-        })
-        .then(() => {
-          endRequest();
+          if (artistPicture) {
+            const artistPictureData = new FormData();
+            artistPictureData.append("myfile", artistPicture);
+
+            axios
+              .post(
+                `${import.meta.env.VITE_BACKEND_URL}/upload`,
+                artistPictureData
+              )
+              .then((resArtist) => {
+                const temporaryFormArtist = {
+                  ...formArtist,
+                  imageUrlMedium: resArtist.data.imageUrl,
+                };
+                handleExecution(temporaryFormArtwork, temporaryFormArtist);
+              })
+              .then(() => {
+                endRequest();
+              })
+              .catch((error) => {
+                console.error("Une erreur s'est produite :", error);
+              });
+          } else {
+            handleExecution(temporaryFormArtwork, formArtist);
+            endRequest();
+          }
         })
         .catch((error) => {
           console.error("Une erreur s'est produite :", error);
         });
     } else {
-      handleExecution(formArtwork);
+      handleExecution(formArtwork, formArtist);
       endRequest();
     }
   };
@@ -149,10 +177,11 @@ function ConfirmationModal({
           </div>
           <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
             {add ? (
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register("myfile")} type="file" />
-                <RedButton text="Confirmer" type="submit" />
-              </form>
+              <div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <RedButton text="Confirmer" type="submit" />
+                </form>
+              </div>
             ) : (
               <RedButton
                 text="Confirmer"
