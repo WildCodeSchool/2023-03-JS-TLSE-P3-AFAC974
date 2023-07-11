@@ -3,12 +3,16 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import DeleteUser from "./DeleteUser";
 import DeleteUserConfirmation from "./DeleteUserConfirmation";
+import StatusChangeConfirmation from "./StatusChangeConfirmation";
 
 function UserCard({ user, setDeletedUserId }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [status, setStatus] = useState("");
   const [isOpenDeleteConfirmation, setIsOpenDeleteConfirmation] =
     useState(false);
+  const [isOpenStatusChangeConfirmation, setIsOpenStatusChangeConfirmation] =
+    useState(false);
+  const [formEvent, setFormEvent] = useState({});
 
   useEffect(() => {
     let fetchedStatus;
@@ -31,7 +35,7 @@ function UserCard({ user, setDeletedUserId }) {
         setStatus(fetchedStatus);
         setIsLoaded(true);
       });
-  });
+  }, [user.id]);
 
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
@@ -41,6 +45,7 @@ function UserCard({ user, setDeletedUserId }) {
           .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
             role: 0,
           })
+
           .catch((err) => {
             console.error(err);
           });
@@ -50,6 +55,7 @@ function UserCard({ user, setDeletedUserId }) {
           .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
             role: 1,
           })
+
           .catch((err) => {
             console.error(err);
           });
@@ -59,6 +65,7 @@ function UserCard({ user, setDeletedUserId }) {
           .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
             role: 2,
           })
+
           .catch((err) => {
             console.error(err);
           });
@@ -83,7 +90,11 @@ function UserCard({ user, setDeletedUserId }) {
                 </p>
                 <select
                   value={status}
-                  onChange={handleStatusChange}
+                  onChange={(event) => {
+                    setIsOpenStatusChangeConfirmation(true);
+                    setFormEvent(event);
+                    setStatus(event.target.value);
+                  }}
                   className="text-sm xl:text-base"
                 >
                   <option value="User" className="text-center ">
@@ -111,6 +122,15 @@ function UserCard({ user, setDeletedUserId }) {
             user={user}
             setDeletedUserId={setDeletedUserId}
             setIsOpenDeleteConfirmation={setIsOpenDeleteConfirmation}
+          />
+          <StatusChangeConfirmation
+            isOpenStatusChangeConfirmation={isOpenStatusChangeConfirmation}
+            handleStatusChange={handleStatusChange}
+            setIsOpenStatusChangeConfirmation={
+              setIsOpenStatusChangeConfirmation
+            }
+            formEvent={formEvent}
+            status={status}
           />
         </div>
       ) : (
