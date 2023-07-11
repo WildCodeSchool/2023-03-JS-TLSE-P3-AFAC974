@@ -7,14 +7,12 @@ function BurgerMenu({ burgerMenuOpen }) {
   return (
     <div
       className={`transition-container  relative transition-transform duration-500 py-[16px] ${
-        burgerMenuOpen ? "translate-x-0" : "translate-x-full"
+        burgerMenuOpen ? "translate-x-0" : "hidden"
       }`}
     >
       <div
-        className={`w-[90vw] shadow-md drop-shadow-sm rounded-lg flex flex-col items-center mx-auto my-[8px]font-bold text-xl px-[20px] py-[10px] justify-between gap-4 mt-[24px] ${
-          burgerMenuOpen
-            ? "transform translate-x-0"
-            : "transform translate-x-full"
+        className={`w-[90vw] shadow-md  drop-shadow-sm rounded-lg flex flex-col items-center mx-auto my-[8px]font-bold text-xl px-[20px] py-[10px] justify-between gap-4 bg-white ${
+          burgerMenuOpen ? "transform translate-x-0" : "hidden"
         }`}
       >
         <Link

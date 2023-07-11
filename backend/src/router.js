@@ -56,6 +56,7 @@ router.get("/artists-technique/:id", artistControllers.readTechniqueName);
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
+router.get("/findadmin", userControllers.browseAdmin);
 
 // art_trend routes
 
@@ -95,6 +96,12 @@ router.post("/login", userControllers.login, verifyPassword);
 router.post("/artworks", artworkControllers.create);
 router.put("/artworks/:id", artworkControllers.edit);
 router.delete("/artworks/:id", artworkControllers.destroy);
+
+// artist routes
+
+router.post("/artists", artistControllers.create);
+router.put("/artists/:id", artistControllers.edit);
+router.delete("/artists/:id", artistControllers.destroy);
 
 // user routes
 

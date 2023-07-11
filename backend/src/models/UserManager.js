@@ -5,6 +5,12 @@ class UserManager extends AbstractManager {
     super({ table: "user" });
   }
 
+  findByRole() {
+    return this.database.query(
+      `select email from ${this.table} where role = 0`
+    );
+  }
+
   findByEmail(email) {
     return this.database.query(`select * from ${this.table} where email = ?`, [
       email,
@@ -17,18 +23,27 @@ class UserManager extends AbstractManager {
       firstname,
       pseudo,
       email,
+      image,
       hashedPassword,
       role,
       entityId,
     } = body;
     return this.database.query(
-      `INSERT INTO ${this.table}(lastname, firstname, pseudo, email, hashedPassword, role, entity_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [lastname, firstname, pseudo, email, hashedPassword, role, entityId]
+      `INSERT INTO ${this.table}(lastname, firstname, pseudo, email, image, hashedPassword, role, entity_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        lastname,
+        firstname,
+        pseudo,
+        email,
+        image,
+        hashedPassword,
+        role,
+        entityId,
+      ]
     );
   }
 
-  login(body) {
-    const { email } = body;
+  login(email) {
     return this.database.query(`SELECT * FROM ${this.table} WHERE email = ?`, [
       email,
     ]);

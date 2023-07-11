@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ReactModal from "react-modal";
+import axios from "axios";
 import PropTypes from "prop-types";
 import Input from "./Input";
 import userSample from "../assets/user_sample.png";
@@ -7,15 +8,21 @@ import userSample from "../assets/user_sample.png";
 function Login({ loginModalOpened, setLoginModalOpened }) {
   const [currentStep, setCurrentStep] = useState(1);
 
+  const [userImage, setUserImage] = useState("");
+
   const [user, setUser] = useState({
     lastname: "",
     firstname: "",
     pseudo: "",
     email: "",
-    entity_id: "",
+    image: "",
     password: "",
-    role: "",
+    role: 1,
+    entity_id: "",
+    user_picture: "",
   });
+
+  const inputRef = useRef();
 
   function handleNext() {
     setCurrentStep(currentStep + 1);
@@ -26,14 +33,36 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   }
 
   function handleInputChange(event) {
-    const { id, value } = event.target;
+    const { id, value, files, name } = event.target;
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
+
+    if (name === "image") {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setUserImage(reader.result);
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
   }
 
   function submitSigninModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/register`, {
+        ...user,
+        role: 1,
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setUser({});
+    setUserImage("");
   }
 
   function submitLoginModal() {
@@ -112,7 +141,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               INSCRIPTION 1/3
             </p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px]">
-              <h3>Nom</h3>
+              <h3>Nom*</h3>
               <label htmlFor="lastname">
                 <Input
                   type="text"
@@ -123,7 +152,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.lastname}
                 />
               </label>
-              <h3>Prénom</h3>
+              <h3>Prénom*</h3>
               <label htmlFor="firstname">
                 <Input
                   type="text"
@@ -134,7 +163,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.firstname}
                 />
               </label>
-              <h3>Adresse email</h3>
+              <h3>Adresse email*</h3>
               <label htmlFor="email">
                 <Input
                   type="email"
@@ -175,7 +204,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             </p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] ">
               {/* crée les inputs pseudo / mot de passe / confirmer mot de passe */}
-              <h3>Pseudo</h3>
+              <h3>Pseudo*</h3>
               <label htmlFor="pseudo">
                 <Input
                   type="text"
@@ -186,7 +215,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.pseudo}
                 />
               </label>
-              <h3>Mot de passe</h3>
+              <h3>Mot de passe*</h3>
               <label htmlFor="password">
                 <Input
                   type="password"
@@ -197,7 +226,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   value={user.password}
                 />
               </label>
-              <h3>Confirmer mot de passe</h3>
+              <h3>Confirmer mot de passe*</h3>
               <label htmlFor="password">
                 <Input
                   type="password"
@@ -207,7 +236,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   onChange={(event) => handleInputChange(event)}
                   value={user.password2}
                 />
-                {user.password !== user.password2 && (
+                {user.password !== user.password2 && user.password !== "" && (
                   <p className="text-red-500">
                     Les mots de passe ne correspondent pas
                   </p>
@@ -225,7 +254,9 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
               <button
                 onClick={() =>
-                  user.password === user.password2 ? handleNext() : null
+                  user.password !== "" && user.password === user.password2
+                    ? handleNext()
+                    : null
                 }
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
@@ -241,20 +272,36 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             <p className="text-3xl font-semibold text-[#257492]">
               INSCRIPTION 3/3
             </p>
-            <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] items-center">
-              <button type="button">
-                <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
+            <form
+              encType="multipart/form-data"
+              className="flex flex-col gap-3 w-[70vw] sm:w-[350px] items-center"
+            >
+              <div className=" hidden w-full">
+                <Input
+                  type="file"
+                  text="Saisir l'image de l'oeuvre'"
+                  id="user_picture"
+                  name="image"
+                  onChange={(event) => handleInputChange(event)}
+                  ref={inputRef}
+                />
+              </div>
+              <label
+                htmlFor="user_picture"
+                className="flex justify-center w-full items-center cursor-pointer "
+              >
+                <div className="imageCircleContainer w-[130px] h-[130px] sm:w-[150px] sm:h-[150px] rounded-full overflow-hidden ">
                   <img
-                    src={userSample}
-                    alt="profile sample"
+                    src={userImage || userSample}
+                    alt="choose"
                     className="object-cover w-full h-full"
                   />
                 </div>
-              </button>
+              </label>
               <h3 className="text-center">
                 Choisir une photo de profil
                 <br />
-                <span>(optionnel)</span>
+                <span className="italic">(optionnel)</span>
               </h3>
             </form>
             <div className="buttons flex justify-between w-[100%] px-[16px] ">
@@ -288,6 +335,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
         setCurrentStep(1);
         setLoginModalOpened(false);
         setUser({});
+        setUserImage(null);
       }}
       style={{
         overlay: {

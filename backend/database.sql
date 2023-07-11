@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `firstname` VARCHAR(255) NOT NULL,
   `pseudo` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
+  `image` VARCHAR(255),
   `hashedPassword` VARCHAR(255) NOT NULL,
   `role` INT NOT NULL,
   `entity_id` INT NULL,
@@ -110,8 +111,8 @@ CREATE TABLE IF NOT EXISTS `artwork_favorite` (
   PRIMARY KEY (`user_id`, `artwork_id`),
   INDEX `fk_user_has_artwork_artwork1_idx` (`artwork_id`),
   INDEX `fk_user_has_artwork_user1_idx` (`user_id`),
-  CONSTRAINT `fk_user_has_artwork_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_user_has_artwork_artwork1` FOREIGN KEY (`artwork_id`) REFERENCES `artwork` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_user_has_artwork_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_has_artwork_artwork1` FOREIGN KEY (`artwork_id`) REFERENCES `artwork` (`id`) ON DELETE CASCADE
 );
 
 -- Table `artist_technique`
@@ -125,19 +126,6 @@ CREATE TABLE IF NOT EXISTS `artist_technique` (
   INDEX `fk_artist_has_technique_artist1_idx` (`artist_id`),
   CONSTRAINT `fk_artist_has_technique_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_artist_has_technique_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- Table `type_artist`
-DROP TABLE IF EXISTS `type_artist`;
-
-CREATE TABLE IF NOT EXISTS `type_artist` (
-  `artist_id` INT NOT NULL,
-  `type_id` INT NOT NULL,
-  PRIMARY KEY (`artist_id`, `type_id`),
-  INDEX `fk_artist_has_type_type1_idx` (`type_id`),
-  INDEX `fk_artist_has_type_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artist_has_type_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_artist_has_type_type1` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `art_trend_artist`
@@ -378,6 +366,27 @@ VALUES
     1
   );
 
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Istrateur',
+    'Admin',
+    'admin',
+    'admin@admin.com',
+    '$argon2id$v=19$m=65536,t=5,p=1$G/OsyV5kacbLZuo6tQKM3w$xK5B1E4vr3+xInGB5qmomg+Cpx3S46DIcdn9d5SbRYI',
+    0,
+    null
+  );
+
 -- Table artwork_favorite
 INSERT INTO
   artwork_favorite (user_id, artwork_id)
@@ -397,17 +406,6 @@ VALUES
 
 INSERT INTO
   artist_technique (artist_id, technique_id)
-VALUES
-  (2, 2);
-
--- Table type_artist
-INSERT INTO
-  type_artist (artist_id, type_id)
-VALUES
-  (1, 1);
-
-INSERT INTO
-  type_artist (artist_id, type_id)
 VALUES
   (2, 2);
 
