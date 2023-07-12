@@ -8,11 +8,11 @@ import StatusChangeConfirmation from "./StatusChangeConfirmation";
 function UserCard({ user, setDeletedUserId }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [status, setStatus] = useState("");
+  const [temporaryStatus, setTemporaryStatus] = useState("");
   const [isOpenDeleteConfirmation, setIsOpenDeleteConfirmation] =
     useState(false);
   const [isOpenStatusChangeConfirmation, setIsOpenStatusChangeConfirmation] =
     useState(false);
-  const [formEvent, setFormEvent] = useState({});
 
   useEffect(() => {
     let fetchedStatus;
@@ -37,15 +37,16 @@ function UserCard({ user, setDeletedUserId }) {
       });
   }, [user.id]);
 
-  const handleStatusChange = (event) => {
-    setStatus(event.target.value);
-    switch (event.target.value) {
+  const handleStatusChange = (someStatus) => {
+    switch (someStatus) {
       case "Admin":
         axios
           .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
             role: 0,
           })
-
+          .then(() => {
+            setStatus("Admin");
+          })
           .catch((err) => {
             console.error(err);
           });
@@ -55,7 +56,9 @@ function UserCard({ user, setDeletedUserId }) {
           .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
             role: 1,
           })
-
+          .then(() => {
+            setStatus("User");
+          })
           .catch((err) => {
             console.error(err);
           });
@@ -65,7 +68,9 @@ function UserCard({ user, setDeletedUserId }) {
           .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
             role: 2,
           })
-
+          .then(() => {
+            setStatus("Ban");
+          })
           .catch((err) => {
             console.error(err);
           });
@@ -92,8 +97,7 @@ function UserCard({ user, setDeletedUserId }) {
                   value={status}
                   onChange={(event) => {
                     setIsOpenStatusChangeConfirmation(true);
-                    setFormEvent(event);
-                    setStatus(event.target.value);
+                    setTemporaryStatus(event.target.value);
                   }}
                   className="text-sm xl:text-base"
                 >
@@ -129,8 +133,9 @@ function UserCard({ user, setDeletedUserId }) {
             setIsOpenStatusChangeConfirmation={
               setIsOpenStatusChangeConfirmation
             }
-            formEvent={formEvent}
+            temporaryStatus={temporaryStatus}
             status={status}
+            user={user}
           />
         </div>
       ) : (
