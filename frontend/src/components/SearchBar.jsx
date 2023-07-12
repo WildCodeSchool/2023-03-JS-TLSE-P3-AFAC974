@@ -1,12 +1,16 @@
 import PropTypes from "prop-types";
 
-export default function SearchBar({ searchTerm, handleInputChange }) {
+export default function SearchBar({
+  placeholder,
+  searchTerm,
+  handleInputChange,
+}) {
   return (
     <div>
       <input
         type="text"
-        placeholder="Rechercher une oeuvre..."
-        className="border-solid border-2 border-gray-300 py-1 pl-2 rounded-md my-2"
+        placeholder={placeholder}
+        className="border-solid border-2 border-gray-300 py-1 pl-2 rounded-md"
         value={searchTerm}
         onChange={handleInputChange}
       />
@@ -15,6 +19,13 @@ export default function SearchBar({ searchTerm, handleInputChange }) {
 }
 
 SearchBar.propTypes = {
-  handleInputChange: PropTypes.string.isRequired,
-  searchTerm: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  handleInputChange: PropTypes.func,
+  searchTerm: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  placeholder: "Rechercher ...",
+  handleInputChange: () => {},
+  searchTerm: "",
 };

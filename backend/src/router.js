@@ -18,6 +18,9 @@ const itemControllers = require("./controllers/itemControllers");
 const artworkControllers = require("./controllers/artworkControllers");
 const artistControllers = require("./controllers/artistControllers");
 const userControllers = require("./controllers/userControllers");
+const typeControllers = require("./controllers/typeControllers");
+const techniqueControllers = require("./controllers/techniqueControllers");
+const arttrendControllers = require("./controllers/arttrendControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -37,16 +40,33 @@ const { storage } = require("./services/cloudinary");
 const upload = multer({ storage });
 
 router.get("/artworks", artworkControllers.browse);
+router.get("/artworks/:id", artworkControllers.read);
 
 // artist routes
 
 router.get("/artists", artistControllers.browse);
+router.get("/artists/:id", artistControllers.read);
 
 // user routes
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
 router.get("/findadmin", userControllers.browseAdmin);
+
+// type routes
+
+router.get("/types", typeControllers.browse);
+router.get("/types/:id", typeControllers.read);
+
+// technique routes
+
+router.get("/techniques", techniqueControllers.browse);
+router.get("/techniques/:id", techniqueControllers.read);
+
+// arttrend routes
+
+router.get("/arttrends", arttrendControllers.browse);
+router.get("/arttrends/:id", arttrendControllers.read);
 
 // --- PASSWORD NEEDED ROUTE --- //
 
