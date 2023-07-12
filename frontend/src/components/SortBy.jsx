@@ -5,7 +5,7 @@ function SortBy({ handleChange }) {
     <div>
       <select
         name="select"
-        className="border-solid border-2 border-gray-300 p-1 rounded-md mt-2 mb-6 md:my-2"
+        className="border-solid border-2 border-gray-300 p-1 rounded-md"
         onChange={handleChange}
         defaultValue="default"
       >
@@ -20,7 +20,7 @@ function SortBy({ handleChange }) {
 }
 
 SortBy.propTypes = {
-  handleChange: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default SortBy;
