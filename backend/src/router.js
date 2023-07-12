@@ -10,6 +10,8 @@ const {
   hashPassword,
   verifyPassword,
   verifyToken,
+  // verifyIsAdmin,
+  // verifyIsUser,
 } = require("./auth");
 
 // controllers import
@@ -47,6 +49,7 @@ router.get("/artists", artistControllers.browse);
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
 router.get("/findadmin", userControllers.browseAdmin);
+router.get("/findusers", userControllers.browseUsers);
 
 // --- PASSWORD NEEDED ROUTE --- //
 

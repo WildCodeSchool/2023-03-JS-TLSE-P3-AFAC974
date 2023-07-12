@@ -7,14 +7,21 @@ class UserManager extends AbstractManager {
 
   findByRole() {
     return this.database.query(
-      `select email from ${this.table} where role = 0`
+      `select lastname , firstname , pseudo , email , image , entity_id from ${this.table} where role = 0`
+    );
+  }
+
+  findByRoleUsers() {
+    return this.database.query(
+      `select lastname , firstname , pseudo , email , image , entity_id from ${this.table} where role = 1`
     );
   }
 
   findByEmail(email) {
-    return this.database.query(`select * from ${this.table} where email = ?`, [
-      email,
-    ]);
+    return this.database.query(
+      `select email from ${this.table} where email = ?`,
+      [email]
+    );
   }
 
   insert(body) {

@@ -201,7 +201,7 @@ VALUES
     'Pablo Picasso',
     'Spanish painter, sculptor, printmaker, ceramicist, and stage designer',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     'url_large',
     'https://www.pablopicasso.org/',
     'https://www.facebook.com/pablopicasso',
@@ -230,7 +230,7 @@ VALUES
     'Claude Monet',
     'French painter and a founder of the Impressionist movement',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     'url_large',
     'https://www.claudemonet.org/',
     'https://www.facebook.com/claudemonet',
@@ -262,7 +262,7 @@ VALUES
     1907,
     'Oil painting on canvas',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
     'url_large',
     1,
     1,
@@ -297,7 +297,111 @@ VALUES
     1914,
     'Oil painting on canvas',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'url_large',
+    2,
+    1,
+    2,
+    2,
+    200,
+    180,
+    0,
+    'Musée de l''Orangerie, Paris'
+  );
+
+INSERT INTO
+  artwork (
+    name,
+    year,
+    description,
+    image_url_small,
+    image_url_medium,
+    image_url_large,
+    art_trend_id,
+    type_id,
+    technique_id,
+    artist_id,
+    width_cm,
+    height_cm,
+    depth_cm,
+    artwork_location
+  )
+VALUES
+  (
+    'La Joconde',
+    1519,
+    'Portrait énigmatique de femme au sourire mystérieux, par Léonard de Vinci.',
+    'url_small',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'url_large',
+    2,
+    1,
+    2,
+    2,
+    200,
+    180,
+    0,
+    'Musée de l''Orangerie, Paris'
+  );
+
+INSERT INTO
+  artwork (
+    name,
+    year,
+    description,
+    image_url_small,
+    image_url_medium,
+    image_url_large,
+    art_trend_id,
+    type_id,
+    technique_id,
+    artist_id,
+    width_cm,
+    height_cm,
+    depth_cm,
+    artwork_location
+  )
+VALUES
+  (
+    "Les Demoiselles d'Avignon",
+    1907,
+    'Oil painting on canvas',
+    'url_small',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'url_large',
+    2,
+    1,
+    2,
+    2,
+    200,
+    180,
+    0,
+    'Musée de l''Orangerie, Paris'
+  );
+INSERT INTO
+  artwork (
+    name,
+    year,
+    description,
+    image_url_small,
+    image_url_medium,
+    image_url_large,
+    art_trend_id,
+    type_id,
+    technique_id,
+    artist_id,
+    width_cm,
+    height_cm,
+    depth_cm,
+    artwork_location
+  )
+VALUES
+  (
+    "L'Oeuvre numéro 5",
+    2023,
+    'Description factice',
+    'url_small',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
     'url_large',
     2,
     1,
@@ -329,6 +433,7 @@ INSERT INTO
     firstname,
     pseudo,
     email,
+    image,
     hashedPassword,
     role,
     entity_id
@@ -339,6 +444,7 @@ VALUES
     'John',
     'johndoe',
     'johndoe@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     '$argon2id$v=19$m=16,t=2,p=1$emVmemVmemZlenplZHpkZnpmemZlemFkYXpkZA$V1qAnJDyMuuWG7g9yoGYXA',
     1,
     NULL
@@ -350,6 +456,77 @@ INSERT INTO
     firstname,
     pseudo,
     email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Gulien',
+    'Codeur',
+    'gulieur',
+    'guliencodeur@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$wmaumSok+tOezTLnTI/rhQ$Nsx6p6TBT38CBM78CJ/j5PNcw0VevGUodS5kIjGIkcY',
+    1,
+    NULL
+  );
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Jaspard',
+    'Codeur',
+    'jaspadeur',
+    'jaspardcodeur@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$1SwnI6fJ3zLhshOXM5S1RA$AhOUD7X2oQo9MVcpsJPAW02PQTONeWNKhP5JVYXM5GQ',
+    1,
+    NULL
+  );
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Hujo',
+    'Codeur',
+    'Hujodeur',
+    'hujodeur@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$dbZ4CxL35k4G+yZG8AzUIg$aOe5i3A6+RxPSHpgJimOU9Yp8kK8rKYupe5wQDIIV5s',
+    1,
+    NULL
+  );
+
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
     hashedPassword,
     role,
     entity_id
@@ -360,6 +537,7 @@ VALUES
     'Jane',
     'janesmith',
     'janesmith@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     '$argon2id$v=19$m=65536,t=5,p=1$6F4WFjpSx9bSq9k4lp2fiQ$cjVgCHF/voka5bZI9YAainiaT+LkaQxfNN638b/h4fQ',
     2,
     1
@@ -371,6 +549,7 @@ INSERT INTO
     firstname,
     pseudo,
     email,
+    image,
     hashedPassword,
     role,
     entity_id
@@ -381,6 +560,7 @@ VALUES
     'Admin',
     'admin',
     'admin@admin.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     '$argon2id$v=19$m=65536,t=5,p=1$G/OsyV5kacbLZuo6tQKM3w$xK5B1E4vr3+xInGB5qmomg+Cpx3S46DIcdn9d5SbRYI',
     0,
     null
