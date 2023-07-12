@@ -82,7 +82,7 @@ function UsersDisplay() {
     <div className="absolute mt-[60px] w-full flex flex-col items-center">
       <div className="flex justify-center xl:justify-between items-center w-[100%]">
         <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px] xl:my-[30px]">
-          <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-500 border-solid  rounded-full overflow-hidden">
+          <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-300 border-solid  rounded-full overflow-hidden">
             <img
               src={userSample}
               alt="profile sample"
