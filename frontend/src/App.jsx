@@ -8,6 +8,7 @@ import Gallery from "./pages/Gallery";
 import Artwork from "./pages/Artwork";
 import About from "./pages/About";
 import NavBar from "./components/NavBar";
+import UsersDisplay from "./components/UsersDisplay";
 import "./App.css";
 
 Modal.setAppElement("#root");
@@ -22,6 +23,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:artworkId" element={<Artwork />} />
           <Route path="/about" element={<About />} />
+          <Route path="/admin/users" element={<UsersDisplay />} />
         </Routes>
       </div>
     </Router>

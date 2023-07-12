@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `entity_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_entity1_idx` (`entity_id`),
-  CONSTRAINT `fk_user_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`)
+  CONSTRAINT `fk_user_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `artwork_favorite`
@@ -262,7 +262,7 @@ VALUES
     1907,
     'Oil painting on canvas',
     'url_small',
-    'https://mcdn.wallpapersafari.com/medium/57/39/RLWa07.jpg',
+    'url_medium',
     'url_large',
     1,
     1,
@@ -297,7 +297,7 @@ VALUES
     1914,
     'Aquarelle de ses morts',
     'url_small',
-    'https://wallup.net/wp-content/uploads/2016/01/252816-galaxy-space-stars-planet.jpg',
+    'url_medium',
     'url_large',
     2,
     1,
