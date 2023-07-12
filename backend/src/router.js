@@ -22,7 +22,7 @@ const itemControllers = require("./controllers/itemControllers");
 const artworkControllers = require("./controllers/artworkControllers");
 const artistControllers = require("./controllers/artistControllers");
 const userControllers = require("./controllers/userControllers");
-const artTrendControllers = require("./controllers/artTrendControllers");
+const arttrendControllers = require("./controllers/arttrendControllers");
 const techniqueControllers = require("./controllers/techniqueControllers");
 const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
@@ -60,8 +60,8 @@ router.get("/findadmin", userControllers.browseAdmin);
 
 // art_trend routes
 
-router.get("/arttrends", artTrendControllers.browse);
-router.get("/arttrends/:id", artTrendControllers.read);
+router.get("/arttrends", arttrendControllers.browse);
+router.get("/arttrends/:id", arttrendControllers.read);
 
 // technique routes
 
@@ -109,8 +109,8 @@ router.delete("/techniques/:id", techniqueControllers.destroy);
 
 // art_trend routes
 
-router.post("/arttrends", artTrendControllers.addArtTrend);
-router.delete("/arttrends/:id", artTrendControllers.destroy);
+router.post("/arttrends", arttrendControllers.addArtTrend);
+router.delete("/arttrends/:id", arttrendControllers.destroy);
 
 // artist_technique routes
 

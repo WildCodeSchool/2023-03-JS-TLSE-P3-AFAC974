@@ -49,9 +49,9 @@ const UserManager = require("./UserManager");
 models.user = new UserManager();
 models.user.setDatabase(pool);
 
-const ArtTrendManager = require("./ArtTrendManager");
+const ArttrendManager = require("./ArttrendManager");
 
-models.artTrend = new ArtTrendManager();
+models.artTrend = new ArttrendManager();
 models.artTrend.setDatabase(pool);
 
 const TypeManager = require("./TypeManager");
