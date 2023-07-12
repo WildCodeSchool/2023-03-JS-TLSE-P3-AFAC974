@@ -40,6 +40,7 @@ function ModifyArtwork({
         <div className="w-full">
           <ArtworkFormModify
             nextStep={handleSubmit}
+            prevStep={handleCancel}
             selectedArtworkId={selectedArtworkId}
             modify={modify}
             selectedTypeId={selectedTypeId}
