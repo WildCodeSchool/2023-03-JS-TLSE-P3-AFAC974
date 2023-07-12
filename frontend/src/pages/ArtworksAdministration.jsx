@@ -194,7 +194,7 @@ export default function ArtworksAdministration() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/type`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
       .then((res) => {
         setDataType(res.data);
         setIsLoadedType(true);
@@ -206,7 +206,7 @@ export default function ArtworksAdministration() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/technique`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/techniques`)
       .then((res) => {
         setDataTechnique(res.data);
         setIsLoadedTechnique(true);

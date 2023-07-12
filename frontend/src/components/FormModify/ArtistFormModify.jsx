@@ -21,7 +21,7 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
       .get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/artists-technique/${selectedArtistId}`
+        }/artists-techniques/${selectedArtistId}`
       )
       .then((res) => {
         setDataTechniqueName(res.data);
@@ -37,7 +37,7 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
       .get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/arttrend-artist/${selectedArtistId}`
+        }/arttrends-artists/${selectedArtistId}`
       )
       .then((res) => {
         setDataArtTrendName(res.data);

@@ -60,26 +60,26 @@ router.get("/findadmin", userControllers.browseAdmin);
 
 // art_trend routes
 
-router.get("/arttrend", artTrendControllers.browse);
-router.get("/arttrend/:id", artTrendControllers.read);
+router.get("/arttrends", artTrendControllers.browse);
+router.get("/arttrends/:id", artTrendControllers.read);
 
 // technique routes
 
-router.get("/technique", techniqueControllers.browse);
-router.get("/technique/:id", techniqueControllers.read);
+router.get("/techniques", techniqueControllers.browse);
+router.get("/techniques/:id", techniqueControllers.read);
 
 // type routes
 
-router.get("/type", typeControllers.browse);
-router.get("/type/:id", typeControllers.read);
+router.get("/types", typeControllers.browse);
+router.get("/types/:id", typeControllers.read);
 
 // artist_technique routes
 
-router.get("/artists-technique", artistTechniqueControllers.browse);
+router.get("/artists-techniques", artistTechniqueControllers.browse);
 
 // art_trend routes
 
-router.get("/arttrend-artist", artTrendArtistControllers.browse);
+router.get("/arttrends-artists", artTrendArtistControllers.browse);
 
 // --- PASSWORD NEEDED ROUTE --- //
 
@@ -104,28 +104,28 @@ router.delete("/users/:id", userControllers.destroy);
 
 // technique routes
 
-router.post("/technique", techniqueControllers.addTechnique);
-router.delete("/technique/:id", techniqueControllers.destroy);
+router.post("/techniques", techniqueControllers.addTechnique);
+router.delete("/techniques/:id", techniqueControllers.destroy);
 
 // art_trend routes
 
-router.post("/arttrend", artTrendControllers.addArtTrend);
-router.delete("/arttrend/:id", artTrendControllers.destroy);
+router.post("/arttrends", artTrendControllers.addArtTrend);
+router.delete("/arttrends/:id", artTrendControllers.destroy);
 
 // artist_technique routes
 
 router.post(
-  "/artists-technique",
+  "/artists-techniques",
   artistTechniqueControllers.addArtistTechnique
 );
 router.delete(
-  "/artists-technique",
+  "/artists-techniques",
   artistTechniqueControllers.destroyJointureTechnique
 );
 
 // art_trend routes
 
-router.post("/arttrend-artist", artTrendArtistControllers.addArtTrendArtist);
+router.post("/arttrends-artists", artTrendArtistControllers.addArtTrendArtist);
 router.delete(
   "/arttrend-artist",
   artTrendArtistControllers.destroyJointureArtTrend
@@ -139,8 +139,8 @@ router.delete("/artists/:id", artistControllers.destroy);
 
 // art_trend routes
 
-router.post("/type", typeControllers.addType);
-router.delete("/type/:id", typeControllers.destroy);
+router.post("/types", typeControllers.addType);
+router.delete("/types/:id", typeControllers.destroy);
 
 router.post("/upload", upload.single("myfile"), uploadControllers.upload);
 router.delete("/upload", uploadControllers.destroy);

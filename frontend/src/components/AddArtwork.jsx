@@ -80,7 +80,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/type`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
       .then((res) => {
         setDataType(res.data);
         setIsLoadedType(true);
@@ -92,7 +92,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/technique`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/techniques`)
       .then((res) => {
         setDataTechnique(res.data);
         setIsLoadedTechnique(true);
@@ -104,7 +104,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrends`)
       .then((res) => {
         setDataArtTrend(res.data);
         setIsLoadedArtTrend(true);
@@ -116,7 +116,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/artists-technique`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artists-techniques`)
       .then((res) => {
         setDataArtistTechnique(res.data);
         setIsLoadedArtistTechnique(true);
@@ -128,7 +128,7 @@ function AddArtwork({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrends-artists`)
       .then((res) => {
         setDataArtTrendArtist(res.data);
         setIsLoadedArtTrendArtist(true);

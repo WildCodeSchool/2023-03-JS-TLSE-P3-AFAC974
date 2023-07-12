@@ -63,7 +63,7 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/type`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
       .then((res) => {
         setDataType(res.data);
         setIsLoadedType(true);
@@ -75,7 +75,7 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/technique`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/techniques`)
       .then((res) => {
         setDataTechnique(res.data);
         setIsLoadedTechnique(true);
@@ -87,7 +87,7 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrends`)
       .then((res) => {
         setDataArtTrend(res.data);
         setIsLoadedArtTrend(true);
@@ -99,7 +99,7 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/artists-technique`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artists-techniques`)
       .then((res) => {
         setDataArtistTechnique(res.data);
         setIsLoadedArtistTechnique(true);
@@ -111,7 +111,7 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrends-artists`)
       .then((res) => {
         setDataArtTrendArtist(res.data);
         setIsLoadedArtTrendArtist(true);
@@ -146,7 +146,7 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/type/${selectedTypeId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/types/${selectedTypeId}`)
       .then((res) => {
         setDataTypeId(res.data.name);
         setIsLoadedTypeId(true);
@@ -159,7 +159,7 @@ function ArtworkFormModify({
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_URL}/technique/${selectedTechniqueId}`
+        `${import.meta.env.VITE_BACKEND_URL}/techniques/${selectedTechniqueId}`
       )
       .then((res) => {
         setDataTechniqueId(res.data.name);
@@ -172,7 +172,9 @@ function ArtworkFormModify({
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend/${selectedArtTrendId}`)
+      .get(
+        `${import.meta.env.VITE_BACKEND_URL}/arttrends/${selectedArtTrendId}`
+      )
       .then((res) => {
         setDataArtTrendId(res.data.name);
         setIsLoadedArtTrendId(true);
