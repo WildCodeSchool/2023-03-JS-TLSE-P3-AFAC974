@@ -27,8 +27,6 @@ export default function ArtistAdministration() {
 
   const [selectedArtistId, setSelectedArtistId] = useState(null);
   const [selectedUrlArtistId, setSelectedUrlArtistId] = useState(null);
-  // console.log("artistId", selectedArtistId);
-  // console.log("url-artist", selectedUrlArtistId);
 
   const openModalModifyArtist = () => {
     setModalOpenModifyArtist(true);

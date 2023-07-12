@@ -160,13 +160,6 @@ export function FormArtworkArtistProvider({ children }) {
     }));
   };
 
-  // console.log("artwork", formArtwork);
-  // console.log("artist", formArtist);
-  // console.log("previewartwork", artworkPreview);
-  // console.log("previewartist", artistPreview);
-  // console.log("fileartwork", artworkPicture);
-  // console.log("fileartist", artistPicture);
-
   const [artisteTechniqueUpload, setArtisteTechniqueUpload] = useState(false);
   const [artTrendArtistUpload, setArtTrendArtistUpload] = useState(false);
 
