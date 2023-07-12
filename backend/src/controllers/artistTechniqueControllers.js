@@ -1,7 +1,7 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-  models.type
+  models.artistTechnique
     .findAll()
     .then(([rows]) => {
       res.send(rows).status(200);
@@ -12,14 +12,18 @@ const browse = (req, res) => {
     });
 };
 
-const read = (req, res) => {
-  models.type
-    .find(req.params.id)
+const destroyJointureTechnique = (req, res) => {
+  const filters = {
+    artist_id: req.query.artist_id,
+    technique_id: req.query.technique_id,
+  };
+  models.artistTechnique
+    .deleteJointureTechnique(filters)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);
       } else {
-        res.send(rows[0]);
+        res.send(rows);
       }
     })
     .catch((err) => {
@@ -28,9 +32,9 @@ const read = (req, res) => {
     });
 };
 
-const addType = (req, res) => {
-  models.type
-    .createType(req.body)
+const addArtistTechnique = (req, res) => {
+  models.artistTechnique
+    .createArtistTechnique(req.body)
     .then((rows) => {
       res.status(200).send(rows);
     })
@@ -40,26 +44,8 @@ const addType = (req, res) => {
     });
 };
 
-const destroy = (req, res) => {
-  const { id } = req.params;
-  models.type
-    .delete(id)
-    .then(([result]) => {
-      if (result.affectedRows === 0) {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(204);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-};
-
 module.exports = {
   browse,
-  addType,
-  destroy,
-  read,
+  addArtistTechnique,
+  destroyJointureTechnique,
 };

@@ -49,20 +49,30 @@ const UserManager = require("./UserManager");
 models.user = new UserManager();
 models.user.setDatabase(pool);
 
-const TechniqueManager = require("./TechniqueManager");
+const ArttrendManager = require("./ArttrendManager");
 
-models.technique = new TechniqueManager();
-models.technique.setDatabase(pool);
+models.artTrend = new ArttrendManager();
+models.artTrend.setDatabase(pool);
 
 const TypeManager = require("./TypeManager");
 
 models.type = new TypeManager();
 models.type.setDatabase(pool);
 
-const ArttrendManager = require("./ArttrendManager");
+const TechniqueManager = require("./TechniqueManager");
 
-models.arttrend = new ArttrendManager();
-models.arttrend.setDatabase(pool);
+models.technique = new TechniqueManager();
+models.technique.setDatabase(pool);
+
+const ArtistTechniqueManager = require("./ArtistTechniqueManager");
+
+models.artistTechnique = new ArtistTechniqueManager();
+models.artistTechnique.setDatabase(pool);
+
+const ArtTrendArtistManager = require("./ArtTrendArtistManager");
+
+models.artTrendArtist = new ArtTrendArtistManager();
+models.artTrendArtist.setDatabase(pool);
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
