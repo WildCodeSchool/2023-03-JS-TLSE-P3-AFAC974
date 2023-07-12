@@ -1,6 +1,10 @@
 const express = require("express");
 const multer = require("multer");
 
+const { storage } = require("./services/cloudinary");
+
+const upload = multer({ storage });
+
 const router = express.Router();
 
 // authentication import
@@ -20,6 +24,12 @@ const itemControllers = require("./controllers/itemControllers");
 const artworkControllers = require("./controllers/artworkControllers");
 const artistControllers = require("./controllers/artistControllers");
 const userControllers = require("./controllers/userControllers");
+const arttrendControllers = require("./controllers/arttrendControllers");
+const techniqueControllers = require("./controllers/techniqueControllers");
+const typeControllers = require("./controllers/typeControllers");
+const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
+const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
+const uploadControllers = require("./controllers/uploadControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -33,22 +43,45 @@ router.delete("/items/:id", itemControllers.destroy);
 
 // artwork routes
 
-const { storage } = require("./services/cloudinary");
-
-// Créer l'instance de multer avec la configuration de stockage Cloudinary
-const upload = multer({ storage });
-
 router.get("/artworks", artworkControllers.browse);
+router.get("/artworks/:id", artworkControllers.read);
 
 // artist routes
 
 router.get("/artists", artistControllers.browse);
+router.get("/artists/:id", artistControllers.read);
+router.get("/artists-artworks-url/:id", artistControllers.readArtworkUrl);
+router.get("/arttrend-artist/:id", artistControllers.readArtTrendName);
+router.get("/artists-technique/:id", artistControllers.readTechniqueName);
 
 // user routes
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
 router.get("/findadmin", userControllers.browseAdmin);
+
+// art_trend routes
+
+router.get("/arttrends", arttrendControllers.browse);
+router.get("/arttrends/:id", arttrendControllers.read);
+
+// technique routes
+
+router.get("/techniques", techniqueControllers.browse);
+router.get("/techniques/:id", techniqueControllers.read);
+
+// type routes
+
+router.get("/types", typeControllers.browse);
+router.get("/types/:id", typeControllers.read);
+
+// artist_technique routes
+
+router.get("/artists-techniques", artistTechniqueControllers.browse);
+
+// art_trend routes
+
+router.get("/arttrends-artists", artTrendArtistControllers.browse);
 router.get("/findusers", userControllers.browseUsers);
 
 // --- PASSWORD NEEDED ROUTE --- //
@@ -63,18 +96,57 @@ router.use(verifyToken);
 
 // artwork routes
 
-router.post("/artworks", upload.single("image"), artworkControllers.create);
+router.post("/artworks", artworkControllers.create);
 router.put("/artworks/:id", artworkControllers.edit);
-
-// artist routes
-
-router.post("/artists", artistControllers.create);
-router.put("/artists/:id", artistControllers.edit);
-router.delete("/artists/:id", artistControllers.destroy);
+router.delete("/artworks/:id", artworkControllers.destroy);
 
 // user routes
 
 router.put("/users/:id", verifyEmail, userControllers.edit);
 router.delete("/users/:id", userControllers.destroy);
+
+// technique routes
+
+router.post("/techniques", techniqueControllers.addTechnique);
+router.delete("/techniques/:id", techniqueControllers.destroy);
+
+// art_trend routes
+
+router.post("/arttrends", arttrendControllers.addArtTrend);
+router.delete("/arttrends/:id", arttrendControllers.destroy);
+
+// artist_technique routes
+
+router.post(
+  "/artists-techniques",
+  artistTechniqueControllers.addArtistTechnique
+);
+router.delete(
+  "/artists-techniques",
+  artistTechniqueControllers.destroyJointureTechnique
+);
+
+// art_trend_artists routes
+
+router.post("/arttrends-artists", artTrendArtistControllers.addArtTrendArtist);
+router.delete(
+  "/arttrend-artist",
+  artTrendArtistControllers.destroyJointureArtTrend
+);
+
+// artist routes
+
+router.post("/artists", artistControllers.addArtist);
+router.put("/artists/:id", artistControllers.edit);
+router.delete("/artists/:id", artistControllers.destroy);
+
+// type routes
+
+router.post("/types", typeControllers.addType);
+router.delete("/types/:id", typeControllers.destroy);
+
+router.post("/upload", upload.single("myfile"), uploadControllers.upload);
+router.delete("/upload", uploadControllers.destroy);
+router.delete("/upload/group", uploadControllers.destroyGroup);
 
 module.exports = router;

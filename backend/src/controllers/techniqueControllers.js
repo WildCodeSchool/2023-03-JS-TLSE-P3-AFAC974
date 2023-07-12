@@ -1,7 +1,7 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-  models.artwork
+  models.technique
     .findAll()
     .then(([rows]) => {
       res.send(rows).status(200);
@@ -13,7 +13,7 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  models.artwork
+  models.technique
     .find(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -28,28 +28,11 @@ const read = (req, res) => {
     });
 };
 
-const create = (req, res) => {
-  models.artwork
-    .createArtwork(req.body)
+const addTechnique = (req, res) => {
+  models.technique
+    .createTechnique(req.body)
     .then((rows) => {
-      res.send(rows).status(200);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-};
-
-const edit = (req, res) => {
-  const { id } = req.params;
-  models.artwork
-    .updateArtwork(id, req.body)
-    .then(([rows]) => {
-      if (rows.affectedRows === 0) {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(204);
-      }
+      res.status(200).send(rows);
     })
     .catch((err) => {
       console.error(err);
@@ -59,7 +42,7 @@ const edit = (req, res) => {
 
 const destroy = (req, res) => {
   const { id } = req.params;
-  models.artwork
+  models.technique
     .delete(id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -76,8 +59,7 @@ const destroy = (req, res) => {
 
 module.exports = {
   browse,
-  read,
-  create,
-  edit,
+  addTechnique,
   destroy,
+  read,
 };

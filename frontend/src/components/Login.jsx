@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import axios from "axios";
@@ -26,6 +26,8 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     entity_id: "",
     user_picture: "",
   });
+
+  const inputRef = useRef();
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
@@ -312,7 +314,10 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             <p className="text-3xl font-semibold text-[#257492]">
               INSCRIPTION 3/3
             </p>
-            <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] items-center">
+            <form
+              encType="multipart/form-data"
+              className="flex flex-col gap-3 w-[70vw] sm:w-[350px] items-center"
+            >
               <div className=" hidden w-full">
                 <Input
                   type="file"
@@ -320,6 +325,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   id="user_picture"
                   name="image"
                   onChange={(event) => handleInputChange(event)}
+                  ref={inputRef}
                 />
               </div>
               <label
@@ -376,8 +382,6 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
-          zIndex: "20",
-          backdropFilter: "blur(6px)",
         },
         content: {
           backgroundColor: "#fff",

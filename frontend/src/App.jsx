@@ -6,18 +6,21 @@ import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import RoutesComponent from "./components/RouteComponents";
+import { FormArtworkArtistProvider } from "./context/FormArtworkArtistContext";
 
 Modal.setAppElement("#root");
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <NavBar />
-          <RoutesComponent />
-        </div>
-      </Router>
+      <FormArtworkArtistProvider>
+        <Router>
+          <div className="App">
+            <NavBar />
+            <RoutesComponent />
+          </div>
+        </Router>
+      </FormArtworkArtistProvider>
     </AuthProvider>
   );
 }
