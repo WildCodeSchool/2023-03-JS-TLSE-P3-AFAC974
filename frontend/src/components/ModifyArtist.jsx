@@ -48,14 +48,13 @@ ModifyArtist.propTypes = {
   setModalOpen: PropTypes.func,
   setModalConfirmation: PropTypes.func,
   handleCancel: PropTypes.func.isRequired,
-  selectedArtistId: PropTypes.number,
+  selectedArtistId: PropTypes.number.isRequired,
 };
 
 ModifyArtist.defaultProps = {
   isOpen: false,
   setModalOpen: () => {},
   setModalConfirmation: () => {},
-  selectedArtistId: 0,
 };
 
 export default ModifyArtist;

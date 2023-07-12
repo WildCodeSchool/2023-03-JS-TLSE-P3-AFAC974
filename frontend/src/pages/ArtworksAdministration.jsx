@@ -4,9 +4,15 @@ import AddArtwork from "../components/AddArtwork";
 import ModifyArtwork from "../components/ModifyArtwork";
 import ValidationModal from "../components/ValidationModal";
 import ConfirmationModal from "../components/ConfirmationModal";
+import SearchBar from "../components/SearchBar";
+import SortBy from "../components/SortBy";
 import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 import ValidationPicture from "../assets/Validation.png";
 import ErrorPicture from "../assets/Erreur.png";
+import userSample from "../assets/user_sample.png";
+import addCircle from "../assets/add-circle.png";
+import crossDelete from "../assets/crossDelete.png";
+import engrenage from "../assets/Engrenage.png";
 
 export default function ArtworksAdministration() {
   const {
@@ -627,112 +633,251 @@ export default function ArtworksAdministration() {
       });
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("");
+  const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
+
+  const handleChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const filterAndSortData = () => {
+    let sortedData = [...dataArtworks];
+    if (searchTerm) {
+      sortedData = sortedData.filter((item) => {
+        if (typeof item.name === "string") {
+          return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        return false;
+      });
+    }
+
+    if (filter === "asc") {
+      sortedData.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (filter === "desc") {
+      sortedData.sort((a, b) => b.name.localeCompare(a.name));
+    }
+    return sortedData;
+  };
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  useEffect(() => {
+    const filteredAndSorted = filterAndSortData();
+    setFilteredAndSortedData(filteredAndSorted);
+  }, [dataArtworks, searchTerm, filter]);
+
   return (
-    <div>
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            openModalAdd();
-            setNeedToFetch(!needToFetch);
-          }}
-        >
-          Ajouter
-        </button>
-        <AddArtwork
-          isOpen={modalOpenAdd}
-          setModalOpen={setModalOpenAdd}
-          step={step}
-          setStep={setStep}
-          setModalConfirmation={setModalConfirmationAdd}
-          handleCancel={handleCancelAdd}
-        />
-        <ConfirmationModal
-          textConfirmationModal="Voulez vous réellement ajouter cette oeuvre ?"
-          isOpenModalConfirmation={modalConfirmationAdd}
-          setModalConfirmation={setModalConfirmationAdd}
-          setStep={setStep}
-          setModalValidation={setModalValidationAdd}
-          handleExecution={handleArtworkUpload}
-          isLoadedArtist={isLoadedArtist}
-          isLoadedType={isLoadedType}
-          isLoadedTechnique={isLoadedTechnique}
-          isLoadedArtTrend={isLoadedArtTrend}
-          handleCancel={handleCancelAdd}
-          isLoadedUrlArtworks
-          add
-        />
-        <ValidationModal
-          textValidationModal="Oeuvre ajoutée"
-          isOpenModalValidation={modalValidationAdd}
-          setModalValidation={setModalValidationAdd}
-          pictureValidationModal={ValidationPicture}
-        />
-        <ValidationModal
-          textValidationModal="Une erreur est survenue lors de l'ajout"
-          isOpenModalValidation={modalErrorAdd}
-          setModalValidation={setModalErrorAdd}
-          pictureValidationModal={ErrorPicture}
-        />
+    <div className="pt-[52px]">
+      <div className="pt-[20px] flex flex-col items-center">
+        <div>
+          <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden border-solid border border-gray-300">
+            <img
+              src={userSample}
+              alt="userSample"
+              className="object-cover w-full h-full"
+            />
+          </div>
+          <h1>Gestion des oeuvres</h1>
+        </div>
+        <div className="invisible lg:visible">Retour </div>
+        <div>
+          <div>
+            <div>
+              <SearchBar
+                searchTerm={searchTerm}
+                handleinputChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <SortBy handleChange={handleChange} />
+            </div>
+          </div>
+          <button
+            className="flex gap-2 border border-solid border-gray-300 rounded-[4px] p-[10px]"
+            type="button"
+            onClick={() => {
+              openModalAdd();
+              setNeedToFetch(!needToFetch);
+            }}
+          >
+            <img src={addCircle} alt="add-circle" />
+            <h1>Ajouter une oeuvre</h1>
+          </button>
+        </div>
       </div>
-      <div className="flex justify-center gap-10">
-        {isLoadedArtworks &&
-          dataArtworks.map((item) => (
-            <div key={item.id} className="flex flex-col">
-              <p className="border-solid border-2 border-black">{item.name}</p>
-              <img src={item.image_url_medium} alt="oeuvre" />
-              <button
-                type="button"
-                onClick={() => {
-                  setModalConfirmationDeleteArtwork(true);
-                  setSelectedArtworkId(item.id);
-                  setNeedToFetch(!needToFetch);
-                  setSelectedUrlArtworkId(item.image_url_medium);
-                }}
-              >
-                Delete
-              </button>
+      {isLoadedArtworks &&
+        filteredAndSortedData.map((itemArtwork) => (
+          <div key={itemArtwork.id} className="flex flex-col lg:invisible">
+            <img src={itemArtwork.image_url_medium} alt="oeuvre" />
+            <div className="flex">
+              <div>
+                <h2>{itemArtwork.name}</h2>
+                {dataArtist.map((itemArtist) => {
+                  if (itemArtist.id === itemArtwork.artist_id) {
+                    return (
+                      <p className="text-left mb-4 text-gray-600">
+                        {itemArtist.nickname}
+                      </p>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+
               <button
                 type="button"
                 onClick={() => {
                   openModalModifyArtwork();
-                  setSelectedArtworkId(item.id);
+                  setSelectedArtworkId(itemArtwork.id);
                   setNeedToFetch(!needToFetch);
-                  setSelectedTypeId(item.type_id);
-                  setSelectedTechniqueId(item.technique_id);
-                  setSelectedArtTrendId(item.art_trend_id);
-                  setSelectedArtistId(item.artist_id);
+                  setSelectedTypeId(itemArtwork.type_id);
+                  setSelectedTechniqueId(itemArtwork.technique_id);
+                  setSelectedArtTrendId(itemArtwork.art_trend_id);
+                  setSelectedArtistId(itemArtwork.artist_id);
                   setFormArtwork({
-                    name: item.name,
-                    year: item.year,
-                    description: item.description,
-                    imageUrlSmall: item.image_url_small,
-                    imageUrlMedium: item.image_url_medium,
-                    imageUrlLarge: item.image_url_large,
-                    artTrendId: item.art_trend_id,
-                    typeId: item.type_id,
-                    techniqueId: item.technique_id,
-                    artistId: item.artist_id,
-                    widthCm: item.width_cm,
-                    heightCm: item.height_cm,
-                    depthCm: item.depth_cm,
-                    artworkLocation: item.artwork_location,
+                    name: itemArtwork.name,
+                    year: itemArtwork.year,
+                    description: itemArtwork.description,
+                    imageUrlSmall: itemArtwork.image_url_small,
+                    imageUrlMedium: itemArtwork.image_url_medium,
+                    imageUrlLarge: itemArtwork.image_url_large,
+                    artTrendId: itemArtwork.art_trend_id,
+                    typeId: itemArtwork.type_id,
+                    techniqueId: itemArtwork.technique_id,
+                    artistId: itemArtwork.artist_id,
+                    widthCm: itemArtwork.width_cm,
+                    heightCm: itemArtwork.height_cm,
+                    depthCm: itemArtwork.depth_cm,
+                    artworkLocation: itemArtwork.artwork_location,
                   });
                   setFormArtTrendArtist({
-                    artistId: item.artist_id,
-                    artTrendId: item.art_trend_id,
+                    artistId: itemArtwork.artist_id,
+                    artTrendId: itemArtwork.art_trend_id,
                   });
                   setFormArtistTechnique({
-                    artistId: item.artist_id,
-                    techniqueId: item.technique_id,
+                    artistId: itemArtwork.artist_id,
+                    techniqueId: itemArtwork.technique_id,
                   });
                 }}
               >
-                Modify
+                <img src={engrenage} alt="engrenage" />
+                <h1 className="invisible">Modify</h1>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setModalConfirmationDeleteArtwork(true);
+                  setSelectedArtworkId(itemArtwork.id);
+                  setNeedToFetch(!needToFetch);
+                  setSelectedUrlArtworkId(itemArtwork.image_url_medium);
+                }}
+              >
+                <img src={crossDelete} alt="crossDelete" />
+                <h1 className="invisible">Delete</h1>
               </button>
             </div>
-          ))}
-      </div>
+          </div>
+        ))}
+      {isLoadedArtworks &&
+        dataArtworks.map((itemArtwork) => (
+          <div key={itemArtwork.id} className="invisible flex lg:visible">
+            MAP
+            <div>
+              <img src={itemArtwork.image_url_medium} alt="oeuvre" />
+              <p>{itemArtwork.name}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                openModalModifyArtwork();
+                setSelectedArtworkId(itemArtwork.id);
+                setNeedToFetch(!needToFetch);
+                setSelectedTypeId(itemArtwork.type_id);
+                setSelectedTechniqueId(itemArtwork.technique_id);
+                setSelectedArtTrendId(itemArtwork.art_trend_id);
+                setSelectedArtistId(itemArtwork.artist_id);
+                setFormArtwork({
+                  name: itemArtwork.name,
+                  year: itemArtwork.year,
+                  description: itemArtwork.description,
+                  imageUrlSmall: itemArtwork.image_url_small,
+                  imageUrlMedium: itemArtwork.image_url_medium,
+                  imageUrlLarge: itemArtwork.image_url_large,
+                  artTrendId: itemArtwork.art_trend_id,
+                  typeId: itemArtwork.type_id,
+                  techniqueId: itemArtwork.technique_id,
+                  artistId: itemArtwork.artist_id,
+                  widthCm: itemArtwork.width_cm,
+                  heightCm: itemArtwork.height_cm,
+                  depthCm: itemArtwork.depth_cm,
+                  artworkLocation: itemArtwork.artwork_location,
+                });
+                setFormArtTrendArtist({
+                  artistId: itemArtwork.artist_id,
+                  artTrendId: itemArtwork.art_trend_id,
+                });
+                setFormArtistTechnique({
+                  artistId: itemArtwork.artist_id,
+                  techniqueId: itemArtwork.technique_id,
+                });
+              }}
+            >
+              Modify
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setModalConfirmationDeleteArtwork(true);
+                setSelectedArtworkId(itemArtwork.id);
+                setNeedToFetch(!needToFetch);
+                setSelectedUrlArtworkId(itemArtwork.image_url_medium);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+
+      {/* Modal for Add */}
+      <AddArtwork
+        isOpen={modalOpenAdd}
+        setModalOpen={setModalOpenAdd}
+        step={step}
+        setStep={setStep}
+        setModalConfirmation={setModalConfirmationAdd}
+        handleCancel={handleCancelAdd}
+      />
+      <ConfirmationModal
+        textConfirmationModal="Voulez vous réellement ajouter cette oeuvre ?"
+        isOpenModalConfirmation={modalConfirmationAdd}
+        setModalConfirmation={setModalConfirmationAdd}
+        setStep={setStep}
+        setModalValidation={setModalValidationAdd}
+        handleExecution={handleArtworkUpload}
+        isLoadedArtist={isLoadedArtist}
+        isLoadedType={isLoadedType}
+        isLoadedTechnique={isLoadedTechnique}
+        isLoadedArtTrend={isLoadedArtTrend}
+        handleCancel={handleCancelAdd}
+        isLoadedUrlArtworks
+        add
+      />
+      <ValidationModal
+        textValidationModal="Oeuvre ajoutée"
+        isOpenModalValidation={modalValidationAdd}
+        setModalValidation={setModalValidationAdd}
+        pictureValidationModal={ValidationPicture}
+      />
+      <ValidationModal
+        textValidationModal="Une erreur est survenue lors de l'ajout"
+        isOpenModalValidation={modalErrorAdd}
+        setModalValidation={setModalErrorAdd}
+        pictureValidationModal={ErrorPicture}
+      />
+      {/* Modal for Delete */}
       <ConfirmationModal
         textConfirmationModal="Voulez vous réellement supprimer cette oeuvre ?"
         isOpenModalConfirmation={modalConfirmationDeleteArtwork}
@@ -761,6 +906,7 @@ export default function ArtworksAdministration() {
         setModalValidation={setModalErrorDeleteArtwork}
         pictureValidationModal={ErrorPicture}
       />
+      {/* Modal for Modify */}
       <ModifyArtwork
         isOpen={modalOpenModifyArtwork}
         setModalOpen={setModalOpenModifyArtwork}

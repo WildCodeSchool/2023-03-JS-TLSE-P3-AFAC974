@@ -460,20 +460,16 @@ ArtworkFormModify.propTypes = {
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
   modify: PropTypes.bool,
-  selectedTypeId: PropTypes.number,
-  selectedTechniqueId: PropTypes.number,
-  selectedArtTrendId: PropTypes.number,
-  selectedArtistId: PropTypes.number,
+  selectedTypeId: PropTypes.number.isRequired,
+  selectedTechniqueId: PropTypes.number.isRequired,
+  selectedArtTrendId: PropTypes.number.isRequired,
+  selectedArtistId: PropTypes.number.isRequired,
 };
 
 ArtworkFormModify.defaultProps = {
   prevStep: () => {},
   nextStep: () => {},
   modify: false,
-  selectedTypeId: 0,
-  selectedTechniqueId: 0,
-  selectedArtTrendId: 0,
-  selectedArtistId: 0,
 };
 
 export default ArtworkFormModify;

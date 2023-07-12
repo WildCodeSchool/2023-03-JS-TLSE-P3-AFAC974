@@ -97,12 +97,6 @@ router.post("/artworks", artworkControllers.create);
 router.put("/artworks/:id", artworkControllers.edit);
 router.delete("/artworks/:id", artworkControllers.destroy);
 
-// artist routes
-
-router.post("/artists", artistControllers.create);
-router.put("/artists/:id", artistControllers.edit);
-router.delete("/artists/:id", artistControllers.destroy);
-
 // user routes
 
 router.put("/users/:id", verifyEmail, userControllers.edit);

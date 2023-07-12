@@ -58,22 +58,17 @@ ModifyArtwork.propTypes = {
   setModalOpen: PropTypes.func,
   setModalConfirmation: PropTypes.func,
   handleCancel: PropTypes.func.isRequired,
-  selectedArtworkId: PropTypes.number,
-  selectedTypeId: PropTypes.number,
-  selectedTechniqueId: PropTypes.number,
-  selectedArtTrendId: PropTypes.number,
-  selectedArtistId: PropTypes.number,
+  selectedArtworkId: PropTypes.number.isRequired,
+  selectedTypeId: PropTypes.number.isRequired,
+  selectedTechniqueId: PropTypes.number.isRequired,
+  selectedArtTrendId: PropTypes.number.isRequired,
+  selectedArtistId: PropTypes.number.isRequired,
 };
 
 ModifyArtwork.defaultProps = {
   isOpen: false,
   setModalOpen: () => {},
   setModalConfirmation: () => {},
-  selectedArtworkId: 1,
-  selectedTypeId: 1,
-  selectedTechniqueId: 1,
-  selectedArtTrendId: 1,
-  selectedArtistId: 1,
 };
 
 export default ModifyArtwork;
