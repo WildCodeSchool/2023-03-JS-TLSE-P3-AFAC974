@@ -123,7 +123,7 @@ router.delete(
   artistTechniqueControllers.destroyJointureTechnique
 );
 
-// art_trend routes
+// art_trend_artists routes
 
 router.post("/arttrends-artists", artTrendArtistControllers.addArtTrendArtist);
 router.delete(
@@ -137,7 +137,7 @@ router.post("/artists", artistControllers.addArtist);
 router.put("/artists/:id", artistControllers.edit);
 router.delete("/artists/:id", artistControllers.destroy);
 
-// art_trend routes
+// type routes
 
 router.post("/types", typeControllers.addType);
 router.delete("/types/:id", typeControllers.destroy);

@@ -1,6 +1,6 @@
 const AbstractManager = require("./AbstractManager");
 
-class ArtTrendManager extends AbstractManager {
+class ArtTrendArtistManager extends AbstractManager {
   constructor() {
     super({ table: "art_trend_artist" });
   }
@@ -44,4 +44,4 @@ class ArtTrendManager extends AbstractManager {
   }
 }
 
-module.exports = ArtTrendManager;
+module.exports = ArtTrendArtistManager;

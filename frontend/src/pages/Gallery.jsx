@@ -7,6 +7,7 @@ import FavIcon from "../assets/heart.svg";
 import RedFavIcon from "../assets/heart_red.svg";
 
 export default function Gallery() {
+  const placeholder = "Rechercher une oeuvre ...";
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,13 +91,15 @@ export default function Gallery() {
             auteur(s).
           </p>
           <p className="text-[21px] py-4">Rechercher :</p>
-          <div className="flex flex-row justify-center items-center gap-2">
+          <div className="flex flex-col justify-center items-center gap-4 mt-2 mb-6 md:flex-row-reverse md:mt-5 md:pb-8 md:w-full md:justify-between">
+            <div className="sm:invisible md:visible md:bg-white md:w-[125px] md:h-[35px]" />
             <SearchBar
+              placeholder={placeholder}
               searchTerm={searchTerm}
-              handleinputChange={handleInputChange}
+              handleInputChange={handleInputChange}
             />
+            <SortBy handleChange={handleChange} />
           </div>
-          <SortBy handleChange={handleChange} />
         </div>
         <div className="flex flex-col justify-center md:flex-row md:grid md:grid-cols-4 md:gap-5">
           {filteredAndSortedData.map((artwork) => (
