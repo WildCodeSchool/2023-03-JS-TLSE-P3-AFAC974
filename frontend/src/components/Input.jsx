@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Input({ type, id, name, placeholder, onChange, value }) {
+function Input({
+  type,
+  id,
+  name,
+  placeholder,
+  onChange,
+  value,
+  inputDisabled,
+}) {
   const inputType = () => {
     switch (type) {
       case "file":
@@ -69,6 +77,7 @@ function Input({ type, id, name, placeholder, onChange, value }) {
             placeholder={placeholder}
             onChange={onChange}
             value={value}
+            disabled={inputDisabled}
           />
         );
     }
@@ -83,7 +92,8 @@ Input.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  inputDisabled: PropTypes.bool,
 };
 
 Input.defaultProps = {
@@ -93,6 +103,7 @@ Input.defaultProps = {
   placeholder: "",
   onChange: () => {},
   value: "",
+  inputDisabled: false,
 };
 
 export default Input;

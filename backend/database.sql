@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `technique` (
   PRIMARY KEY (`id`)
 );
 
+
 -- Table `art_trend`
 DROP TABLE IF EXISTS `art_trend`;
 
@@ -68,10 +69,10 @@ CREATE TABLE IF NOT EXISTS `artwork` (
   INDEX `fk_artwork_technique1_idx` (`technique_id`),
   INDEX `fk_artwork_artist1_idx` (`artist_id`),
   INDEX `fk_artwork_arttrend1_idx` (`art_trend_id`),
-  CONSTRAINT `fk_artwork_type1` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_artwork_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_artwork_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_artwork_arttrend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_artwork_type1` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artwork_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artwork_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artwork_arttrend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`)ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `entity`
@@ -98,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `entity_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_entity1_idx` (`entity_id`),
-  CONSTRAINT `fk_user_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`)
+  CONSTRAINT `fk_user_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `artwork_favorite`
@@ -123,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `artist_technique` (
   PRIMARY KEY (`artist_id`, `technique_id`),
   INDEX `fk_artist_has_technique_technique1_idx` (`technique_id`),
   INDEX `fk_artist_has_technique_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artist_has_technique_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`),
-  CONSTRAINT `fk_artist_has_technique_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`)
+  CONSTRAINT `fk_artist_has_technique_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artist_has_technique_technique1` FOREIGN KEY (`technique_id`) REFERENCES `technique` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table `art_trend_artist`
@@ -136,8 +137,8 @@ CREATE TABLE IF NOT EXISTS `art_trend_artist` (
   PRIMARY KEY (`artist_id`, `art_trend_id`),
   INDEX `fk_artist_has_art_trend_art_trend1_idx` (`art_trend_id`),
   INDEX `fk_artist_has_art_trend_artist1_idx` (`artist_id`),
-  CONSTRAINT `fk_artist_has_art_trend_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`),
-  CONSTRAINT `fk_artist_has_art_trend_art_trend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`)
+  CONSTRAINT `fk_artist_has_art_trend_artist1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_artist_has_art_trend_art_trend1` FOREIGN KEY (`art_trend_id`) REFERENCES `art_trend` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Table type
@@ -201,7 +202,7 @@ VALUES
     'Pablo Picasso',
     'Spanish painter, sculptor, printmaker, ceramicist, and stage designer',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     'url_large',
     'https://www.pablopicasso.org/',
     'https://www.facebook.com/pablopicasso',
@@ -230,7 +231,7 @@ VALUES
     'Claude Monet',
     'French painter and a founder of the Impressionist movement',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     'url_large',
     'https://www.claudemonet.org/',
     'https://www.facebook.com/claudemonet',
@@ -262,7 +263,7 @@ VALUES
     1907,
     'Oil painting on canvas',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
     'url_large',
     1,
     1,
@@ -297,7 +298,111 @@ VALUES
     1914,
     'Oil painting on canvas',
     'url_small',
-    'url_medium',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'url_large',
+    2,
+    1,
+    2,
+    2,
+    200,
+    180,
+    0,
+    'Musée de l''Orangerie, Paris'
+  );
+
+INSERT INTO
+  artwork (
+    name,
+    year,
+    description,
+    image_url_small,
+    image_url_medium,
+    image_url_large,
+    art_trend_id,
+    type_id,
+    technique_id,
+    artist_id,
+    width_cm,
+    height_cm,
+    depth_cm,
+    artwork_location
+  )
+VALUES
+  (
+    'La Joconde',
+    1519,
+    'Portrait énigmatique de femme au sourire mystérieux, par Léonard de Vinci.',
+    'url_small',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'url_large',
+    2,
+    1,
+    2,
+    2,
+    200,
+    180,
+    0,
+    'Musée de l''Orangerie, Paris'
+  );
+
+INSERT INTO
+  artwork (
+    name,
+    year,
+    description,
+    image_url_small,
+    image_url_medium,
+    image_url_large,
+    art_trend_id,
+    type_id,
+    technique_id,
+    artist_id,
+    width_cm,
+    height_cm,
+    depth_cm,
+    artwork_location
+  )
+VALUES
+  (
+    "Les Demoiselles d'Avignon",
+    1907,
+    'Oil painting on canvas',
+    'url_small',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'url_large',
+    2,
+    1,
+    2,
+    2,
+    200,
+    180,
+    0,
+    'Musée de l''Orangerie, Paris'
+  );
+INSERT INTO
+  artwork (
+    name,
+    year,
+    description,
+    image_url_small,
+    image_url_medium,
+    image_url_large,
+    art_trend_id,
+    type_id,
+    technique_id,
+    artist_id,
+    width_cm,
+    height_cm,
+    depth_cm,
+    artwork_location
+  )
+VALUES
+  (
+    "L'Oeuvre numéro 5",
+    2023,
+    'Description factice',
+    'url_small',
+    'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
     'url_large',
     2,
     1,
@@ -329,6 +434,7 @@ INSERT INTO
     firstname,
     pseudo,
     email,
+    image,
     hashedPassword,
     role,
     entity_id
@@ -339,6 +445,7 @@ VALUES
     'John',
     'johndoe',
     'johndoe@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     '$argon2id$v=19$m=16,t=2,p=1$emVmemVmemZlenplZHpkZnpmemZlemFkYXpkZA$V1qAnJDyMuuWG7g9yoGYXA',
     1,
     NULL
@@ -350,6 +457,77 @@ INSERT INTO
     firstname,
     pseudo,
     email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Gulien',
+    'Codeur',
+    'gulieur',
+    'guliencodeur@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$wmaumSok+tOezTLnTI/rhQ$Nsx6p6TBT38CBM78CJ/j5PNcw0VevGUodS5kIjGIkcY',
+    1,
+    NULL
+  );
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Jaspard',
+    'Codeur',
+    'jaspadeur',
+    'jaspardcodeur@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$1SwnI6fJ3zLhshOXM5S1RA$AhOUD7X2oQo9MVcpsJPAW02PQTONeWNKhP5JVYXM5GQ',
+    1,
+    NULL
+  );
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Hujo',
+    'Codeur',
+    'Hujodeur',
+    'hujodeur@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$dbZ4CxL35k4G+yZG8AzUIg$aOe5i3A6+RxPSHpgJimOU9Yp8kK8rKYupe5wQDIIV5s',
+    1,
+    NULL
+  );
+
+
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
     hashedPassword,
     role,
     entity_id
@@ -360,6 +538,7 @@ VALUES
     'Jane',
     'janesmith',
     'janesmith@example.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     '$argon2id$v=19$m=65536,t=5,p=1$6F4WFjpSx9bSq9k4lp2fiQ$cjVgCHF/voka5bZI9YAainiaT+LkaQxfNN638b/h4fQ',
     2,
     1
@@ -371,6 +550,7 @@ INSERT INTO
     firstname,
     pseudo,
     email,
+    image,
     hashedPassword,
     role,
     entity_id
@@ -381,6 +561,7 @@ VALUES
     'Admin',
     'admin',
     'admin@admin.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     '$argon2id$v=19$m=65536,t=5,p=1$G/OsyV5kacbLZuo6tQKM3w$xK5B1E4vr3+xInGB5qmomg+Cpx3S46DIcdn9d5SbRYI',
     0,
     null

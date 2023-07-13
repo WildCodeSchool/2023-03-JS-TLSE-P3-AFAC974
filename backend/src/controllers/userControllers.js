@@ -42,6 +42,18 @@ const browseAdmin = (req, res) => {
       res.sendStatus(500);
     });
 };
+const browseUsers = (req, res) => {
+  const { isUser } = req.body;
+  models.user
+    .findByRoleUsers(isUser)
+    .then(([users]) => {
+      res.send([users]).status(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 
 const add = (req, res) => {
   let data = {};
@@ -143,6 +155,7 @@ module.exports = {
   browse,
   read,
   browseAdmin,
+  browseUsers,
   add,
   edit,
   login,
