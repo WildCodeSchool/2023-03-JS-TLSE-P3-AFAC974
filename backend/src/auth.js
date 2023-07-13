@@ -28,7 +28,6 @@ const verifyEmail = (req, res, next) => {
 };
 
 const hashPassword = (req, res, next) => {
-  // console.log(req.body.hashedPassword);
   argon2
     .hash(req.body.hashedPassword, hashingOptions)
     .then((hashedPassword) => {
