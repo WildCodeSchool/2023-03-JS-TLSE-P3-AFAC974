@@ -167,20 +167,8 @@ export default function ArtworksAdministration() {
   const [dataType, setDataType] = useState(false);
   const [dataTechnique, setDataTechnique] = useState(false);
   const [dataArtTrend, setDataArtTrend] = useState(false);
-  // const [dataArtworks, setDataArtworks] = useState(false);
-  const [isLoadedArtworks, setIsLoadedArtworks] = useState(false);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
-  //     .then((res) => {
-  //       setDataArtworks(res.data);
-  //       setIsLoadedArtworks(true);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err.message);
-  //     });
-  // }, [needToFetch]);
+  const [isLoadedArtworks, setIsLoadedArtworks] = useState(false);
 
   useEffect(() => {
     axios
@@ -573,7 +561,6 @@ export default function ArtworksAdministration() {
                 error
               );
               setNeedToFetch(!needToFetch);
-              setModalErrorDeleteArtwork(true);
               deleteError();
             });
         } else {
@@ -584,7 +571,6 @@ export default function ArtworksAdministration() {
       .catch((error) => {
         console.error("Erreur lors de la suppression de l'oeuvre :", error);
         setNeedToFetch(!needToFetch);
-        setModalErrorDeleteArtwork(true);
         deleteError();
       });
   };

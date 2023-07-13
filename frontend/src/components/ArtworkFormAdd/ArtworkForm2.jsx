@@ -354,7 +354,7 @@ function ArtworkForm2({
                 parseInt(artist, 10) ===
                 Math.max(...dataArtist.map((item) => item.id)) + 1
                   ? "Suivant"
-                  : "Submit"
+                  : "Valider"
               }
               onClick={() => {
                 nextStep();

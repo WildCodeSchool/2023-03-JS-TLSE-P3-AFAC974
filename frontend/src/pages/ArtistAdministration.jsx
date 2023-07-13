@@ -85,7 +85,6 @@ export default function ArtistAdministration() {
                 error
               );
               setNeedToFetch(!needToFetch);
-              setModalErrorDeleteArtist(true);
             });
         } else {
           setNeedToFetch(!needToFetch);
@@ -95,7 +94,6 @@ export default function ArtistAdministration() {
       .catch((error) => {
         console.error("Erreur lors de la suppression de l'oeuvre :", error);
         setNeedToFetch(!needToFetch);
-        setModalErrorDeleteArtist(true);
       });
   };
 
