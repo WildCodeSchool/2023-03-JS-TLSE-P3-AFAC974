@@ -7,6 +7,7 @@ import UserHome from "../pages/UserHome";
 import About from "../pages/About";
 import Gallery from "../pages/Gallery";
 import Artwork from "../pages/Artwork";
+import Artist from "../pages/Artist";
 import ArtworksAdministration from "../pages/ArtworksAdministration";
 import UsersAdministration from "../pages/UsersAdministration";
 import ArtistAdministration from "../pages/ArtistAdministration";
@@ -47,6 +48,7 @@ export default function RoutesComponent() {
       />
       <Route path="/gallery" element={<Gallery />} />
       <Route path="/gallery/:artworkId" element={<Artwork />} />
+      <Route path="/artist/:artistId" element={<Artist />} />
       <Route path="/about" element={<About />} />
     </Routes>
   );

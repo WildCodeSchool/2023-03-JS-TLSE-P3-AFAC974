@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import FavoriteButton from "../components/FavoriteButton";
 
@@ -131,12 +131,14 @@ export default function Artwork() {
                   </div>
                   <div className="flex flex-col justify-evenly items-center gap-3">
                     <h1 className="text-[21px]">{artist.nickname}</h1>
-                    <button
-                      type="button"
-                      className="bg-[#273590] text-[#e2e3e4] text-[16px] px-[10px] py-[2px] rounded-[8px]"
-                    >
-                      En savoir plus
-                    </button>
+                    <Link to={`/artist/${artwork.artist_id}`}>
+                      <button
+                        type="button"
+                        className="bg-[#273590] text-[#e2e3e4] text-[16px] px-[10px] py-[2px] rounded-[8px]"
+                      >
+                        En savoir plus
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
