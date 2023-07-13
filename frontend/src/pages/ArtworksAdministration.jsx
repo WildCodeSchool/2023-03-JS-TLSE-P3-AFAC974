@@ -633,16 +633,28 @@ export default function ArtworksAdministration() {
       });
   };
 
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFilter(e.target.value);
   };
 
   const filterAndSortData = () => {
-    let sortedData = [...dataArtworks];
+    let sortedData = [...data];
     if (searchTerm) {
       sortedData = sortedData.filter((item) => {
         if (typeof item.name === "string") {
@@ -667,7 +679,7 @@ export default function ArtworksAdministration() {
   useEffect(() => {
     const filteredAndSorted = filterAndSortData();
     setFilteredAndSortedData(filteredAndSorted);
-  }, [dataArtworks, searchTerm, filter]);
+  }, [data, searchTerm, filter]);
 
   return (
     <div className="pt-[52px]">
@@ -688,7 +700,7 @@ export default function ArtworksAdministration() {
             <div>
               <SearchBar
                 searchTerm={searchTerm}
-                handleinputChange={handleInputChange}
+                handleInputChange={handleInputChange}
               />
             </div>
             <div>

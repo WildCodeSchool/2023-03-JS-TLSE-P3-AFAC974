@@ -13,7 +13,7 @@ const {
   verifyEmail,
   hashPassword,
   verifyPassword,
-  // verifyToken,
+  verifyToken,
 } = require("./auth");
 
 // controllers import
@@ -22,11 +22,11 @@ const itemControllers = require("./controllers/itemControllers");
 const artworkControllers = require("./controllers/artworkControllers");
 const artistControllers = require("./controllers/artistControllers");
 const userControllers = require("./controllers/userControllers");
+const trendControllers = require("./controllers/trendControllers");
 const techniqueControllers = require("./controllers/techniqueControllers");
 const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
 const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
-const trendControllers = require("./controllers/trendControllers");
 const uploadControllers = require("./controllers/uploadControllers");
 
 // --- PUBLIC ROUTES --- //
@@ -80,16 +80,17 @@ router.get("/artists-techniques", artistTechniqueControllers.browse);
 // art_trend routes
 
 router.get("/arttrends-artists", artTrendArtistControllers.browse);
+router.get("/findusers", userControllers.browseUsers);
 
 // --- PASSWORD NEEDED ROUTE --- //
-
+// router.use(verifyIsAdmin);
 // user routes
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
 
 // --- TOKEN NEEDED ROUTES --- //
 
-// router.use(verifyToken);
+router.use(verifyToken);
 
 // artwork routes
 
@@ -110,7 +111,7 @@ router.delete("/techniques/:id", techniqueControllers.destroy);
 // art_trend routes
 
 router.post("/arttrends", trendControllers.addArtTrend);
-router.delete("./arttrends/:id", trendControllers.destroy);
+router.delete("/arttrends/:id", trendControllers.destroy);
 
 // artist_technique routes
 
