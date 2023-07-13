@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import AddArtwork from "../components/AddArtwork";
 import ModifyArtwork from "../components/ModifyArtwork";
@@ -13,6 +14,8 @@ import userSample from "../assets/user_sample.png";
 import addCircle from "../assets/add-circle.png";
 import crossDelete from "../assets/crossDelete.png";
 import engrenage from "../assets/Engrenage.png";
+import backArrow from "../assets/back-arrow.png";
+import trash from "../assets/trash.png";
 
 export default function ArtworksAdministration() {
   const {
@@ -83,7 +86,6 @@ export default function ArtworksAdministration() {
   };
 
   const handleCancelModifyArtwork = () => {
-    setStep(1);
     setModalOpenModifyArtwork(false);
     setModalConfirmationModifyArtwork(false);
     setFormArtwork({
@@ -165,20 +167,8 @@ export default function ArtworksAdministration() {
   const [dataType, setDataType] = useState(false);
   const [dataTechnique, setDataTechnique] = useState(false);
   const [dataArtTrend, setDataArtTrend] = useState(false);
-  const [dataArtworks, setDataArtworks] = useState(false);
-  const [isLoadedArtworks, setIsLoadedArtworks] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
-      .then((res) => {
-        setDataArtworks(res.data);
-        setIsLoadedArtworks(true);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, [needToFetch]);
+  const [isLoadedArtworks, setIsLoadedArtworks] = useState(false);
 
   useEffect(() => {
     axios
@@ -218,7 +208,7 @@ export default function ArtworksAdministration() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrend`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/arttrends`)
       .then((res) => {
         setDataArtTrend(res.data);
         setIsLoadedArtTrend(true);
@@ -314,7 +304,7 @@ export default function ArtworksAdministration() {
         if (!artisteTechniqueUpload) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/artists-technique`,
+              `${import.meta.env.VITE_BACKEND_URL}/artists-techniques`,
               newFormArtistTechnique
             )
             .then(() => {
@@ -347,7 +337,7 @@ export default function ArtworksAdministration() {
         if (!artTrendArtistUpload) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`,
+              `${import.meta.env.VITE_BACKEND_URL}/arttrends-artists`,
               newFormArtTrendArtist
             )
             .then(() => {
@@ -458,7 +448,7 @@ export default function ArtworksAdministration() {
           Math.max(...dataArtTrend.map((item) => item.id)) + 1
         ) {
           axios
-            .post(`${import.meta.env.VITE_BACKEND_URL}/arttrend`, formArtTrend)
+            .post(`${import.meta.env.VITE_BACKEND_URL}/arttrends`, formArtTrend)
             .then((artTrendResponse) => {
               rollbackData.push({
                 endpoint: "arttrend",
@@ -497,7 +487,7 @@ export default function ArtworksAdministration() {
         ) {
           axios
             .post(
-              `${import.meta.env.VITE_BACKEND_URL}/technique`,
+              `${import.meta.env.VITE_BACKEND_URL}/techniques`,
               formTechnique
             )
             .then((techniqueResponse) => {
@@ -525,7 +515,7 @@ export default function ArtworksAdministration() {
         Math.max(...dataType.map((item) => item.id)) + 1
       ) {
         axios
-          .post(`${import.meta.env.VITE_BACKEND_URL}/type`, formType)
+          .post(`${import.meta.env.VITE_BACKEND_URL}/types`, formType)
           .then((typeResponse) => {
             rollbackData.push({
               endpoint: "type",
@@ -555,7 +545,7 @@ export default function ArtworksAdministration() {
       .delete(`${import.meta.env.VITE_BACKEND_URL}/artworks/${id}`)
       .then(() => {
         if (url !== "") {
-          const isolationNamePicture = url.match(/\/([^/]+)\.jpg$/);
+          const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
           const namePicture = isolationNamePicture[1];
           axios
             .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
@@ -571,7 +561,6 @@ export default function ArtworksAdministration() {
                 error
               );
               setNeedToFetch(!needToFetch);
-              setModalErrorDeleteArtwork(true);
               deleteError();
             });
         } else {
@@ -582,7 +571,6 @@ export default function ArtworksAdministration() {
       .catch((error) => {
         console.error("Erreur lors de la suppression de l'oeuvre :", error);
         setNeedToFetch(!needToFetch);
-        setModalErrorDeleteArtwork(true);
         deleteError();
       });
   };
@@ -643,11 +631,12 @@ export default function ArtworksAdministration() {
       .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
       .then((res) => {
         setData(res.data);
+        setIsLoadedArtworks(true);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [needToFetch]);
 
   const handleChange = (e) => {
     setFilter(e.target.value);
@@ -684,31 +673,41 @@ export default function ArtworksAdministration() {
   return (
     <div className="pt-[52px]">
       <div className="pt-[20px] flex flex-col items-center">
-        <div>
-          <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden border-solid border border-gray-300">
-            <img
-              src={userSample}
-              alt="userSample"
-              className="object-cover w-full h-full"
-            />
-          </div>
-          <h1>Gestion des oeuvres</h1>
-        </div>
-        <div className="invisible lg:visible">Retour </div>
-        <div>
-          <div>
-            <div>
-              <SearchBar
-                searchTerm={searchTerm}
-                handleInputChange={handleInputChange}
+        <div className="flex justify-center xl:justify-between items-center w-[100%]">
+          <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px] xl:my-[30px]">
+            <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden border-solid border border-gray-300">
+              <img
+                src={userSample}
+                alt="userSample"
+                className="object-cover w-full h-full"
               />
             </div>
-            <div>
-              <SortBy handleChange={handleChange} />
-            </div>
+            <h1 className="text-3xl xl:text-4xl text-rose-900 font-semibold whitespace-nowrap mb-[24px] xl:mb-[0px]">
+              Gestion des oeuvres
+            </h1>
+          </div>
+          <Link
+            to="/admin"
+            className="hidden lg:flex mx-[70px] gap-1 text-xl items-center"
+          >
+            <img src={backArrow} alt="fleche retour" />
+            <p>Retour</p>
+          </Link>
+        </div>
+        <div className="flex flex-col-reverse xl:flex-row xl:w-[100%] items-center  xl:px-[70px]">
+          <div className="flex flex-1 justify-start">
+            <SearchBar
+              searchTerm={searchTerm}
+              handleInputChange={handleInputChange}
+              placeholder="Saisir une oeuvre..."
+              className="flex flex-2"
+            />
+          </div>
+          <div className="flex flex-1">
+            <SortBy handleChange={handleChange} className="flex flex-1" />
           </div>
           <button
-            className="flex gap-2 border border-solid border-gray-300 rounded-[4px] p-[10px]"
+            className="flex items-center gap-2 py-1 pl-2 border-2 border-solid border-gray-300 rounded-md p-[10px] text-sm"
             type="button"
             onClick={() => {
               openModalAdd();
@@ -716,17 +715,24 @@ export default function ArtworksAdministration() {
             }}
           >
             <img src={addCircle} alt="add-circle" />
-            <h1>Ajouter une oeuvre</h1>
+            <p className="text-base lg:w-[200px]">Ajouter une oeuvre</p>
           </button>
         </div>
       </div>
       {isLoadedArtworks &&
         filteredAndSortedData.map((itemArtwork) => (
-          <div key={itemArtwork.id} className="flex flex-col lg:invisible">
-            <img src={itemArtwork.image_url_medium} alt="oeuvre" />
-            <div className="flex">
+          <div
+            key={itemArtwork.id}
+            className="flex flex-col lg:hidden m-[40px]"
+          >
+            <img
+              src={itemArtwork.image_url_medium}
+              alt="oeuvre"
+              className="shadow-xl drop-shadow-lg"
+            />
+            <div className="flex mt-[20px] justify-between">
               <div>
-                <h2>{itemArtwork.name}</h2>
+                <h2 className="text-left ">{itemArtwork.name}</h2>
                 {dataArtist.map((itemArtist) => {
                   if (itemArtist.id === itemArtwork.artist_id) {
                     return (
@@ -738,7 +744,94 @@ export default function ArtworksAdministration() {
                   return null;
                 })}
               </div>
-
+              <div className="flex items-center flex-end gap-5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    openModalModifyArtwork();
+                    setSelectedArtworkId(itemArtwork.id);
+                    setNeedToFetch(!needToFetch);
+                    setSelectedTypeId(itemArtwork.type_id);
+                    setSelectedTechniqueId(itemArtwork.technique_id);
+                    setSelectedArtTrendId(itemArtwork.art_trend_id);
+                    setSelectedArtistId(itemArtwork.artist_id);
+                    setFormArtwork({
+                      name: itemArtwork.name,
+                      year: itemArtwork.year,
+                      description: itemArtwork.description,
+                      imageUrlSmall: itemArtwork.image_url_small,
+                      imageUrlMedium: itemArtwork.image_url_medium,
+                      imageUrlLarge: itemArtwork.image_url_large,
+                      artTrendId: itemArtwork.art_trend_id,
+                      typeId: itemArtwork.type_id,
+                      techniqueId: itemArtwork.technique_id,
+                      artistId: itemArtwork.artist_id,
+                      widthCm: itemArtwork.width_cm,
+                      heightCm: itemArtwork.height_cm,
+                      depthCm: itemArtwork.depth_cm,
+                      artworkLocation: itemArtwork.artwork_location,
+                    });
+                    setFormArtTrendArtist({
+                      artistId: itemArtwork.artist_id,
+                      artTrendId: itemArtwork.art_trend_id,
+                    });
+                    setFormArtistTechnique({
+                      artistId: itemArtwork.artist_id,
+                      techniqueId: itemArtwork.technique_id,
+                    });
+                  }}
+                >
+                  <img src={engrenage} alt="engrenage" />
+                  <p className="hidden">Modifier</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModalConfirmationDeleteArtwork(true);
+                    setSelectedArtworkId(itemArtwork.id);
+                    setNeedToFetch(!needToFetch);
+                    setSelectedUrlArtworkId(itemArtwork.image_url_medium);
+                  }}
+                >
+                  <img src={crossDelete} alt="crossDelete" />
+                  <p className="hidden">Supprimer</p>
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      {isLoadedArtworks &&
+        filteredAndSortedData.map((itemArtwork) => (
+          <div
+            key={itemArtwork.id}
+            className="hidden lg:flex lg:mt-[20px] lg:pr-[70px] lg:pl-[70px]"
+          >
+            <div className="flex justify-between w-[100%] border-solid border-b border-gray-300 mb-[10px] items-center">
+              <div className="flex flex-col">
+                <img
+                  src={itemArtwork.image_url_medium}
+                  alt="oeuvre"
+                  className="w-[20vw]"
+                />
+                <div className="flex mt-[20px] justify-between">
+                  <div>
+                    <h2 className="text-left">{itemArtwork.name}</h2>
+                    {dataArtist.map((itemArtist) => {
+                      if (itemArtist.id === itemArtwork.artist_id) {
+                        return (
+                          <p
+                            className="text-left mb-4 text-gray-600"
+                            key={itemArtist.id}
+                          >
+                            {itemArtist.nickname}
+                          </p>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={() => {
@@ -774,9 +867,14 @@ export default function ArtworksAdministration() {
                     techniqueId: itemArtwork.technique_id,
                   });
                 }}
+                className="h-fit flex items-center justify-center text-sm xl:text-base gap-[8px] px-[10px] py-[8px] border border-solid rounded-md w-[40vw] xl:w-auto "
               >
-                <img src={engrenage} alt="engrenage" />
-                <h1 className="invisible">Modify</h1>
+                <img
+                  src={engrenage}
+                  alt="engrenage"
+                  className="w-[20px] h-[auto]"
+                />
+                <p>Modifier l'oeuvre</p>
               </button>
               <button
                 type="button"
@@ -786,70 +884,12 @@ export default function ArtworksAdministration() {
                   setNeedToFetch(!needToFetch);
                   setSelectedUrlArtworkId(itemArtwork.image_url_medium);
                 }}
+                className="h-fit flex items-center justify-center text-sm xl:text-base gap-[8px] px-[10px] py-[8px] border border-solid rounded-md w-[40vw] xl:w-auto "
               >
-                <img src={crossDelete} alt="crossDelete" />
-                <h1 className="invisible">Delete</h1>
+                <p>Supprimer</p>
+                <img src={trash} alt="poubelle" className="w-[20px] h-[auto]" />
               </button>
             </div>
-          </div>
-        ))}
-      {isLoadedArtworks &&
-        dataArtworks.map((itemArtwork) => (
-          <div key={itemArtwork.id} className="invisible flex lg:visible">
-            MAP
-            <div>
-              <img src={itemArtwork.image_url_medium} alt="oeuvre" />
-              <p>{itemArtwork.name}</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                openModalModifyArtwork();
-                setSelectedArtworkId(itemArtwork.id);
-                setNeedToFetch(!needToFetch);
-                setSelectedTypeId(itemArtwork.type_id);
-                setSelectedTechniqueId(itemArtwork.technique_id);
-                setSelectedArtTrendId(itemArtwork.art_trend_id);
-                setSelectedArtistId(itemArtwork.artist_id);
-                setFormArtwork({
-                  name: itemArtwork.name,
-                  year: itemArtwork.year,
-                  description: itemArtwork.description,
-                  imageUrlSmall: itemArtwork.image_url_small,
-                  imageUrlMedium: itemArtwork.image_url_medium,
-                  imageUrlLarge: itemArtwork.image_url_large,
-                  artTrendId: itemArtwork.art_trend_id,
-                  typeId: itemArtwork.type_id,
-                  techniqueId: itemArtwork.technique_id,
-                  artistId: itemArtwork.artist_id,
-                  widthCm: itemArtwork.width_cm,
-                  heightCm: itemArtwork.height_cm,
-                  depthCm: itemArtwork.depth_cm,
-                  artworkLocation: itemArtwork.artwork_location,
-                });
-                setFormArtTrendArtist({
-                  artistId: itemArtwork.artist_id,
-                  artTrendId: itemArtwork.art_trend_id,
-                });
-                setFormArtistTechnique({
-                  artistId: itemArtwork.artist_id,
-                  techniqueId: itemArtwork.technique_id,
-                });
-              }}
-            >
-              Modify
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setModalConfirmationDeleteArtwork(true);
-                setSelectedArtworkId(itemArtwork.id);
-                setNeedToFetch(!needToFetch);
-                setSelectedUrlArtworkId(itemArtwork.image_url_medium);
-              }}
-            >
-              Delete
-            </button>
           </div>
         ))}
 
@@ -922,8 +962,6 @@ export default function ArtworksAdministration() {
       <ModifyArtwork
         isOpen={modalOpenModifyArtwork}
         setModalOpen={setModalOpenModifyArtwork}
-        step={step}
-        setStep={setStep}
         setModalConfirmation={setModalConfirmationModifyArtwork}
         handleCancel={handleCancelModifyArtwork}
         selectedArtworkId={selectedArtworkId}
@@ -936,7 +974,6 @@ export default function ArtworksAdministration() {
         textConfirmationModal="Voulez vous réellement modifier cette oeuvre ?"
         isOpenModalConfirmation={modalConfirmationModifyArtwork}
         setModalConfirmation={setModalConfirmationModifyArtwork}
-        setStep={setStep}
         setModalValidation={setModalValidationModifyArtwork}
         handleExecution={() => handleArtworkModify(selectedArtworkId)}
         isLoadedArtist={isLoadedArtist}

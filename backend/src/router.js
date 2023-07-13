@@ -49,8 +49,8 @@ router.get("/artworks/:id", artworkControllers.read);
 router.get("/artists", artistControllers.browse);
 router.get("/artists/:id", artistControllers.read);
 router.get("/artists-artworks-url/:id", artistControllers.readArtworkUrl);
-router.get("/arttrend-artist/:id", artistControllers.readArtTrendName);
-router.get("/artists-technique/:id", artistControllers.readTechniqueName);
+router.get("/arttrends-artists/:id", artistControllers.readArtTrendName);
+router.get("/artists-techniques/:id", artistControllers.readTechniqueName);
 
 // user routes
 

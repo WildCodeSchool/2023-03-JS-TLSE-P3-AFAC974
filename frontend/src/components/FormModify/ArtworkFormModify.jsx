@@ -136,7 +136,7 @@ function ArtworkFormModify({
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artists/${selectedArtistId}`)
       .then((res) => {
-        setDataArtistId(res.data.nickname);
+        setDataArtistId(res.data[0].nickname);
         setIsLoadedArtistId(true);
       })
       .catch((err) => {
@@ -148,7 +148,7 @@ function ArtworkFormModify({
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/types/${selectedTypeId}`)
       .then((res) => {
-        setDataTypeId(res.data.name);
+        setDataTypeId(res.data[0].name);
         setIsLoadedTypeId(true);
       })
       .catch((err) => {
@@ -162,7 +162,7 @@ function ArtworkFormModify({
         `${import.meta.env.VITE_BACKEND_URL}/techniques/${selectedTechniqueId}`
       )
       .then((res) => {
-        setDataTechniqueId(res.data.name);
+        setDataTechniqueId(res.data[0].name);
         setIsLoadedTechniqueId(true);
       })
       .catch((err) => {
@@ -176,7 +176,7 @@ function ArtworkFormModify({
         `${import.meta.env.VITE_BACKEND_URL}/arttrends/${selectedArtTrendId}`
       )
       .then((res) => {
-        setDataArtTrendId(res.data.name);
+        setDataArtTrendId(res.data[0].name);
         setIsLoadedArtTrendId(true);
       })
       .catch((err) => {
@@ -433,17 +433,12 @@ function ArtworkFormModify({
           </div>
           <div className="flex justify-between py-4 lg:justify-around">
             <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
-              <GreyButton text="Précédent" onClick={prevStep} />
+              <GreyButton text="Annuler" onClick={prevStep} />
             </div>
             <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
               <RedButton
                 type="submit"
-                text={
-                  parseInt(artist, 10) ===
-                  Math.max(...dataArtist.map((item) => item.id)) + 1
-                    ? "Suivant"
-                    : "Submit"
-                }
+                text="Valider"
                 onClick={() => {
                   nextStep();
                   jointureVerify();
