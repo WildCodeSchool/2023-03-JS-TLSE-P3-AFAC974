@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import AdminHome from "./pages/AdminHome";
 import Gallery from "./pages/Gallery";
 import Artwork from "./pages/Artwork";
+import Artist from "./pages/Artist";
 import About from "./pages/About";
 import NavBar from "./components/NavBar";
 import UsersDisplay from "./components/UsersDisplay";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:artworkId" element={<Artwork />} />
+          <Route path="/artist/:artistId" element={<Artist />} />
           <Route path="/about" element={<About />} />
           <Route path="/admin/users" element={<UsersDisplay />} />
         </Routes>

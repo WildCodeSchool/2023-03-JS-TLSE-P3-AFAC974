@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import FavoriteButton from "../components/FavoriteButton";
 
@@ -10,6 +10,10 @@ export default function Artwork() {
   const [type, setType] = useState([{}]);
   const [technique, setTechnique] = useState([{}]);
   const [arttrend, setArttrend] = useState([{}]);
+
+  const disableRightClick = (e) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
     axios
@@ -83,6 +87,7 @@ export default function Artwork() {
           <img
             src={artwork.image_url_medium}
             alt="art1"
+            onContextMenu={disableRightClick}
             className="shadow-xl lg:w-[65%]"
           />
           <div className="flex flex-row sm:visible lg:invisible lg:h-0 lg:w-0">
@@ -131,12 +136,14 @@ export default function Artwork() {
                   </div>
                   <div className="flex flex-col justify-evenly items-center gap-3">
                     <h1 className="text-[21px]">{artist.nickname}</h1>
-                    <button
-                      type="button"
-                      className="bg-[#273590] text-[#e2e3e4] text-[16px] px-[10px] py-[2px] rounded-[8px]"
-                    >
-                      En savoir plus
-                    </button>
+                    <Link to={`/artist/${artwork.artist_id}`}>
+                      <button
+                        type="button"
+                        className="bg-[#273590] text-[#e2e3e4] text-[16px] px-[10px] py-[2px] rounded-[8px]"
+                      >
+                        En savoir plus
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -147,7 +154,7 @@ export default function Artwork() {
       <h3 className="text-[21px] font-semibold mb-4">
         Description de l'oeuvre
       </h3>
-      <p className="lg:pb-14">" {artwork.description} "</p>
+      <p className="pb-14">" {artwork.description} "</p>
     </div>
   );
 }

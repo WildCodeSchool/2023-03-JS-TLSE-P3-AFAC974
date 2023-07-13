@@ -202,6 +202,7 @@ VALUES
     'Spanish painter, sculptor, printmaker, ceramicist, and stage designer',
     'url_small',
     'url_medium',
+    'url_large',
     'https://www.pablopicasso.org/',
     'https://www.facebook.com/pablopicasso',
     'https://www.instagram.com/pablopicasso',
