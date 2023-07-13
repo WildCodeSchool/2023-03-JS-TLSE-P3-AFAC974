@@ -13,7 +13,7 @@ const {
   verifyEmail,
   hashPassword,
   verifyPassword,
-  // verifyToken,
+  verifyToken,
 } = require("./auth");
 
 // controllers import
@@ -80,16 +80,17 @@ router.get("/artists-techniques", artistTechniqueControllers.browse);
 // art_trend routes
 
 router.get("/arttrends-artists", artTrendArtistControllers.browse);
+router.get("/findusers", userControllers.browseUsers);
 
 // --- PASSWORD NEEDED ROUTE --- //
-
+// router.use(verifyIsAdmin);
 // user routes
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
 
 // --- TOKEN NEEDED ROUTES --- //
 
-// router.use(verifyToken);
+router.use(verifyToken);
 
 // artwork routes
 

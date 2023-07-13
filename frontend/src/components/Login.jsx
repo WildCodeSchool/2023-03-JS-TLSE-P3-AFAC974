@@ -1,13 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import axios from "axios";
 import PropTypes from "prop-types";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 import Input from "./Input";
 import userSample from "../assets/user_sample.png";
+import AuthContext from "../context/AuthContext";
 
 function Login({ loginModalOpened, setLoginModalOpened }) {
+  const { setUserRole } = useContext(AuthContext);
+  const navigateTo = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-
   const [userImage, setUserImage] = useState("");
 
   const [user, setUser] = useState({
@@ -23,6 +28,10 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   });
 
   const inputRef = useRef();
+  const [userLogin, setUserLogin] = useState({
+    email: "",
+    password: "",
+  });
 
   function handleNext() {
     setCurrentStep(currentStep + 1);
@@ -31,6 +40,13 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   function handlePrev() {
     setCurrentStep(currentStep - 1);
   }
+  const handleInputChangeLogin = (event) => {
+    const { id, value } = event.target;
+    setUserLogin((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
 
   function handleInputChange(event) {
     const { id, value, files, name } = event.target;
@@ -66,9 +82,35 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   }
 
   function submitLoginModal() {
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/login`, userLogin)
+      .then((response) => {
+        const { token } = response.data;
+        Cookies.set("jwt", token, { secure: true, sameSite: "strict" });
+        const jwtToken = Cookies.get("jwt");
+
+        if (jwtToken) {
+          const decodedToken = jwtDecode(jwtToken);
+          const { role } = decodedToken;
+          Cookies.set("role", role);
+          setUserRole(role);
+          if (role === 0) {
+            navigateTo("/admin");
+          } else if (role === 1) {
+            navigateTo("/user");
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     setCurrentStep(1);
     setLoginModalOpened(false);
-    setUser({});
+    setUserLogin({
+      email: "",
+      password: "",
+    });
   }
 
   function renderContent() {
@@ -91,15 +133,15 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                 id="email"
                 type="email"
                 placeholder="user@domain.com"
-                value={user.email}
-                onChange={(event) => handleInputChange(event)}
+                value={userLogin.email}
+                onChange={(event) => handleInputChangeLogin(event)}
               />
               <h3>Mot de passe</h3>
               <Input
                 id="password"
                 type="password"
-                value={user.password}
-                onChange={(event) => handleInputChange(event)}
+                value={userLogin.password}
+                onChange={(event) => handleInputChangeLogin(event)}
               />
             </form>
             <button

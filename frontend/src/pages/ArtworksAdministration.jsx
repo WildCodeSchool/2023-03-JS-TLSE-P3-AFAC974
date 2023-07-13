@@ -621,11 +621,11 @@ export default function ArtworksAdministration() {
       });
   };
 
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
 
-  const [data, setData] = useState([]);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)

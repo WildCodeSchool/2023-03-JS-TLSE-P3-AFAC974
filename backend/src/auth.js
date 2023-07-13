@@ -1,6 +1,7 @@
 const argon2 = require("@node-rs/argon2");
 const jwt = require("jsonwebtoken");
 const models = require("./models");
+require("dotenv").config();
 
 const hashingOptions = {
   type: argon2.argon2id,
@@ -28,7 +29,7 @@ const verifyEmail = (req, res, next) => {
 
 const hashPassword = (req, res, next) => {
   argon2
-    .hash(req.body.password, hashingOptions)
+    .hash(req.body.hashedPassword, hashingOptions)
     .then((hashedPassword) => {
       req.body.hashedPassword = hashedPassword;
       delete req.body.password;
@@ -45,7 +46,7 @@ const verifyPassword = (req, res) => {
     .verify(req.user.hashedPassword, req.body.password)
     .then((isVerified) => {
       if (isVerified) {
-        const payload = { sub: req.user.id };
+        const payload = { sub: req.user.id, role: req.user.role };
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
           expiresIn: "2h",
         });
@@ -84,9 +85,57 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+const verifyIsAdmin = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    res.status(401).json({ message: "Unauthorized: Missing token" });
+  }
+
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const { role } = decodedToken;
+
+    if (role !== 0) {
+      res
+        .status(403)
+        .json({ message: "Unauthorized: Access denied for non-admin users" });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const verifyIsUser = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    res.status(401).json({ message: "Unauthorized: Missing token" });
+  }
+
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const { role } = decodedToken;
+
+    if (role !== 1) {
+      res.status(403).json({ message: "Unauthorized: Access denied" });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   verifyEmail,
   hashPassword,
   verifyPassword,
   verifyToken,
+  verifyIsAdmin,
+  verifyIsUser,
 };
