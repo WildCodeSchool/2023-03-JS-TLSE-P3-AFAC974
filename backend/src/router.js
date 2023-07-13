@@ -24,11 +24,11 @@ const itemControllers = require("./controllers/itemControllers");
 const artworkControllers = require("./controllers/artworkControllers");
 const artistControllers = require("./controllers/artistControllers");
 const userControllers = require("./controllers/userControllers");
-const trendControllers = require("./controllers/trendControllers");
 const techniqueControllers = require("./controllers/techniqueControllers");
 const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
 const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
+const trendControllers = require("./controllers/trendControllers");
 const uploadControllers = require("./controllers/uploadControllers");
 
 // --- PUBLIC ROUTES --- //
