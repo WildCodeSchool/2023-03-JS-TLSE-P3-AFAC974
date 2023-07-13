@@ -5,9 +5,12 @@ import Home from "../pages/Home";
 import AdminHome from "../pages/AdminHome";
 import UserHome from "../pages/UserHome";
 import About from "../pages/About";
+import Gallery from "../pages/Gallery";
+import Artwork from "../pages/Artwork";
+// import Artist from "../pages/Artist";
 import ArtworksAdministration from "../pages/ArtworksAdministration";
 import UsersAdministration from "../pages/UsersAdministration";
-import ArtistsAdministration from "../pages/ArtistsAdministration";
+import ArtistAdministration from "../pages/ArtistAdministration";
 import UnauthorizedPage from "../pages/Unauthorized";
 
 export default function RoutesComponent() {
@@ -21,28 +24,32 @@ export default function RoutesComponent() {
         element={userRole === 0 ? <AdminHome /> : <UnauthorizedPage />}
       />
       <Route
-        path="/user"
-        element={userRole === 1 ? <UserHome /> : <UnauthorizedPage />}
+        path="/admin/users"
+        element={
+          userRole === 0 ? <UsersAdministration /> : <UnauthorizedPage />
+        }
       />
-      <Route path="/about" element={<About />} />
       <Route
-        path="/artworksadmin"
+        path="/admin/artworks"
         element={
           userRole === 0 ? <ArtworksAdministration /> : <UnauthorizedPage />
         }
       />
       <Route
-        path="/artistsadmin"
+        path="/admin/artists"
         element={
-          userRole === 0 ? <ArtistsAdministration /> : <UnauthorizedPage />
+          userRole === 0 ? <ArtistAdministration /> : <UnauthorizedPage />
         }
       />
+
       <Route
-        path="/usersadmin"
-        element={
-          userRole === 0 ? <UsersAdministration /> : <UnauthorizedPage />
-        }
+        path="/user"
+        element={userRole === 1 ? <UserHome /> : <UnauthorizedPage />}
       />
+      <Route path="/gallery" element={<Gallery />} />
+      <Route path="/gallery/:artworkId" element={<Artwork />} />
+      {/* <Route path="/artist/:artistId" element={<Artist />} /> */}
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 }

@@ -13,9 +13,9 @@ const {
   verifyEmail,
   hashPassword,
   verifyPassword,
-  verifyToken,
+  // verifyToken,
   // verifyIsAdmin,
-  // verifyIsUser,
+  // // verifyIsUser,
 } = require("./auth");
 
 // controllers import
@@ -24,7 +24,7 @@ const itemControllers = require("./controllers/itemControllers");
 const artworkControllers = require("./controllers/artworkControllers");
 const artistControllers = require("./controllers/artistControllers");
 const userControllers = require("./controllers/userControllers");
-const arttrendControllers = require("./controllers/arttrendControllers");
+const trendControllers = require("./controllers/trendControllers");
 const techniqueControllers = require("./controllers/techniqueControllers");
 const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
@@ -62,8 +62,8 @@ router.get("/findadmin", userControllers.browseAdmin);
 
 // art_trend routes
 
-router.get("/arttrends", arttrendControllers.browse);
-router.get("/arttrends/:id", arttrendControllers.read);
+router.get("/arttrends", trendControllers.browse);
+router.get("/arttrends/:id", trendControllers.read);
 
 // technique routes
 
@@ -85,14 +85,14 @@ router.get("/arttrends-artists", artTrendArtistControllers.browse);
 router.get("/findusers", userControllers.browseUsers);
 
 // --- PASSWORD NEEDED ROUTE --- //
-
+// router.use(verifyIsAdmin);
 // user routes
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
 
 // --- TOKEN NEEDED ROUTES --- //
 
-router.use(verifyToken);
+// router.use(verifyToken);
 
 // artwork routes
 
@@ -112,8 +112,8 @@ router.delete("/techniques/:id", techniqueControllers.destroy);
 
 // art_trend routes
 
-router.post("/arttrends", arttrendControllers.addArtTrend);
-router.delete("/arttrends/:id", arttrendControllers.destroy);
+router.post("/arttrends", trendControllers.addArtTrend);
+router.delete("/arttrends/:id", trendControllers.destroy);
 
 // artist_technique routes
 

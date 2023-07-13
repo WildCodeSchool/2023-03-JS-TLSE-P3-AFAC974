@@ -123,7 +123,7 @@ export default function AdminHome() {
             <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
               GESTION DES OEUVRES
             </h2>
-            <Link to="/artworksadmin" className="items-center">
+            <Link to="/admin/artworks" className="items-center">
               <p className="xl:block hidden">Gérer les oeuvres</p>
               <img
                 src={settings}
@@ -142,8 +142,8 @@ export default function AdminHome() {
                 return (
                   <div className="w-1/3 flex-col gap-3" key={data.id}>
                     <img src={data.image_url_medium} alt={data.name} />
-                    <div className="flex gap-2 font-bold text-lg">
-                      <h3>{data.name}</h3>
+                    <div className="flex justify-between gap-2  text-lg">
+                      <h3 className="font-bold">{data.name}</h3>
                       <p>{data.year}</p>
                     </div>
                     <h2 className="text-left">
@@ -161,7 +161,7 @@ export default function AdminHome() {
             <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
               GESTION DES ARTISTES
             </h2>
-            <Link to="/artistsadmin">
+            <Link to="/admin/artists">
               <p className="xl:block hidden">Gérer les artistes</p>
               <img
                 src={settings}
@@ -219,7 +219,7 @@ export default function AdminHome() {
             <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
               GESTION DES UTILISATEURS
             </h2>
-            <Link to="/usersadmin">
+            <Link to="/admin/users">
               <p className="xl:block hidden">Gérer les utilisateurs</p>
               <img
                 src={settings}
