@@ -39,7 +39,7 @@ function NavBarUser() {
   };
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/logeduser/${userId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
       .then((response) => {
         setLogedUserData(response.data);
       })
