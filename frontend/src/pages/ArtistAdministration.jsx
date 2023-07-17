@@ -308,7 +308,7 @@ export default function ArtistAdministration() {
                   alt="engrenage"
                   className="w-[20px] h-[auto]"
                 />
-                <p>Modifier l'oeuvre</p>
+                <p>Modifier l'artiste</p>
               </button>
               <button
                 type="button"
