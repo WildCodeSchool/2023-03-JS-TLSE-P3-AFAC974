@@ -131,7 +131,7 @@ function NavBarUser() {
             />
           </button>
           <div
-            className={`fixed right-0 text-left top-14 mt-2 transition-all duration-500 w-[20dvw]  ${
+            className={`bg-white fixed right-0 text-left top-14 mt-2 transition-all duration-500 w-[20dvw]  ${
               isSectionVisible ? "" : "transform translate-x-full"
             }`}
           >
