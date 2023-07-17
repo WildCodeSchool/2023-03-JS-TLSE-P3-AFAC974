@@ -546,7 +546,7 @@ export default function ArtworksAdministration() {
       .then(() => {
         if (url !== "") {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
-          const namePicture = isolationNamePicture[1];
+          const namePicture = `artwork-afac/${isolationNamePicture[1]}`;
           axios
             .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
               data: { namePicture },
