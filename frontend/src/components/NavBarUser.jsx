@@ -14,6 +14,12 @@ import navbarLogo from "../assets/navbar_logo.png";
 import hexagonRedBg from "../assets/hexagon_red_bg.png";
 import hexagonBlueBg from "../assets/hexagon_blue_bg.png";
 import frenchFlagLogo from "../assets/french_flag_logo.png";
+import gear from "../assets/Engrenage.png";
+import icon from "../assets/Icon.png";
+import art from "../assets/art.png";
+import frame from "../assets/Frame.png";
+import logout from "../assets/log-out.png";
+import pinceau from "../assets/pinceau.png";
 
 function NavBarUser() {
   const [homeHovered, setHomeHovered] = useState(false);
@@ -26,9 +32,7 @@ function NavBarUser() {
   const [isSectionVisible, setIsSectionVisible] = useState(false);
   const [logedUserData, setLogedUserData] = useState(null);
   const { userId, userRole } = useContext(AuthContext);
-  const toggleSectionVisibility = () => {
-    setIsSectionVisible((prevVisible) => !prevVisible);
-  };
+
   const [isModalLogOutOpen, setIsModalLogOutOpen] = useState(false);
 
   const customModalStyles = {
@@ -38,6 +42,7 @@ function NavBarUser() {
     },
   };
   const divRef = useRef(null);
+  const openerRef = useRef(null);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
@@ -66,15 +71,34 @@ function NavBarUser() {
   window.onscroll = function () {
     setIsSectionVisible(false);
   };
+  const handleClickOutside = (event) => {
+    if (divRef.current && !divRef.current.contains(event.target)) {
+      setIsSectionVisible(false);
+    }
+  };
+  const handleOpenerClick = (event) => {
+    event.stopPropagation();
+    setIsSectionVisible((prevVisible) => !prevVisible);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className=" w-[100%] z-10 fixed top-0 left-0">
       <div className="navbar-header relative flex justify-between items-center bg-[#7F253E] h-[52px] lg:h-[60px] px-3  shadow-[0px_-3px_15px_#333]">
-        <img
-          className="logo h-[35px] w-auto sm:h-[55px] "
-          src={navbarLogo}
-          alt="logo"
-        />
+        <div>
+          <img
+            className="logo h-[35px] w-auto sm:h-[55px] "
+            src={navbarLogo}
+            alt="logo"
+          />
+        </div>
+
         <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
           <NavLink
             to="/"
@@ -128,7 +152,8 @@ function NavBarUser() {
             />
           </button>
           <button
-            onClick={toggleSectionVisibility}
+            ref={openerRef}
+            onClick={handleOpenerClick}
             type="button"
             className="flex items-center gap-2 text-sm font-semibold"
           >
@@ -140,15 +165,15 @@ function NavBarUser() {
           </button>
           <div
             ref={divRef}
-            className={`bg-white text-left fixed right-0 top-14 mt-2 transition-all duration-500 w-[20dvw]  ${
+            className={`bg-white xl:mt-[5px] text-left fixed right-0 top-14 transition-all duration-500 xl:w-[20dvw] w-[55dvw]  ${
               isSectionVisible
                 ? "transform translate-x-0"
                 : "transform translate-x-full"
             }`}
           >
-            <section className="w-full flex flex-col p-2 gap-2 border-4 border-red-950 border-solid">
+            <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid">
               {logedUserData && logedUserData[0] && (
-                <section className="flex gap-3 border-2 border-gray-400 border-solid">
+                <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
                   <img
                     src={logedUserData[0].image}
                     alt="profil pic"
@@ -164,10 +189,16 @@ function NavBarUser() {
                 </section>
               )}
               <NavLink to="/admin" onClick={() => setIsSectionVisible(false)}>
-                <p className="text-black">Profil</p>
+                <div className="flex items-center gap-2">
+                  <img src={icon} alt="icon" className="w-3 h-3 object-cover" />
+                  <p className="text-black">Profil</p>
+                </div>
               </NavLink>
               <NavLink onClick={() => setIsSectionVisible(false)}>
-                <p>Paramètres</p>
+                <div className="flex items-center gap-2">
+                  <img src={gear} alt="icon" className="w-3 h-3 object-cover" />
+                  <p className="text-black">Paramètres</p>
+                </div>
               </NavLink>
               {userRole === 0 && (
                 <div className="flex flex-col gap-2">
@@ -175,25 +206,53 @@ function NavBarUser() {
                     to="/admin/artworks"
                     onClick={() => setIsSectionVisible(false)}
                   >
-                    <p>Oeuvres</p>
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={art}
+                        alt="icon"
+                        className="w-3 h-3 object-cover"
+                      />
+                      <p className="text-black">Oeuvres</p>
+                    </div>
                   </NavLink>
                   <NavLink
                     to="/admin/artists"
                     onClick={() => setIsSectionVisible(false)}
                   >
-                    <p>Artists</p>
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={pinceau}
+                        alt="icon"
+                        className="w-3 h-3 object-cover"
+                      />
+                      <p className="text-black">Artistes</p>
+                    </div>
                   </NavLink>
                   <NavLink
                     to="/admin/users"
                     onClick={() => setIsSectionVisible(false)}
                   >
-                    <p>Users</p>
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={frame}
+                        alt="icon"
+                        className="w-3 h-3 object-cover"
+                      />
+                      <p className="text-black">Users</p>
+                    </div>
                   </NavLink>
                 </div>
               )}
-
+              <div className="w-full border-t-[1px] border-gray-400 border-solid" />
               <button type="button" onClick={handleOpenLogOutModal}>
-                <p className="text-left text-sm">Déconnexion</p>
+                <div className="flex items-center gap-2">
+                  <img
+                    src={logout}
+                    alt="icon"
+                    className="w-3 h-3 object-cover"
+                  />
+                  <p className="text-black text-sm">Déconnexion</p>
+                </div>
               </button>
             </section>
           </div>
@@ -229,23 +288,23 @@ function NavBarUser() {
             toggle={setBurgerMenuOpen}
           />
         </div>
+
+        <LanguageMenu
+          languageModalOpened={languageModalOpened}
+          setLanguageModalOpened={setLanguageModalOpened}
+          setLanguageChosenFlag={setLanguageChosenFlag}
+        />
+
+        <Login
+          loginModalOpened={loginModalOpened}
+          setLoginModalOpened={setLoginModalOpened}
+        />
+
+        <BurgerMenu
+          burgerMenuOpen={burgerMenuOpen}
+          setBurgerMenuOpen={setBurgerMenuOpen}
+        />
       </div>
-
-      <LanguageMenu
-        languageModalOpened={languageModalOpened}
-        setLanguageModalOpened={setLanguageModalOpened}
-        setLanguageChosenFlag={setLanguageChosenFlag}
-      />
-
-      <Login
-        loginModalOpened={loginModalOpened}
-        setLoginModalOpened={setLoginModalOpened}
-      />
-
-      <BurgerMenu
-        burgerMenuOpen={burgerMenuOpen}
-        setBurgerMenuOpen={setBurgerMenuOpen}
-      />
     </div>
   );
 }
