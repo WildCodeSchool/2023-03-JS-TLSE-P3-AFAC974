@@ -83,17 +83,18 @@ router.get("/arttrends-artists", artTrendArtistControllers.browse);
 router.get("/findusers", userControllers.browseUsers);
 
 router.post(
-  "/user/:userId/artworks/:artworkId/favorite",
+  "/user/:userId/artwork/:artworkId/favorite",
   favoriteControllers.addFavorite
 );
 router.delete(
-  "/user/:userId/artworks/:artworkId/favorite",
+  "/user/:userId/artwork/:artworkId/favorite",
   favoriteControllers.deleteFavorite
 );
 router.get(
-  "/users/:userId/artworks/favorites",
+  "/user/:userId/artworks/favorites",
   favoriteControllers.browseFavorites
 );
+router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 // --- PASSWORD NEEDED ROUTE --- //
 // router.use(verifyIsAdmin);

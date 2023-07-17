@@ -13,16 +13,19 @@ function FavoriteButton({ artworkId }) {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${userId}/artworks/favorites`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/user/${userId}/artwork/${artworkId}`
       )
       .then((response) => {
-        console.info(response.data[0]);
-        //        setFavData(response.data[0]);
+        if (response.data[0]) {
+          setFavorite(true);
+        }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [artworkId, userId]);
+  }, [favorite]);
 
   const toggleFavorite = () => {
     if (favorite) {
@@ -30,7 +33,7 @@ function FavoriteButton({ artworkId }) {
         .delete(
           `${
             import.meta.env.VITE_BACKEND_URL
-          }/user/${userId}/artworks/${artworkId}/favorite`
+          }/user/${userId}/artwork/${artworkId}/favorite`
         )
         .then(() => {
           setFavorite(false);
@@ -43,11 +46,7 @@ function FavoriteButton({ artworkId }) {
         .post(
           `${
             import.meta.env.VITE_BACKEND_URL
-          }/user/${userId}/artworks/${artworkId}/favorite`,
-          {
-            userId,
-            artworkId,
-          }
+          }/user/${userId}/artwork/${artworkId}/favorite`
         )
         .then(() => {
           setFavorite(true);
@@ -78,10 +77,6 @@ function FavoriteButton({ artworkId }) {
 }
 
 FavoriteButton.propTypes = {
-  artworkId: PropTypes.number,
+  artworkId: PropTypes.number.isRequired,
 };
 export default FavoriteButton;
-
-FavoriteButton.defaultProps = {
-  artworkId: 0,
-};

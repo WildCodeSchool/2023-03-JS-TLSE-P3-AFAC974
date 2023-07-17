@@ -20,7 +20,6 @@ export default function Gallery() {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
       .then((res) => {
-        console.info(res.data);
         setData(res.data);
       })
       .catch((error) => {

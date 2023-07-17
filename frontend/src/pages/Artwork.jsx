@@ -12,6 +12,7 @@ export default function Artwork() {
   const [technique, setTechnique] = useState([{}]);
   const [arttrend, setArttrend] = useState([{}]);
   const { userRole } = React.useContext(AuthContext);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     axios
@@ -70,6 +71,7 @@ export default function Artwork() {
             console.error(error);
           });
       })
+      .then(() => setIsLoaded(true))
       .catch((error) => {
         console.error(error);
       });
@@ -99,7 +101,7 @@ export default function Artwork() {
             </div>
             {userRole === 1 && (
               <div className="pt-[15px]">
-                <FavoriteButton artworkId={artwork.id} />
+                {isLoaded && <FavoriteButton artworkId={artwork.id} />}
               </div>
             )}
           </div>
@@ -108,7 +110,7 @@ export default function Artwork() {
               <div className="flex flex-col justify-center lg:w-[100%] lg:flex lg:flex-col-reverse">
                 <div className="h-0 lg:h-full lg:flex lg:flex-col lg:justify-center">
                   <div className="invisible lg:visible lg:flex lg:flex-row lg:justify-center lg:gap-6 lg:pt-4">
-                    <FavoriteButton artworkId={artwork.id} />
+                    {isLoaded && <FavoriteButton artworkId={artwork.id} />}
                     <p className="invisible lg:visible lg:text-[21px] lg:font-semibold">
                       Ajouter au favoris
                     </p>

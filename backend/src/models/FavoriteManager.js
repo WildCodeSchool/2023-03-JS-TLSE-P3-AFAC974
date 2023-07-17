@@ -19,6 +19,13 @@ class FavoriteManager extends AbstractManager {
     );
   }
 
+  isFavorite(userId, artworkId) {
+    return this.database.query(
+      `SELECT * FROM ${this.table} WHERE user_id = ? AND artwork_id = ?`,
+      [userId, artworkId]
+    );
+  }
+
   deleteFavorite(userId, artworkId) {
     return this.database.query(
       `DELETE FROM ${this.table} WHERE user_id = ? AND artwork_id = ?`,

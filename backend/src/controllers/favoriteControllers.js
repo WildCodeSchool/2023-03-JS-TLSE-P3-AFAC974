@@ -3,11 +3,11 @@ const models = require("../models");
 const browseFavorites = (req, res) => {
   models.favorite
     .browseFavorites(req.params.userId)
-    .then(([result]) => {
+    .then((result) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
       } else {
-        res.status(200).send([result]);
+        res.status(200).send(result[0]);
       }
     })
     .catch((err) => {
@@ -24,6 +24,22 @@ const addFavorite = (req, res) => {
         res.sendStatus(404);
       } else {
         res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
+const isFavorite = (req, res) => {
+  models.favorite
+    .isFavorite(req.params.userId, req.params.artworkId)
+    .then(([rows]) => {
+      if (rows[0] == null) {
+        res.sendStatus(404);
+      } else {
+        res.send(rows).status(200);
       }
     })
     .catch((err) => {
@@ -52,4 +68,5 @@ module.exports = {
   browseFavorites,
   addFavorite,
   deleteFavorite,
+  isFavorite,
 };
