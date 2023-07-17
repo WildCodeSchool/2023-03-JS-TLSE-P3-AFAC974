@@ -73,6 +73,10 @@ export default function Artwork() {
       });
   }, []);
 
+  const disableRightClick = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="flex flex-col justify-center items-center pt-[100px] px-[20px]">
       <div className="md:w-[85%] lg:w-[95%]">
@@ -84,6 +88,7 @@ export default function Artwork() {
             src={artwork.image_url_medium}
             alt="art1"
             className="shadow-xl lg:w-[65%]"
+            onContextMenu={disableRightClick}
           />
           <div className="flex flex-row sm:visible lg:invisible lg:h-0 lg:w-0">
             <div className="flex flex-col justify-start items-start w-full sm:visible lg:invisible">

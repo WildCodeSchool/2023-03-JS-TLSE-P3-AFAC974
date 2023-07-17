@@ -37,6 +37,10 @@ export default function Artist() {
   );
   const imageUrls = filteredArtworks.map((el) => el.image_url_medium);
 
+  const disableRightClick = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="flex flex-col justify-center items-center pt-[90px] px-8">
       <img
@@ -56,7 +60,10 @@ export default function Artist() {
       <div className="flex flex-col justify-center">
         <h2 className="text-[18px] pt-4 pb-8">SON UNIVERS ARTISTIQUE</h2>
         <div className="flex justify-around bg-[#257492] h-[215px] w-[275px]">
-          <Carousel imageUrls={imageUrls} />
+          <Carousel
+            imageUrls={imageUrls}
+            disableRightClick={disableRightClick}
+          />
         </div>
       </div>
     </div>

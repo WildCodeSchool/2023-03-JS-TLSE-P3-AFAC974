@@ -50,8 +50,8 @@ export default function Carousel({ imageUrls, disableRightClick }) {
               <img
                 src={item}
                 alt="art"
-                onContextMenu={disableRightClick}
                 className="flex justify-center items-center drop-shadow-xl"
+                onContextMenu={disableRightClick}
               />
             </div>
           ))}
