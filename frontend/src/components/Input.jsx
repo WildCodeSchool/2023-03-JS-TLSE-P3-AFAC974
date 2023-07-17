@@ -43,7 +43,7 @@ function Input({
         return (
           <input
             className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
-            type={type}
+            type="text"
             id={id}
             name={name}
             placeholder={placeholder}
