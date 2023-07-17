@@ -232,7 +232,19 @@ function ArtworkFormModify({
                     placeholder="Saisir le nom de l'oeuvre"
                     onChange={handleInputChangeArtwork}
                     value={formArtwork.name}
+                    maxLength={255}
                   />
+                  {255 - formArtwork.name.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtwork.name.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtwork.name.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
               <label htmlFor="artist_name_artwork" className="w-[100%]">
@@ -426,8 +438,21 @@ function ArtworkFormModify({
                   name="artworkLocation"
                   placeholder=""
                   onChange={handleInputChangeArtwork}
-                  value={formArtwork.artwork_location}
+                  value={formArtwork.artworkLocation}
+                  maxLength={255}
                 />
+                {255 - formArtwork.artworkLocation.length <= 50 ? (
+                  <span
+                    className={
+                      255 - formArtwork.artworkLocation.length === 0
+                        ? "text-red-500"
+                        : ""
+                    }
+                  >
+                    {255 - formArtwork.artworkLocation.length} caractères
+                    restants
+                  </span>
+                ) : null}
               </div>
             </label>
           </div>

@@ -60,7 +60,17 @@ function ArtworkForm2({
                 placeholder="Saisir le nom de l'oeuvre"
                 onChange={handleInputChangeArtwork}
                 value={formArtwork.name}
+                maxLength={255}
               />
+              {255 - formArtwork.name.length <= 50 ? (
+                <span
+                  className={
+                    255 - formArtwork.name.length === 0 ? "text-red-500" : ""
+                  }
+                >
+                  {255 - formArtwork.name.length} caractères restants
+                </span>
+              ) : null}
             </div>
           </label>
           <label htmlFor="artist_name_artwork" className="w-[100%]">
@@ -83,14 +93,28 @@ function ArtworkForm2({
             <div className="mt-3">
               {parseInt(artist, 10) ===
               Math.max(...dataArtist.map((item) => item.id)) + 1 ? (
-                <Input
-                  type="text"
-                  id="artist-select"
-                  name="nickname"
-                  placeholder="Saisir un nom d'artiste"
-                  onChange={handleInputChangeArtist}
-                  value={formArtist.nickname}
-                />
+                <>
+                  <Input
+                    type="text"
+                    id="artist-select"
+                    name="nickname"
+                    placeholder="Saisir un nom d'artiste"
+                    onChange={handleInputChangeArtist}
+                    value={formArtist.nickname}
+                    maxLength={45}
+                  />
+                  {45 - formArtist.nickname.length <= 10 ? (
+                    <span
+                      className={
+                        45 - formArtist.nickname.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {45 - formArtist.nickname.length} caractères restants
+                    </span>
+                  ) : null}
+                </>
               ) : null}
             </div>
           </label>
@@ -121,7 +145,19 @@ function ArtworkForm2({
               onChange={handleInputChangeArtwork}
               value={formArtwork.description}
               className="border border-gray-300 rounded-[4px] p-1 w-[100%] resize-none outline-none overflow-x-hidden"
+              maxLength={1000}
             />
+            {100 - formArtwork.description.length <= 5 ? (
+              <span
+                className={
+                  1000 - formArtwork.description.length === 0
+                    ? "text-red-500"
+                    : ""
+                }
+              >
+                {1000 - formArtwork.description.length} caractères restants
+              </span>
+            ) : null}
           </div>
         </label>
         <div className="lg:flex lg:justify-between lg:gap-4">
@@ -204,14 +240,26 @@ function ArtworkForm2({
             <div className="mt-3">
               {parseInt(type, 10) ===
               Math.max(...dataType.map((item) => item.id)) + 1 ? (
-                <Input
-                  type="text"
-                  id="type_artwork"
-                  name="name"
-                  placeholder="Type d'oeuvre"
-                  onChange={handleInputChangeType}
-                  value={formType.name}
-                />
+                <>
+                  <Input
+                    type="text"
+                    id="type_artwork"
+                    name="name"
+                    placeholder="Type d'oeuvre"
+                    onChange={handleInputChangeType}
+                    value={formType.name}
+                    maxLength={255}
+                  />
+                  {255 - formType.name.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formType.name.length === 0 ? "text-red-500" : ""
+                      }
+                    >
+                      {255 - formType.name.length} caractères restants
+                    </span>
+                  ) : null}
+                </>
               ) : null}
             </div>
           </label>
@@ -236,14 +284,28 @@ function ArtworkForm2({
             <div className="mt-3">
               {parseInt(artTrend, 10) ===
               Math.max(...dataArtTrend.map((item) => item.id)) + 1 ? (
-                <Input
-                  type="text"
-                  id="art_trend_artwork"
-                  name="name"
-                  placeholder="Courant artistique"
-                  onChange={handleInputChangeArtTrend}
-                  value={formArtTrend.name}
-                />
+                <>
+                  <Input
+                    type="text"
+                    id="art_trend_artwork"
+                    name="name"
+                    placeholder="Courant artistique"
+                    onChange={handleInputChangeArtTrend}
+                    value={formArtTrend.name}
+                    maxLength={255}
+                  />
+                  {255 - formArtTrend.name.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtTrend.name.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtTrend.name.length} caractères restants
+                    </span>
+                  ) : null}
+                </>
               ) : null}
             </div>
           </label>
@@ -270,14 +332,28 @@ function ArtworkForm2({
           <div className="mt-3">
             {parseInt(technique, 10) ===
             Math.max(...dataTechnique.map((item) => item.id)) + 1 ? (
-              <Input
-                type="text"
-                id="artwork_technical"
-                name="name"
-                placeholder="Technique"
-                onChange={handleInputChangeTechnique}
-                value={formTechnique.name}
-              />
+              <>
+                <Input
+                  type="text"
+                  id="artwork_technical"
+                  name="name"
+                  placeholder="Technique"
+                  onChange={handleInputChangeTechnique}
+                  value={formTechnique.name}
+                  maxLength={255}
+                />
+                {255 - formTechnique.name.length <= 50 ? (
+                  <span
+                    className={
+                      255 - formTechnique.name.length === 0
+                        ? "text-red-500"
+                        : ""
+                    }
+                  >
+                    {255 - formTechnique.name.length} caractères restants
+                  </span>
+                ) : null}
+              </>
             ) : null}
           </div>
         </label>
@@ -291,7 +367,19 @@ function ArtworkForm2({
               placeholder=""
               onChange={handleInputChangeArtwork}
               value={formArtwork.artworkLocation}
+              maxLength={255}
             />
+            {255 - formArtwork.artworkLocation.length <= 50 ? (
+              <span
+                className={
+                  255 - formArtwork.artworkLocation.length === 0
+                    ? "text-red-500"
+                    : ""
+                }
+              >
+                {255 - formArtwork.artworkLocation.length} caractères restants
+              </span>
+            ) : null}
           </div>
         </label>
       </div>

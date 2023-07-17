@@ -69,7 +69,19 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Nom"
                     onChange={handleInputChangeArtist}
                     value={formArtist.lastname}
+                    maxLength={45}
                   />
+                  {45 - formArtist.lastname.length <= 10 ? (
+                    <span
+                      className={
+                        45 - formArtist.lastname.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {45 - formArtist.lastname.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
               <label htmlFor="firstname_artist" className="w-[100%]">
@@ -82,7 +94,19 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Prénom"
                     onChange={handleInputChangeArtist}
                     value={formArtist.firstname}
+                    maxLength={45}
                   />
+                  {45 - formArtist.firstname.length <= 10 ? (
+                    <span
+                      className={
+                        45 - formArtist.firstname.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {45 - formArtist.firstname.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
               <label htmlFor="nickname_artist" className="w-[100%]">
@@ -95,7 +119,19 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Nom d'usage"
                     onChange={handleInputChangeArtist}
                     value={formArtist.nickname}
+                    maxLength={45}
                   />
+                  {45 - formArtist.nickname.length <= 10 ? (
+                    <span
+                      className={
+                        45 - formArtist.nickname.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {45 - formArtist.nickname.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
             </div>
@@ -109,7 +145,19 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                   onChange={handleInputChangeArtist}
                   value={formArtist.description}
                   className="border border-gray-300 rounded-[4px] p-1 w-[100%] resize-none outline-none overflow-x-hidden"
+                  maxLength={1000}
                 />
+                {1000 - formArtist.websiteUrl.length <= 100 ? (
+                  <span
+                    className={
+                      1000 - formArtist.websiteUrl.length === 0
+                        ? "text-red-500"
+                        : ""
+                    }
+                  >
+                    {1000 - formArtist.websiteUrl.length} caractères restants
+                  </span>
+                ) : null}
               </div>
             </label>
             <div className="lg:flex lg:justify-between lg:gap-4">
@@ -149,7 +197,23 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Lien site internet"
                     onChange={handleInputChangeArtist}
                     value={formArtist.websiteUrl}
+                    maxLength={255}
                   />
+                  {formArtist.websiteUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.websiteUrl
+                    ) && <span className="text-red-500">URL invalide</span>}
+                  {255 - formArtist.websiteUrl.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtist.websiteUrl.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtist.websiteUrl.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
             </div>
@@ -164,7 +228,23 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Facebook"
                     onChange={handleInputChangeArtist}
                     value={formArtist.facebookUrl}
+                    maxLength={255}
                   />
+                  {formArtist.facebookUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.facebookUrl
+                    ) && <span className="text-red-500">URL invalide</span>}
+                  {255 - formArtist.facebookUrl.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtist.facebookUrl.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtist.facebookUrl.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
               <label htmlFor="twitter" className="w-[100%]">
@@ -177,7 +257,23 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Twitter"
                     onChange={handleInputChangeArtist}
                     value={formArtist.twitterUrl}
+                    maxLength={255}
                   />
+                  {formArtist.twitterUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.twitterUrl
+                    ) && <span className="text-red-500">URL invalide</span>}
+                  {255 - formArtist.twitterUrl.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtist.twitterUrl.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtist.twitterUrl.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
               <label htmlFor="instagram" className="w-[100%]">
@@ -190,7 +286,23 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
                     placeholder="Instagram"
                     onChange={handleInputChangeArtist}
                     value={formArtist.instagramUrl}
+                    maxLength={255}
                   />
+                  {formArtist.instagramUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.instagramUrl
+                    ) && <span className="text-red-500">URL invalide</span>}
+                  {255 - formArtist.instagramUrl.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtist.instagramUrl.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtist.instagramUrl.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
             </div>
@@ -203,7 +315,26 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
               <RedButton
                 text="Valider"
                 onClick={nextStep}
-                disabled={!formArtist.firstname || !formArtist.lastname}
+                disabled={
+                  !formArtist.firstname ||
+                  !formArtist.lastname ||
+                  (formArtist.websiteUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.websiteUrl
+                    )) ||
+                  (formArtist.facebookUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.facebookUrl
+                    )) ||
+                  (formArtist.twitterUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.twitterUrl
+                    )) ||
+                  (formArtist.instagramUrl &&
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      formArtist.instagramUrl
+                    ))
+                }
               />
             </div>
           </div>
