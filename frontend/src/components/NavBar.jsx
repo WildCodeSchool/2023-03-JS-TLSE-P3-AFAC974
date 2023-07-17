@@ -112,7 +112,10 @@ function NavBar() {
         setLoginModalOpened={setLoginModalOpened}
       />
 
-      <BurgerMenu burgerMenuOpen={burgerMenuOpen} />
+      <BurgerMenu
+        burgerMenuOpen={burgerMenuOpen}
+        setBurgerMenuOpen={setBurgerMenuOpen}
+      />
     </div>
   );
 }
