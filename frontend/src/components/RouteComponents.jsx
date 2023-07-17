@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import NavBar from "./NavBar";
+import NavBarUser from "./NavBarUser";
 import Home from "../pages/Home";
 import AdminHome from "../pages/AdminHome";
 import UserHome from "../pages/UserHome";
@@ -12,44 +14,51 @@ import ArtworksAdministration from "../pages/ArtworksAdministration";
 import UsersAdministration from "../pages/UsersAdministration";
 import ArtistAdministration from "../pages/ArtistAdministration";
 import UnauthorizedPage from "../pages/Unauthorized";
+import UserFavorite from "../pages/UserFavorite";
 
 export default function RoutesComponent() {
   const { userRole } = useContext(AuthContext);
-
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route
-        path="/admin"
-        element={userRole === 0 ? <AdminHome /> : <UnauthorizedPage />}
-      />
-      <Route
-        path="/admin/users"
-        element={
-          userRole === 0 ? <UsersAdministration /> : <UnauthorizedPage />
-        }
-      />
-      <Route
-        path="/admin/artworks"
-        element={
-          userRole === 0 ? <ArtworksAdministration /> : <UnauthorizedPage />
-        }
-      />
-      <Route
-        path="/admin/artists"
-        element={
-          userRole === 0 ? <ArtistAdministration /> : <UnauthorizedPage />
-        }
-      />
+    <div className="App">
+      {userRole === 0 || userRole === 1 ? <NavBarUser /> : <NavBar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/admin"
+          element={userRole === 0 ? <AdminHome /> : <UnauthorizedPage />}
+        />
+        <Route
+          path="/admin/users"
+          element={
+            userRole === 0 ? <UsersAdministration /> : <UnauthorizedPage />
+          }
+        />
+        <Route
+          path="/admin/artworks"
+          element={
+            userRole === 0 ? <ArtworksAdministration /> : <UnauthorizedPage />
+          }
+        />
+        <Route
+          path="/admin/artists"
+          element={
+            userRole === 0 ? <ArtistAdministration /> : <UnauthorizedPage />
+          }
+        />
 
-      <Route
-        path="/user"
-        element={userRole === 1 ? <UserHome /> : <UnauthorizedPage />}
-      />
-      <Route path="/gallery" element={<Gallery />} />
-      <Route path="/gallery/:artworkId" element={<Artwork />} />
-      <Route path="/artist/:artistId" element={<Artist />} />
-      <Route path="/about" element={<About />} />
-    </Routes>
+        <Route
+          path="/user"
+          element={userRole === 1 ? <UserHome /> : <UnauthorizedPage />}
+        />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/gallery/:artworkId" element={<Artwork />} />
+        <Route path="/artist/:artistId" element={<Artist />} />
+        <Route path="/about" element={<About />} />
+        <Route
+          path="/user/:userId/favorite"
+          element={userRole === 1 ? <UserFavorite /> : <UnauthorizedPage />}
+        />
+      </Routes>
+    </div>
   );
 }

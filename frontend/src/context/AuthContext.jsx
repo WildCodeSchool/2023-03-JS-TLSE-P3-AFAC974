@@ -8,11 +8,14 @@ export default AuthContext;
 
 export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const storedRole = Cookies.get("role");
-    if (storedRole) {
+    const storedId = Cookies.get("sub");
+    if (storedRole && storedId) {
       setUserRole(Number(storedRole));
+      setUserId(Number(storedId));
     }
   }, []);
 
@@ -20,8 +23,10 @@ export function AuthProvider({ children }) {
     () => ({
       userRole,
       setUserRole,
+      userId,
+      setUserId,
     }),
-    [userRole]
+    [userRole, userId]
   );
 
   return (
