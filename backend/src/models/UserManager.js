@@ -24,6 +24,13 @@ class UserManager extends AbstractManager {
     );
   }
 
+  safeFind(id) {
+    return this.database.query(
+      `select lastname , firstname , pseudo , email , image , entity_id from ${this.table}  where id = ?`,
+      [id]
+    );
+  }
+
   insert(body) {
     const {
       lastname,
