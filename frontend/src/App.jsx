@@ -4,7 +4,6 @@ import React from "react";
 import Modal from "react-modal";
 import { AuthProvider } from "./context/AuthContext";
 import "./App.css";
-import NavBar from "./components/NavBar";
 import RoutesComponent from "./components/RouteComponents";
 import { FormArtworkArtistProvider } from "./context/FormArtworkArtistContext";
 
@@ -15,10 +14,7 @@ function App() {
     <AuthProvider>
       <FormArtworkArtistProvider>
         <Router>
-          <div className="App">
-            <NavBar />
-            <RoutesComponent />
-          </div>
+          <RoutesComponent />
         </Router>
       </FormArtworkArtistProvider>
     </AuthProvider>
