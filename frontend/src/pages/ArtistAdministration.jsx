@@ -197,7 +197,7 @@ export default function ArtistAdministration() {
                   className="flex flex-2"
                 />
               </div>
-              <div className="flex flex-1">
+              <div className="flex flex-1 justify-center">
                 <SortBy handleChange={handleChange} className="flex flex-1" />
               </div>
               <div className="flex-1" />
@@ -209,11 +209,13 @@ export default function ArtistAdministration() {
                 key={itemArtist.id}
                 className="flex flex-col lg:hidden m-[40px]"
               >
-                <img
-                  src={itemArtist.image_url_medium}
-                  alt="oeuvre"
-                  className="shadow-xl drop-shadow-lg"
-                />
+                <div className="w-[310px] h-[310px] border border-0.5 border-gray-300 border-solid overflow-hidden">
+                  <img
+                    src={itemArtist.image_url_medium}
+                    alt="oeuvre"
+                    className="shadow-xl drop-shadow-lg object-cover h-[100%] w-[100%]"
+                  />
+                </div>
                 <div className="flex mt-[20px] justify-between">
                   <div>
                     <h2 className="text-left ">{itemArtist.name}</h2>
@@ -269,11 +271,13 @@ export default function ArtistAdministration() {
               >
                 <div className="flex justify-between w-[100%] border-solid border-b border-gray-300 mb-[10px] items-center">
                   <div className="flex flex-col">
-                    <img
-                      src={itemArtist.image_url_medium}
-                      alt="oeuvre"
-                      className="w-[20vw]"
-                    />
+                    <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-300 border-solid  rounded-full overflow-hidden">
+                      <img
+                        src={itemArtist.image_url_medium}
+                        alt="artist"
+                        className="object-cover w-[100%] h-[100%]"
+                      />
+                    </div>
                     <div className="flex mt-[20px] justify-between">
                       <div>
                         <h2 className="text-left">{itemArtist.name}</h2>
