@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import SortBy from "../components/SortBy";
 import SearchBar from "../components/SearchBar";
-import FavIcon from "../assets/heart.svg";
-import RedFavIcon from "../assets/heart_red.svg";
+import AuthContext from "../context/AuthContext";
+import FavoriteButton from "../components/FavoriteButton";
 
 export default function Gallery() {
   const placeholder = "Rechercher une oeuvre ...";
@@ -13,12 +13,14 @@ export default function Gallery() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
-  const [favorite, setFavorite] = useState([]);
+  //  const [favorite, setFavorite] = useState([]);
+  const { userRole } = React.useContext(AuthContext);
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
       .then((res) => {
+        console.info(res.data);
         setData(res.data);
       })
       .catch((error) => {
@@ -69,14 +71,14 @@ export default function Gallery() {
     setFilteredAndSortedData(filteredAndSorted);
   }, [data, searchTerm, filter]);
 
-  const handleFavoriteStatus = (artworkId) => {
-    setFavorite((prevFavorite) => {
-      if (prevFavorite.includes(artworkId)) {
-        return prevFavorite.filter((id) => id !== artworkId);
-      }
-      return [...prevFavorite, artworkId];
-    });
-  };
+  // const handleFavoriteStatus = (artworkId) => {
+  //   setFavorite((prevFavorite) => {
+  //     if (prevFavorite.includes(artworkId)) {
+  //       return prevFavorite.filter((id) => id !== artworkId);
+  //     }
+  //     return [...prevFavorite, artworkId];
+  //   });
+  // };
 
   const disableRightClick = (e) => {
     e.preventDefault();
@@ -131,19 +133,11 @@ export default function Gallery() {
                       return null;
                     })}
                   </div>
-                  <div className="flex flex-row justify-end">
-                    <button
-                      onClick={() => handleFavoriteStatus(artwork.id)}
-                      type="button"
-                      className="h-6 w-6"
-                    >
-                      {favorite.indexOf(artwork.id) !== -1 ? (
-                        <img src={RedFavIcon} alt="fav" />
-                      ) : (
-                        <img src={FavIcon} alt="fav" />
-                      )}
-                    </button>
-                  </div>
+                  {userRole === 1 && (
+                    <div className="flex flex-row justify-end">
+                      <FavoriteButton artworkId={artwork.id} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -5,9 +5,23 @@ class FavoriteManager extends AbstractManager {
     super({ table: "artwork_favorite" });
   }
 
+  browseFavorites(userId) {
+    return this.database.query(
+      `SELECT artwork_id FROM ${this.table} WHERE user_id = ?`,
+      [userId]
+    );
+  }
+
   addFavorite(userId, artworkId) {
     return this.database.query(
       `INSERT INTO ${this.table} (user_id, artwork_id) VALUES (?,?)`,
+      [userId, artworkId]
+    );
+  }
+
+  deleteFavorite(userId, artworkId) {
+    return this.database.query(
+      `DELETE FROM ${this.table} WHERE user_id = ? AND artwork_id = ?`,
       [userId, artworkId]
     );
   }
