@@ -78,6 +78,10 @@ export default function Gallery() {
     });
   };
 
+  const disableRightClick = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="flex flex-col pt-[60px] justify-center items-center">
       <div className="w-[90%] md:w-[95%] justify-center">
@@ -110,6 +114,7 @@ export default function Gallery() {
                     src={artwork.image_url_medium}
                     alt={`art${artwork.id}`}
                     className="flex justify-center shadow-xl mb-2"
+                    onContextMenu={disableRightClick}
                   />
                 </Link>
                 <div className="flex flex-row justify-between h-[100%]">
