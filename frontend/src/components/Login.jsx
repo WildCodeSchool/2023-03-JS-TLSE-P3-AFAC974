@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import axios from "axios";
@@ -11,6 +11,7 @@ import AuthContext from "../context/AuthContext";
 
 function Login({ loginModalOpened, setLoginModalOpened }) {
   const { setUserRole, setUserId } = useContext(AuthContext);
+  const [entities, setEntities] = useState([]);
   const navigateTo = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [userImage, setUserImage] = useState("");
@@ -26,6 +27,14 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     entity_id: "",
     user_picture: "",
   });
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/entities`)
+      .then((response) => {
+        setEntities(response.data);
+      });
+  }, []);
 
   const inputRef = useRef();
   const [userLogin, setUserLogin] = useState({
@@ -65,6 +74,16 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       }
     }
   }
+
+  let selectedEntityId;
+
+  const handleSelectChange = (event) => {
+    selectedEntityId = event.target.value;
+    setUser((prevUser) => ({
+      ...prevUser,
+      entity_id: selectedEntityId,
+    }));
+  };
 
   function submitSigninModal() {
     setCurrentStep(1);
@@ -219,15 +238,29 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                 />
               </label>
               <h3>Etablissement</h3>
+
               <label htmlFor="entity_id">
-                <Input
-                  type="text"
+                <select
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   id="entity_id"
                   name="userEntity"
-                  placeholder="Saisissez votre entité"
-                  onChange={(event) => handleInputChange(event)}
-                  value={user.entity_id}
-                />
+                  onChange={handleSelectChange}
+                  value={
+                    selectedEntityId &&
+                    entities.find(
+                      (entity) => entity.id === parseInt(selectedEntityId, 10)
+                    )?.name
+                  }
+                >
+                  <option value="" className="text-gray-400">
+                    Sélectionnez une entité
+                  </option>
+                  {entities.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
               </label>
             </form>
 
