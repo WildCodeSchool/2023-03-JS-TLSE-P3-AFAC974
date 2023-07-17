@@ -1,9 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 
-const { storage } = require("./services/cloudinary");
-
-const upload = multer({ storage });
+const upload = multer({ dest: "./public/tmp/" });
 
 const router = express.Router();
 
@@ -145,7 +143,21 @@ router.delete("/artists/:id", artistControllers.destroy);
 router.post("/types", typeControllers.addType);
 router.delete("/types/:id", typeControllers.destroy);
 
-router.post("/upload", upload.single("myfile"), uploadControllers.upload);
+router.post(
+  "/upload-artworks",
+  upload.single("myfile"),
+  uploadControllers.uploadartworks
+);
+router.post(
+  "/upload-artists",
+  upload.single("myfile"),
+  uploadControllers.uploadartists
+);
+router.post(
+  "/upload-users",
+  upload.single("myfile"),
+  uploadControllers.uploadusers
+);
 router.delete("/upload", uploadControllers.destroy);
 router.delete("/upload/group", uploadControllers.destroyGroup);
 
