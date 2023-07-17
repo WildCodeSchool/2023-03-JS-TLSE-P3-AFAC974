@@ -28,6 +28,7 @@ const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
 const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
 const uploadControllers = require("./controllers/uploadControllers");
+const favoriteControllers = require("./controllers/favoriteControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -147,5 +148,9 @@ router.delete("/types/:id", typeControllers.destroy);
 router.post("/upload", upload.single("myfile"), uploadControllers.upload);
 router.delete("/upload", uploadControllers.destroy);
 router.delete("/upload/group", uploadControllers.destroyGroup);
+
+// favorite artwork routes
+
+router.post("/:userId/:artworkId/favorite", favoriteControllers.addFavorite);
 
 module.exports = router;

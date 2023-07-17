@@ -14,6 +14,7 @@ import ArtworksAdministration from "../pages/ArtworksAdministration";
 import UsersAdministration from "../pages/UsersAdministration";
 import ArtistAdministration from "../pages/ArtistAdministration";
 import UnauthorizedPage from "../pages/Unauthorized";
+import UserFavorite from "../pages/UserFavorite";
 
 export default function RoutesComponent() {
   const { userRole } = useContext(AuthContext);
@@ -53,6 +54,10 @@ export default function RoutesComponent() {
         <Route path="/gallery/:artworkId" element={<Artwork />} />
         <Route path="/artist/:artistId" element={<Artist />} />
         <Route path="/about" element={<About />} />
+        <Route
+          path="/user/:userId/favorite"
+          element={userRole === 1 ? <UserFavorite /> : <UnauthorizedPage />}
+        />
       </Routes>
     </div>
   );
