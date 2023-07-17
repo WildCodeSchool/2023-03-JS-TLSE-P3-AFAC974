@@ -68,7 +68,7 @@ function NavBarUser() {
     setIsModalLogOutOpen(false);
     document.body.classList.remove("disable-scroll");
   };
-  window.onscroll = function () {
+  window.onscroll = () => {
     setIsSectionVisible(false);
   };
   const handleClickOutside = (event) => {
