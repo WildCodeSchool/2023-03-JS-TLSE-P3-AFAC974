@@ -9,6 +9,7 @@ function Input({
   onChange,
   value,
   inputDisabled,
+  maxLength,
 }) {
   const inputType = () => {
     switch (type) {
@@ -51,6 +52,7 @@ function Input({
             pattern="https?://.+"
             onChange={onChange}
             value={value}
+            maxLength={maxLength || undefined}
           />
         );
       case "password":
@@ -78,6 +80,7 @@ function Input({
             onChange={onChange}
             value={value}
             disabled={inputDisabled}
+            maxLength={maxLength || undefined}
           />
         );
     }
