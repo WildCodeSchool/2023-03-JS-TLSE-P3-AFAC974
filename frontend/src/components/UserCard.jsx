@@ -85,7 +85,7 @@ function UserCard({ user, setDeletedUserId }) {
       {isLoaded ? (
         <div>
           <div className="flex flex-col xl:flex-row xl:justify-between w-full items-center gap-[15px] py-[20px]">
-            <div className="flex text-2xl font-semibold xl:w-[20%]">
+            <div className="flex text-2xl font-semibold xl:w-[20%] text-left">
               {user.pseudo}
             </div>
             <div className="flex gap-2 items-center justify-center xl:gap-[30vw]">
