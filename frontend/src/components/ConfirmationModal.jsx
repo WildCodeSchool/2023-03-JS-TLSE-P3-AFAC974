@@ -117,7 +117,10 @@ function ConfirmationModal({
       artworkPictureData.append("myfile", artworkPicture);
 
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/upload`, artworkPictureData)
+        .post(
+          `${import.meta.env.VITE_BACKEND_URL}/upload-artworks`,
+          artworkPictureData
+        )
         .then((resArtwork) => {
           const temporaryFormArtwork = {
             ...formArtwork,
@@ -129,7 +132,7 @@ function ConfirmationModal({
 
             axios
               .post(
-                `${import.meta.env.VITE_BACKEND_URL}/upload`,
+                `${import.meta.env.VITE_BACKEND_URL}/upload-artists`,
                 artistPictureData
               )
               .then((resArtist) => {
