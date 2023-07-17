@@ -1,17 +1,21 @@
 const cloudinary = require("cloudinary").v2;
 
-class uploadControllers {
+class UploadControllers {
   static upload = (req, res) => {
-    cloudinary.uploader.upload(req.file.path, (error, result) => {
-      if (error) {
-        console.error(error);
-        return res
-          .status(500)
-          .json({ message: "Erreur lors de l'upload de l'image" });
-      }
+    cloudinary.uploader.upload(
+      req.file.path,
+      { folder: "artwork-afac" },
+      (error, result) => {
+        if (error) {
+          console.error(error);
+          return res
+            .status(500)
+            .json({ message: "Erreur lors de l'upload de l'image" });
+        }
 
-      return res.status(200).json({ imageUrl: result.secure_url });
-    });
+        return res.status(200).json({ imageUrl: result.secure_url });
+      }
+    );
   };
 
   static destroy = (req, res) => {
@@ -47,4 +51,4 @@ class uploadControllers {
   };
 }
 
-module.exports = uploadControllers;
+module.exports = UploadControllers;

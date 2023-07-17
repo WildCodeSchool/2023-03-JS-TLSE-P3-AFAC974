@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import { Turn as Hamburger } from "hamburger-react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import Modal from "react-modal";
 import AuthContext from "../context/AuthContext";
@@ -37,6 +37,7 @@ function NavBarUser() {
       zIndex: 1000,
     },
   };
+  const divRef = useRef(null);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
@@ -62,8 +63,12 @@ function NavBarUser() {
     setIsModalLogOutOpen(false);
     document.body.classList.remove("disable-scroll");
   };
+  window.onscroll = function () {
+    setIsSectionVisible(false);
+  };
+
   return (
-    <div className="absolute w-[100%] z-10">
+    <div className=" w-[100%] z-10 fixed top-0 left-0">
       <div className="navbar-header relative flex justify-between items-center bg-[#7F253E] h-[52px] lg:h-[60px] px-3  shadow-[0px_-3px_15px_#333]">
         <img
           className="logo h-[35px] w-auto sm:h-[55px] "
@@ -71,11 +76,12 @@ function NavBarUser() {
           alt="logo"
         />
         <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
-          <Link
+          <NavLink
             to="/"
             className="hover:font-medium flex items-center w-[28px]"
             onMouseEnter={() => setHomeHovered(true)}
             onMouseLeave={() => setHomeHovered(false)}
+            onClick={() => setIsSectionVisible(false)}
           >
             <img
               src={homeHovered ? hexagonRedBg : hexagonBlueBg}
@@ -83,12 +89,13 @@ function NavBarUser() {
               className="h-[28px] w-[26.32px] mr-2"
             />
             <p>HOME</p>
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/gallery"
             className="hover:font-medium flex items-center w-[28px]"
             onMouseEnter={() => setGalleryHovered(true)}
             onMouseLeave={() => setGalleryHovered(false)}
+            onClick={() => setIsSectionVisible(false)}
           >
             <img
               src={galleryHovered ? hexagonRedBg : hexagonBlueBg}
@@ -96,12 +103,13 @@ function NavBarUser() {
               className="h-[28px] w-[26.32px] mr-2"
             />
             <p>GALERIE</p>
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/about"
             className="hover:font-medium flex items-center w-[28px] whitespace-nowrap"
             onMouseEnter={() => setAboutHovered(true)}
             onMouseLeave={() => setAboutHovered(false)}
+            onClick={() => setIsSectionVisible(false)}
           >
             <img
               src={aboutHovered ? hexagonRedBg : hexagonBlueBg}
@@ -109,7 +117,7 @@ function NavBarUser() {
               className="h-[28px] w-[26.32px] mr-2 "
             />
             <p>A PROPOS</p>
-          </Link>
+          </NavLink>
         </div>
         <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
           <button onClick={() => setLanguageModalOpened(true)} type="button">
@@ -131,8 +139,11 @@ function NavBarUser() {
             />
           </button>
           <div
-            className={`fixed right-0 text-left top-14 mt-2 transition-all duration-500 w-[20dvw]  ${
-              isSectionVisible ? "" : "transform translate-x-full"
+            ref={divRef}
+            className={`bg-white text-left fixed right-0 top-14 mt-2 transition-all duration-500 w-[20dvw]  ${
+              isSectionVisible
+                ? "transform translate-x-0"
+                : "transform translate-x-full"
             }`}
           >
             <section className="w-full flex flex-col p-2 gap-2 border-4 border-red-950 border-solid">
