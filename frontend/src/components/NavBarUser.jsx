@@ -198,7 +198,10 @@ function NavBarUser() {
                 </div>
               </NavLink>
 
-              <NavLink onClick={() => setIsSectionVisible(false)}>
+              <NavLink
+                onClick={() => setIsSectionVisible(false)}
+                to="/settings"
+              >
                 <div className="flex items-center gap-2">
                   <img src={gear} alt="icon" className="w-3 h-3 object-cover" />
                   <p className="text-black">Paramètres</p>
@@ -271,16 +274,20 @@ function NavBarUser() {
               <h2 className="text-xl">
                 Etes vous sur de vouloir vous déconnecter ?
               </h2>
-              <RedButton
-                text="Oui, me déconnecter"
-                type="button"
-                onClick={handleLogOut}
-              />
-              <GreyButton
-                text="Non, rester connecté"
-                type="button"
-                onClick={handleCloseLogOutModal}
-              />
+              <div className="h-10">
+                <RedButton
+                  text="Oui, me déconnecter"
+                  type="button"
+                  onClick={handleLogOut}
+                />
+              </div>
+              <div className="h-10">
+                <GreyButton
+                  text="Non, rester connecté"
+                  type="button"
+                  onClick={handleCloseLogOutModal}
+                />
+              </div>
             </div>
           </Modal>
         </div>
