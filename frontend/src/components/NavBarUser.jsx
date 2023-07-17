@@ -188,12 +188,16 @@ function NavBarUser() {
                   </div>
                 </section>
               )}
-              <NavLink to="/admin" onClick={() => setIsSectionVisible(false)}>
+              <NavLink
+                to={userRole === 0 ? "/admin" : "/user"}
+                onClick={() => setIsSectionVisible(false)}
+              >
                 <div className="flex items-center gap-2">
                   <img src={icon} alt="icon" className="w-3 h-3 object-cover" />
                   <p className="text-black">Profil</p>
                 </div>
               </NavLink>
+
               <NavLink onClick={() => setIsSectionVisible(false)}>
                 <div className="flex items-center gap-2">
                   <img src={gear} alt="icon" className="w-3 h-3 object-cover" />

@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_KEY_SECRET,
 });
 
-class UploadControllers {
+class uploadControllers {
   static uploadartworks = (req, res) => {
     cloudinary.uploader.upload(
       req.file.path,
@@ -119,4 +119,4 @@ class UploadControllers {
   };
 }
 
-module.exports = UploadControllers;
+module.exports = uploadControllers;
