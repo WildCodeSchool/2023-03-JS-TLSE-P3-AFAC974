@@ -56,6 +56,7 @@ router.get("/artists-techniques/:id", artistControllers.readTechniqueName);
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
+router.get("/loggeduser/:id", userControllers.safeRead);
 router.get("/findadmin", userControllers.browseAdmin);
 
 // art_trend routes

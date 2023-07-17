@@ -10,7 +10,7 @@ import userSample from "../assets/user_sample.png";
 import AuthContext from "../context/AuthContext";
 
 function Login({ loginModalOpened, setLoginModalOpened }) {
-  const { setUserRole } = useContext(AuthContext);
+  const { setUserRole, setUserId } = useContext(AuthContext);
   const navigateTo = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [userImage, setUserImage] = useState("");
@@ -91,9 +91,11 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
         if (jwtToken) {
           const decodedToken = jwtDecode(jwtToken);
-          const { role } = decodedToken;
+          const { role, sub } = decodedToken;
           Cookies.set("role", role);
+          Cookies.set("sub", sub);
           setUserRole(role);
+          setUserId(sub);
           if (role === 0) {
             navigateTo("/admin");
           } else if (role === 1) {
