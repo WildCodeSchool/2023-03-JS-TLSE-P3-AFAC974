@@ -92,7 +92,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     selectedEntityId = event.target.value;
     setUser((prevUser) => ({
       ...prevUser,
-      entity_id: selectedEntityId,
+      entityId: selectedEntityId,
     }));
   };
 

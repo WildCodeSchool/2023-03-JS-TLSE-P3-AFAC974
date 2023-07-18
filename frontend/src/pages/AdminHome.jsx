@@ -12,6 +12,7 @@ export default function AdminHome() {
   const [isLoadedArtworksData, setIsLoadedArtworksData] = useState(false);
   const [isLoadedArtistsData, setIsLoadedArtistsData] = useState(false);
   const [isLoadedUsersData, setIsLoadedUsersData] = useState(false);
+  const [entities, setEntities] = useState([]);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/findadmin`)
@@ -58,6 +59,14 @@ export default function AdminHome() {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/entities`)
+      .then((response) => {
+        setEntities(response.data);
+      });
+  }, []);
   return (
     <div>
       {isLoadedAdminData &&
@@ -65,17 +74,26 @@ export default function AdminHome() {
         isLoadedArtworksData &&
         isLoadedUsersData && (
           <section className="w-full overflow-hidden">
-            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4">
-              {adminData && adminData.length > 0 && (
+            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
+              {adminData && adminData.length > 0 && adminData.image ? (
                 <img
                   src={adminData[0].image}
                   alt="profil pic"
-                  className="xl:w-[12dvw] xl:h-[25dvh] w-[35dvw] h-[16dvh] objet-cover rounded-full"
+                  className="xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] objet-cover rounded-full"
                 />
-              )}
-              <h1 className="text-2xl text-black font-bold">ADMINISTRATEUR</h1>
+              ) : (
+                <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+                  <h1 className="text-white text-[50px] xl:text-[70px]">
+                    {adminData[0].firstname.charAt(0)}
+                    {adminData[0].lastname.charAt(0)}
+                  </h1>
+                </div>
+              )}{" "}
+              <h1 className="text-2xl text-black font-bold">
+                {adminData[0].pseudo}
+              </h1>{" "}
             </div>
-            <div className="w-full p-4 mt-3 flex justify-between">
+            <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
               <h2 className="text-4xl text-left font-bold hidden xl:block">
                 INFORMATIONS PERSONELLES
               </h2>
@@ -86,7 +104,7 @@ export default function AdminHome() {
                 INFORMATIONS
               </h2>
             </div>
-            <section className="w-full p-4">
+            <section className="w-full p-4 xl:p-10">
               {adminData &&
                 adminData.length > 0 &&
                 adminData.map((data) => {
@@ -97,8 +115,12 @@ export default function AdminHome() {
                     >
                       <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
                         <h3 className="text-left">Etablissement</h3>
-                        <div className="w-full p-1 rounded-lg text-left border-2 border-gray-300 border-solid">
-                          <p>{data.email}</p>
+                        <div className="w-full p-1 rounded-lg text-left border-2 border-gray-300 border-solid  h-[36px]">
+                          <p>
+                            {entities.map((entity) =>
+                              data.entity_id === entity.id ? entity.name : null
+                            )}
+                          </p>
                         </div>
                       </section>
                       <section className="flex flex-col xl:w-[40%] w-full gap-2">

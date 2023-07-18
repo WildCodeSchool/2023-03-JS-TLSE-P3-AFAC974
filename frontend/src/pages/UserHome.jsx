@@ -12,6 +12,7 @@ export default function UserHome() {
   const [logedUserData, setLogedUserData] = useState(null);
   const { userId } = useContext(AuthContext);
   const [isLoggin, setIsLoggin] = useState(false);
+  const [entities, setEntities] = useState([]);
 
   useEffect(() => {
     axios
@@ -22,6 +23,14 @@ export default function UserHome() {
       })
       .catch((error) => {
         console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/entities`)
+      .then((response) => {
+        setEntities(response.data);
       });
   }, []);
 
@@ -52,25 +61,32 @@ export default function UserHome() {
     e.preventDefault();
   };
 
-  // console.log(logedUserData);
-
   return (
     <div>
       {isLoadedArtistsData && isLoadedArtworksData && isLoggin && (
         <section className="w-full overflow-hidden">
-          <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4">
-            {logedUserData && logedUserData.length > 0 && (
+          <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
+            {logedUserData &&
+            logedUserData.length > 0 &&
+            logedUserData.image ? (
               <img
-                src={logedUserData.image}
+                src={logedUserData[0].image}
                 alt="profil pic"
-                className="xl:w-[12dvw] xl:h-[25dvh] w-[35dvw] h-[16dvh] objet-cover rounded-full"
+                className="xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] objet-cover rounded-full"
               />
+            ) : (
+              <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+                <h1 className="text-white text-[50px] xl:text-[70px]">
+                  {logedUserData[0].firstname.charAt(0)}
+                  {logedUserData[0].lastname.charAt(0)}
+                </h1>
+              </div>
             )}
             <h1 className="text-2xl text-black font-bold">
               {logedUserData[0].pseudo}
             </h1>
           </div>
-          <div className="w-full p-4 mt-3 flex justify-between">
+          <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
             <h2 className="text-4xl text-left font-bold hidden xl:block">
               INFORMATIONS PERSONELLES
             </h2>
@@ -81,7 +97,7 @@ export default function UserHome() {
               INFORMATIONS
             </h2>
           </div>
-          <section className="w-full p-4">
+          <section className="w-full p-4 xl:p-10">
             {logedUserData &&
               logedUserData.length > 0 &&
               logedUserData.map((data) => {
@@ -92,8 +108,12 @@ export default function UserHome() {
                   >
                     <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
                       <h3 className="text-left">Etablissement</h3>
-                      <div className="w-full p-1 rounded-lg text-left border-2 border-gray-300 border-solid">
-                        <p>{data.entity_id}</p>
+                      <div className="w-full p-1 rounded-lg text-left border-2 border-gray-300 border-solid h-[36px]">
+                        <p>
+                          {entities.map((entity) =>
+                            data.entity_id === entity.id ? entity.name : null
+                          )}
+                        </p>
                       </div>
                     </section>
                     <section className="flex flex-col xl:w-[40%] w-full gap-2">
@@ -125,10 +145,7 @@ export default function UserHome() {
               })}
           </section>
           <section className="flex flex-col gap-5">
-            <section
-              className="w-full flex flex-col mt-10 xl:p-10 gap-10
-      "
-            >
+            <section className="w-full flex flex-col mt-10 xl:p-10 gap-10">
               <div className="flex w-full justify-between items-center ">
                 <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
                   Vos coups de coeur
