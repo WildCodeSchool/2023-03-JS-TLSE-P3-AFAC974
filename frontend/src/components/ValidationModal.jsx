@@ -15,12 +15,10 @@ function ValidationModal({
     },
   };
 
-  // useEffect for close modal after 2 secondes
   useEffect(() => {
     const timeout = setTimeout(() => {
       setModalValidation(false);
-    }, 2000); // 2 secondes
-
+    }, 2000);
     return () => clearTimeout(timeout);
   }, [isOpenModalValidation]);
 

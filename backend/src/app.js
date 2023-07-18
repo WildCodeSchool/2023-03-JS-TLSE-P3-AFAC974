@@ -55,6 +55,4 @@ if (fs.existsSync(reactIndexFile)) {
   });
 }
 
-// ready to export
-
 module.exports = app;
