@@ -30,8 +30,9 @@ function NavBarUser() {
   const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
-  const [logedUserData, setLogedUserData] = useState(null);
-  const { userId, userRole } = useContext(AuthContext);
+
+  const { userId, userRole, loggedUserData, setLoggedUserData } =
+    useContext(AuthContext);
 
   const [isModalLogOutOpen, setIsModalLogOutOpen] = useState(false);
 
@@ -47,7 +48,7 @@ function NavBarUser() {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
       .then((response) => {
-        setLogedUserData(response.data);
+        setLoggedUserData(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -159,7 +160,9 @@ function NavBarUser() {
           >
             <img
               className="rounded-full w-11 h-11 object-cover"
-              src={logedUserData && logedUserData[0] && logedUserData[0].image}
+              src={
+                loggedUserData && loggedUserData[0] && loggedUserData[0].image
+              }
               alt="login"
             />
           </button>
@@ -172,19 +175,19 @@ function NavBarUser() {
             }`}
           >
             <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid">
-              {logedUserData && logedUserData[0] && (
+              {loggedUserData && loggedUserData[0] && (
                 <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
                   <img
-                    src={logedUserData[0].image}
+                    src={loggedUserData[0].image}
                     alt="profil pic"
                     className="rounded-full w-11 h-11 object-cover"
                   />
                   <div>
                     <p>
-                      {logedUserData[0].lastname}&nbsp;
-                      {logedUserData[0].firstname}
+                      {loggedUserData[0].lastname}&nbsp;
+                      {loggedUserData[0].firstname}
                     </p>
-                    <p>{logedUserData[0].email}</p>
+                    <p>{loggedUserData[0].email}</p>
                   </div>
                 </section>
               )}
