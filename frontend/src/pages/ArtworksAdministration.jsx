@@ -738,7 +738,10 @@ export default function ArtworksAdministration() {
                     {dataArtist.map((itemArtist) => {
                       if (itemArtist.id === itemArtwork.artist_id) {
                         return (
-                          <p className="text-left mb-4 text-gray-600">
+                          <p
+                            key={itemArtist.id}
+                            className="text-left mb-4 text-gray-600"
+                          >
                             {itemArtist.nickname}
                           </p>
                         );

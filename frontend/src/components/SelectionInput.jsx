@@ -108,12 +108,14 @@ SelectionInput.propTypes = {
   ]).isRequired,
   modify: PropTypes.bool,
   isLoadedId: PropTypes.bool.isRequired,
-  dataId: PropTypes.string.isRequired,
-  dataNameId: PropTypes.string.isRequired,
+  dataId: PropTypes.string,
+  dataNameId: PropTypes.string,
 };
 
 SelectionInput.defaultProps = {
   modify: false,
+  dataId: null,
+  dataNameId: null,
 };
 
 export default SelectionInput;

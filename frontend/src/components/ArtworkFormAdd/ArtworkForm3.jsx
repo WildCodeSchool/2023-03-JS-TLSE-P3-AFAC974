@@ -295,12 +295,16 @@ ArtworkForm3.propTypes = {
   modalRef: PropTypes.shape(),
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
-  dataTechnique: PropTypes.shape({
-    name: PropTypes.string,
-  }),
-  dataArtTrend: PropTypes.shape({
-    name: PropTypes.string,
-  }),
+  dataTechnique: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+    })
+  ),
+  dataArtTrend: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+    })
+  ),
 };
 
 ArtworkForm3.defaultProps = {

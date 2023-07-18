@@ -22,7 +22,7 @@ RedButton.propTypes = {
   onClick: PropTypes.func,
   text: PropTypes.string,
   type: PropTypes.string,
-  disabled: PropTypes.bool,
+  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 RedButton.defaultProps = {
