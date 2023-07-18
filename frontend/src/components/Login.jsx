@@ -17,6 +17,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   const [userImage, setUserImage] = useState("");
   const [unvalidEmail, setUnvalidEmail] = useState(false);
   const [unFilledForm, setUnFilledForm] = useState(false);
+  const [userImageFile, setUserImageFile] = useState(null);
 
   const [user, setUser] = useState({
     lastname: "",
@@ -68,7 +69,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     if (name === "image") {
       const file = files[0];
       const reader = new FileReader();
-
+      setUserImageFile(file);
       reader.onloadend = () => {
         setUserImage(reader.result);
       };
@@ -99,16 +100,32 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   function submitSigninModal() {
     setCurrentStep(1);
     setLoginModalOpened(false);
-    axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/register`, {
-        ...user,
-        role: 1,
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    setUser({});
-    setUserImage("");
+
+    if (userImageFile) {
+      const imageData = new FormData();
+      imageData.append("myfile", userImageFile);
+      axios
+        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
+        .then((response) => {
+          const temporaryUser = {
+            ...user,
+            image: response.data.imageUrl,
+          };
+          axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/register`,
+            temporaryUser
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      axios
+        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, user)
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }
 
   function submitLoginModal() {
