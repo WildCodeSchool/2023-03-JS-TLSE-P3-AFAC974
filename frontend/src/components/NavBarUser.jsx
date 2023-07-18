@@ -318,16 +318,20 @@ function NavBarUser() {
                     <h2 className="text-xl">
                       Etes vous sur de vouloir vous déconnecter ?
                     </h2>
-                    <RedButton
-                      text="Oui, me déconnecter"
-                      type="button"
-                      onClick={handleLogOut}
-                    />
-                    <GreyButton
-                      text="Non, rester connecté"
-                      type="button"
-                      onClick={handleCloseLogOutModal}
-                    />
+                    <div className="h-11">
+                      <RedButton
+                        text="Oui, me déconnecter"
+                        type="button"
+                        onClick={handleLogOut}
+                      />
+                    </div>
+                    <div className="h-11">
+                      <GreyButton
+                        text="Non, rester connecté"
+                        type="button"
+                        onClick={handleCloseLogOutModal}
+                      />
+                    </div>
                   </div>
                 </Modal>
               </div>

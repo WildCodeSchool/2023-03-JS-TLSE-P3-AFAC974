@@ -1,7 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
+import Modal from "react-modal";
 import RedButton from "../components/RedButton";
+import GreyButton from "../components/GreyButton";
 import AuthContext from "../context/AuthContext";
+import Cookies from "js-cookie";
 
 export default function AccountSettings() {
   const {
@@ -11,7 +14,14 @@ export default function AccountSettings() {
     setIsLoadedUser,
     isLoadedUser,
   } = useContext(AuthContext);
-
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUserDeleted, setIsUserDeleted] = useState(false);
+  const customModalStyles = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 1000,
+    },
+  };
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
@@ -23,6 +33,35 @@ export default function AccountSettings() {
         console.error(error);
       });
   }, []);
+
+  const handleDeleteUser = () => {
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setIsUserDeleted(true);
+          if (isUserDeleted) {
+            Cookies.remove("jwt");
+            Cookies.remove("role");
+            setIsDeleteModalOpen(false);
+            window.location.href = "/";
+          }
+        } else {
+          console.error("Erreur lors de la suppression");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const handleOpenDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    document.body.classList.add("disable-scroll");
+  };
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    document.body.classList.remove("disable-scroll");
+  };
 
   return (
     <div className="ml-7  ">
@@ -43,7 +82,7 @@ export default function AccountSettings() {
               <RedButton
                 text="Supprimer le compte"
                 type="button"
-                // onClick={handleLogOut}
+                onClick={handleOpenDeleteModal}
               />
             </div>
           </div>
@@ -104,11 +143,7 @@ export default function AccountSettings() {
               })}
           </section>
           <div className="xl:w-[15%] w-full mx-auto h-11 xl:ml-20 mt-5 block">
-            <RedButton
-              text="Enregistrer les modifications"
-              type="button"
-              // onClick={handleLogOut}
-            />
+            <RedButton text="Enregistrer les modifications" type="button" />
           </div>
           <section className="flex flex-col mt-10 xl:p-4 ">
             <div className="flex flex-col xl:flex-row flex-wrap w-[90%] xl:w-[80%] gap-5 xl:mt-9 ">
@@ -138,11 +173,7 @@ export default function AccountSettings() {
             </div>
           </section>
           <div className="xl:w-[15%] w-full h-11 xl:ml-20 mt-5 xl:mb-16 block">
-            <RedButton
-              text="Modifier le mot de passe"
-              type="button"
-              // onClick={handleLogOut}
-            />
+            <RedButton text="Modifier le mot de passe" type="button" />
           </div>
           <section className="flex flex-col xl:hidden">
             <h2 className="xl:text-4xl text-2xl text-left font-bold">
@@ -152,9 +183,35 @@ export default function AccountSettings() {
               <RedButton
                 text="Supprimer le compte"
                 type="button"
-                // onClick={handleLogOut}
+                onClick={handleOpenDeleteModal}
               />
             </div>
+            <Modal
+              isOpen={isDeleteModalOpen}
+              style={customModalStyles}
+              className=" w-[95%] fixed top-[45%] xl:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex"
+              contentLabel="Modal"
+            >
+              <div className="bg-white w-[25%] rounded-xl text-center flex flex-col gap-6 mx-auto p-5">
+                <h2 className="text-xl">
+                  Etes vous sur de vouloir supprimer le compte ?
+                </h2>
+                <div className="h-11">
+                  <RedButton
+                    text="Oui,supprimer"
+                    type="button"
+                    onClick={handleDeleteUser}
+                  />
+                </div>
+                <div className="h-11">
+                  <GreyButton
+                    text="Non,conserver"
+                    type="button"
+                    onClick={handleCloseDeleteModal}
+                  />
+                </div>
+              </div>
+            </Modal>
           </section>
         </section>
       )}

@@ -88,7 +88,7 @@ export default function AdminHome() {
               <h2 className="text-4xl text-left font-bold hidden xl:block">
                 INFORMATIONS PERSONELLES
               </h2>
-              <Link to="/" className="items-center xl:block hidden">
+              <Link to="/settings" className="items-center xl:block hidden">
                 <img src={settings} alt="settings button" className=" mr-5" />
               </Link>
               <h2 className="text-4xl text-left font-bold xl:hidden">
