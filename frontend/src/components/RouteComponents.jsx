@@ -6,6 +6,7 @@ import NavBarUser from "./NavBarUser";
 import Home from "../pages/Home";
 import AdminHome from "../pages/AdminHome";
 import UserHome from "../pages/UserHome";
+import AccountSettings from "../pages/AccountSettings";
 import About from "../pages/About";
 import Gallery from "../pages/Gallery";
 import Artwork from "../pages/Artwork";
@@ -54,6 +55,16 @@ export default function RoutesComponent() {
         <Route path="/gallery/:artworkId" element={<Artwork />} />
         <Route path="/artist/:artistId" element={<Artist />} />
         <Route path="/about" element={<About />} />
+        <Route
+          path="/settings"
+          element={
+            userRole === 1 || userRole === 0 ? (
+              <AccountSettings />
+            ) : (
+              <UnauthorizedPage />
+            )
+          }
+        />
         <Route
           path="/user/:userId/favorite"
           element={userRole === 1 ? <UserFavorite /> : <UnauthorizedPage />}
