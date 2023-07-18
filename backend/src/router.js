@@ -11,7 +11,7 @@ const {
   verifyEmail,
   hashPassword,
   verifyPassword,
-  // verifyToken,
+  verifyToken,
 } = require("./auth");
 
 // controllers import
@@ -95,7 +95,7 @@ router.post("/login", userControllers.login, verifyPassword);
 
 // --- TOKEN NEEDED ROUTES --- //
 
-// router.use(verifyToken);
+router.use(verifyToken);
 
 // artwork routes
 
