@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import axios from "axios";
@@ -11,9 +11,12 @@ import AuthContext from "../context/AuthContext";
 
 function Login({ loginModalOpened, setLoginModalOpened }) {
   const { setUserRole, setUserId } = useContext(AuthContext);
+  const [entities, setEntities] = useState([]);
   const navigateTo = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [userImage, setUserImage] = useState("");
+  const [unvalidEmail, setUnvalidEmail] = useState(false);
+  const [unFilledForm, setUnFilledForm] = useState(false);
 
   const [user, setUser] = useState({
     lastname: "",
@@ -27,6 +30,14 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     user_picture: "",
   });
 
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/entities`)
+      .then((response) => {
+        setEntities(response.data);
+      });
+  }, []);
+
   const inputRef = useRef();
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -35,6 +46,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
   function handleNext() {
     setCurrentStep(currentStep + 1);
+    setUnFilledForm(false);
   }
 
   function handlePrev() {
@@ -49,7 +61,8 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   };
 
   function handleInputChange(event) {
-    const { id, value, files, name } = event.target;
+    setUnFilledForm(false);
+    const { id, value, files, name, type } = event.target;
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
 
     if (name === "image") {
@@ -63,8 +76,25 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       if (file) {
         reader.readAsDataURL(file);
       }
+    } else if (type === "email") {
+      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+      if (!emailRegex.test(value)) {
+        setUnvalidEmail(true);
+      } else {
+        setUnvalidEmail(false);
+      }
     }
   }
+
+  let selectedEntityId;
+
+  const handleSelectChange = (event) => {
+    selectedEntityId = event.target.value;
+    setUser((prevUser) => ({
+      ...prevUser,
+      entity_id: selectedEntityId,
+    }));
+  };
 
   function submitSigninModal() {
     setCurrentStep(1);
@@ -116,19 +146,26 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   }
 
   function renderContent() {
+    const loginButtonRef = useRef(null);
+
+    useEffect(() => {
+      function handleEnterKey(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          loginButtonRef.current.click();
+        }
+      }
+
+      document.addEventListener("keydown", handleEnterKey);
+      return () => {
+        document.removeEventListener("keydown", handleEnterKey);
+      };
+    }, []);
     switch (currentStep) {
       case 0:
         return (
           <div className="loginModal flex flex-col items-center gap-5">
-            <button type="button">
-              <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden ">
-                <img
-                  src={userSample}
-                  alt="profile sample"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </button>
+            <p className="text-4xl font-semibold">Connectez-vous</p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px]">
               <h3>Email</h3>
               <Input
@@ -147,6 +184,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               />
             </form>
             <button
+              ref={loginButtonRef}
               onClick={() => submitLoginModal()}
               type="button"
               className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
@@ -187,20 +225,25 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px]">
               <h3>Nom*</h3>
               <label htmlFor="lastname">
-                <Input
+                <input
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   type="text"
                   id="lastname"
                   name="userLastname"
                   placeholder="Saisissez votre nom"
+                  maxLength={255}
                   onChange={(event) => handleInputChange(event)}
                   value={user.lastname}
                 />
               </label>
+
               <h3>Prénom*</h3>
               <label htmlFor="firstname">
-                <Input
+                <input
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   type="text"
                   id="firstname"
+                  maxLength={255}
                   name="userFirstname"
                   placeholder="Saisissez votre prénom"
                   onChange={(event) => handleInputChange(event)}
@@ -209,34 +252,73 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </label>
               <h3>Adresse email*</h3>
               <label htmlFor="email">
-                <Input
+                <input
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   type="email"
                   id="email"
                   name="userEmail"
                   placeholder="Saisissez votre adresse email"
+                  required
                   onChange={(event) => handleInputChange(event)}
                   value={user.email}
-                />
+                />{" "}
+                {unvalidEmail ? (
+                  <p className="text-red-500 text-sm italic mt-0">
+                    Adresse email invalide
+                  </p>
+                ) : null}
               </label>
+
               <h3>Etablissement</h3>
+
               <label htmlFor="entity_id">
-                <Input
-                  type="text"
+                <select
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   id="entity_id"
                   name="userEntity"
-                  placeholder="Saisissez votre entité"
-                  onChange={(event) => handleInputChange(event)}
-                  value={user.entity_id}
-                />
+                  onChange={handleSelectChange}
+                  value={
+                    selectedEntityId &&
+                    entities.find(
+                      (entity) => entity.id === parseInt(selectedEntityId, 10)
+                    )?.name
+                  }
+                >
+                  <option value="" className="text-gray-400">
+                    Sélectionnez une entité
+                  </option>
+                  {entities.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
               </label>
             </form>
 
             <button
-              onClick={() => handleNext()}
+              onClick={() => {
+                if (
+                  !unvalidEmail &&
+                  user.firstname !== "" &&
+                  user.lastname !== "" &&
+                  user.email !== ""
+                ) {
+                  handleNext();
+                } else {
+                  setUnFilledForm(true);
+                }
+              }}
               type="button"
-              className="w-[70vw] sm:w-[350px] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
+              ref={loginButtonRef}
+              className="w-[70vw] sm:w-[350px] min-h-[48px] flex flex-col justify-center items-center  shadow-xs rounded-lg px-[8px] py-[8px]  bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
             >
               Suivant
+              {unFilledForm && (
+                <p className="text-red-500 text-sm italic mt-0 font-normal ">
+                  Veuillez renseigner tous les champs
+                </p>
+              )}
             </button>
           </div>
         );
@@ -247,10 +329,10 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               INSCRIPTION 2/3
             </p>
             <form className="flex flex-col gap-3 w-[70vw] sm:w-[350px] ">
-              {/* crée les inputs pseudo / mot de passe / confirmer mot de passe */}
               <h3>Pseudo*</h3>
               <label htmlFor="pseudo">
-                <Input
+                <input
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   type="text"
                   id="pseudo"
                   name="userPseudo"
@@ -261,7 +343,8 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </label>
               <h3>Mot de passe*</h3>
               <label htmlFor="password">
-                <Input
+                <input
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   type="password"
                   id="password"
                   name="userPassword"
@@ -272,7 +355,8 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               </label>
               <h3>Confirmer mot de passe*</h3>
               <label htmlFor="password">
-                <Input
+                <input
+                  className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
                   type="password"
                   id="password2"
                   name="userConfirmPassword"
@@ -298,16 +382,24 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
               <button
                 onClick={() =>
-                  user.password !== "" && user.password === user.password2
+                  user.password !== "" &&
+                  user.password === user.password2 &&
+                  user.pseudo !== ""
                     ? handleNext()
-                    : null
+                    : setUnFilledForm(true)
                 }
                 type="button"
+                ref={loginButtonRef}
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
               >
                 Suivant
               </button>
             </div>
+            {unFilledForm && (
+              <p className="text-red-500 text-sm italic mt-0">
+                Veuillez renseigner tous les champs
+              </p>
+            )}
           </div>
         );
       case 4:
@@ -359,6 +451,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
               <button
                 onClick={() => submitSigninModal()}
+                ref={loginButtonRef}
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
               >
@@ -378,7 +471,17 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       onRequestClose={() => {
         setCurrentStep(1);
         setLoginModalOpened(false);
-        setUser({});
+        setUser({
+          lastname: "",
+          firstname: "",
+          pseudo: "",
+          email: "",
+          image: "",
+          password: "",
+          role: 1,
+          entity_id: "",
+          user_picture: "",
+        });
         setUserImage(null);
       }}
       style={{

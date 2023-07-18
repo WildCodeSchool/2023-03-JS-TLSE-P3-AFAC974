@@ -65,28 +65,37 @@ export default function AdminHome() {
         isLoadedArtworksData &&
         isLoadedUsersData && (
           <section className="w-full overflow-hidden">
-            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4">
-              {adminData && adminData.length > 0 && (
+            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
+              {adminData && adminData.length > 0 && adminData[0].image ? (
                 <img
                   src={adminData[0].image}
                   alt="profil pic"
-                  className="xl:w-[12dvw] xl:h-[25dvh] w-[35dvw] h-[16dvh] objet-cover rounded-full"
+                  className="xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] objet-cover rounded-full"
                 />
+              ) : (
+                <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+                  <h1 className="text-white text-[50px] xl:text-[70px]">
+                    {adminData[0].firstname.charAt(0)}
+                    {adminData[0].lastname.charAt(0)}
+                  </h1>
+                </div>
               )}
-              <h1 className="text-2xl text-black font-bold">ADMINISTRATEUR</h1>
+              <h1 className="text-2xl text-black font-bold">
+                {adminData[0].pseudo}
+              </h1>
             </div>
-            <div className="w-full p-4 mt-3 flex justify-between">
+            <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
               <h2 className="text-4xl text-left font-bold hidden xl:block">
                 INFORMATIONS PERSONELLES
               </h2>
-              <Link to="/" className="items-center xl:block hidden">
+              <Link to="/settings" className="items-center xl:block hidden">
                 <img src={settings} alt="settings button" className=" mr-5" />
               </Link>
               <h2 className="text-4xl text-left font-bold xl:hidden">
                 INFORMATIONS
               </h2>
             </div>
-            <section className="w-full p-4">
+            <section className="w-full p-4 xl:p-10">
               {adminData &&
                 adminData.length > 0 &&
                 adminData.map((data) => {
@@ -147,6 +156,7 @@ export default function AdminHome() {
                     />
                   </Link>
                 </div>
+
                 <section className="w-full hidden xl:flex gap-5">
                   {artworksData &&
                     artworksData.length > 0 &&
@@ -185,47 +195,28 @@ export default function AdminHome() {
                     />
                   </Link>
                 </div>
-                <section
-                  className="ml-20 hidden xl:flex flex-wrap gap-x-[90px] justify-center gap-y-10 
-         w-full"
-                >
+
+                <section className="ml-20 hidden xl:grid grid-cols-4 gap-x-[90px] justify-center gap-y-10 w-full">
                   {artistsData &&
                     artistsData.length > 0 &&
                     artistsData.map((data) => (
-                      <>
-                        <div className="w-[20%] flex items-center gap-3">
+                      <div className="w-[100%] flex items-center gap-3">
+                        {data.image_url_medium ? (
                           <img
                             src={data.image_url_medium}
-                            alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
+                            alt={data.nickname}
+                            className="w-[8vw] h-[8vw] rounded-full object-cover"
                           />
-                          <p>{data.firstname}</p>
-                        </div>
-                        <div className="w-[20%] flex items-center gap-3">
-                          <img
-                            src={data.image_url_medium}
-                            alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
-                          />
-                          <p>{data.firstname}</p>
-                        </div>
-                        <div className="w-[20%] flex items-center gap-3">
-                          <img
-                            src={data.image_url_medium}
-                            alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
-                          />
-                          <p>{data.firstname}</p>
-                        </div>
-                        <div className="w-[20%] flex items-center gap-3">
-                          <img
-                            src={data.image_url_medium}
-                            alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
-                          />
-                          <p>{data.firstname}</p>
-                        </div>
-                      </>
+                        ) : (
+                          <div className="bg-[#7F253E] w-[8vw] h-[8vw] object-cover rounded-full flex items-center justify-center">
+                            <h1 className="text-white text-[30px]">
+                              {data.firstname.charAt(0)}
+                              {data.lastname.charAt(0)}
+                            </h1>
+                          </div>
+                        )}
+                        <p>{data.firstname}</p>
+                      </div>
                     ))}
                 </section>
               </section>
@@ -244,47 +235,32 @@ export default function AdminHome() {
                   </Link>
                 </div>
                 <section
-                  className=" ml-20 hidden xl:flex flex-wrap gap-x-[90px] justify-center gap-y-10 
+                  className=" ml-20 hidden xl:grid grid-cols-4 gap-x-[90px] justify-center gap-y-10 
          w-full "
                 >
                   {usersData &&
                     usersData.length > 0 &&
                     usersData.slice(0, 4).map((data) => (
-                      <>
-                        <div
-                          key={data.id}
-                          className="w-[20%] flex items-center gap-3"
-                        >
+                      <div
+                        key={data.id}
+                        className="w-[100%] flex items-center gap-3"
+                      >
+                        {data.image ? (
                           <img
                             src={data.image}
                             alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
+                            className="w-[8vw] h-[8vw] rounded-full object-cover"
                           />
-                          <h2>{data.lastname}</h2>
-                        </div>
-                        <div
-                          key={data.id}
-                          className="w-[20%] flex items-center gap-3"
-                        >
-                          <img
-                            src={data.image}
-                            alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
-                          />
-                          <h2>{data.lastname}</h2>
-                        </div>
-                        <div
-                          key={data.id}
-                          className="w-[20%] flex items-center gap-3"
-                        >
-                          <img
-                            src={data.image}
-                            alt={data.firstname}
-                            className="w-[5dvw] h-[5dvw] rounded-full object-cover"
-                          />
-                          <h2>{data.lastname}</h2>
-                        </div>
-                      </>
+                        ) : (
+                          <div className="bg-[#7F253E] w-[8vw] h-[8vw] object-cover rounded-full flex items-center justify-center">
+                            <h1 className="text-white text-[30px]">
+                              {data.firstname.charAt(0)}
+                              {data.lastname.charAt(0)}
+                            </h1>
+                          </div>
+                        )}
+                        <h2>{data.lastname}</h2>
+                      </div>
                     ))}
                 </section>
               </section>

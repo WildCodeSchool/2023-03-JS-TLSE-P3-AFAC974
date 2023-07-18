@@ -27,6 +27,7 @@ const artistTechniqueControllers = require("./controllers/artistTechniqueControl
 const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
 const uploadControllers = require("./controllers/uploadControllers");
 const favoriteControllers = require("./controllers/favoriteControllers");
+const entityControllers = require("./controllers/entityControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -81,6 +82,10 @@ router.get("/artists-techniques", artistTechniqueControllers.browse);
 
 router.get("/arttrends-artists", artTrendArtistControllers.browse);
 router.get("/findusers", userControllers.browseUsers);
+
+// entity routes
+
+router.get("/entities", entityControllers.browse);
 
 // --- PASSWORD NEEDED ROUTE --- //
 // router.use(verifyIsAdmin);
