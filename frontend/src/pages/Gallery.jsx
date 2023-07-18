@@ -70,15 +70,6 @@ export default function Gallery() {
     setFilteredAndSortedData(filteredAndSorted);
   }, [data, searchTerm, filter]);
 
-  // const handleFavoriteStatus = (artworkId) => {
-  //   setFavorite((prevFavorite) => {
-  //     if (prevFavorite.includes(artworkId)) {
-  //       return prevFavorite.filter((id) => id !== artworkId);
-  //     }
-  //     return [...prevFavorite, artworkId];
-  //   });
-  // };
-
   const disableRightClick = (e) => {
     e.preventDefault();
   };

@@ -157,21 +157,32 @@ router.delete("/artists/:id", artistControllers.destroy);
 router.post("/types", typeControllers.addType);
 router.delete("/types/:id", typeControllers.destroy);
 
+// upload-artworks routes
+
 router.post(
   "/upload-artworks",
   upload.single("myfile"),
   uploadControllers.uploadartworks
 );
+
+// upload-artists routes
+
 router.post(
   "/upload-artists",
   upload.single("myfile"),
   uploadControllers.uploadartists
 );
+
+// upload-users routes
+
 router.post(
   "/upload-users",
   upload.single("myfile"),
   uploadControllers.uploadusers
 );
+
+// upload routes
+
 router.delete("/upload", uploadControllers.destroy);
 router.delete("/upload/group", uploadControllers.destroyGroup);
 
