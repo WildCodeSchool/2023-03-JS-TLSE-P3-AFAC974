@@ -146,6 +146,21 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   }
 
   function renderContent() {
+    const loginButtonRef = useRef(null);
+
+    useEffect(() => {
+      function handleEnterKey(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          loginButtonRef.current.click();
+        }
+      }
+
+      document.addEventListener("keydown", handleEnterKey);
+      return () => {
+        document.removeEventListener("keydown", handleEnterKey);
+      };
+    }, []);
     switch (currentStep) {
       case 0:
         return (
@@ -169,6 +184,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               />
             </form>
             <button
+              ref={loginButtonRef}
               onClick={() => submitLoginModal()}
               type="button"
               className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
@@ -294,6 +310,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                 }
               }}
               type="button"
+              ref={loginButtonRef}
               className="w-[70vw] sm:w-[350px] min-h-[48px] flex flex-col justify-center items-center  shadow-xs rounded-lg px-[8px] py-[8px]  bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
             >
               Suivant
@@ -372,6 +389,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                     : setUnFilledForm(true)
                 }
                 type="button"
+                ref={loginButtonRef}
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
               >
                 Suivant
@@ -433,6 +451,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
               <button
                 onClick={() => submitSigninModal()}
+                ref={loginButtonRef}
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
               >
