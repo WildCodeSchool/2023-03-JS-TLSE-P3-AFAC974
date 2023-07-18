@@ -18,6 +18,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   const [unvalidEmail, setUnvalidEmail] = useState(false);
   const [unFilledForm, setUnFilledForm] = useState(false);
   const [userImageFile, setUserImageFile] = useState(null);
+  const [wrongAssociation, setWrongAssociation] = useState(false);
 
   const [user, setUser] = useState({
     lastname: "",
@@ -148,18 +149,18 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           } else if (role === 1) {
             navigateTo("/user");
           }
+          setCurrentStep(1);
+          setLoginModalOpened(false);
+          setUserLogin({
+            email: "",
+            password: "",
+          });
         }
       })
       .catch((error) => {
+        setWrongAssociation(true);
         console.error(error);
       });
-
-    setCurrentStep(1);
-    setLoginModalOpened(false);
-    setUserLogin({
-      email: "",
-      password: "",
-    });
   }
 
   function renderContent() {
@@ -208,6 +209,11 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             >
               Connexion
             </button>
+            {wrongAssociation ? (
+              <p className="text-red-500 text-sm italic">
+                Email ou mot de passe incorrect
+              </p>
+            ) : null}
           </div>
         );
       case 1:
@@ -500,6 +506,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           user_picture: "",
         });
         setUserImage(null);
+        setWrongAssociation(false);
       }}
       style={{
         overlay: {
