@@ -30,9 +30,15 @@ function NavBarUser() {
   const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
-  const [logedUserData, setLogedUserData] = useState(null);
-  const { userId, userRole } = useContext(AuthContext);
-  const [isLogedUserData, setIsLogedUserData] = useState(false);
+
+  const {
+    userId,
+    userRole,
+    loggedUserData,
+    setLoggedUserData,
+    isLoadedUser,
+    setIsLoadedUser,
+  } = useContext(AuthContext);
 
   const [isModalLogOutOpen, setIsModalLogOutOpen] = useState(false);
 
@@ -48,8 +54,8 @@ function NavBarUser() {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
       .then((response) => {
-        setLogedUserData(response.data);
-        setIsLogedUserData(true);
+        setLoggedUserData(response.data);
+        setIsLoadedUser(true);
       })
       .catch((error) => {
         console.error(error);
@@ -92,7 +98,7 @@ function NavBarUser() {
 
   return (
     <div>
-      {isLogedUserData && (
+      {isLoadedUser && (
         <div className=" w-[100%] z-10 fixed top-0 left-0">
           <div className="navbar-header relative flex justify-between items-center bg-[#7F253E] h-[52px] lg:h-[60px] px-3  shadow-[0px_-3px_15px_#333]">
             <div>
@@ -165,19 +171,19 @@ function NavBarUser() {
                   type="button"
                   className="flex items-center gap-2 text-sm font-semibold"
                 >
-                  {logedUserData &&
-                  logedUserData.length > 0 &&
-                  logedUserData.image ? (
+                  {loggedUserData &&
+                  loggedUserData.length > 0 &&
+                  loggedUserData[0].image ? (
                     <img
                       className="rounded-full w-11 h-11 object-cover"
-                      src={logedUserData[0].image}
+                      src={loggedUserData[0].image}
                       alt="login"
                     />
                   ) : (
                     <div className="bg-white bg-opacity-20 border border-solid border-white w-11 h-11 object-cover rounded-full flex items-center justify-center">
                       <h1 className="text-white text-[20px]">
-                        {logedUserData[0].firstname.charAt(0)}
-                        {logedUserData[0].lastname.charAt(0)}
+                        {loggedUserData[0].firstname.charAt(0)}
+                        {loggedUserData[0].lastname.charAt(0)}
                       </h1>
                     </div>
                   )}
@@ -191,30 +197,30 @@ function NavBarUser() {
                   }`}
                 >
                   <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid">
-                    {logedUserData && logedUserData[0] && (
+                    {loggedUserData && loggedUserData[0] && (
                       <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
-                        {logedUserData &&
-                        logedUserData.length > 0 &&
-                        logedUserData.image ? (
+                        {loggedUserData &&
+                        loggedUserData.length > 0 &&
+                        loggedUserData[0].image ? (
                           <img
                             className="rounded-full w-11 h-11 object-cover"
-                            src={logedUserData[0].image}
+                            src={loggedUserData[0].image}
                             alt="profil-pic"
                           />
                         ) : (
                           <div className="bg-[#7F253E] w-11 h-11 object-cover rounded-full flex items-center justify-center">
                             <h1 className="text-white text-[20px]">
-                              {logedUserData[0].firstname.charAt(0)}
-                              {logedUserData[0].lastname.charAt(0)}
+                              {loggedUserData[0].firstname.charAt(0)}
+                              {loggedUserData[0].lastname.charAt(0)}
                             </h1>
                           </div>
                         )}
                         <div>
                           <p>
-                            {logedUserData[0].lastname}&nbsp;
-                            {logedUserData[0].firstname}
+                            {loggedUserData[0].lastname}&nbsp;
+                            {loggedUserData[0].firstname}
                           </p>
-                          <p>{logedUserData[0].email}</p>
+                          <p>{loggedUserData[0].email}</p>
                         </div>
                       </section>
                     )}
@@ -232,7 +238,10 @@ function NavBarUser() {
                       </div>
                     </NavLink>
 
-                    <NavLink onClick={() => setIsSectionVisible(false)}>
+                    <NavLink
+                      onClick={() => setIsSectionVisible(false)}
+                      to="/settings"
+                    >
                       <div className="flex items-center gap-2">
                         <img
                           src={gear}
@@ -309,16 +318,20 @@ function NavBarUser() {
                     <h2 className="text-xl">
                       Etes vous sur de vouloir vous déconnecter ?
                     </h2>
-                    <RedButton
-                      text="Oui, me déconnecter"
-                      type="button"
-                      onClick={handleLogOut}
-                    />
-                    <GreyButton
-                      text="Non, rester connecté"
-                      type="button"
-                      onClick={handleCloseLogOutModal}
-                    />
+                    <div className="h-11">
+                      <RedButton
+                        text="Oui, me déconnecter"
+                        type="button"
+                        onClick={handleLogOut}
+                      />
+                    </div>
+                    <div className="h-11">
+                      <GreyButton
+                        text="Non, rester connecté"
+                        type="button"
+                        onClick={handleCloseLogOutModal}
+                      />
+                    </div>
                   </div>
                 </Modal>
               </div>

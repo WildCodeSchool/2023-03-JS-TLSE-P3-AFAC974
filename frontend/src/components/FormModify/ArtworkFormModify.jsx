@@ -47,8 +47,6 @@ function ArtworkFormModify({
   const [dataArtistTechnique, setDataArtistTechnique] = useState(false);
   const [dataArtTrendArtist, setDataArtTrendArtist] = useState(false);
 
-  // useEffect for recup all artists, types, techniques, art trends and jonction between art-trend/artist and technique/artist
-
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artists`)
@@ -120,8 +118,6 @@ function ArtworkFormModify({
         console.error(err.message);
       });
   }, [needToFetch]);
-
-  // useEffect for recup artist, type, technique, art trend of the artwork
 
   const [isLoadedArtistId, setIsLoadedArtistId] = useState(false);
   const [isLoadedTypeId, setIsLoadedTypeId] = useState(false);

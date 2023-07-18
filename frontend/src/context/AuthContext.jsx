@@ -9,6 +9,8 @@ export default AuthContext;
 export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [loggedUserData, setLoggedUserData] = useState(null);
+  const [isLoadedUser, setIsLoadedUser] = useState(false);
 
   useEffect(() => {
     const storedRole = Cookies.get("role");
@@ -25,8 +27,12 @@ export function AuthProvider({ children }) {
       setUserRole,
       userId,
       setUserId,
+      loggedUserData,
+      setLoggedUserData,
+      isLoadedUser,
+      setIsLoadedUser,
     }),
-    [userRole, userId]
+    [userRole, userId, loggedUserData, isLoadedUser]
   );
 
   return (

@@ -148,26 +148,49 @@ router.delete("/artists/:id", artistControllers.destroy);
 router.post("/types", typeControllers.addType);
 router.delete("/types/:id", typeControllers.destroy);
 
+// upload-artworks routes
+
 router.post(
   "/upload-artworks",
   upload.single("myfile"),
   uploadControllers.uploadartworks
 );
+
+// upload-artists routes
+
 router.post(
   "/upload-artists",
   upload.single("myfile"),
   uploadControllers.uploadartists
 );
+
+// upload-users routes
+
 router.post(
   "/upload-users",
   upload.single("myfile"),
   uploadControllers.uploadusers
 );
+
+// upload routes
+
 router.delete("/upload", uploadControllers.destroy);
 router.delete("/upload/group", uploadControllers.destroyGroup);
 
 // favorite artwork routes
 
-router.post("/:userId/:artworkId/favorite", favoriteControllers.addFavorite);
+router.post(
+  "/user/:userId/artwork/:artworkId/favorite",
+  favoriteControllers.addFavorite
+);
+router.delete(
+  "/user/:userId/artwork/:artworkId/favorite",
+  favoriteControllers.deleteFavorite
+);
+router.get(
+  "/user/:userId/artworks/favorites",
+  favoriteControllers.browseFavorites
+);
+router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 module.exports = router;

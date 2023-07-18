@@ -66,7 +66,7 @@ export default function AdminHome() {
         isLoadedUsersData && (
           <section className="w-full overflow-hidden">
             <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
-              {adminData && adminData.length > 0 && adminData.image ? (
+              {adminData && adminData.length > 0 && adminData[0].image ? (
                 <img
                   src={adminData[0].image}
                   alt="profil pic"
@@ -88,7 +88,7 @@ export default function AdminHome() {
               <h2 className="text-4xl text-left font-bold hidden xl:block">
                 INFORMATIONS PERSONELLES
               </h2>
-              <Link to="/" className="items-center xl:block hidden">
+              <Link to="/settings" className="items-center xl:block hidden">
                 <img src={settings} alt="settings button" className=" mr-5" />
               </Link>
               <h2 className="text-4xl text-left font-bold xl:hidden">
