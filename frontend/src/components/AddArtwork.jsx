@@ -37,7 +37,6 @@ function AddArtwork({
     uploadPictureArtist,
   } = useContext(FormArtworkArtistContext);
 
-  // useRef is used for initialize the scroll to the top when you switch
   const modalRef = useRef(null);
   const nextStep = () => {
     setStep(step + 1);
