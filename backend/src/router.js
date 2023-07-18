@@ -82,20 +82,6 @@ router.get("/artists-techniques", artistTechniqueControllers.browse);
 router.get("/arttrends-artists", artTrendArtistControllers.browse);
 router.get("/findusers", userControllers.browseUsers);
 
-router.post(
-  "/user/:userId/artwork/:artworkId/favorite",
-  favoriteControllers.addFavorite
-);
-router.delete(
-  "/user/:userId/artwork/:artworkId/favorite",
-  favoriteControllers.deleteFavorite
-);
-router.get(
-  "/user/:userId/artworks/favorites",
-  favoriteControllers.browseFavorites
-);
-router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
-
 // --- PASSWORD NEEDED ROUTE --- //
 // router.use(verifyIsAdmin);
 // user routes
@@ -187,5 +173,19 @@ router.delete("/upload", uploadControllers.destroy);
 router.delete("/upload/group", uploadControllers.destroyGroup);
 
 // favorite artwork routes
+
+router.post(
+  "/user/:userId/artwork/:artworkId/favorite",
+  favoriteControllers.addFavorite
+);
+router.delete(
+  "/user/:userId/artwork/:artworkId/favorite",
+  favoriteControllers.deleteFavorite
+);
+router.get(
+  "/user/:userId/artworks/favorites",
+  favoriteControllers.browseFavorites
+);
+router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 module.exports = router;
