@@ -8,19 +8,18 @@ import FavoriteButton from "../components/FavoriteButton";
 
 export default function Gallery() {
   const placeholder = "Rechercher une oeuvre ...";
-  const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
+  const [dataArtworks, setDataArtworks] = useState([]);
+  const [dataArtist, setDataArtist] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
-  //  const [favorite, setFavorite] = useState([]);
   const { userRole } = React.useContext(AuthContext);
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
       .then((res) => {
-        setData(res.data);
+        setDataArtworks(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -31,7 +30,7 @@ export default function Gallery() {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artists`)
       .then((res) => {
-        setData2(res.data);
+        setDataArtist(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -43,7 +42,7 @@ export default function Gallery() {
   };
 
   const filterAndSortData = () => {
-    let sortedData = [...data];
+    let sortedData = [...dataArtworks];
     if (searchTerm) {
       sortedData = sortedData.filter((item) => {
         if (typeof item.name === "string") {
@@ -68,7 +67,7 @@ export default function Gallery() {
   useEffect(() => {
     const filteredAndSorted = filterAndSortData();
     setFilteredAndSortedData(filteredAndSorted);
-  }, [data, searchTerm, filter]);
+  }, [dataArtworks, searchTerm, filter]);
 
   const disableRightClick = (e) => {
     e.preventDefault();
@@ -76,9 +75,9 @@ export default function Gallery() {
 
   return (
     <div className="flex flex-col pt-[60px] justify-center items-center">
-      <div className="w-[90%] md:w-[95%] justify-center">
+      <div className="px-[20px] justify-center">
         <div className="flex flex-col justify-between items-center">
-          <h1 className="underline font-semibold text-[42px] drop-shadow-xl pb-4">
+          <h1 className="font-semibold text-[42px] drop-shadow-xl pb-4">
             Galerie
           </h1>
           <p className="text-left">
@@ -105,17 +104,20 @@ export default function Gallery() {
                   <img
                     src={artwork.image_url_medium}
                     alt={`art${artwork.id}`}
-                    className="flex justify-center shadow-xl mb-2"
+                    className="flex justify-center shadow-xl"
                     onContextMenu={disableRightClick}
                   />
                 </Link>
-                <div className="flex flex-row justify-between h-[100%]">
+                <div className="flex flex-row justify-between mt-4">
                   <div className="flex flex-col">
                     <p className="text-left">{`${artwork.name}, ${artwork.year}`}</p>
-                    {data2.map((artist) => {
+                    {dataArtist.map((artist) => {
                       if (artist.id === artwork.artist_id) {
                         return (
-                          <p className="text-left mb-4 text-gray-600">
+                          <p
+                            key={artist.id}
+                            className="text-left mb-4 text-gray-600"
+                          >
                             {artist.nickname}
                           </p>
                         );

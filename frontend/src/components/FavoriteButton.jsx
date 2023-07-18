@@ -8,7 +8,6 @@ import RedFavIcon from "../assets/heart_red.svg";
 function FavoriteButton({ artworkId }) {
   const { userRole, userId } = React.useContext(AuthContext);
   const [favorite, setFavorite] = useState(false);
-  //  const [favData, setFavData] = useState([]);
 
   useEffect(() => {
     axios
@@ -20,6 +19,8 @@ function FavoriteButton({ artworkId }) {
       .then((response) => {
         if (response.data[0]) {
           setFavorite(true);
+        } else {
+          console.info("not favorite");
         }
       })
       .catch((error) => {

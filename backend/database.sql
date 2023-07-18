@@ -364,9 +364,9 @@ INSERT INTO
   )
 VALUES
   (
-    "Les Demoiselles d'Avignon",
-    1907,
-    'Oil painting on canvas',
+    "L'AFAC au clair de lune",
+    1977,
+    'Jai codé, chef !',
     'url_small',
     'https://images.pexels.com/photos/1292998/pexels-photo-1292998.jpeg?auto=compress&cs=tinysrgb&w=600',
     'url_large',
