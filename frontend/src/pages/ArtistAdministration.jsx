@@ -209,12 +209,21 @@ export default function ArtistAdministration() {
                 key={itemArtist.id}
                 className="flex flex-col lg:hidden m-[40px]"
               >
-                <div className="w-[310px] h-[310px] border border-0.5 border-gray-300 border-solid overflow-hidden">
-                  <img
-                    src={itemArtist.image_url_medium}
-                    alt="oeuvre"
-                    className="shadow-xl drop-shadow-lg object-cover h-[100%] w-[100%]"
-                  />
+                <div className="w-[310px] h-[310px] overflow-hidden">
+                  {itemArtist.image_url_medium ? (
+                    <img
+                      src={itemArtist.image_url_medium}
+                      alt="oeuvre"
+                      className="shadow-xl drop-shadow-lg object-cover h-[100%] w-[100%]"
+                    />
+                  ) : (
+                    <div className="bg-[#7F253E] w-[100%] h-[100%] object-cover rounded-full flex items-center justify-center">
+                      <h1 className="text-white text-[30px]">
+                        {itemArtist.firstname.charAt(0)}
+                        {itemArtist.lastname.charAt(0)}
+                      </h1>
+                    </div>
+                  )}
                 </div>
                 <div className="flex mt-[20px] justify-between">
                   <div>
@@ -272,11 +281,20 @@ export default function ArtistAdministration() {
                 <div className="flex justify-between w-[100%] border-solid border-b border-gray-300 mb-[10px] items-center">
                   <div className="flex flex-col">
                     <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-300 border-solid  rounded-full overflow-hidden">
-                      <img
-                        src={itemArtist.image_url_medium}
-                        alt="artist"
-                        className="object-cover w-[100%] h-[100%]"
-                      />
+                      {itemArtist.image_url_medium ? (
+                        <img
+                          src={itemArtist.image_url_medium}
+                          alt="artist"
+                          className="object-cover w-[100%] h-[100%]"
+                        />
+                      ) : (
+                        <div className="bg-[#7F253E] w-[100%] h-[100%] object-cover rounded-full flex items-center justify-center">
+                          <h1 className="text-white text-[30px]">
+                            {itemArtist.firstname.charAt(0)}
+                            {itemArtist.lastname.charAt(0)}
+                          </h1>
+                        </div>
+                      )}
                     </div>
                     <div className="flex mt-[20px] justify-between">
                       <div>
