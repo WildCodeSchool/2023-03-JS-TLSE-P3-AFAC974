@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import Cookies from "js-cookie";
 import RedButton from "../components/RedButton";
 import GreyButton from "../components/GreyButton";
 import AuthContext from "../context/AuthContext";
-import Cookies from "js-cookie";
 
 export default function AccountSettings() {
   const {
