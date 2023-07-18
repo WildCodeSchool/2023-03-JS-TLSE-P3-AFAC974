@@ -9,7 +9,6 @@ import SortBy from "../components/SortBy";
 import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 import ValidationPicture from "../assets/Validation.png";
 import ErrorPicture from "../assets/Erreur.png";
-import userSample from "../assets/user_sample.png";
 import crossDelete from "../assets/crossDelete.png";
 import engrenage from "../assets/Engrenage.png";
 import backArrow from "../assets/back-arrow.png";
@@ -162,19 +161,42 @@ export default function ArtistAdministration() {
     setFilteredAndSortedData(filteredAndSorted);
   }, [data, searchTerm, filter]);
 
+  const [adminData, setAdminData] = useState(null);
+  const [isLoadedAdminData, setIsLoadedAdminData] = useState(false);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/findadmin`)
+      .then((response) => {
+        setAdminData(response.data[0]);
+        setIsLoadedAdminData(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div>
-      {isLoadedArtist && (
+      {isLoadedArtist && isLoadedAdminData && (
         <div className="pt-[52px]">
           <div className="pt-[20px] flex flex-col items-center">
             <div className="flex justify-center xl:justify-between items-center w-[100%]">
               <div className="flex flex-col  md:flex-row justify-between items-center gap-[16px] md:gap-[50px] p-[20px] mx-[50px] xl:my-[30px]">
-                <div className="imageCircleContainer w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden border-solid border border-gray-300">
-                  <img
-                    src={userSample}
-                    alt="userSample"
-                    className="object-cover w-full h-full"
-                  />
+                <div className=" w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full overflow-hidden">
+                  {adminData && adminData.length > 0 && adminData[0].image ? (
+                    <img
+                      src={adminData[0].image}
+                      alt="profil pic"
+                      className="object-cover h-[100%] w-[100%]"
+                    />
+                  ) : (
+                    <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+                      <h1 className="text-white text-[50px] xl:text-[70px]">
+                        {adminData[0].firstname.charAt(0)}
+                        {adminData[0].lastname.charAt(0)}
+                      </h1>
+                    </div>
+                  )}
                 </div>
                 <h1 className="text-3xl xl:text-4xl text-rose-900 font-semibold whitespace-nowrap mb-[24px] xl:mb-[0px]">
                   Gestion des artistes
@@ -209,12 +231,21 @@ export default function ArtistAdministration() {
                 key={itemArtist.id}
                 className="flex flex-col lg:hidden m-[40px]"
               >
-                <div className="w-[310px] h-[310px] border border-0.5 border-gray-300 border-solid overflow-hidden">
-                  <img
-                    src={itemArtist.image_url_medium}
-                    alt="oeuvre"
-                    className="shadow-xl drop-shadow-lg object-cover h-[100%] w-[100%]"
-                  />
+                <div className="w-[310px] h-[310px] overflow-hidden">
+                  {itemArtist.image_url_medium ? (
+                    <img
+                      src={itemArtist.image_url_medium}
+                      alt="oeuvre"
+                      className="shadow-xl drop-shadow-lg object-cover h-[100%] w-[100%]"
+                    />
+                  ) : (
+                    <div className="bg-[#7F253E] w-[100%] h-[100%] object-cover rounded-full flex items-center justify-center">
+                      <h1 className="text-white text-[30px]">
+                        {itemArtist.firstname.charAt(0)}
+                        {itemArtist.lastname.charAt(0)}
+                      </h1>
+                    </div>
+                  )}
                 </div>
                 <div className="flex mt-[20px] justify-between">
                   <div>
@@ -272,11 +303,20 @@ export default function ArtistAdministration() {
                 <div className="flex justify-between w-[100%] border-solid border-b border-gray-300 mb-[10px] items-center">
                   <div className="flex flex-col">
                     <div className="imageCircleContainer w-[110px] h-[110px] border border-0.5 border-gray-300 border-solid  rounded-full overflow-hidden">
-                      <img
-                        src={itemArtist.image_url_medium}
-                        alt="artist"
-                        className="object-cover w-[100%] h-[100%]"
-                      />
+                      {itemArtist.image_url_medium ? (
+                        <img
+                          src={itemArtist.image_url_medium}
+                          alt="artist"
+                          className="object-cover w-[100%] h-[100%]"
+                        />
+                      ) : (
+                        <div className="bg-[#7F253E] w-[100%] h-[100%] object-cover rounded-full flex items-center justify-center">
+                          <h1 className="text-white text-[30px]">
+                            {itemArtist.firstname.charAt(0)}
+                            {itemArtist.lastname.charAt(0)}
+                          </h1>
+                        </div>
+                      )}
                     </div>
                     <div className="flex mt-[20px] justify-between">
                       <div>

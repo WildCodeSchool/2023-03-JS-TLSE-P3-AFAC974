@@ -480,8 +480,8 @@ ArtworkForm2.propTypes = {
   isLoadedType: PropTypes.bool.isRequired,
   isLoadedTechnique: PropTypes.bool.isRequired,
   isLoadedArtTrend: PropTypes.bool.isRequired,
-  dataArtist: PropTypes.arrayOf([
-    {
+  dataArtist: PropTypes.arrayOf(
+    PropTypes.shape({
       lastname: PropTypes.string,
       firstname: PropTypes.string,
       nickname: PropTypes.string,
@@ -493,24 +493,24 @@ ArtworkForm2.propTypes = {
       facebookUrl: PropTypes.string,
       instagramUrl: PropTypes.string,
       twitterUrl: PropTypes.string,
-    },
-  ]),
+    })
+  ),
 
-  dataType: PropTypes.arrayOf([
-    {
+  dataType: PropTypes.arrayOf(
+    PropTypes.shape({
       name: PropTypes.string,
-    },
-  ]),
-  dataTechnique: PropTypes.arrayOf([
-    {
+    })
+  ),
+  dataTechnique: PropTypes.arrayOf(
+    PropTypes.shape({
       name: PropTypes.string,
-    },
-  ]),
-  dataArtTrend: PropTypes.arrayOf([
-    {
+    })
+  ),
+  dataArtTrend: PropTypes.arrayOf(
+    PropTypes.shape({
       name: PropTypes.string,
-    },
-  ]),
+    })
+  ),
   handleJointureArtisteArtTrend: PropTypes.func.isRequired,
   handleJointureArtisteTechnique: PropTypes.func.isRequired,
   jointureVerify: PropTypes.func.isRequired,

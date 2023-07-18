@@ -5,9 +5,9 @@ import settings from "../assets/settings.png";
 import AuthContext from "../context/AuthContext";
 
 export default function UserHome() {
-  const [artworksData, setArtworksData] = useState(null);
+  const [artworksToMap, setArtworksToMap] = useState([]);
   const [artistsData, setArtistsData] = useState(null);
-  const [isLoadedArtworksData, setIsLoadedArtworksData] = useState(false);
+  const [isLoadedArtworksToMap, setIsLoadedArtworksToMap] = useState(false);
   const [isLoadedArtistsData, setIsLoadedArtistsData] = useState(false);
   const [logedUserData, setLogedUserData] = useState(null);
   const { userId } = useContext(AuthContext);
@@ -16,13 +16,30 @@ export default function UserHome() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
+      .get(
+        `${import.meta.env.VITE_BACKEND_URL}/user/${userId}/artworks/favorites`
+      )
       .then((response) => {
-        setArtworksData(response.data);
-        setIsLoadedArtworksData(true);
+        const favData = response.data;
+        const fetchArtworksPromises = favData.map((fav) =>
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_URL}/artworks/${fav.artwork_id}`
+          )
+        );
+        Promise.all(fetchArtworksPromises)
+          .then((artworksResponses) => {
+            const artworksData = artworksResponses.map((res) => res.data[0]);
+            setArtworksToMap(artworksData);
+            setIsLoadedArtworksToMap(true);
+          })
+          .catch((error) => {
+            console.error(error);
+            setIsLoadedArtworksToMap(true);
+          });
       })
       .catch((error) => {
         console.error(error);
+        setIsLoadedArtworksToMap(true);
       });
   }, []);
 
@@ -63,7 +80,7 @@ export default function UserHome() {
 
   return (
     <div>
-      {isLoadedArtistsData && isLoadedArtworksData && isLoggin && (
+      {isLoadedArtistsData && isLoadedArtworksToMap && isLoggin && (
         <section className="w-full overflow-hidden">
           <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
             {logedUserData &&
@@ -90,7 +107,7 @@ export default function UserHome() {
             <h2 className="text-4xl text-left font-bold hidden xl:block">
               INFORMATIONS PERSONELLES
             </h2>
-            <Link to="/" className="items-center xl:block hidden">
+            <Link to="/settings" className="items-center xl:block hidden">
               <img src={settings} alt="settings button" className=" mr-5" />
             </Link>
             <h2 className="text-4xl text-left font-bold xl:hidden">
@@ -103,7 +120,7 @@ export default function UserHome() {
               logedUserData.map((data) => {
                 return (
                   <div
-                    key={data.id}
+                    key={data.email}
                     className=" flex flex-col xl:flex-row flex-wrap w-[80%] gap-5 mt-9"
                   >
                     <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
@@ -150,7 +167,7 @@ export default function UserHome() {
                 <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
                   Vos coups de coeur
                 </h2>
-                <Link to="/user/favorites" className="items-center">
+                <Link to="/user/:userId/favorite" className="items-center">
                   <p className="xl:block hidden">Gérer les favoris</p>
                   <img
                     src={settings}
@@ -159,10 +176,10 @@ export default function UserHome() {
                   />
                 </Link>
               </div>
-              <section className="w-full hidden xl:flex gap-5">
-                {artworksData &&
-                  artworksData.length > 0 &&
-                  artworksData.slice(0, 4).map((artwork) => (
+              <section className="w-full hidden xl:grid xl:grid-cols-4 xl: gap-5">
+                {artworksToMap &&
+                  artworksToMap.length > 0 &&
+                  artworksToMap.slice(0, 4).map((artwork) => (
                     <div className="pb-4 flex flex-col" key={artwork.id}>
                       <div>
                         <Link to={`/gallery/${artwork.id}`}>
