@@ -167,7 +167,7 @@ function NavBarUser() {
                 >
                   {logedUserData &&
                   logedUserData.length > 0 &&
-                  logedUserData.image ? (
+                  logedUserData[0].image ? (
                     <img
                       className="rounded-full w-11 h-11 object-cover"
                       src={logedUserData[0].image}
@@ -195,7 +195,7 @@ function NavBarUser() {
                       <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
                         {logedUserData &&
                         logedUserData.length > 0 &&
-                        logedUserData.image ? (
+                        logedUserData[0].image ? (
                           <img
                             className="rounded-full w-11 h-11 object-cover"
                             src={logedUserData[0].image}

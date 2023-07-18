@@ -28,7 +28,6 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     password: "",
     role: 1,
     entity_id: "",
-    user_picture: "",
   });
 
   useEffect(() => {
@@ -126,6 +125,19 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           console.error(error);
         });
     }
+    setUser({
+      lastname: "",
+      firstname: "",
+      pseudo: "",
+      email: "",
+      image: "",
+      password: "",
+      role: 1,
+      entity_id: "",
+      password2: "",
+    });
+    setUserImage(null);
+    setUserImageFile(null);
   }
 
   function submitLoginModal() {
@@ -497,9 +509,10 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           password: "",
           role: 1,
           entity_id: "",
-          user_picture: "",
+          password2: "",
         });
         setUserImage(null);
+        setUserImageFile(null);
       }}
       style={{
         overlay: {
