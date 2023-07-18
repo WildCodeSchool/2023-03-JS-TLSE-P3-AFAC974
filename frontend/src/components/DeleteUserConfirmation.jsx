@@ -26,7 +26,6 @@ function DeleteUserConfirmation({
       .then(() => {
         setIsOpenModalValidation(true);
       })
-      // then wait 1800ms
       .then(() => {
         setIsOpenDeleteConfirmation(false);
         setTimeout(() => {
