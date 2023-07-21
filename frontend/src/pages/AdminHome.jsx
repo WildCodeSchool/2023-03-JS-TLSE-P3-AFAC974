@@ -101,7 +101,7 @@ export default function AdminHome() {
                 adminData.map((data) => {
                   return (
                     <div
-                      key={data.id}
+                      key={data.email}
                       className=" flex flex-col xl:flex-row flex-wrap w-[80%] gap-5 mt-9"
                     >
                       <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
@@ -200,7 +200,10 @@ export default function AdminHome() {
                   {artistsData &&
                     artistsData.length > 0 &&
                     artistsData.map((data) => (
-                      <div className="w-[100%] flex items-center gap-3">
+                      <div
+                        key={data.id}
+                        className="w-[100%] flex items-center gap-3"
+                      >
                         {data.image_url_medium ? (
                           <img
                             src={data.image_url_medium}
@@ -242,7 +245,7 @@ export default function AdminHome() {
                     usersData.length > 0 &&
                     usersData.slice(0, 4).map((data) => (
                       <div
-                        key={data.id}
+                        key={data.email}
                         className="w-[100%] flex items-center gap-3"
                       >
                         {data.image ? (

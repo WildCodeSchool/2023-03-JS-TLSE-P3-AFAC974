@@ -347,12 +347,13 @@ function ArtistFormModify({ prevStep, nextStep, selectedArtistId }) {
 ArtistFormModify.propTypes = {
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
-  selectedArtistId: PropTypes.number.isRequired,
+  selectedArtistId: PropTypes.number,
 };
 
 ArtistFormModify.defaultProps = {
   prevStep: () => {},
   nextStep: () => {},
+  selectedArtistId: null,
 };
 
 export default ArtistFormModify;
