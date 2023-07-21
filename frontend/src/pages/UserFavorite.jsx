@@ -33,7 +33,6 @@ function UserFavorite() {
             const artworksData = artworksResponses.map((res) => res.data[0]);
             setArtworksToMap(artworksData);
             setIsLoaded(true);
-            console.info(artworksData);
           })
           .catch((error) => {
             console.error(error);
