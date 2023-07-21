@@ -85,11 +85,11 @@ export default function UserHome() {
           <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
             {logedUserData &&
             logedUserData.length > 0 &&
-            logedUserData.image ? (
+            logedUserData[0].image ? (
               <img
                 src={logedUserData[0].image}
                 alt="profil pic"
-                className="xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] objet-cover rounded-full"
+                className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
               />
             ) : (
               <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
