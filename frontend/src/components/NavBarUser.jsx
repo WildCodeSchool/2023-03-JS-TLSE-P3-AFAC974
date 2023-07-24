@@ -190,13 +190,13 @@ function NavBarUser() {
                 </button>
                 <div
                   ref={divRef}
-                  className={`bg-white xl:mt-[5px] text-left fixed right-0 top-14 transition-all duration-500 xl:w-[20dvw] w-[55dvw]  ${
+                  className={`bg-white xl:mt-[5px] text-left fixed right-0 top-14 transition-all duration-500 xl:w-[20dvw] w-[55dvw] border rounded-lg ${
                     isSectionVisible
                       ? "transform translate-x-0"
                       : "transform translate-x-full"
                   }`}
                 >
-                  <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid">
+                  <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid rounded-lg">
                     {loggedUserData && loggedUserData[0] && (
                       <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
                         {loggedUserData &&
