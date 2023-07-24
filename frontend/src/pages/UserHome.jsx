@@ -9,10 +9,14 @@ export default function UserHome() {
   const [artistsData, setArtistsData] = useState(null);
   const [isLoadedArtworksToMap, setIsLoadedArtworksToMap] = useState(false);
   const [isLoadedArtistsData, setIsLoadedArtistsData] = useState(false);
-  const [loggedUserData, setLoggedUserData] = useState(null);
-  const { userId } = useContext(AuthContext);
-  const [isLoggin, setIsLoggin] = useState(false);
   const [entities, setEntities] = useState([]);
+  const {
+    userId,
+    loggedUserData,
+    setLoggedUserData,
+    setIsLoadedUser,
+    isLoadedUser,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -64,10 +68,10 @@ export default function UserHome() {
   }, []);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/logggedUser/${userId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/loggedUser/${userId}`)
       .then((response) => {
         setLoggedUserData(response.data);
-        setIsLoggin(true);
+        setIsLoadedUser(true);
       })
       .catch((error) => {
         console.error(error);
@@ -80,7 +84,7 @@ export default function UserHome() {
 
   return (
     <div>
-      {isLoadedArtistsData && isLoadedArtworksToMap && isLoggin && (
+      {isLoadedArtistsData && isLoadedArtworksToMap && isLoadedUser && (
         <section className="w-full overflow-hidden">
           <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
             {loggedUserData &&

@@ -90,7 +90,7 @@ class uploadControllers {
     cloudinary.uploader
       .destroy(req.body.namePicture)
       .then((result) => {
-        if (result.result === "Delete is ok") {
+        if (result.result === "ok") {
           res.sendStatus(204);
         } else {
           res.sendStatus(404);
@@ -106,7 +106,7 @@ class uploadControllers {
     cloudinary.api
       .delete_ressources(req.body)
       .then((result) => {
-        if (result.result === "Delete is ok") {
+        if (result.result === "ok") {
           res.sendStatus(204);
         } else {
           res.sendStatus(404);

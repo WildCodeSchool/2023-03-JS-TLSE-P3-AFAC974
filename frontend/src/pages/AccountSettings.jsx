@@ -3,6 +3,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import Cookies from "js-cookie";
 import ValidationModal from "../components/ValidationModal";
+import ModifyProfilePic from "../components/ModifyProfilePic";
 import RedButton from "../components/RedButton";
 import GreyButton from "../components/GreyButton";
 import AuthContext from "../context/AuthContext";
@@ -26,6 +27,9 @@ export default function AccountSettings() {
     useState(false);
   const [modalErrorModifyUser, setModalErrorModifyUser] = useState(false);
 
+  const [modifyProfileModalOpened, setModifyProfileModalOpened] =
+    useState(false);
+
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -39,6 +43,13 @@ export default function AccountSettings() {
     pseudo: "",
     email: "",
     entity_id: "",
+  });
+
+  const [password, setPassword] = useState({
+    password: "",
+  });
+  const [password2, setPassword2] = useState({
+    password2: "",
   });
 
   useEffect(() => {
@@ -155,6 +166,32 @@ export default function AccountSettings() {
     }
   }
 
+  function handlePasswordChange(event) {
+    const { id, value } = event.target;
+    setPassword((prevPassword) => ({ ...prevPassword, [id]: value }));
+  }
+
+  function handlePassword2Change(event) {
+    const { id, value } = event.target;
+    setPassword2((prevPassword2) => ({ ...prevPassword2, [id]: value }));
+  }
+  const handleModifyPasswordUser = () => {
+    axios
+      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, password)
+      .then(() => {
+        setPassword2({ password2: "" });
+        setPassword({ password: "" });
+        setModalValidationModifyUser(true);
+        setReload(!reLoad);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la modification :", error);
+        setPassword2({ password2: "" });
+        setPassword({ password: "" });
+        setModalErrorModifyUser(true);
+      });
+  };
+
   return (
     <div className="ml-7  ">
       {isLoadedUser && (
@@ -164,19 +201,34 @@ export default function AccountSettings() {
               {loggedUserData &&
               loggedUserData.length > 0 &&
               loggedUserData[0].image ? (
-                <img
-                  src={loggedUserData[0].image}
-                  alt="profil pic"
-                  className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
-                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModifyProfileModalOpened(true);
+                  }}
+                >
+                  <img
+                    src={loggedUserData[0].image}
+                    alt="profil pic"
+                    className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
+                  />
+                </button>
               ) : (
-                <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
-                  <h1 className="text-white text-[50px] xl:text-[70px]">
-                    {loggedUserData[0].firstname.charAt(0)}
-                    {loggedUserData[0].lastname.charAt(0)}
-                  </h1>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModifyProfileModalOpened(true);
+                  }}
+                >
+                  <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+                    <h1 className="text-white text-[50px] xl:text-[70px]">
+                      {loggedUserData[0].firstname.charAt(0)}
+                      {loggedUserData[0].lastname.charAt(0)}
+                    </h1>
+                  </div>
+                </button>
               )}
+
               <h1 className="text-2xl text-black font-bold">
                 {loggedUserData[0].pseudo}
               </h1>
@@ -313,9 +365,13 @@ export default function AccountSettings() {
                 <section className="flex flex-col xl:w-[40%] w-full gap-2">
                   <h3 className="text-left">Modifier mon mot de passe</h3>
                   <input
-                    type="text"
+                    type="password"
+                    id="password"
+                    name="password"
                     className="w-full p-2 rounded-lg text-left border-2 border-gray-300  border-solid"
                     placeholder="****"
+                    onChange={(event) => handlePasswordChange(event)}
+                    value={password.password}
                   />
                 </section>
                 <section className="flex flex-col xl:w-[40%] w-full gap-2">
@@ -323,16 +379,34 @@ export default function AccountSettings() {
                     Confirmer mon nouveau mot de passe
                   </h3>
                   <input
-                    type="text"
+                    type="password"
+                    id="password2"
+                    name="password2"
                     className="w-full p-2 rounded-lg text-left border-2 border-gray-300 border-solid"
                     placeholder="****"
+                    onChange={(event) => handlePassword2Change(event)}
+                    value={password2.password2}
                   />
                 </section>
               </div>
+              {password.password !== password2.password2 &&
+                password2.password2 !== "" && (
+                  <p className="text-red-500">
+                    Les mots de passe ne correspondent pas
+                  </p>
+                )}
             </div>
           </section>
           <div className="xl:w-[15%] w-full h-11 xl:ml-20 mt-5 xl:mb-16 block">
-            <RedButton text="Modifier le mot de passe" type="button" />
+            <RedButton
+              text="Modifier le mot de passe"
+              type="button"
+              onClick={handleModifyPasswordUser}
+              disabled={
+                password2.password2 === "" ||
+                password.password !== password2.password2
+              }
+            />
           </div>
           <section className="flex flex-col xl:hidden">
             <h2 className="xl:text-4xl text-2xl text-left font-bold">
@@ -372,6 +446,12 @@ export default function AccountSettings() {
               </div>
             </Modal>
           </section>
+          <ModifyProfilePic
+            modifyProfileModalOpened={modifyProfileModalOpened}
+            setModifyProfileModalOpened={setModifyProfileModalOpened}
+            setModalValidationModifyUser={setModalValidationModifyUser}
+            setModalValidation={setModalErrorModifyUser}
+          />
           <ValidationModal
             textValidationModal="Modifications prises en compte"
             isOpenModalValidation={modalValidationModifyUser}

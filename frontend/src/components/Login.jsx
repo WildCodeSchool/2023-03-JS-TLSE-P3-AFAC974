@@ -469,7 +469,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   name="userConfirmPassword"
                   placeholder="Confirmez votre mot de passe"
                   onChange={(event) => handleInputChange(event)}
-                  value={user.password2}
+                  value={user.password2 || ""}
                 />
                 {user.password !== user.password2 && user.password !== "" && (
                   <p className="text-red-500">
