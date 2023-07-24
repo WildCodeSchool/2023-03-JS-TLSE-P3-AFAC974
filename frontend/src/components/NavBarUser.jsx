@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import { Turn as Hamburger } from "hamburger-react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import Modal from "react-modal";
 import AuthContext from "../context/AuthContext";
@@ -101,13 +101,15 @@ function NavBarUser() {
       {isLoadedUser && (
         <div className=" w-[100%] z-10 fixed top-0 left-0">
           <div className="navbar-header relative flex justify-between items-center bg-[#7F253E] h-[52px] lg:h-[60px] px-3  shadow-[0px_-3px_15px_#333]">
-            <div>
-              <img
-                className="logo h-[35px] w-auto sm:h-[55px] "
-                src={navbarLogo}
-                alt="logo"
-              />
-            </div>
+            <Link to="/">
+              <div>
+                <img
+                  className="logo h-[35px] w-auto sm:h-[55px] "
+                  src={navbarLogo}
+                  alt="logo"
+                />
+              </div>
+            </Link>
 
             <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
               <NavLink

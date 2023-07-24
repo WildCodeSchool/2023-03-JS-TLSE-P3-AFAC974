@@ -22,11 +22,13 @@ function NavBar() {
   return (
     <div className="w-[100%] z-10 fixed top-0 left-0">
       <div className="navbar-header flex justify-between items-center bg-[#257492] h-[52px] lg:h-[60px] px-3 shadow-[0px_-3px_15px_#333]">
-        <img
-          className="logo h-[35px] w-auto sm:h-[55px] "
-          src={navbarLogo}
-          alt="logo"
-        />
+        <Link to="/">
+          <img
+            className="logo h-[35px] w-auto sm:h-[55px] "
+            src={navbarLogo}
+            alt="logo"
+          />
+        </Link>
         <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
           <Link
             to="/"
