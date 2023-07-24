@@ -13,6 +13,7 @@ import crossDelete from "../assets/crossDelete.png";
 import engrenage from "../assets/Engrenage.png";
 import backArrow from "../assets/back-arrow.png";
 import trash from "../assets/trash.png";
+import AuthContext from "../context/AuthContext";
 
 export default function ArtistAdministration() {
   const { formArtist, needToFetch, setNeedToFetch, setFormArtist } = useContext(
@@ -56,6 +57,7 @@ export default function ArtistAdministration() {
       twitterUrl: "",
     });
   };
+  const { headers } = useContext(AuthContext);
 
   const handleCancelDeleteArtist = () => {
     setModalConfirmationDeleteArtist(false);
@@ -65,7 +67,9 @@ export default function ArtistAdministration() {
 
   const handleArtistDelete = (id, url) => {
     axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`)
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, {
+        headers,
+      })
       .then(() => {
         if (url !== "") {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
@@ -98,7 +102,9 @@ export default function ArtistAdministration() {
 
   const handleArtistModify = (id) => {
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, formArtist)
+      .put(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, formArtist, {
+        headers,
+      })
       .then(() => {
         setNeedToFetch(!needToFetch);
       })
