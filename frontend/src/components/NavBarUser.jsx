@@ -190,7 +190,7 @@ function NavBarUser() {
                 >
                   <section className="w-full flex flex-col border-2 border-gray-200 border-solid rounded-lg">
                     {loggedUserData && loggedUserData[0] && (
-                      <section className="flex gap-3 p-1 border-b-[1px] border-gray-3 00 border-solid">
+                      <section className="flex gap-3 p-1 border-b-[1px] border-gray-300 border-solid">
                         {loggedUserData &&
                         loggedUserData.length > 0 &&
                         loggedUserData[0].image ? (
