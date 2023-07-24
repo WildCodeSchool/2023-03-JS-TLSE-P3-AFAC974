@@ -185,9 +185,13 @@ export default function AccountSettings() {
   }
   const handleModifyPasswordUser = () => {
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, password, {
-        headers,
-      })
+      .put(
+        `${import.meta.env.VITE_BACKEND_URL}/users-password/${userId}`,
+        password,
+        {
+          headers,
+        }
+      )
       .then(() => {
         setPassword2({ password2: "" });
         setPassword({ password: "" });

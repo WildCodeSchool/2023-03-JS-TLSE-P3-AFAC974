@@ -28,21 +28,17 @@ const verifyEmail = (req, res, next) => {
 };
 
 const hashPassword = (req, res, next) => {
-  if (req.body.password) {
-    argon2
-      .hash(req.body.password, hashingOptions)
-      .then((hashedPassword) => {
-        req.body.hashedPassword = hashedPassword;
-        delete req.body.password;
-        next();
-      })
-      .catch((err) => {
-        console.error(err);
-        res.sendStatus(500);
-      });
-  } else {
-    next();
-  }
+  argon2
+    .hash(req.body.password, hashingOptions)
+    .then((hashedPassword) => {
+      req.body.hashedPassword = hashedPassword;
+      delete req.body.password;
+      next();
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
 
 const verifyPassword = (req, res) => {

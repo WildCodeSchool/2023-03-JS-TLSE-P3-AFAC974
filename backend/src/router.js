@@ -111,8 +111,9 @@ router.delete("/artworks/:id", artworkControllers.destroy);
 
 // user routes
 
-router.put("/users/:id", verifyEmail, hashPassword, userControllers.edit);
+router.put("/users/:id", verifyEmail, userControllers.edit);
 router.delete("/users/:id", userControllers.destroy);
+router.put("/users-password/:id", hashPassword, userControllers.edit);
 
 // technique routes
 
