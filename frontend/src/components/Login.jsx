@@ -111,10 +111,48 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             ...user,
             image: response.data.imageUrl,
           };
-          axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/register`,
-            temporaryUser
-          );
+          axios
+            .post(`${import.meta.env.VITE_BACKEND_URL}/register`, temporaryUser)
+            .then(() => {
+              const temporaryLogin = {
+                ...userLogin,
+                email: user.email,
+                password: user.password,
+              };
+              axios
+                .post(
+                  `${import.meta.env.VITE_BACKEND_URL}/login`,
+                  temporaryLogin
+                )
+                .then((responseLogin) => {
+                  const { token } = responseLogin.data;
+                  Cookies.set("jwt", token, {
+                    secure: true,
+                    sameSite: "strict",
+                  });
+                  const jwtToken = Cookies.get("jwt");
+
+                  if (jwtToken) {
+                    const decodedToken = jwtDecode(jwtToken);
+                    const { role, sub } = decodedToken;
+                    Cookies.set("role", role);
+                    Cookies.set("sub", sub);
+                    setUserRole(role);
+                    setUserId(sub);
+                    if (role === 0) {
+                      navigateTo("/admin");
+                    } else if (role === 1) {
+                      navigateTo("/user");
+                    }
+                    setCurrentStep(1);
+                    setLoginModalOpened(false);
+                    setUserLogin({
+                      email: "",
+                      password: "",
+                    });
+                  }
+                });
+            });
         })
         .catch((error) => {
           console.error(error);
@@ -122,6 +160,40 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     } else {
       axios
         .post(`${import.meta.env.VITE_BACKEND_URL}/register`, user)
+        .then(() => {
+          const temporaryLogin = {
+            ...userLogin,
+            email: user.email,
+            password: user.password,
+          };
+          axios
+            .post(`${import.meta.env.VITE_BACKEND_URL}/login`, temporaryLogin)
+            .then((responseLogin) => {
+              const { token } = responseLogin.data;
+              Cookies.set("jwt", token, { secure: true, sameSite: "strict" });
+              const jwtToken = Cookies.get("jwt");
+
+              if (jwtToken) {
+                const decodedToken = jwtDecode(jwtToken);
+                const { role, sub } = decodedToken;
+                Cookies.set("role", role);
+                Cookies.set("sub", sub);
+                setUserRole(role);
+                setUserId(sub);
+                if (role === 0) {
+                  navigateTo("/admin");
+                } else if (role === 1) {
+                  navigateTo("/user");
+                }
+                setCurrentStep(1);
+                setLoginModalOpened(false);
+                setUserLogin({
+                  email: "",
+                  password: "",
+                });
+              }
+            });
+        })
         .catch((error) => {
           console.error(error);
         });
