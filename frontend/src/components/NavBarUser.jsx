@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import { Turn as Hamburger } from "hamburger-react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import Modal from "react-modal";
 import AuthContext from "../context/AuthContext";
@@ -27,7 +27,7 @@ function NavBarUser() {
   const [aboutHovered, setAboutHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
+  const [setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
 
@@ -102,18 +102,20 @@ function NavBarUser() {
       {isLoadedUser && (
         <div className=" w-[100%] z-10 fixed top-0 left-0">
           <div className="navbar-header relative flex justify-between items-center bg-[#7F253E] h-[52px] lg:h-[60px] px-3  shadow-[0px_-3px_15px_#333]">
-            <div>
-              <img
-                className="logo h-[35px] w-auto sm:h-[55px] "
-                src={navbarLogo}
-                alt="logo"
-              />
-            </div>
+            <Link to="/">
+              <div>
+                <img
+                  className="logo h-[35px] w-auto sm:h-[55px] "
+                  src={navbarLogo}
+                  alt="logo"
+                />
+              </div>
+            </Link>
 
-            <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
+            <div className="desktopLinks hidden lg:flex lg:w-fit navbar-links items-center gap-[50px] text-white ">
               <NavLink
                 to="/"
-                className="hover:font-medium flex items-center w-[28px]"
+                className="hover:font-medium flex items-center"
                 onMouseEnter={() => setHomeHovered(true)}
                 onMouseLeave={() => setHomeHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -127,7 +129,7 @@ function NavBarUser() {
               </NavLink>
               <NavLink
                 to="/gallery"
-                className="hover:font-medium flex items-center w-[28px]"
+                className="hover:font-medium flex items-center"
                 onMouseEnter={() => setGalleryHovered(true)}
                 onMouseLeave={() => setGalleryHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -141,7 +143,7 @@ function NavBarUser() {
               </NavLink>
               <NavLink
                 to="/about"
-                className="hover:font-medium flex items-center w-[28px] whitespace-nowrap"
+                className="hover:font-medium flex items-center whitespace-nowrap"
                 onMouseEnter={() => setAboutHovered(true)}
                 onMouseLeave={() => setAboutHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -157,16 +159,6 @@ function NavBarUser() {
             <div className="flex">
               <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
                 <button
-                  onClick={() => setLanguageModalOpened(true)}
-                  type="button"
-                >
-                  <img
-                    className="flag-logo px-1.5"
-                    src={languageChosenFlag}
-                    alt="flag"
-                  />
-                </button>
-                <button
                   ref={openerRef}
                   onClick={handleOpenerClick}
                   type="button"
@@ -176,13 +168,13 @@ function NavBarUser() {
                   loggedUserData.length > 0 &&
                   loggedUserData[0].image ? (
                     <img
-                      className="rounded-full w-11 h-11 object-cover"
+                      className="rounded-full w-[30px] h-[30px] object-cover"
                       src={loggedUserData[0].image}
                       alt="login"
                     />
                   ) : (
-                    <div className="bg-white bg-opacity-20 border border-solid border-white w-11 h-11 object-cover rounded-full flex items-center justify-center">
-                      <h1 className="text-white text-[20px]">
+                    <div className="bg-white bg-opacity-20 border border-solid border-white w-[30px] h-[30px] object-cover rounded-full flex items-center justify-center">
+                      <h1 className="text-white text-[16px]">
                         {loggedUserData[0].firstname.charAt(0)}
                         {loggedUserData[0].lastname.charAt(0)}
                       </h1>
@@ -191,15 +183,15 @@ function NavBarUser() {
                 </button>
                 <div
                   ref={divRef}
-                  className={`bg-white xl:mt-[5px] text-left fixed right-0 top-14 transition-all duration-500 xl:w-[20dvw] w-[55dvw]  ${
+                  className={`bg-white xl:mt-[5px] text-left fixed right-0 top-14 transition-all duration-500 xl:w-[20dvw] w-[55dvw] border rounded-lg ${
                     isSectionVisible
                       ? "transform translate-x-0"
                       : "transform translate-x-full"
                   }`}
                 >
-                  <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid">
+                  <section className="w-full flex flex-col border-2 border-gray-200 border-solid rounded-lg">
                     {loggedUserData && loggedUserData[0] && (
-                      <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
+                      <section className="flex gap-3 p-1 border-b-[1px] border-gray-300 border-solid">
                         {loggedUserData &&
                         loggedUserData.length > 0 &&
                         loggedUserData[0].image ? (
@@ -228,6 +220,7 @@ function NavBarUser() {
                     <NavLink
                       to={userRole === 0 ? "/admin" : "/user"}
                       onClick={() => setIsSectionVisible(false)}
+                      className="p-[8px]"
                     >
                       <div className="flex items-center gap-2">
                         <img
@@ -242,6 +235,7 @@ function NavBarUser() {
                     <NavLink
                       onClick={() => setIsSectionVisible(false)}
                       to="/settings"
+                      className="p-[8px]"
                     >
                       <div className="flex items-center gap-2">
                         <img
@@ -253,10 +247,11 @@ function NavBarUser() {
                       </div>
                     </NavLink>
                     {userRole === 0 && (
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col">
                         <NavLink
                           to="/admin/artworks"
                           onClick={() => setIsSectionVisible(false)}
+                          className="p-[8px]"
                         >
                           <div className="flex items-center gap-2">
                             <img
@@ -270,8 +265,9 @@ function NavBarUser() {
                         <NavLink
                           to="/admin/artists"
                           onClick={() => setIsSectionVisible(false)}
+                          className="p-[8px]"
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 ">
                             <img
                               src={pinceau}
                               alt="icon"
@@ -283,6 +279,7 @@ function NavBarUser() {
                         <NavLink
                           to="/admin/users"
                           onClick={() => setIsSectionVisible(false)}
+                          className="p-[8px]"
                         >
                           <div className="flex items-center gap-2">
                             <img
@@ -295,15 +292,15 @@ function NavBarUser() {
                         </NavLink>
                       </div>
                     )}
-                    <div className="w-full border-t-[1px] border-gray-400 border-solid" />
+                    <div className="w-full border-t-[1px] border-gray-300 border-solid " />
                     <button type="button" onClick={handleOpenLogOutModal}>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 p-[8px]">
                         <img
                           src={logout}
                           alt="icon"
                           className="w-3 h-3 object-cover"
                         />
-                        <p className="text-black text-sm">Déconnexion</p>
+                        <p className="text-base">Déconnexion</p>
                       </div>
                     </button>
                   </section>

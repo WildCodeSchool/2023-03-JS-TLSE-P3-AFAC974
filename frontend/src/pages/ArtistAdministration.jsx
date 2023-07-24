@@ -75,9 +75,15 @@ export default function ArtistAdministration() {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
           const namePicture = `artist-afac/${isolationNamePicture[1]}`;
           axios
-            .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
-              data: { namePicture },
-            })
+            .delete(
+              `${import.meta.env.VITE_BACKEND_URL}/upload`,
+              {
+                data: { namePicture },
+              },
+              {
+                headers,
+              }
+            )
             .then(() => {
               setNeedToFetch(!needToFetch);
               setModalValidationDeleteArtist(true);

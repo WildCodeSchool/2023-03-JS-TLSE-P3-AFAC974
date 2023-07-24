@@ -73,8 +73,8 @@ export default function AdminHome() {
         isLoadedArtistsData &&
         isLoadedArtworksData &&
         isLoadedUsersData && (
-          <section className="w-full overflow-hidden">
-            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
+          <section className="w-full overflow-hidden flex flex-col gap-5">
+            <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px] xl:px-10">
               {adminData && adminData.length > 0 && adminData[0].image ? (
                 <div className=" xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] rounded-full overflow-hidden">
                   <img
@@ -95,9 +95,9 @@ export default function AdminHome() {
                 {adminData[0].pseudo}
               </h1>
             </div>
-            <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
+            <div className=" mx-4 flex justify-between ">
               <h2 className="text-4xl text-left font-bold hidden xl:block">
-                INFORMATIONS PERSONELLES
+                INFORMATIONS PERSONNELLES
               </h2>
               <Link to="/settings" className="items-center xl:block hidden">
                 <img src={settings} alt="settings button" className=" mr-5" />
@@ -106,14 +106,14 @@ export default function AdminHome() {
                 INFORMATIONS
               </h2>
             </div>
-            <section className="w-full p-4 xl:p-10">
+            <section className="mx-[20px]">
               {adminData &&
                 adminData.length > 0 &&
                 adminData.map((data) => {
                   return (
                     <div
                       key={data.email}
-                      className=" flex flex-col xl:flex-row flex-wrap w-[80%] gap-5 mt-9"
+                      className=" flex flex-col xl:flex-row flex-wrap w-[80%] gap-5 mt-3"
                     >
                       <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
                         <h3 className="text-left">Etablissement</h3>
@@ -155,7 +155,7 @@ export default function AdminHome() {
             </section>
             <section className="flex flex-col gap-5">
               <section
-                className="w-full flex flex-col mt-10 xl:p-10 gap-10
+                className="w-full flex flex-col mt-2 xl:p-10 gap-10
       "
               >
                 <div className="flex w-full justify-between items-center ">
@@ -196,7 +196,7 @@ export default function AdminHome() {
                     })}
                 </section>
               </section>
-              <section className=" w-full flex flex-col xl:mt-10 xl:p-10 gap-10">
+              <section className=" w-full flex flex-col xl:mt-2 xl:p-10 gap-10">
                 <div className="flex justify-between w-full xl:mb-7">
                   <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
                     GESTION DES ARTISTES
@@ -238,7 +238,7 @@ export default function AdminHome() {
                     ))}
                 </section>
               </section>
-              <section className="w-full flex flex-col xl:mt-10 xl:p-10 gap-10">
+              <section className="w-full flex flex-col xl:mt-2 xl:p-10 gap-10">
                 <div className="flex justify-between w-full mb-7">
                   <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
                     GESTION DES UTILISATEURS
