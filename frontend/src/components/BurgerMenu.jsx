@@ -43,6 +43,7 @@ function BurgerMenu({ burgerMenuOpen, setBurgerMenuOpen }) {
         <Link
           to={`/user/${userId}/favorite`}
           className="flex w-[100%] justify-between items-center py-[4px]"
+          onClick={() => setBurgerMenuOpen(false)}
         >
           MES FAVORIS
           <img src={arrow} alt="flèche" />
