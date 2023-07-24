@@ -437,7 +437,7 @@ export default function AccountSettings() {
               isOpen={isDeleteModalOpen}
               style={customModalStyles}
               onRequestClose={() => {
-                setIsDeleteModalOpen(false);
+                handleCloseDeleteModal();
               }}
               className="h-fit  w-[80vw] sm:w-fit md:w-[40vw] lg:w-[30vw] lg:max-w-[40vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white flex "
               contentLabel="Modal"
