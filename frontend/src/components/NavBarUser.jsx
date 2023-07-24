@@ -3,7 +3,7 @@ import axios from "axios";
 import { Turn as Hamburger } from "hamburger-react";
 import { Link, NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import AuthContext from "../context/AuthContext";
 import LanguageMenu from "./LanguageMenu";
 import BurgerMenu from "./BurgerMenu";
@@ -45,7 +45,7 @@ function NavBarUser() {
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
-      zIndex: 1000,
+      zIndex: 1,
     },
   };
   const divRef = useRef(null);
@@ -70,6 +70,7 @@ function NavBarUser() {
     window.location.href = "/";
   };
   const handleOpenLogOutModal = () => {
+    setIsSectionVisible(false);
     setIsModalLogOutOpen(true);
     document.body.classList.add("disable-scroll");
   };
@@ -306,13 +307,17 @@ function NavBarUser() {
                   </section>
                 </div>
 
-                <Modal
+                <ReactModal
                   isOpen={isModalLogOutOpen}
                   style={customModalStyles}
-                  className=" w-[95%] fixed top-[45%] xl:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex"
+                  ariaHideApp={false}
+                  onRequestClose={() => {
+                    setIsModalLogOutOpen(false);
+                  }}
+                  className="h-fit  w-[80vw] sm:w-fit md:w-[40vw] lg:w-[30vw] lg:max-w-[40vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white flex "
                   contentLabel="Modal"
                 >
-                  <div className="bg-white w-[25%] rounded-xl text-center flex flex-col gap-6 mx-auto p-5">
+                  <div className="bg-white  rounded-xl text-center flex flex-col gap-6 mx-auto">
                     <h2 className="text-xl">
                       Etes vous sur de vouloir vous déconnecter ?
                     </h2>
@@ -331,7 +336,7 @@ function NavBarUser() {
                       />
                     </div>
                   </div>
-                </Modal>
+                </ReactModal>
               </div>
               <div className="Hamburger lg:hidden">
                 <Hamburger
