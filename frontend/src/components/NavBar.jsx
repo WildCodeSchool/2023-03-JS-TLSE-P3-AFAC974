@@ -41,7 +41,7 @@ function NavBar() {
               alt="hexagon"
               className="h-[28px] w-[26.32px] mr-2"
             />
-            <p>HOME</p>
+            <p>ACCUEIL</p>
           </Link>
           <Link
             to="/gallery"
