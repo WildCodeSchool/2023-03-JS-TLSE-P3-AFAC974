@@ -20,7 +20,6 @@ export default function AccountSettings() {
     headers,
   } = useContext(AuthContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isUserDeleted, setIsUserDeleted] = useState(false);
   const [reLoad, setReload] = useState(false);
   const [entities, setEntities] = useState([]);
   const [unvalidEmail, setUnvalidEmail] = useState(false);
@@ -95,16 +94,17 @@ export default function AccountSettings() {
         headers,
       })
       .then((response) => {
-        if (response.status === 200) {
-          setIsUserDeleted(true);
-          if (isUserDeleted) {
-            Cookies.remove("jwt");
-            Cookies.remove("role");
-            setIsDeleteModalOpen(false);
-            window.location.href = "/";
-          }
+        if (response.status === 204) {
+          Cookies.remove("jwt");
+          Cookies.remove("role");
+          Cookies.remove("sub");
+          setIsDeleteModalOpen(false);
+          window.location.href = "/";
         } else {
-          console.error("Erreur lors de la suppression");
+          console.error(
+            "Le serveur a renvoyé un statut différent de 204:",
+            response.status
+          );
         }
       })
       .catch((error) => {
