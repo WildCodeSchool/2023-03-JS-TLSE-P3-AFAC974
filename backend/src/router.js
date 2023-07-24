@@ -93,12 +93,6 @@ router.get("/entities", entityControllers.browse);
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
 
-router.get(
-  "/user/:userId/artworks/favorites",
-  favoriteControllers.browseFavorites
-);
-router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
-
 // --- TOKEN NEEDED ROUTES --- //
 
 router.use(verifyToken);
@@ -194,5 +188,11 @@ router.delete(
   "/user/:userId/artwork/:artworkId/favorite",
   favoriteControllers.deleteFavorite
 );
+
+router.get(
+  "/user/:userId/artworks/favorites",
+  favoriteControllers.browseFavorites
+);
+router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 module.exports = router;

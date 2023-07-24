@@ -18,7 +18,8 @@ function UserFavorite() {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_URL}/user/${userId}/artworks/favorites`
+        `${import.meta.env.VITE_BACKEND_URL}/user/${userId}/artworks/favorites`,
+        { headers }
       )
       .then((response) => {
         const favData = response.data;
