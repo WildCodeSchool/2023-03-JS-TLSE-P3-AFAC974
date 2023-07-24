@@ -188,9 +188,9 @@ function NavBarUser() {
                       : "transform translate-x-full"
                   }`}
                 >
-                  <section className="w-full flex flex-col  p-2 gap-2 border-2 border-gray-200 border-solid rounded-lg">
+                  <section className="w-full flex flex-col border-2 border-gray-200 border-solid rounded-lg">
                     {loggedUserData && loggedUserData[0] && (
-                      <section className="flex gap-3 p-1 border-b-[1px] border-gray-400 border-solid">
+                      <section className="flex gap-3 p-1 border-b-[1px] border-gray-3 00 border-solid">
                         {loggedUserData &&
                         loggedUserData.length > 0 &&
                         loggedUserData[0].image ? (
@@ -219,6 +219,7 @@ function NavBarUser() {
                     <NavLink
                       to={userRole === 0 ? "/admin" : "/user"}
                       onClick={() => setIsSectionVisible(false)}
+                      className="p-[8px]"
                     >
                       <div className="flex items-center gap-2">
                         <img
@@ -233,6 +234,7 @@ function NavBarUser() {
                     <NavLink
                       onClick={() => setIsSectionVisible(false)}
                       to="/settings"
+                      className="p-[8px]"
                     >
                       <div className="flex items-center gap-2">
                         <img
@@ -244,10 +246,11 @@ function NavBarUser() {
                       </div>
                     </NavLink>
                     {userRole === 0 && (
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col">
                         <NavLink
                           to="/admin/artworks"
                           onClick={() => setIsSectionVisible(false)}
+                          className="p-[8px]"
                         >
                           <div className="flex items-center gap-2">
                             <img
@@ -261,8 +264,9 @@ function NavBarUser() {
                         <NavLink
                           to="/admin/artists"
                           onClick={() => setIsSectionVisible(false)}
+                          className="p-[8px]"
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 ">
                             <img
                               src={pinceau}
                               alt="icon"
@@ -274,6 +278,7 @@ function NavBarUser() {
                         <NavLink
                           to="/admin/users"
                           onClick={() => setIsSectionVisible(false)}
+                          className="p-[8px]"
                         >
                           <div className="flex items-center gap-2">
                             <img
@@ -286,15 +291,15 @@ function NavBarUser() {
                         </NavLink>
                       </div>
                     )}
-                    <div className="w-full border-t-[1px] border-gray-400 border-solid" />
+                    <div className="w-full border-t-[1px] border-gray-300 border-solid " />
                     <button type="button" onClick={handleOpenLogOutModal}>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 p-[8px]">
                         <img
                           src={logout}
                           alt="icon"
                           className="w-3 h-3 object-cover"
                         />
-                        <p className="text-black text-sm">Déconnexion</p>
+                        <p className="text-base">Déconnexion</p>
                       </div>
                     </button>
                   </section>
