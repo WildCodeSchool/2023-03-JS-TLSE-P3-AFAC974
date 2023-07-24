@@ -82,7 +82,7 @@ export default function UserHome() {
     <div>
       {isLoadedArtistsData && isLoadedArtworksToMap && isLoggin && (
         <section className="w-full overflow-hidden">
-          <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px]  xl:p-10">
+          <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px]  xl:p-5">
             {logedUserData &&
             logedUserData.length > 0 &&
             logedUserData[0].image ? (
@@ -92,8 +92,8 @@ export default function UserHome() {
                 className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
               />
             ) : (
-              <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[10vw] xl:h-[10vw] object-cover rounded-full flex items-center justify-center">
-                <h1 className="text-white text-[50px] xl:text-[70px]">
+              <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[100px] lg:h-[100px] object-cover rounded-full flex items-center justify-center">
+                <h1 className="text-white text-[50px] xl:text-[55px]">
                   {logedUserData[0].firstname.charAt(0)}
                   {logedUserData[0].lastname.charAt(0)}
                 </h1>
