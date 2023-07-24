@@ -105,7 +105,7 @@ export default function UserHome() {
           </div>
           <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
             <h2 className="text-4xl text-left font-bold hidden xl:block">
-              INFORMATIONS PERSONELLES
+              INFORMATIONS PERSONNELLES
             </h2>
             <Link to="/settings" className="items-center xl:block hidden">
               <img src={settings} alt="settings button" className=" mr-5" />
