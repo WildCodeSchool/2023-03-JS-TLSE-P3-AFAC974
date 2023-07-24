@@ -11,6 +11,18 @@ export function AuthProvider({ children }) {
   const [userId, setUserId] = useState(null);
   const [loggedUserData, setLoggedUserData] = useState(null);
   const [isLoadedUser, setIsLoadedUser] = useState(false);
+  const [hope, setHope] = useState(null);
+  const [headers, setHeaders] = useState(null);
+  useEffect(() => {
+    setHope(Cookies.get("jwt"));
+  }, [Cookies.get("jwt")]);
+
+  useEffect(() => {
+    setHeaders({
+      Authorization: `Bearer ${hope}`,
+      "Content-Type": "application/json",
+    });
+  }, [hope]);
 
   useEffect(() => {
     const storedRole = Cookies.get("role");
@@ -31,8 +43,11 @@ export function AuthProvider({ children }) {
       setLoggedUserData,
       isLoadedUser,
       setIsLoadedUser,
+      headers,
+      hope,
+      setHope,
     }),
-    [userRole, userId, loggedUserData, isLoadedUser]
+    [userRole, userId, loggedUserData, isLoadedUser, headers, hope]
   );
 
   return (
