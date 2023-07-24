@@ -65,6 +65,7 @@ function NavBarUser() {
   const handleLogOut = () => {
     Cookies.remove("jwt");
     Cookies.remove("role");
+    Cookies.remove("sub");
     setIsModalLogOutOpen(false);
     window.location.href = "/";
   };
