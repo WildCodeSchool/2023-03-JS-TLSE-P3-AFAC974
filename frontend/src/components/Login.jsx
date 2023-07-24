@@ -28,7 +28,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     image: "",
     password: "",
     role: 1,
-    entity_id: "",
+    entityId: "",
   });
 
   useEffect(() => {
@@ -206,7 +206,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       image: "",
       password: "",
       role: 1,
-      entity_id: "",
+      entityId: "",
       password2: "",
     });
     setUserImage(null);
@@ -586,7 +586,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           image: "",
           password: "",
           role: 1,
-          entity_id: "",
+          entityId: "",
           password2: "",
         });
         setUserImage(null);

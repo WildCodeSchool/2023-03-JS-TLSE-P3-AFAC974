@@ -9,7 +9,7 @@ export default function UserHome() {
   const [artistsData, setArtistsData] = useState(null);
   const [isLoadedArtworksToMap, setIsLoadedArtworksToMap] = useState(false);
   const [isLoadedArtistsData, setIsLoadedArtistsData] = useState(false);
-  const [logedUserData, setLogedUserData] = useState(null);
+  const [loggedUserData, setLoggedUserData] = useState(null);
   const { userId } = useContext(AuthContext);
   const [isLoggin, setIsLoggin] = useState(false);
   const [entities, setEntities] = useState([]);
@@ -64,9 +64,9 @@ export default function UserHome() {
   }, []);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/logggedUser/${userId}`)
       .then((response) => {
-        setLogedUserData(response.data);
+        setLoggedUserData(response.data);
         setIsLoggin(true);
       })
       .catch((error) => {
@@ -83,24 +83,24 @@ export default function UserHome() {
       {isLoadedArtistsData && isLoadedArtworksToMap && isLoggin && (
         <section className="w-full overflow-hidden">
           <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
-            {logedUserData &&
-            logedUserData.length > 0 &&
-            logedUserData[0].image ? (
+            {loggedUserData &&
+            loggedUserData.length > 0 &&
+            loggedUserData[0].image ? (
               <img
-                src={logedUserData[0].image}
+                src={loggedUserData[0].image}
                 alt="profil pic"
                 className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
               />
             ) : (
               <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
                 <h1 className="text-white text-[50px] xl:text-[70px]">
-                  {logedUserData[0].firstname.charAt(0)}
-                  {logedUserData[0].lastname.charAt(0)}
+                  {loggedUserData[0].firstname.charAt(0)}
+                  {loggedUserData[0].lastname.charAt(0)}
                 </h1>
               </div>
             )}
             <h1 className="text-2xl text-black font-bold">
-              {logedUserData[0].pseudo}
+              {loggedUserData[0].pseudo}
             </h1>
           </div>
           <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
@@ -115,9 +115,9 @@ export default function UserHome() {
             </h2>
           </div>
           <section className="w-full p-4 xl:p-10">
-            {logedUserData &&
-              logedUserData.length > 0 &&
-              logedUserData.map((data) => {
+            {loggedUserData &&
+              loggedUserData.length > 0 &&
+              loggedUserData.map((data) => {
                 return (
                   <div
                     key={data.email}
