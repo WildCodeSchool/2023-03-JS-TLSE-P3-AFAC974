@@ -88,10 +88,16 @@ router.get("/findusers", userControllers.browseUsers);
 router.get("/entities", entityControllers.browse);
 
 // --- PASSWORD NEEDED ROUTE --- //
-// router.use(verifyIsAdmin);
+
 // user routes
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
+
+router.get(
+  "/user/:userId/artworks/favorites",
+  favoriteControllers.browseFavorites
+);
+router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 // --- TOKEN NEEDED ROUTES --- //
 
@@ -107,6 +113,7 @@ router.delete("/artworks/:id", artworkControllers.destroy);
 
 router.put("/users/:id", verifyEmail, userControllers.edit);
 router.delete("/users/:id", userControllers.destroy);
+router.put("/users-password/:id", hashPassword, userControllers.edit);
 
 // technique routes
 
@@ -187,10 +194,5 @@ router.delete(
   "/user/:userId/artwork/:artworkId/favorite",
   favoriteControllers.deleteFavorite
 );
-router.get(
-  "/user/:userId/artworks/favorites",
-  favoriteControllers.browseFavorites
-);
-router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 module.exports = router;

@@ -13,7 +13,7 @@ function UserFavorite() {
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [deleteFavorite, setDeleteFavorite] = useState(false);
-  const { userId } = React.useContext(AuthContext);
+  const { userId, headers } = React.useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -61,7 +61,10 @@ function UserFavorite() {
       .delete(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/user/${userId}/artwork/${artworkId}/favorite`
+        }/user/${userId}/artwork/${artworkId}/favorite`,
+        {
+          headers,
+        }
       )
       .then(() => {
         setFilteredAndSortedData((prevData) =>

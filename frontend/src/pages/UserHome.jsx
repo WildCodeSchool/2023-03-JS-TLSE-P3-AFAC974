@@ -9,15 +9,23 @@ export default function UserHome() {
   const [artistsData, setArtistsData] = useState(null);
   const [isLoadedArtworksToMap, setIsLoadedArtworksToMap] = useState(false);
   const [isLoadedArtistsData, setIsLoadedArtistsData] = useState(false);
-  const [logedUserData, setLogedUserData] = useState(null);
-  const { userId } = useContext(AuthContext);
-  const [isLoggin, setIsLoggin] = useState(false);
   const [entities, setEntities] = useState([]);
+  const {
+    userId,
+    loggedUserData,
+    setLoggedUserData,
+    setIsLoadedUser,
+    isLoadedUser,
+    headers,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_URL}/user/${userId}/artworks/favorites`
+        `${import.meta.env.VITE_BACKEND_URL}/user/${userId}/artworks/favorites`,
+        {
+          headers,
+        }
       )
       .then((response) => {
         const favData = response.data;
@@ -64,10 +72,10 @@ export default function UserHome() {
   }, []);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/loggeduser/${userId}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/loggedUser/${userId}`)
       .then((response) => {
-        setLogedUserData(response.data);
-        setIsLoggin(true);
+        setLoggedUserData(response.data);
+        setIsLoadedUser(true);
       })
       .catch((error) => {
         console.error(error);
@@ -80,27 +88,27 @@ export default function UserHome() {
 
   return (
     <div>
-      {isLoadedArtistsData && isLoadedArtworksToMap && isLoggin && (
+      {isLoadedArtistsData && isLoadedArtworksToMap && isLoadedUser && (
         <section className="w-full overflow-hidden">
           <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px]  xl:p-5">
-            {logedUserData &&
-            logedUserData.length > 0 &&
-            logedUserData[0].image ? (
+            {loggedUserData &&
+            loggedUserData.length > 0 &&
+            loggedUserData[0].image ? (
               <img
-                src={logedUserData[0].image}
+                src={loggedUserData[0].image}
                 alt="profil pic"
                 className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
               />
             ) : (
               <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[100px] lg:h-[100px] object-cover rounded-full flex items-center justify-center">
                 <h1 className="text-white text-[50px] xl:text-[55px]">
-                  {logedUserData[0].firstname.charAt(0)}
-                  {logedUserData[0].lastname.charAt(0)}
+                  {loggedUserData[0].firstname.charAt(0)}
+                  {loggedUserData[0].lastname.charAt(0)}
                 </h1>
               </div>
             )}
             <h1 className="text-2xl text-black font-bold">
-              {logedUserData[0].pseudo}
+              {loggedUserData[0].pseudo}
             </h1>
           </div>
           <div className="  flex justify-between mx-4">
@@ -115,9 +123,9 @@ export default function UserHome() {
             </h2>
           </div>
           <section className="mx-[20px]">
-            {logedUserData &&
-              logedUserData.length > 0 &&
-              logedUserData.map((data) => {
+            {loggedUserData &&
+              loggedUserData.length > 0 &&
+              loggedUserData.map((data) => {
                 return (
                   <div
                     key={data.email}

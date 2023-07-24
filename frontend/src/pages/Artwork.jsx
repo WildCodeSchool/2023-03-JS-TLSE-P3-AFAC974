@@ -109,12 +109,14 @@ export default function Artwork() {
             <div className="flex flex-col justify-around w-[70%] lg:w-[100%]">
               <div className="flex flex-col justify-center lg:w-[100%] lg:flex lg:flex-col-reverse">
                 <div className="h-0 lg:h-full lg:flex lg:flex-col lg:justify-center">
-                  <div className="invisible lg:visible lg:flex lg:flex-row lg:justify-center lg:gap-6 lg:pt-4">
-                    {isLoaded && <FavoriteButton artworkId={artwork.id} />}
-                    <p className="invisible lg:visible lg:text-[21px] lg:font-semibold">
-                      Ajouter au favoris
-                    </p>
-                  </div>
+                  {userRole === 1 && (
+                    <div className="invisible lg:visible lg:flex lg:flex-row lg:justify-center lg:gap-6 lg:pt-4">
+                      {isLoaded && <FavoriteButton artworkId={artwork.id} />}
+                      <p className="invisible lg:visible lg:text-[21px] lg:font-semibold">
+                        Ajouter au favoris
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <hr className=" bg-black border-t-2 justify-center mt-8 mb-4 lg:mt-4" />
                 <div className="flex flex-row justify-evenly w-[100%]">
@@ -128,7 +130,11 @@ export default function Artwork() {
                     {arttrend.id === artwork.art_trend_id && (
                       <h2>{arttrend.name}</h2>
                     )}
-                    <p>{`${artwork.width_cm} x ${artwork.height_cm} cm`}</p>
+                    <p>
+                      {artwork.height_cm && artwork.width_cm
+                        ? `${artwork.height_cm} x ${artwork.width_cm} cm`
+                        : "? x ? cm"}
+                    </p>
                   </div>
                 </div>
                 <hr className="color-black border-t-2 mt-4 mb-8 lg:mb-4" />
@@ -160,7 +166,8 @@ export default function Artwork() {
       <h3 className="text-[21px] font-semibold mb-4">
         Description de l'oeuvre
       </h3>
-      <p className="lg:pb-14">" {artwork.description} "</p>
+      <p className="lg:pb-14">{artwork.description}</p>
+      <p>Lieu de conservation : {artwork.artwork_location}</p>
     </div>
   );
 }
