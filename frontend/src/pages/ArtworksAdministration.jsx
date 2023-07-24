@@ -15,6 +15,7 @@ import crossDelete from "../assets/crossDelete.png";
 import engrenage from "../assets/Engrenage.png";
 import backArrow from "../assets/back-arrow.png";
 import trash from "../assets/trash.png";
+import AuthContext from "../context/AuthContext";
 
 export default function ArtworksAdministration() {
   const {
@@ -48,7 +49,7 @@ export default function ArtworksAdministration() {
     setArtistPicture,
     setArtworkPicture,
   } = useContext(FormArtworkArtistContext);
-
+  const { headers } = useContext(AuthContext);
   const [modalOpenAdd, setModalOpenAdd] = useState(false);
   const [modalConfirmationAdd, setModalConfirmationAdd] = useState(false);
   const [modalValidationAdd, setModalValidationAdd] = useState(false);
@@ -226,7 +227,10 @@ export default function ArtworksAdministration() {
         rollbackData.map((data) =>
           axios
             .delete(
-              `${import.meta.env.VITE_BACKEND_URL}/${data.endpoint}/${data.id}`
+              `${import.meta.env.VITE_BACKEND_URL}/${data.endpoint}/${data.id}`,
+              {
+                headers,
+              }
             )
             .catch((errorDelete) => {
               console.error(
@@ -243,7 +247,10 @@ export default function ArtworksAdministration() {
             .delete(
               `${import.meta.env.VITE_BACKEND_URL}/${data.endpoint}?artist_id=${
                 data.artistId
-              }&art_trend_id=${data.artTrendId}`
+              }&art_trend_id=${data.artTrendId}`,
+              {
+                headers,
+              }
             )
             .then(rollbackPromises())
             .catch((errorDelete) => {
@@ -260,7 +267,10 @@ export default function ArtworksAdministration() {
           .delete(
             `${import.meta.env.VITE_BACKEND_URL}/${data.endpoint}?artist_id=${
               data.artistId
-            }&technique_id=${data.techniqueId}`
+            }&technique_id=${data.techniqueId}`,
+            {
+              headers,
+            }
           )
           .then(rollbackPromisesJointureArtTrend())
           .catch((errorDelete) => {
@@ -279,7 +289,13 @@ export default function ArtworksAdministration() {
     try {
       const postArtwork = (newFormArtwork) => {
         axios
-          .post(`${import.meta.env.VITE_BACKEND_URL}/artworks`, newFormArtwork)
+          .post(
+            `${import.meta.env.VITE_BACKEND_URL}/artworks`,
+            newFormArtwork,
+            {
+              headers,
+            }
+          )
           .then((artworkResponse) => {
             rollbackData.push({
               endpoint: "artworks",
@@ -304,7 +320,10 @@ export default function ArtworksAdministration() {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/artists-techniques`,
-              newFormArtistTechnique
+              newFormArtistTechnique,
+              {
+                headers,
+              }
             )
             .then(() => {
               rollbackDataJointureTechnique.push({
@@ -337,7 +356,10 @@ export default function ArtworksAdministration() {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/arttrends-artists`,
-              newFormArtTrendArtist
+              newFormArtTrendArtist,
+              {
+                headers,
+              }
             )
             .then(() => {
               rollbackDataJointureArtTrend.push({
@@ -376,7 +398,10 @@ export default function ArtworksAdministration() {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/artists`,
-              temporaryArtist
+              temporaryArtist,
+              {
+                headers,
+              }
             )
             .then((artistResponse) => {
               rollbackData.push({
@@ -447,7 +472,13 @@ export default function ArtworksAdministration() {
           Math.max(...dataArtTrend.map((item) => item.id)) + 1
         ) {
           axios
-            .post(`${import.meta.env.VITE_BACKEND_URL}/arttrends`, formArtTrend)
+            .post(
+              `${import.meta.env.VITE_BACKEND_URL}/arttrends`,
+              formArtTrend,
+              {
+                headers,
+              }
+            )
             .then((artTrendResponse) => {
               rollbackData.push({
                 endpoint: "arttrend",
@@ -487,7 +518,10 @@ export default function ArtworksAdministration() {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/techniques`,
-              formTechnique
+              formTechnique,
+              {
+                headers,
+              }
             )
             .then((techniqueResponse) => {
               rollbackData.push({
@@ -514,7 +548,9 @@ export default function ArtworksAdministration() {
         Math.max(...dataType.map((item) => item.id)) + 1
       ) {
         axios
-          .post(`${import.meta.env.VITE_BACKEND_URL}/types`, formType)
+          .post(`${import.meta.env.VITE_BACKEND_URL}/types`, formType, {
+            headers,
+          })
           .then((typeResponse) => {
             rollbackData.push({
               endpoint: "type",
@@ -541,15 +577,23 @@ export default function ArtworksAdministration() {
 
   const handleArtworkDelete = (id, url) => {
     axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/artworks/${id}`)
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/artworks/${id}`, {
+        headers,
+      })
       .then(() => {
         if (url !== "") {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
           const namePicture = `artwork-afac/${isolationNamePicture[1]}`;
           axios
-            .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
-              data: { namePicture },
-            })
+            .delete(
+              `${import.meta.env.VITE_BACKEND_URL}/upload`,
+              {
+                data: { namePicture },
+              },
+              {
+                headers,
+              }
+            )
             .then(() => {
               setNeedToFetch(!needToFetch);
               setModalValidationDeleteArtwork(true);
@@ -576,13 +620,18 @@ export default function ArtworksAdministration() {
 
   const handleArtworkModify = (id) => {
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/artworks/${id}`, formArtwork)
+      .put(`${import.meta.env.VITE_BACKEND_URL}/artworks/${id}`, formArtwork, {
+        headers,
+      })
       .then(() => {
         if (!artisteTechniqueUpload) {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/artists-technique`,
-              formArtistTechnique
+              formArtistTechnique,
+              {
+                headers,
+              }
             )
             .catch((error) => {
               console.error(
@@ -595,7 +644,10 @@ export default function ArtworksAdministration() {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/arttrend-artist`,
-              formArtTrendArtist
+              formArtTrendArtist,
+              {
+                headers,
+              }
             )
             .catch((error) => {
               console.error(

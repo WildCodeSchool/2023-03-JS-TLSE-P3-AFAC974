@@ -58,3 +58,17 @@ button {
 .disable-scroll {
   overflow: hidden;
 }
+
+.h-screen-minus-navbar {
+  height: calc(100vh - 52px);
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+@media (min-width: 1024px) {
+  .h-screen-minus-navbar {
+    height: calc(100vh - 60px);
+  }
+}

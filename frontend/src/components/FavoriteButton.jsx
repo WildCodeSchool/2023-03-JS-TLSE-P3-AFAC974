@@ -1,20 +1,22 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import FavIcon from "../assets/heart.svg";
 import RedFavIcon from "../assets/heart_red.svg";
 
 function FavoriteButton({ artworkId }) {
-  const { userRole, userId } = React.useContext(AuthContext);
+  const { userRole, userId, headers } = useContext(AuthContext);
   const [favorite, setFavorite] = useState(false);
-
   useEffect(() => {
     axios
       .get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/user/${userId}/artwork/${artworkId}`
+        }/user/${userId}/artwork/${artworkId}`,
+        {
+          headers,
+        }
       )
       .then((response) => {
         if (response.data[0]) {
@@ -26,7 +28,7 @@ function FavoriteButton({ artworkId }) {
       .catch((error) => {
         console.error(error);
       });
-  }, [favorite]);
+  }, []);
 
   const toggleFavorite = () => {
     if (favorite) {
@@ -34,7 +36,10 @@ function FavoriteButton({ artworkId }) {
         .delete(
           `${
             import.meta.env.VITE_BACKEND_URL
-          }/user/${userId}/artwork/${artworkId}/favorite`
+          }/user/${userId}/artwork/${artworkId}/favorite`,
+          {
+            headers,
+          }
         )
         .then(() => {
           setFavorite(false);
@@ -47,7 +52,10 @@ function FavoriteButton({ artworkId }) {
         .post(
           `${
             import.meta.env.VITE_BACKEND_URL
-          }/user/${userId}/artwork/${artworkId}/favorite`
+          }/user/${userId}/artwork/${artworkId}/favorite`,
+          {
+            headers,
+          }
         )
         .then(() => {
           setFavorite(true);

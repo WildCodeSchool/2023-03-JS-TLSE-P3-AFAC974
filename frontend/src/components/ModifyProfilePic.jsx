@@ -18,6 +18,7 @@ function ModifyProfilePic({
     setLoggedUserData,
     setIsLoadedUser,
     isLoadedUser,
+    headers,
   } = useContext(AuthContext);
   const [reLoad, setReload] = useState(false);
   const [userImage, setUserImage] = useState("");
@@ -67,14 +68,26 @@ function ModifyProfilePic({
         loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
       const namePicture = `user-afac/${isolationNamePicture[1]}`;
       axios
-        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
-          data: { namePicture },
-        })
+        .delete(
+          `${import.meta.env.VITE_BACKEND_URL}/upload`,
+          {
+            data: { namePicture },
+          },
+          {
+            headers,
+          }
+        )
         .then(() => {
           const imageData = new FormData();
           imageData.append("myfile", userImageFile);
           axios
-            .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
+            .post(
+              `${import.meta.env.VITE_BACKEND_URL}/upload-users`,
+              imageData,
+              {
+                headers,
+              }
+            )
             .then((response) => {
               const temporaryUser = {
                 ...user,
@@ -83,7 +96,10 @@ function ModifyProfilePic({
               axios
                 .put(
                   `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
-                  temporaryUser
+                  temporaryUser,
+                  {
+                    headers,
+                  }
                 )
                 .then(() => {
                   setModalValidationModifyUser(true);
@@ -115,7 +131,9 @@ function ModifyProfilePic({
       const imageData = new FormData();
       imageData.append("myfile", userImageFile);
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
+        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData, {
+          headers,
+        })
         .then((response) => {
           const temporaryUser = {
             ...user,
@@ -124,7 +142,10 @@ function ModifyProfilePic({
           axios
             .put(
               `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
-              temporaryUser
+              temporaryUser,
+              {
+                headers,
+              }
             )
             .then(() => {
               setModalValidationModifyUser(true);

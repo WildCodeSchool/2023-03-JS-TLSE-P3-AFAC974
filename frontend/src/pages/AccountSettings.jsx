@@ -17,6 +17,7 @@ export default function AccountSettings() {
     setLoggedUserData,
     setIsLoadedUser,
     isLoadedUser,
+    headers,
   } = useContext(AuthContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUserDeleted, setIsUserDeleted] = useState(false);
@@ -90,7 +91,9 @@ export default function AccountSettings() {
 
   const handleDeleteUser = () => {
     axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`)
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
+        headers,
+      })
       .then((response) => {
         if (response.status === 200) {
           setIsUserDeleted(true);
@@ -128,7 +131,10 @@ export default function AccountSettings() {
       axios
         .put(
           `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
-          temporaryUser
+          temporaryUser,
+          {
+            headers,
+          }
         )
         .then(() => {
           setModalValidationModifyUser(true);
@@ -140,7 +146,9 @@ export default function AccountSettings() {
         });
     } else {
       axios
-        .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, user)
+        .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, user, {
+          headers,
+        })
         .then(() => {
           setModalValidationModifyUser(true);
           setReload(!reLoad);
@@ -177,7 +185,9 @@ export default function AccountSettings() {
   }
   const handleModifyPasswordUser = () => {
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, password)
+      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, password, {
+        headers,
+      })
       .then(() => {
         setPassword2({ password2: "" });
         setPassword({ password: "" });
