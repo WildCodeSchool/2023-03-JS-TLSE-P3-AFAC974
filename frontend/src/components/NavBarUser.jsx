@@ -69,6 +69,7 @@ function NavBarUser() {
     window.location.href = "/";
   };
   const handleOpenLogOutModal = () => {
+    setIsSectionVisible(false);
     setIsModalLogOutOpen(true);
     document.body.classList.add("disable-scroll");
   };
