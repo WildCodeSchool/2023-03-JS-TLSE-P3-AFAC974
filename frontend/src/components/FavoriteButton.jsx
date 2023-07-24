@@ -13,7 +13,8 @@ function FavoriteButton({ artworkId }) {
       .get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/user/${userId}/artwork/${artworkId}`
+        }/user/${userId}/artwork/${artworkId}`,
+        { headers }
       )
       .then((response) => {
         if (response.data[0]) {
