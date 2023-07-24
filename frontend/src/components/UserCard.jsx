@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import DeleteUser from "./DeleteUser";
 import DeleteUserConfirmation from "./DeleteUserConfirmation";
 import StatusChangeConfirmation from "./StatusChangeConfirmation";
+import AuthContext from "../context/AuthContext";
 
 function UserCard({ user, setDeletedUserId }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [status, setStatus] = useState("");
   const [temporaryStatus, setTemporaryStatus] = useState("");
+  const { headers } = useContext(AuthContext);
   const [isOpenDeleteConfirmation, setIsOpenDeleteConfirmation] =
     useState(false);
   const [isOpenStatusChangeConfirmation, setIsOpenStatusChangeConfirmation] =
@@ -41,9 +43,15 @@ function UserCard({ user, setDeletedUserId }) {
     switch (someStatus) {
       case "Admin":
         axios
-          .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
-            role: 0,
-          })
+          .put(
+            `${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`,
+            {
+              role: 0,
+            },
+            {
+              headers,
+            }
+          )
           .then(() => {
             setStatus("Admin");
           })
@@ -53,9 +61,15 @@ function UserCard({ user, setDeletedUserId }) {
         break;
       case "User":
         axios
-          .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
-            role: 1,
-          })
+          .put(
+            `${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`,
+            {
+              role: 1,
+            },
+            {
+              headers,
+            }
+          )
           .then(() => {
             setStatus("User");
           })
@@ -65,9 +79,15 @@ function UserCard({ user, setDeletedUserId }) {
         break;
       case "Ban":
         axios
-          .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
-            role: 2,
-          })
+          .put(
+            `${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`,
+            {
+              role: 2,
+            },
+            {
+              headers,
+            }
+          )
           .then(() => {
             setStatus("Ban");
           })

@@ -628,7 +628,10 @@ export default function ArtworksAdministration() {
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/artists-technique`,
-              formArtistTechnique
+              formArtistTechnique,
+              {
+                headers,
+              }
             )
             .catch((error) => {
               console.error(
