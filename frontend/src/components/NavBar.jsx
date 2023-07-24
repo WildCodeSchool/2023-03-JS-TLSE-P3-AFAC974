@@ -16,7 +16,7 @@ function NavBar() {
   const [aboutHovered, setAboutHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
+  const [setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   return (
@@ -29,10 +29,10 @@ function NavBar() {
             alt="logo"
           />
         </Link>
-        <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
+        <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[50px] text-white ">
           <Link
             to="/"
-            className="hover:font-medium flex items-center w-[28px]"
+            className="hover:font-medium flex items-center"
             onMouseEnter={() => setHomeHovered(true)}
             onMouseLeave={() => setHomeHovered(false)}
           >
@@ -45,7 +45,7 @@ function NavBar() {
           </Link>
           <Link
             to="/gallery"
-            className="hover:font-medium flex items-center w-[28px]"
+            className="hover:font-medium flex items-center"
             onMouseEnter={() => setGalleryHovered(true)}
             onMouseLeave={() => setGalleryHovered(false)}
           >
@@ -58,7 +58,7 @@ function NavBar() {
           </Link>
           <Link
             to="/about"
-            className="hover:font-medium flex items-center w-[28px] whitespace-nowrap"
+            className="hover:font-medium flex items-center whitespace-nowrap"
             onMouseEnter={() => setAboutHovered(true)}
             onMouseLeave={() => setAboutHovered(false)}
           >
@@ -71,13 +71,6 @@ function NavBar() {
           </Link>
         </div>
         <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
-          <button onClick={() => setLanguageModalOpened(true)} type="button">
-            <img
-              className="flag-logo px-1.5"
-              src={languageChosenFlag}
-              alt="flag"
-            />
-          </button>
           <button
             onClick={() => setLoginModalOpened(true)}
             type="button"

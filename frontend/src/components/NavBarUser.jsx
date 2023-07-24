@@ -27,7 +27,7 @@ function NavBarUser() {
   const [aboutHovered, setAboutHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const [languageChosenFlag, setLanguageChosenFlag] = useState(frenchFlagLogo);
+  const [setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
 
@@ -111,10 +111,10 @@ function NavBarUser() {
               </div>
             </Link>
 
-            <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[120px] text-white ">
+            <div className="desktopLinks hidden lg:flex lg:w-fit navbar-links items-center gap-[50px] text-white ">
               <NavLink
                 to="/"
-                className="hover:font-medium flex items-center w-[28px]"
+                className="hover:font-medium flex items-center"
                 onMouseEnter={() => setHomeHovered(true)}
                 onMouseLeave={() => setHomeHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -128,7 +128,7 @@ function NavBarUser() {
               </NavLink>
               <NavLink
                 to="/gallery"
-                className="hover:font-medium flex items-center w-[28px]"
+                className="hover:font-medium flex items-center"
                 onMouseEnter={() => setGalleryHovered(true)}
                 onMouseLeave={() => setGalleryHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -142,7 +142,7 @@ function NavBarUser() {
               </NavLink>
               <NavLink
                 to="/about"
-                className="hover:font-medium flex items-center w-[28px] whitespace-nowrap"
+                className="hover:font-medium flex items-center whitespace-nowrap"
                 onMouseEnter={() => setAboutHovered(true)}
                 onMouseLeave={() => setAboutHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -158,16 +158,6 @@ function NavBarUser() {
             <div className="flex">
               <div className="navbar-links flex items-center gap-1.7 sm:gap-[10px] ">
                 <button
-                  onClick={() => setLanguageModalOpened(true)}
-                  type="button"
-                >
-                  <img
-                    className="flag-logo px-1.5"
-                    src={languageChosenFlag}
-                    alt="flag"
-                  />
-                </button>
-                <button
                   ref={openerRef}
                   onClick={handleOpenerClick}
                   type="button"
@@ -177,13 +167,13 @@ function NavBarUser() {
                   loggedUserData.length > 0 &&
                   loggedUserData[0].image ? (
                     <img
-                      className="rounded-full w-11 h-11 object-cover"
+                      className="rounded-full w-[30px] h-[30px] object-cover"
                       src={loggedUserData[0].image}
                       alt="login"
                     />
                   ) : (
-                    <div className="bg-white bg-opacity-20 border border-solid border-white w-11 h-11 object-cover rounded-full flex items-center justify-center">
-                      <h1 className="text-white text-[20px]">
+                    <div className="bg-white bg-opacity-20 border border-solid border-white w-[30px] h-[30px] object-cover rounded-full flex items-center justify-center">
+                      <h1 className="text-white text-[16px]">
                         {loggedUserData[0].firstname.charAt(0)}
                         {loggedUserData[0].lastname.charAt(0)}
                       </h1>
