@@ -82,7 +82,7 @@ export default function UserHome() {
     <div>
       {isLoadedArtistsData && isLoadedArtworksToMap && isLoggin && (
         <section className="w-full overflow-hidden">
-          <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
+          <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px]  xl:p-10">
             {logedUserData &&
             logedUserData.length > 0 &&
             logedUserData[0].image ? (
@@ -92,7 +92,7 @@ export default function UserHome() {
                 className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
               />
             ) : (
-              <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+              <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[10vw] xl:h-[10vw] object-cover rounded-full flex items-center justify-center">
                 <h1 className="text-white text-[50px] xl:text-[70px]">
                   {logedUserData[0].firstname.charAt(0)}
                   {logedUserData[0].lastname.charAt(0)}
@@ -103,30 +103,30 @@ export default function UserHome() {
               {logedUserData[0].pseudo}
             </h1>
           </div>
-          <div className="w-full p-4 mt-3 flex justify-between xl:p-10">
+          <div className="  flex justify-between mx-4">
             <h2 className="text-4xl text-left font-bold hidden xl:block">
               INFORMATIONS PERSONNELLES
             </h2>
             <Link to="/settings" className="items-center xl:block hidden">
               <img src={settings} alt="settings button" className=" mr-5" />
             </Link>
-            <h2 className="text-4xl text-left font-bold xl:hidden">
+            <h2 className="text-4xl text-left font-bold xl:hidden mt-4">
               INFORMATIONS
             </h2>
           </div>
-          <section className="w-full p-4 xl:p-10">
+          <section className="mx-[20px]">
             {logedUserData &&
               logedUserData.length > 0 &&
               logedUserData.map((data) => {
                 return (
                   <div
                     key={data.email}
-                    className=" flex flex-col xl:flex-row flex-wrap w-[80%] gap-5 mt-9"
+                    className=" flex flex-col xl:flex-row flex-wrap w-full sm:w-[80%] gap-5 mt-9"
                   >
                     <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
                       <h3 className="text-left">Etablissement</h3>
                       <div className="w-full p-1 rounded-lg text-left border-2 border-gray-300 border-solid h-[36px]">
-                        <p>
+                        <p className="text-left">
                           {entities.map((entity) =>
                             data.entity_id === entity.id ? entity.name : null
                           )}
@@ -162,7 +162,7 @@ export default function UserHome() {
               })}
           </section>
           <section className="flex flex-col gap-5">
-            <section className="w-full flex flex-col mt-10 xl:p-10 gap-10">
+            <section className="w-full flex flex-col mt-8 sm:mt-2 xl:p-10 gap-10">
               <div className="flex w-full justify-between items-center ">
                 <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
                   Vos coups de coeur

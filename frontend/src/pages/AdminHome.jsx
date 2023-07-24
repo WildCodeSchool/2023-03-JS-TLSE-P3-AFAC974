@@ -74,7 +74,7 @@ export default function AdminHome() {
         isLoadedArtworksData &&
         isLoadedUsersData && (
           <section className="w-full overflow-hidden flex flex-col gap-5">
-            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[80px] xl:px-10">
+            <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px] xl:px-10">
               {adminData && adminData.length > 0 && adminData[0].image ? (
                 <div className=" xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] rounded-full overflow-hidden">
                   <img
