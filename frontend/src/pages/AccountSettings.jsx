@@ -13,9 +13,9 @@ export default function AccountSettings() {
     setLoggedUserData,
     setIsLoadedUser,
     isLoadedUser,
+    headers,
   } = useContext(AuthContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isUserDeleted, setIsUserDeleted] = useState(false);
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -36,18 +36,21 @@ export default function AccountSettings() {
 
   const handleDeleteUser = () => {
     axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`)
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
+        headers,
+      })
       .then((response) => {
-        if (response.status === 200) {
-          setIsUserDeleted(true);
-          if (isUserDeleted) {
-            Cookies.remove("jwt");
-            Cookies.remove("role");
-            setIsDeleteModalOpen(false);
-            window.location.href = "/";
-          }
+        if (response.status === 204) {
+          Cookies.remove("jwt");
+          Cookies.remove("role");
+          Cookies.remove("sub");
+          setIsDeleteModalOpen(false);
+          window.location.href = "/";
         } else {
-          console.error("Erreur lors de la suppression");
+          console.error(
+            "Le serveur a renvoyé un statut différent de 204:",
+            response.status
+          );
         }
       })
       .catch((error) => {
@@ -189,6 +192,7 @@ export default function AccountSettings() {
             <Modal
               isOpen={isDeleteModalOpen}
               style={customModalStyles}
+              onRequestClose={handleCloseDeleteModal}
               className=" w-[95%] fixed top-[45%] xl:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex"
               contentLabel="Modal"
             >
