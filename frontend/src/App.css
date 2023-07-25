@@ -63,6 +63,15 @@ button {
   height: calc(100vh - 52px);
 }
 
+.bigpicture::-webkit-scrollbar {
+  display: none;
+}
+
+.bigpicture {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 .overflow-y-hidden {
   overflow-y: hidden;
 }
