@@ -104,6 +104,7 @@ function UsersAdministration() {
   const totalPages = Math.ceil(filteredAndSortedData.length / usersPerPage);
 
   const handlePageClick = (pageNumber) => {
+    window.scrollTo(0, 0);
     setCurrentPage(pageNumber);
   };
 

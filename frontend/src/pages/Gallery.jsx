@@ -92,6 +92,7 @@ export default function Gallery() {
   const totalPages = Math.ceil(filteredAndSortedData.length / artworksPerPage);
 
   const handlePageClick = (pageNumber) => {
+    window.scrollTo(0, 0);
     setCurrentPage(pageNumber);
   };
 
