@@ -7,6 +7,28 @@ import arrowL from "../assets/Fleche gauche.png";
 export default function Carousel({ imageUrls, disableRightClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageDimensions, setImageDimensions] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth <= 640) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [window]);
+
+  useEffect(() => {
+    // Update the `isMobile` state when the window is resized
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
@@ -48,39 +70,77 @@ export default function Carousel({ imageUrls, disableRightClick }) {
       </div>
       <div className="flex flex-row justify-center  items-center md:w-[95%] mb-5 h-[35dvh] xl:w-[80%] mx-auto bg-[#257593]">
         <div className="flex flex-row items-center">
-          <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
-            {[
-              (currentIndex - 1 + imageUrls.length) % imageUrls.length,
-              currentIndex,
-              (currentIndex + 1) % imageUrls.length,
-            ].map((index) => {
-              const imageUrl = imageUrls[index];
+          {isMobile ? (
+            <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
+              {[
+                (currentIndex - 1 + imageUrls.length) % imageUrls.length,
+                currentIndex,
+                (currentIndex + 1) % imageUrls.length,
+              ]
+                .slice(0, 1)
+                .map((index) => {
+                  const imageUrl = imageUrls[index];
 
-              if (!imageUrl) {
-                return null; // Skip rendering if the image URL is invalid
-              }
+                  if (!imageUrl) {
+                    return null; // Skip rendering if the image URL is invalid
+                  }
 
-              return (
-                <div
-                  className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
-                  key={index}
-                >
-                  <Link to={`/gallery/${imageUrl[1]}`}>
-                    <img
-                      src={imageUrl[0]}
-                      alt="art"
-                      className={`flex justify-center items-center drop-shadow-xl object-contain ${
-                        isPortrait
-                          ? "max-w-[30dvw] max-h-[40dvh]"
-                          : "w-[20dvw] h-[20dvh]"
-                      }`}
-                      onContextMenu={disableRightClick}
-                    />
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
+                  return (
+                    <div
+                      className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
+                      key={index}
+                    >
+                      <Link to={`/gallery/${imageUrl[1]}`}>
+                        <img
+                          src={imageUrl[0]}
+                          alt="art"
+                          className={`flex justify-center items-center drop-shadow-xl object-contain ${
+                            isPortrait
+                              ? "max-w-[30dvw] max-h-[40dvh]"
+                              : "w-[20dvw] h-[20dvh]"
+                          }`}
+                          onContextMenu={disableRightClick}
+                        />
+                      </Link>
+                    </div>
+                  );
+                })}
+            </div>
+          ) : (
+            <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
+              {[
+                (currentIndex - 1 + imageUrls.length) % imageUrls.length,
+                currentIndex,
+                (currentIndex + 1) % imageUrls.length,
+              ].map((index) => {
+                const imageUrl = imageUrls[index];
+
+                if (!imageUrl) {
+                  return null; // Skip rendering if the image URL is invalid
+                }
+
+                return (
+                  <div
+                    className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
+                    key={index}
+                  >
+                    <Link to={`/gallery/${imageUrl[1]}`}>
+                      <img
+                        src={imageUrl[0]}
+                        alt="art"
+                        className={`flex justify-center items-center drop-shadow-xl object-contain ${
+                          isPortrait
+                            ? "max-w-[30dvw] max-h-[40dvh]"
+                            : "w-[20dvw] h-[20dvh]"
+                        }`}
+                        onContextMenu={disableRightClick}
+                      />
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>
