@@ -14,6 +14,15 @@ export default function Gallery() {
   const [filter, setFilter] = useState("");
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
   const { userRole } = React.useContext(AuthContext);
+  const artworksPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [colorConnected, setColorConnected] = useState("#257492");
+
+  useEffect(() => {
+    if (userRole === 1 || userRole === 0) {
+      setColorConnected("#7F253E");
+    }
+  }, [userRole]);
 
   useEffect(() => {
     axios
@@ -73,6 +82,24 @@ export default function Gallery() {
     e.preventDefault();
   };
 
+  const indexOfLastArtwork = currentPage * artworksPerPage;
+  const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
+  const currentArtworks = filteredAndSortedData.slice(
+    indexOfFirstArtwork,
+    indexOfLastArtwork
+  );
+
+  const totalPages = Math.ceil(filteredAndSortedData.length / artworksPerPage);
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i += 1) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className="flex flex-col pt-[60px] justify-center items-center">
       <div className="px-[20px] justify-center">
@@ -97,7 +124,7 @@ export default function Gallery() {
           </div>
         </div>
         <div className="flex flex-col justify-center md:flex-row md:grid md:grid-cols-4 md:gap-5">
-          {filteredAndSortedData.map((artwork) => (
+          {currentArtworks.map((artwork) => (
             <div className="pb-4 flex flex-col" key={artwork.id}>
               <div>
                 <Link to={`/gallery/${artwork.id}`}>
@@ -133,6 +160,22 @@ export default function Gallery() {
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+        <div className="flex justify-center items-center mt-4">
+          {pageNumbers.map((pageNumber) => (
+            <button
+              type="button"
+              key={pageNumber}
+              onClick={() => handlePageClick(pageNumber)}
+              className={`${
+                currentPage === pageNumber
+                  ? `bg-[${colorConnected}] text-white`
+                  : "bg-white"
+              } border border-[${colorConnected}] px-4 py-2 mx-1 rounded`}
+            >
+              {pageNumber}
+            </button>
           ))}
         </div>
       </div>
