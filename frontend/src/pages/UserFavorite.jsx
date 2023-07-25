@@ -16,6 +16,7 @@ function UserFavorite() {
   const { userId, headers } = React.useContext(AuthContext);
   const favoriteArtworksPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentFavoriteArtworks, setCurrentFavoriteArtworks] = useState([]);
 
   useEffect(() => {
     axios
@@ -59,31 +60,6 @@ function UserFavorite() {
       });
   }, []);
 
-  const removeFavorite = (artworkId) => {
-    axios
-      .delete(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/user/${userId}/artwork/${artworkId}/favorite`,
-        {
-          headers,
-        }
-      )
-      .then(() => {
-        setFilteredAndSortedData((prevData) =>
-          prevData.filter((item) => item.id !== artworkId)
-        );
-        setArtworksToMap((prevData) =>
-          prevData.filter((item) => item.id !== artworkId)
-        );
-        setFavoritesCount((prevCount) => prevCount - 1);
-        setDeleteFavorite(!deleteFavorite);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   const disableRightClick = (e) => {
     e.preventDefault();
   };
@@ -107,13 +83,45 @@ function UserFavorite() {
     setFilteredAndSortedData(filteredAndSorted);
   }, [artworksToMap, filter]);
 
-  const indexOfLastFavoriteArtwork = currentPage * favoriteArtworksPerPage;
-  const indexOfFirstFavoriteArtwork =
-    indexOfLastFavoriteArtwork - favoriteArtworksPerPage;
-  const currentFavoriteArtworks = filteredAndSortedData.slice(
-    indexOfFirstFavoriteArtwork,
-    indexOfLastFavoriteArtwork
-  );
+  useEffect(() => {
+    const indexOfLastFavoriteArtwork = currentPage * favoriteArtworksPerPage;
+    const indexOfFirstFavoriteArtwork =
+      indexOfLastFavoriteArtwork - favoriteArtworksPerPage;
+    setCurrentFavoriteArtworks(
+      filteredAndSortedData.slice(
+        indexOfFirstFavoriteArtwork,
+        indexOfLastFavoriteArtwork
+      )
+    );
+  }, [filteredAndSortedData, currentPage]);
+
+  const removeFavorite = (artworkId) => {
+    axios
+      .delete(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/user/${userId}/artwork/${artworkId}/favorite`,
+        {
+          headers,
+        }
+      )
+      .then(() => {
+        setFilteredAndSortedData((prevData) =>
+          prevData.filter((item) => item.id !== artworkId)
+        );
+        setArtworksToMap((prevData) =>
+          prevData.filter((item) => item.id !== artworkId)
+        );
+        setFavoritesCount((prevCount) => prevCount - 1);
+        setDeleteFavorite(!deleteFavorite);
+        if (currentFavoriteArtworks.length - 1 === 0) {
+          setCurrentPage(1);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const totalPages = Math.ceil(
     filteredAndSortedData.length / favoriteArtworksPerPage
