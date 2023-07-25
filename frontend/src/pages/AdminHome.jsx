@@ -212,7 +212,7 @@ export default function AdminHome() {
                 </div>
 
                 <section
-                  className="hidden xl:grid grid-cols-4
+                  className="hidden xl:grid grid-cols-3
                  gap-x-[90px] justify-center gap-y-10 w-full "
                 >
                   {artistsData &&
