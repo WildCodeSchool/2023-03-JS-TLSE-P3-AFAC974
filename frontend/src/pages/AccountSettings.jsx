@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import Cookies from "js-cookie";
 import ValidationModal from "../components/ValidationModal";
 import ModifyProfilePic from "../components/ModifyProfilePic";
@@ -20,7 +20,6 @@ export default function AccountSettings() {
     headers,
   } = useContext(AuthContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isUserDeleted, setIsUserDeleted] = useState(false);
   const [reLoad, setReload] = useState(false);
   const [entities, setEntities] = useState([]);
   const [unvalidEmail, setUnvalidEmail] = useState(false);
@@ -95,16 +94,17 @@ export default function AccountSettings() {
         headers,
       })
       .then((response) => {
-        if (response.status === 200) {
-          setIsUserDeleted(true);
-          if (isUserDeleted) {
-            Cookies.remove("jwt");
-            Cookies.remove("role");
-            setIsDeleteModalOpen(false);
-            window.location.href = "/";
-          }
+        if (response.status === 204) {
+          Cookies.remove("jwt");
+          Cookies.remove("role");
+          Cookies.remove("sub");
+          setIsDeleteModalOpen(false);
+          window.location.href = "/";
         } else {
-          console.error("Erreur lors de la suppression");
+          console.error(
+            "Le serveur a renvoyé un statut différent de 204:",
+            response.status
+          );
         }
       })
       .catch((error) => {
@@ -237,11 +237,11 @@ export default function AccountSettings() {
   };
 
   return (
-    <div className="ml-7  ">
+    <div>
       {isLoadedUser && (
-        <section className="w-full overflow-hidden flex flex-col gap-10 xl:gap-0">
-          <div className="w-full items-center flex flex-col xl:flex-row xl:justify-between gap-10 mt-[100px] p-4 xl:p-0">
-            <div className="w-full items-center flex flex-col xl:flex-row gap-10 mt-[100px] p-4 xl:p-10">
+        <section className="w-full overflow-hidden">
+          <div className="xl:flex xl:items-center mt-[80px]">
+            <div className="w-full items-center flex flex-col xl:flex-row gap-5 ]  xl:p-5">
               {loggedUserData &&
               loggedUserData.length > 0 &&
               loggedUserData[0].image ? (
@@ -277,7 +277,7 @@ export default function AccountSettings() {
                 {loggedUserData[0].pseudo}
               </h1>
             </div>
-            <div className="w-[15%] h-11  hidden xl:block xl:mr-7 ">
+            <div className="w-[15%] h-11 hidden xl:flex xl:mr-7 whitespace-nowrap ">
               <RedButton
                 text="Supprimer le compte"
                 type="button"
@@ -285,23 +285,23 @@ export default function AccountSettings() {
               />
             </div>
           </div>
-          <section className="w-full xl:p-4">
+          <section className="w-full xl:p-4 mx-[20px]">
             {loggedUserData &&
               loggedUserData.length > 0 &&
               loggedUserData.map((data) => {
                 return (
                   <div
                     key={data.email}
-                    className="flex flex-col xl:flex-row flex-wrap w-[90%] xl:w-[80%] gap-5 mt-9"
+                    className="flex flex-col xl:flex-row flex-wrap w-[90%] xl:w-[80%] gap-5 "
                   >
-                    <h2 className="xl:text-4xl text-2xl text-left font-bold">
+                    <h2 className="text-4xl text-left font-bold xl:hidden mt-4">
                       Modifications
                     </h2>
                     <section className="flex flex-col w-full xl:w-[81.9%] gap-2">
                       <h3 className="text-left">Etablissement</h3>
                       <label htmlFor="entity_id">
                         <select
-                          className="border border-gray-300 rounded-[4px] p-1 w-[100%] outline-none"
+                          className="w-full p-1 rounded-lg text-left border-2 border-gray-300 border-solid h-[36px]"
                           id="entity_id"
                           name="userEntity"
                           onChange={handleSelectChange}
@@ -393,14 +393,14 @@ export default function AccountSettings() {
                 );
               })}
           </section>
-          <div className="xl:w-[15%] w-full mx-auto h-11 xl:ml-20 mt-5 block">
+          <div className="xl:w-[20%] w-[60%] max-w-sm min-w-fit mx-auto h-11 xl:ml-20 mt-5 block whitespace-nowrap">
             <RedButton
               text="Enregistrer les modifications"
               type="button"
               onClick={handleModifyUser}
             />
           </div>
-          <section className="flex flex-col mt-10 xl:p-4 ">
+          <section className="flex flex-col mt-10 xl:p-4 mx-[20px]">
             <div className="flex flex-col xl:flex-row flex-wrap w-[90%] xl:w-[80%] gap-5 xl:mt-9 ">
               <h2 className="xl:text-4xl text-2xl text-left font-bold">
                 Mot de Passe
@@ -441,7 +441,7 @@ export default function AccountSettings() {
                 )}
             </div>
           </section>
-          <div className="xl:w-[15%] w-full h-11 xl:ml-20 mt-5 xl:mb-16 block">
+          <div className="xl:w-[20%] w-[60%] max-w-sm min-w-fit mx-auto h-11 xl:ml-20 mt-5 xl:mb-16 block whitespace-nowrap">
             <RedButton
               text="Modifier le mot de passe"
               type="button"
@@ -452,43 +452,46 @@ export default function AccountSettings() {
               }
             />
           </div>
-          <section className="flex flex-col xl:hidden">
+          <section className="flex flex-col xl:hidden mx-[20px] my-[24px]">
             <h2 className="xl:text-4xl text-2xl text-left font-bold">
               Suppression du compte
             </h2>
-            <div className="xl:w-[15%] w-full h-11 xl:ml-20 mt-5 xl:mb-16 block">
+            <div className="xl:w-fit xl:p-[16px] w-[60%] mx-auto h-11  mt-5  block">
               <RedButton
                 text="Supprimer le compte"
                 type="button"
                 onClick={handleOpenDeleteModal}
               />
             </div>
-            <Modal
+            <ReactModal
               isOpen={isDeleteModalOpen}
               style={customModalStyles}
-              className=" w-[95%] fixed top-[45%] xl:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex"
+              onRequestClose={() => {
+                handleCloseDeleteModal();
+              }}
+              className="h-fit  w-[80vw] sm:w-fit md:w-[40vw] lg:w-[30vw] lg:max-w-[40vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white flex "
               contentLabel="Modal"
             >
-              <div className="bg-white w-[25%] rounded-xl text-center flex flex-col gap-6 mx-auto p-5">
+              <div className="bg-white  rounded-xl text-center flex flex-col gap-6 mx-auto">
                 <h2 className="text-xl">
                   Etes vous sur de vouloir supprimer le compte ?
                 </h2>
                 <div className="h-11">
                   <RedButton
-                    text="Oui,supprimer"
+                    text="Oui, supprimer"
                     type="button"
                     onClick={handleDeleteUser}
                   />
                 </div>
                 <div className="h-11">
                   <GreyButton
-                    text="Non,conserver"
+                    text="Non, conserver"
                     type="button"
                     onClick={handleCloseDeleteModal}
                   />
                 </div>
               </div>
-            </Modal>
+            </ReactModal>
           </section>
           <ModifyProfilePic
             modifyProfileModalOpened={modifyProfileModalOpened}

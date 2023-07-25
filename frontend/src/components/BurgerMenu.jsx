@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ReactModal from "react-modal";
 import arrow from "../assets/arrow.png";
+import AuthContext from "../context/AuthContext";
 
 function BurgerMenu({ burgerMenuOpen, setBurgerMenuOpen }) {
   const customModalStyles = {
@@ -11,6 +12,9 @@ function BurgerMenu({ burgerMenuOpen, setBurgerMenuOpen }) {
       zIndex: 1000,
     },
   };
+
+  const { userId, userRole } = useContext(AuthContext);
+
   return (
     <ReactModal
       isOpen={burgerMenuOpen}
@@ -35,6 +39,16 @@ function BurgerMenu({ burgerMenuOpen, setBurgerMenuOpen }) {
         GALERIE
         <img src={arrow} alt="flèche" />
       </Link>
+      {userId && userRole === 1 && (
+        <Link
+          to={`/user/${userId}/favorite`}
+          className="flex w-[100%] justify-between items-center py-[4px]"
+          onClick={() => setBurgerMenuOpen(false)}
+        >
+          MES FAVORIS
+          <img src={arrow} alt="flèche" />
+        </Link>
+      )}
       <Link
         to="/about"
         className="flex w-[100%] justify-between items-center pt-[4px]"
