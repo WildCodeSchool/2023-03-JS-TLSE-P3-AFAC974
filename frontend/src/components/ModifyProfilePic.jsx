@@ -287,8 +287,13 @@ function ModifyProfilePic({
 ModifyProfilePic.propTypes = {
   modifyProfileModalOpened: PropTypes.bool.isRequired,
   setModifyProfileModalOpened: PropTypes.func.isRequired,
-  setModalValidationModifyUser: PropTypes.func.isRequired,
-  setModalErrorModifyUser: PropTypes.func.isRequired,
+  setModalValidationModifyUser: PropTypes.func,
+  setModalErrorModifyUser: PropTypes.func,
+};
+
+ModifyProfilePic.defaultProps = {
+  setModalValidationModifyUser: () => {},
+  setModalErrorModifyUser: () => {},
 };
 
 export default ModifyProfilePic;
