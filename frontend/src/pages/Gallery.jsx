@@ -162,22 +162,24 @@ export default function Gallery() {
             </div>
           ))}
         </div>
-        <div className="flex justify-center items-center mt-4">
-          {pageNumbers.map((pageNumber) => (
-            <button
-              type="button"
-              key={pageNumber}
-              onClick={() => handlePageClick(pageNumber)}
-              className={`${
-                currentPage === pageNumber
-                  ? `bg-[${colorConnected}] text-white`
-                  : "bg-white"
-              } border border-[${colorConnected}] px-4 py-2 mx-1 rounded`}
-            >
-              {pageNumber}
-            </button>
-          ))}
-        </div>
+        {pageNumbers.length > 1 && (
+          <div className="flex justify-center items-center mt-4">
+            {pageNumbers.map((pageNumber) => (
+              <button
+                type="button"
+                key={pageNumber}
+                onClick={() => handlePageClick(pageNumber)}
+                className={`${
+                  currentPage === pageNumber
+                    ? `bg-[${colorConnected}] text-white`
+                    : "bg-white"
+                } border border-[${colorConnected}] px-6 py-2 mx-2 rounded mb-8`}
+              >
+                {pageNumber}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

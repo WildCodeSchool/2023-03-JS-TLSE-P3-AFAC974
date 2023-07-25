@@ -12,6 +12,8 @@ function UsersAdministration() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
 
   const filterAndSortData = () => {
     let sortedData = [...data];
@@ -91,6 +93,24 @@ function UsersAdministration() {
       });
   }, []);
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredAndSortedData.slice(
+    indexOfFirstUser,
+    indexOfLastUser
+  );
+
+  const totalPages = Math.ceil(filteredAndSortedData.length / usersPerPage);
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i += 1) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className="absolute mt-[60px] w-full flex flex-col items-center">
       {isLoadedAdminData && (
@@ -138,15 +158,33 @@ function UsersAdministration() {
         </div>
         <div className="flex flex-1" />
       </div>
-      {filteredAndSortedData.map((user) => (
+      {currentUsers.map((user) => (
         <div
           key={user.id}
           className="w-[100%] xl:px-[100px] flex flex-col gap-2 xl:gap-7 xl:mt-[28px]"
         >
           <UserCard user={user} setDeletedUserId={setDeletedUserId} />
-          <hr className=" w-[100%] border border-solid border-gray-200 xl:border-gray-400" />
+          <hr className="w-[100%] border border-solid border-gray-200 xl:border-gray-400" />
         </div>
       ))}
+      {pageNumbers.length > 1 && (
+        <div className="flex justify-center items-center mt-4">
+          {pageNumbers.map((pageNumber) => (
+            <button
+              type="button"
+              key={pageNumber}
+              onClick={() => handlePageClick(pageNumber)}
+              className={`${
+                currentPage === pageNumber
+                  ? `bg-[#7F253E] text-white`
+                  : "bg-white"
+              } border border-[#7F253E] px-6 py-2 mx-2 rounded mb-8`}
+            >
+              {pageNumber}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

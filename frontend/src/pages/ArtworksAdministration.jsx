@@ -730,6 +730,27 @@ export default function ArtworksAdministration() {
       });
   }, []);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const artworksPerPage = 5;
+
+  const indexOfLastArtwork = currentPage * artworksPerPage;
+  const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
+  const currentArtworks = filteredAndSortedData.slice(
+    indexOfFirstArtwork,
+    indexOfLastArtwork
+  );
+
+  const totalPages = Math.ceil(filteredAndSortedData.length / artworksPerPage);
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i += 1) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div>
       {isLoadedArtworks && isLoadedArtist && isLoadedAdminData && (
@@ -791,7 +812,7 @@ export default function ArtworksAdministration() {
             </div>
           </div>
           {isLoadedArtworks &&
-            filteredAndSortedData.map((itemArtwork) => (
+            currentArtworks.map((itemArtwork) => (
               <div
                 key={itemArtwork.id}
                 className="flex flex-col lg:hidden m-[40px]"
@@ -875,7 +896,7 @@ export default function ArtworksAdministration() {
               </div>
             ))}
           {isLoadedArtworks &&
-            filteredAndSortedData.map((itemArtwork) => (
+            currentArtworks.map((itemArtwork) => (
               <div
                 key={itemArtwork.id}
                 className="hidden lg:flex lg:mt-[20px] lg:pr-[70px] lg:pl-[70px]"
@@ -970,6 +991,24 @@ export default function ArtworksAdministration() {
                 </div>
               </div>
             ))}
+          {pageNumbers.length > 1 && (
+            <div className="flex justify-center items-center mt-4">
+              {pageNumbers.map((pageNumber) => (
+                <button
+                  type="button"
+                  key={pageNumber}
+                  onClick={() => handlePageClick(pageNumber)}
+                  className={`${
+                    currentPage === pageNumber
+                      ? `bg-[#7F253E] text-white`
+                      : "bg-white"
+                  } border border-[#7F253E] px-6 py-2 mx-2 rounded mb-8`}
+                >
+                  {pageNumber}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Modal for Add */}
           <AddArtwork
