@@ -15,7 +15,7 @@ function BigPicture({ artwork }) {
         document.body.classList.remove("disable-scroll");
       }}
       ariaHideApp={false}
-      className="width-fit fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto min-w-[80vw] sm:min-w-[0%] bigpicture"
+      className="width-fit fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto min-w-[80vw] sm:min-w-[0vw] bigpicture flex items-center justify-center"
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
