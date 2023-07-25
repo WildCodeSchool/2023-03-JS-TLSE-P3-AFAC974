@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Carousel({ imageUrls, disableRightClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -47,22 +48,22 @@ export default function Carousel({ imageUrls, disableRightClick }) {
               (currentIndex === 0 ? imageUrls.length - 1 : currentIndex - 1);
             const isNext = index === (currentIndex + 1) % imageUrls.length;
             const isVisible = isCurrent || isPrev || isNext;
-            console.info(currentIndex);
-
             return (
               <div
-                key={index.id}
+                key={item[1]}
                 className={`slide ${isVisible ? "" : "hidden"}
                   ${isCurrent ? "w-full" : ""} ${isPrev ? "w-full" : ""} ${
                   isNext ? "w-full" : ""
                 } relative flex flex-col justify-center items-center`}
               >
-                <img
-                  src={item}
-                  alt="art"
-                  className="flex justify-center items-center drop-shadow-xl w-[15dvw] h-[35dvh] object-cover"
-                  onContextMenu={disableRightClick}
-                />
+                <Link to={`/gallery/${item[1]}`}>
+                  <img
+                    src={item[0]}
+                    alt="art"
+                    className="flex justify-center items-center drop-shadow-xl w-[15dvw] h-[35dvh] object-cover"
+                    onContextMenu={disableRightClick}
+                  />
+                </Link>
               </div>
             );
           })}

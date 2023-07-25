@@ -17,7 +17,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   const [userImage, setUserImage] = useState("");
   const [unvalidEmail, setUnvalidEmail] = useState(false);
   const [unFilledForm, setUnFilledForm] = useState(false);
-  const [userImageFile, setUserImageFile] = useState(null);
+  const [userImageFile, setUserImageFile] = useState("");
   const [wrongAssociation, setWrongAssociation] = useState(false);
 
   const [user, setUser] = useState({

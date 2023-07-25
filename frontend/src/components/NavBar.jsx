@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Turn as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
-import LanguageMenu from "./LanguageMenu";
 import BurgerMenu from "./BurgerMenu";
 import Login from "./Login";
 import navbarLogo from "../assets/navbar_logo.png";
 import hexagonRedBg from "../assets/hexagon_red_bg.png";
 import hexagonBlueBg from "../assets/hexagon_blue_bg.png";
-import frenchFlagLogo from "../assets/french_flag_logo.png";
 import loginLogo from "../assets/login_logo.png";
 
 function NavBar() {
@@ -15,8 +13,6 @@ function NavBar() {
   const [galleryHovered, setGalleryHovered] = useState(false);
   const [aboutHovered, setAboutHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
-  const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const [setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   return (
@@ -95,12 +91,6 @@ function NavBar() {
           </div>
         </div>
       </div>
-
-      <LanguageMenu
-        languageModalOpened={languageModalOpened}
-        setLanguageModalOpened={setLanguageModalOpened}
-        setLanguageChosenFlag={setLanguageChosenFlag}
-      />
 
       <Login
         loginModalOpened={loginModalOpened}
