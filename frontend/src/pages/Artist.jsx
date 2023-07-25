@@ -55,15 +55,12 @@ export default function Artist() {
         <div className="flex flex-col justify-center gap-5 w-[50%]">
           <p className="text-left">{artist.description}</p>
           <Link to={artist.website_url}>
-            <p className="flex justify-start text-[#257492] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
+            <p className="flex justify-start text-[#2A8DD4] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
           </Link>
         </div>
       </section>
-      <div className="flex flex-col justify-center w-full">
-        <h2 className="text-[18px] pt-4 pb-8">SON UNIVERS ARTISTIQUE</h2>
 
-        <Carousel imageUrls={imageUrls} disableRightClick={disableRightClick} />
-      </div>
+      <Carousel imageUrls={imageUrls} disableRightClick={disableRightClick} />
     </div>
   );
 }
