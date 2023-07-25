@@ -99,7 +99,7 @@ export default function Gallery() {
         <div className="flex flex-col justify-center md:flex-row md:grid md:grid-cols-4 md:gap-5">
           {filteredAndSortedData.map((artwork) => (
             <div
-              className="pb-4 flex flex-col items-center justify-end items-center"
+              className="pb-4 flex flex-col justify-end items-center"
               key={artwork.id}
             >
               <div>
