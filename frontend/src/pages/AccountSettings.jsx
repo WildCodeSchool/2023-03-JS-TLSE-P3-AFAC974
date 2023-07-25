@@ -89,27 +89,61 @@ export default function AccountSettings() {
   };
 
   const handleDeleteUser = () => {
-    axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
-        headers,
-      })
-      .then((response) => {
-        if (response.status === 204) {
-          Cookies.remove("jwt");
-          Cookies.remove("role");
-          Cookies.remove("sub");
-          setIsDeleteModalOpen(false);
-          window.location.href = "/";
-        } else {
-          console.error(
-            "Le serveur a renvoyé un statut différent de 204:",
-            response.status
-          );
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (loggedUserData[0].image !== "") {
+      const isolationNamePicture =
+        loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
+      const namePicture = `user-afac/${isolationNamePicture[1]}`;
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+          data: { namePicture },
+          headers,
+        })
+        .then(() => {
+          axios
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
+              headers,
+            })
+            .then((response) => {
+              if (response.status === 204) {
+                Cookies.remove("jwt");
+                Cookies.remove("role");
+                Cookies.remove("sub");
+                setIsDeleteModalOpen(false);
+                window.location.href = "/";
+              } else {
+                console.error(
+                  "Le serveur a renvoyé un statut différent de 204:",
+                  response.status
+                );
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        });
+    } else {
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
+          headers,
+        })
+        .then((response) => {
+          if (response.status === 204) {
+            Cookies.remove("jwt");
+            Cookies.remove("role");
+            Cookies.remove("sub");
+            setIsDeleteModalOpen(false);
+            window.location.href = "/";
+          } else {
+            console.error(
+              "Le serveur a renvoyé un statut différent de 204:",
+              response.status
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
   const handleOpenDeleteModal = () => {
     setIsDeleteModalOpen(true);
