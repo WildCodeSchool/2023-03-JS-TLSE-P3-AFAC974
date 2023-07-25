@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import Cookies from "js-cookie";
 import ValidationModal from "../components/ValidationModal";
 import ModifyProfilePic from "../components/ModifyProfilePic";
@@ -433,33 +433,35 @@ export default function AccountSettings() {
                 onClick={handleOpenDeleteModal}
               />
             </div>
-            <Modal
+            <ReactModal
               isOpen={isDeleteModalOpen}
               style={customModalStyles}
-              onRequestClose={handleCloseDeleteModal}
-              className=" w-[95%] fixed top-[45%] xl:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex"
+              onRequestClose={() => {
+                handleCloseDeleteModal();
+              }}
+              className="h-fit  w-[80vw] sm:w-fit md:w-[40vw] lg:w-[30vw] lg:max-w-[40vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white flex "
               contentLabel="Modal"
             >
-              <div className="bg-white w-[25%] rounded-xl text-center flex flex-col gap-6 mx-auto p-5">
+              <div className="bg-white  rounded-xl text-center flex flex-col gap-6 mx-auto">
                 <h2 className="text-xl">
                   Etes vous sur de vouloir supprimer le compte ?
                 </h2>
                 <div className="h-11">
                   <RedButton
-                    text="Oui,supprimer"
+                    text="Oui, supprimer"
                     type="button"
                     onClick={handleDeleteUser}
                   />
                 </div>
                 <div className="h-11">
                   <GreyButton
-                    text="Non,conserver"
+                    text="Non, conserver"
                     type="button"
                     onClick={handleCloseDeleteModal}
                   />
                 </div>
               </div>
-            </Modal>
+            </ReactModal>
           </section>
           <ModifyProfilePic
             modifyProfileModalOpened={modifyProfileModalOpened}

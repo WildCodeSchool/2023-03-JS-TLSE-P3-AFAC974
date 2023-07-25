@@ -171,11 +171,11 @@ export default function UserHome() {
           </section>
           <section className="flex flex-col gap-5">
             <section className="w-full flex flex-col mt-8 sm:mt-2 xl:p-10 gap-10">
-              <div className="flex w-full justify-between items-center ">
+              <div className="flex w-full justify-between items-center mb-[32px] ">
                 <h2 className="font-bold text-xl xl:text-3xl ml-3 xl:ml-0">
                   Vos coups de coeur
                 </h2>
-                <Link to="/user/:userId/favorite" className="items-center">
+                <Link to={`/user/${userId}/favorite`} className="items-center">
                   <p className="xl:block hidden">Gérer les favoris</p>
                   <img
                     src={settings}

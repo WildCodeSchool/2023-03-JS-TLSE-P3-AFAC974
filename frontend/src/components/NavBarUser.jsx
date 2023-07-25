@@ -25,6 +25,7 @@ function NavBarUser() {
   const [homeHovered, setHomeHovered] = useState(false);
   const [galleryHovered, setGalleryHovered] = useState(false);
   const [aboutHovered, setAboutHovered] = useState(false);
+  const [favoritesHovered, setFavoritesHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
   const [languageModalOpened, setLanguageModalOpened] = useState(false);
   const [setLanguageChosenFlag] = useState(frenchFlagLogo);
@@ -116,7 +117,7 @@ function NavBarUser() {
             <div className="desktopLinks hidden lg:flex lg:w-fit navbar-links items-center gap-[50px] text-white ">
               <NavLink
                 to="/"
-                className="hover:font-medium flex items-center"
+                className="hover:font-medium flex w-[100px] items-center"
                 onMouseEnter={() => setHomeHovered(true)}
                 onMouseLeave={() => setHomeHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -126,11 +127,11 @@ function NavBarUser() {
                   alt="hexagon"
                   className="h-[28px] w-[26.32px] mr-2"
                 />
-                <p>HOME</p>
+                <p>ACCUEIL</p>
               </NavLink>
               <NavLink
                 to="/gallery"
-                className="hover:font-medium flex items-center"
+                className="hover:font-medium flex w-[100px] items-center"
                 onMouseEnter={() => setGalleryHovered(true)}
                 onMouseLeave={() => setGalleryHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -143,8 +144,23 @@ function NavBarUser() {
                 <p>GALERIE</p>
               </NavLink>
               <NavLink
+                to={`/user/${userId}/favorite`}
+                className="hover:font-medium flex w-[100px] items-center"
+                onMouseEnter={() => setFavoritesHovered(true)}
+                onMouseLeave={() => setFavoritesHovered(false)}
+                onClick={() => setIsSectionVisible(false)}
+              >
+                <img
+                  src={favoritesHovered ? hexagonRedBg : hexagonBlueBg}
+                  alt="hexagon"
+                  className="h-[28px] w-[26.32px] mr-2"
+                />
+                <p>FAVORIS</p>
+              </NavLink>
+
+              <NavLink
                 to="/about"
-                className="hover:font-medium flex items-center whitespace-nowrap"
+                className="hover:font-medium flex w-[100px] items-center whitespace-nowrap"
                 onMouseEnter={() => setAboutHovered(true)}
                 onMouseLeave={() => setAboutHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
