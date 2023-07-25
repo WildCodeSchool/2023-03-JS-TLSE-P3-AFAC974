@@ -43,23 +43,25 @@ export default function Artist() {
 
   return (
     <div className="flex flex-col justify-center items-center pt-[90px] px-8">
-      <img
-        src={artist.image_url_medium}
-        alt={`artist${artistId}`}
-        className="rounded-full object-cover h-[150px] w-[150px]"
-      />
-      <h1 className="text-[21px] font-semibold py-8">
-        {artist.firstname} {artist.lastname}
-      </h1>
-      <div className="flex flex-col justify-center">
-        <p className="text-left">{artist.description}</p>
-        <Link to={artist.website_url}>
-          <p className="flex justify-start text-[#257492] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
-        </Link>
-      </div>
-      <div className="flex flex-col justify-center">
+      <section className="flex gap-[100px] w-full justify-center mt-5">
+        <div className="flex flex-col gap-5 ">
+          <img
+            src={artist.image_url_medium}
+            alt={`artist${artistId}`}
+            className="rounded-full object-cover h-[150px] w-[150px] block mx-auto"
+          />
+          <h1 className="text-[21px] font-semibold py-8">{artist.firstname}</h1>
+        </div>
+        <div className="flex flex-col justify-center gap-5 w-[50%]">
+          <p className="text-left">{artist.description}</p>
+          <Link to={artist.website_url}>
+            <p className="flex justify-start text-[#257492] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
+          </Link>
+        </div>
+      </section>
+      <div className="flex flex-col justify-center w-full">
         <h2 className="text-[18px] pt-4 pb-8">SON UNIVERS ARTISTIQUE</h2>
-        <div className="flex justify-around bg-[#257492] h-[215px] w-[275px]">
+        <div className="flex mx-auto justify-around bg-[#257492] p-5 w-[80%]  border-4 border-solid border-red-500">
           <Carousel
             imageUrls={imageUrls}
             disableRightClick={disableRightClick}
