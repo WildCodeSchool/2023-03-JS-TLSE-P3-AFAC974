@@ -5,7 +5,6 @@ import { Link, NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import ReactModal from "react-modal";
 import AuthContext from "../context/AuthContext";
-import LanguageMenu from "./LanguageMenu";
 import BurgerMenu from "./BurgerMenu";
 import Login from "./Login";
 import RedButton from "./RedButton";
@@ -13,7 +12,6 @@ import GreyButton from "./GreyButton";
 import navbarLogo from "../assets/navbar_logo.png";
 import hexagonRedBg from "../assets/hexagon_red_bg.png";
 import hexagonBlueBg from "../assets/hexagon_blue_bg.png";
-import frenchFlagLogo from "../assets/french_flag_logo.png";
 import gear from "../assets/Engrenage.png";
 import icon from "../assets/Icon.png";
 import art from "../assets/art.png";
@@ -27,8 +25,6 @@ function NavBarUser() {
   const [aboutHovered, setAboutHovered] = useState(false);
   const [favoritesHovered, setFavoritesHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
-  const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const [setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
 
@@ -143,20 +139,22 @@ function NavBarUser() {
                 />
                 <p>GALERIE</p>
               </NavLink>
-              <NavLink
-                to={`/user/${userId}/favorite`}
-                className="hover:font-medium flex w-[100px] items-center"
-                onMouseEnter={() => setFavoritesHovered(true)}
-                onMouseLeave={() => setFavoritesHovered(false)}
-                onClick={() => setIsSectionVisible(false)}
-              >
-                <img
-                  src={favoritesHovered ? hexagonRedBg : hexagonBlueBg}
-                  alt="hexagon"
-                  className="h-[28px] w-[26.32px] mr-2"
-                />
-                <p>FAVORIS</p>
-              </NavLink>
+              {userRole === 1 && (
+                <NavLink
+                  to={`/user/${userId}/favorite`}
+                  className="hover:font-medium flex w-[100px] items-center"
+                  onMouseEnter={() => setFavoritesHovered(true)}
+                  onMouseLeave={() => setFavoritesHovered(false)}
+                  onClick={() => setIsSectionVisible(false)}
+                >
+                  <img
+                    src={favoritesHovered ? hexagonRedBg : hexagonBlueBg}
+                    alt="hexagon"
+                    className="h-[28px] w-[26.32px] mr-2"
+                  />
+                  <p>FAVORIS</p>
+                </NavLink>
+              )}
 
               <NavLink
                 to="/about"
@@ -363,12 +361,6 @@ function NavBarUser() {
                 />
               </div>
             </div>
-
-            <LanguageMenu
-              languageModalOpened={languageModalOpened}
-              setLanguageModalOpened={setLanguageModalOpened}
-              setLanguageChosenFlag={setLanguageChosenFlag}
-            />
 
             <Login
               loginModalOpened={loginModalOpened}

@@ -50,7 +50,7 @@ function ConfirmationModal({
     setArtistPicture,
     formArtist,
   } = useContext(FormArtworkArtistContext);
-  const { headers } = useContext(AuthContext);
+  const { jwtCookie } = useContext(AuthContext);
 
   const endRequest = () => {
     setStep(1);
@@ -123,7 +123,9 @@ function ConfirmationModal({
           `${import.meta.env.VITE_BACKEND_URL}/upload-artworks`,
           artworkPictureData,
           {
-            headers,
+            headers: {
+              Authorization: `Bearer ${jwtCookie}`,
+            },
           }
         )
         .then((resArtwork) => {
@@ -140,7 +142,9 @@ function ConfirmationModal({
                 `${import.meta.env.VITE_BACKEND_URL}/upload-artists`,
                 artistPictureData,
                 {
-                  headers,
+                  headers: {
+                    Authorization: `Bearer ${jwtCookie}`,
+                  },
                 }
               )
               .then((resArtist) => {

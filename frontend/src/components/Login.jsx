@@ -17,7 +17,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
   const [userImage, setUserImage] = useState("");
   const [unvalidEmail, setUnvalidEmail] = useState(false);
   const [unFilledForm, setUnFilledForm] = useState(false);
-  const [userImageFile, setUserImageFile] = useState(null);
+  const [userImageFile, setUserImageFile] = useState("");
   const [wrongAssociation, setWrongAssociation] = useState(false);
 
   const [user, setUser] = useState({
@@ -28,7 +28,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     image: "",
     password: "",
     role: 1,
-    entityId: "",
+    entityId: null,
   });
 
   useEffect(() => {
@@ -105,14 +105,21 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       const imageData = new FormData();
       imageData.append("myfile", userImageFile);
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData, {
-          headers,
-        })
+        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
         .then((response) => {
-          const temporaryUser = {
-            ...user,
-            image: response.data.imageUrl,
-          };
+          let temporaryUser = {};
+          if (user.entityId === "") {
+            temporaryUser = {
+              ...user,
+              entityId: null,
+              image: response.data.imageUrl,
+            };
+          } else {
+            temporaryUser = {
+              ...user,
+              image: response.data.imageUrl,
+            };
+          }
           axios
             .post(
               `${import.meta.env.VITE_BACKEND_URL}/register`,
@@ -169,8 +176,19 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           console.error(error);
         });
     } else {
+      let temporaryUser = {};
+      if (user.entityId === "") {
+        temporaryUser = {
+          ...user,
+          entityId: null,
+        };
+      } else {
+        temporaryUser = {
+          ...user,
+        };
+      }
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, user, {
+        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, temporaryUser, {
           headers,
         })
         .then(() => {
@@ -221,7 +239,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       image: "",
       password: "",
       role: 1,
-      entityId: "",
+      entityId: null,
       password2: "",
     });
     setUserImage(null);
@@ -603,7 +621,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           image: "",
           password: "",
           role: 1,
-          entityId: "",
+          entityId: null,
           password2: "",
         });
         setUserImage(null);

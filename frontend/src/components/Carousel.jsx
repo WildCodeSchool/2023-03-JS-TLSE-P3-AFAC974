@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Carousel({ imageUrls, disableRightClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,6 +24,10 @@ export default function Carousel({ imageUrls, disableRightClick }) {
       prevIndex === 0 ? imageUrls.length - 1 : prevIndex - 1
     );
   };
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [imageUrls]);
 
   const isPortrait = imageDimensions.height > imageDimensions.width;
 
@@ -49,34 +54,35 @@ export default function Carousel({ imageUrls, disableRightClick }) {
           </svg>
         </button>
 
-        <div className="slide-container relative overflow-hidden flex flex-row justify-center items-center">
-          {imageUrls.map((item, index) => {
-            const isCurrent = index === currentIndex;
-            const isPrev =
-              index ===
-              (currentIndex === 0 ? imageUrls.length - 1 : currentIndex - 1);
-            const isNext = index === (currentIndex + 1) % imageUrls.length;
-            const isVisible = isCurrent || isPrev || isNext;
-            console.info(currentIndex);
+        <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
+          {[
+            (currentIndex - 1 + imageUrls.length) % imageUrls.length,
+            currentIndex,
+            (currentIndex + 1) % imageUrls.length,
+          ].map((index) => {
+            const imageUrl = imageUrls[index];
+
+            if (!imageUrl) {
+              return null; // Skip rendering if the image URL is invalid
+            }
 
             return (
               <div
-                key={index.id}
-                className={`slide ${isVisible ? "" : "hidden"}
-                  ${isCurrent ? "w-full" : ""} ${isPrev ? "w-full" : ""} ${
-                  isNext ? "w-full" : ""
-                } relative flex flex-col justify-center items-center`}
+                className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
+                key={index}
               >
-                <img
-                  src={item}
-                  alt="art"
-                  className={`flex justify-center items-center drop-shadow-xl object-contain ${
-                    isPortrait
-                      ? "max-w-[30dvw] max-h-[30dvh]"
-                      : "w-[20dvw] h-[25dvh]"
-                  }`}
-                  onContextMenu={disableRightClick}
-                />
+                <Link to={`/gallery/${imageUrl[1]}`}>
+                  <img
+                    src={imageUrl[0]}
+                    alt="art"
+                    className={`flex justify-center items-center drop-shadow-xl object-contain ${
+                      isPortrait
+                        ? "max-w-[30dvw] max-h-[30dvh]"
+                        : "w-[20dvw] h-[25dvh]"
+                    }`}
+                    onContextMenu={disableRightClick}
+                  />
+                </Link>
               </div>
             );
           })}

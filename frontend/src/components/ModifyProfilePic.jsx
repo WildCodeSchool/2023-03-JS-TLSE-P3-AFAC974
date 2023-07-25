@@ -68,26 +68,15 @@ function ModifyProfilePic({
         loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
       const namePicture = `user-afac/${isolationNamePicture[1]}`;
       axios
-        .delete(
-          `${import.meta.env.VITE_BACKEND_URL}/upload`,
-          {
-            data: { namePicture },
-          },
-          {
-            headers,
-          }
-        )
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+          data: { namePicture },
+          headers,
+        })
         .then(() => {
           const imageData = new FormData();
           imageData.append("myfile", userImageFile);
           axios
-            .post(
-              `${import.meta.env.VITE_BACKEND_URL}/upload-users`,
-              imageData,
-              {
-                headers,
-              }
-            )
+            .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
             .then((response) => {
               const temporaryUser = {
                 ...user,
@@ -131,9 +120,7 @@ function ModifyProfilePic({
       const imageData = new FormData();
       imageData.append("myfile", userImageFile);
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData, {
-          headers,
-        })
+        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
         .then((response) => {
           const temporaryUser = {
             ...user,
@@ -226,14 +213,19 @@ function ModifyProfilePic({
                 type="button"
                 className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
               >
-                Précédent
+                Annuler
               </button>
 
               <button
                 onClick={() => handleModifyProfilePic()}
                 ref={loginButtonRef}
                 type="button"
-                className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#257492] text-[#E3E4E2] font-semibold text-base  hover:font-bold"
+                className={`${
+                  userImageFile
+                    ? "bg-[#257492] text-[#E3E4E2] hover:font-bold"
+                    : "bg-[#E3E4E2] text-[#257492]"
+                } w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px] font-semibold text-base `}
+                disabled={!userImageFile}
               >
                 Terminer
               </button>
@@ -287,8 +279,13 @@ function ModifyProfilePic({
 ModifyProfilePic.propTypes = {
   modifyProfileModalOpened: PropTypes.bool.isRequired,
   setModifyProfileModalOpened: PropTypes.func.isRequired,
-  setModalValidationModifyUser: PropTypes.func.isRequired,
-  setModalErrorModifyUser: PropTypes.func.isRequired,
+  setModalValidationModifyUser: PropTypes.func,
+  setModalErrorModifyUser: PropTypes.func,
+};
+
+ModifyProfilePic.defaultProps = {
+  setModalValidationModifyUser: () => {},
+  setModalErrorModifyUser: () => {},
 };
 
 export default ModifyProfilePic;

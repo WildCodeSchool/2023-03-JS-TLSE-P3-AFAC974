@@ -42,7 +42,7 @@ export default function AccountSettings() {
     firstname: "",
     pseudo: "",
     email: "",
-    entity_id: "",
+    entity_id: null,
   });
 
   const [password, setPassword] = useState({
@@ -89,27 +89,61 @@ export default function AccountSettings() {
   };
 
   const handleDeleteUser = () => {
-    axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
-        headers,
-      })
-      .then((response) => {
-        if (response.status === 204) {
-          Cookies.remove("jwt");
-          Cookies.remove("role");
-          Cookies.remove("sub");
-          setIsDeleteModalOpen(false);
-          window.location.href = "/";
-        } else {
-          console.error(
-            "Le serveur a renvoyé un statut différent de 204:",
-            response.status
-          );
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (loggedUserData[0].image !== "") {
+      const isolationNamePicture =
+        loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
+      const namePicture = `user-afac/${isolationNamePicture[1]}`;
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+          data: { namePicture },
+          headers,
+        })
+        .then(() => {
+          axios
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
+              headers,
+            })
+            .then((response) => {
+              if (response.status === 204) {
+                Cookies.remove("jwt");
+                Cookies.remove("role");
+                Cookies.remove("sub");
+                setIsDeleteModalOpen(false);
+                window.location.href = "/";
+              } else {
+                console.error(
+                  "Le serveur a renvoyé un statut différent de 204:",
+                  response.status
+                );
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        });
+    } else {
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, {
+          headers,
+        })
+        .then((response) => {
+          if (response.status === 204) {
+            Cookies.remove("jwt");
+            Cookies.remove("role");
+            Cookies.remove("sub");
+            setIsDeleteModalOpen(false);
+            window.location.href = "/";
+          } else {
+            console.error(
+              "Le serveur a renvoyé un statut différent de 204:",
+              response.status
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
   const handleOpenDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -122,12 +156,22 @@ export default function AccountSettings() {
 
   const handleModifyUser = () => {
     if (user.email === loggedUserData[0].email) {
-      const temporaryUser = {
-        lastname: user.lastname,
-        firstname: user.firstname,
-        pseudo: user.pseudo,
-        entity_id: user.entity_id,
-      };
+      let temporaryUser = {};
+      if (user.entity_id === "") {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: null,
+        };
+      } else {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: user.entity_id,
+        };
+      }
       axios
         .put(
           `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
@@ -145,10 +189,30 @@ export default function AccountSettings() {
           setModalErrorModifyUser(true);
         });
     } else {
+      let temporaryUser = {};
+      if (user.entity_id === "") {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: null,
+        };
+      } else {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: user.entity_id,
+        };
+      }
       axios
-        .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, user, {
-          headers,
-        })
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
+          temporaryUser,
+          {
+            headers,
+          }
+        )
         .then(() => {
           setModalValidationModifyUser(true);
           setReload(!reLoad);
