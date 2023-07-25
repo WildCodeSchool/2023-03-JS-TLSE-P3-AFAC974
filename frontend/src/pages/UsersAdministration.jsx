@@ -18,6 +18,7 @@ function UsersAdministration() {
   const filterAndSortData = () => {
     let sortedData = [...data];
     if (searchTerm) {
+      setCurrentPage(1);
       sortedData = sortedData.filter((item) => {
         if (
           (item.lastname &&

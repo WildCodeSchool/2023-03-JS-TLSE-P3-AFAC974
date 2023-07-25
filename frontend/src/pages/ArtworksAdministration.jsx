@@ -76,6 +76,8 @@ export default function ArtworksAdministration() {
   const [selectedTechniqueId, setSelectedTechniqueId] = useState(null);
   const [selectedArtTrendId, setSelectedArtTrendId] = useState(null);
   const [selectedArtistId, setSelectedArtistId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const artworksPerPage = 5;
 
   const openModalAdd = () => {
     setModalOpenAdd(true);
@@ -691,6 +693,7 @@ export default function ArtworksAdministration() {
   const filterAndSortData = () => {
     let sortedData = [...data];
     if (searchTerm) {
+      setCurrentPage(1);
       sortedData = sortedData.filter((item) => {
         if (typeof item.name === "string") {
           return item.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -700,8 +703,10 @@ export default function ArtworksAdministration() {
     }
 
     if (filter === "asc") {
+      setCurrentPage(1);
       sortedData.sort((a, b) => a.name.localeCompare(b.name));
     } else if (filter === "desc") {
+      setCurrentPage(1);
       sortedData.sort((a, b) => b.name.localeCompare(a.name));
     }
     return sortedData;
@@ -729,9 +734,6 @@ export default function ArtworksAdministration() {
         console.error(error);
       });
   }, []);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const artworksPerPage = 5;
 
   const indexOfLastArtwork = currentPage * artworksPerPage;
   const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
