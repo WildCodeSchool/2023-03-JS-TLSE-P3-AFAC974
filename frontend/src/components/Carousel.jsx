@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Carousel({ imageUrls, disableRightClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -60,12 +61,14 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                 className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
                 key={index}
               >
-                <img
-                  src={imageUrl}
-                  alt="art"
-                  className="flex justify-center items-center drop-shadow-xl w-full h-[35dvh] object-cover"
-                  onContextMenu={disableRightClick}
-                />
+                <Link to={`/gallery/${imageUrl[1]}`}>
+                  <img
+                    src={imageUrl[0]}
+                    alt="art"
+                    className="flex justify-center items-center drop-shadow-xl w-full h-[35dvh] object-cover"
+                    onContextMenu={disableRightClick}
+                  />
+                </Link>
               </div>
             );
           })}

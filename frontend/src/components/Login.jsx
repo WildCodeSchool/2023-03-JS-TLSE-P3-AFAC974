@@ -10,14 +10,14 @@ import userSample from "../assets/user_sample.png";
 import AuthContext from "../context/AuthContext";
 
 function Login({ loginModalOpened, setLoginModalOpened }) {
-  const { setUserRole, setUserId } = useContext(AuthContext);
+  const { setUserRole, setUserId, headers } = useContext(AuthContext);
   const [entities, setEntities] = useState([]);
   const navigateTo = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [userImage, setUserImage] = useState("");
   const [unvalidEmail, setUnvalidEmail] = useState(false);
   const [unFilledForm, setUnFilledForm] = useState(false);
-  const [userImageFile, setUserImageFile] = useState(null);
+  const [userImageFile, setUserImageFile] = useState("");
   const [wrongAssociation, setWrongAssociation] = useState(false);
 
   const [user, setUser] = useState({
@@ -28,7 +28,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
     image: "",
     password: "",
     role: 1,
-    entity_id: "",
+    entityId: null,
   });
 
   useEffect(() => {
@@ -107,12 +107,27 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       axios
         .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
         .then((response) => {
-          const temporaryUser = {
-            ...user,
-            image: response.data.imageUrl,
-          };
+          let temporaryUser = {};
+          if (user.entityId === "") {
+            temporaryUser = {
+              ...user,
+              entityId: null,
+              image: response.data.imageUrl,
+            };
+          } else {
+            temporaryUser = {
+              ...user,
+              image: response.data.imageUrl,
+            };
+          }
           axios
-            .post(`${import.meta.env.VITE_BACKEND_URL}/register`, temporaryUser)
+            .post(
+              `${import.meta.env.VITE_BACKEND_URL}/register`,
+              temporaryUser,
+              {
+                headers,
+              }
+            )
             .then(() => {
               const temporaryLogin = {
                 ...userLogin,
@@ -122,7 +137,10 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
               axios
                 .post(
                   `${import.meta.env.VITE_BACKEND_URL}/login`,
-                  temporaryLogin
+                  temporaryLogin,
+                  {
+                    headers,
+                  }
                 )
                 .then((responseLogin) => {
                   const { token } = responseLogin.data;
@@ -158,8 +176,21 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           console.error(error);
         });
     } else {
+      let temporaryUser = {};
+      if (user.entityId === "") {
+        temporaryUser = {
+          ...user,
+          entityId: null,
+        };
+      } else {
+        temporaryUser = {
+          ...user,
+        };
+      }
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, user)
+        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, temporaryUser, {
+          headers,
+        })
         .then(() => {
           const temporaryLogin = {
             ...userLogin,
@@ -167,7 +198,9 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
             password: user.password,
           };
           axios
-            .post(`${import.meta.env.VITE_BACKEND_URL}/login`, temporaryLogin)
+            .post(`${import.meta.env.VITE_BACKEND_URL}/login`, temporaryLogin, {
+              headers,
+            })
             .then((responseLogin) => {
               const { token } = responseLogin.data;
               Cookies.set("jwt", token, { secure: true, sameSite: "strict" });
@@ -206,7 +239,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
       image: "",
       password: "",
       role: 1,
-      entity_id: "",
+      entityId: null,
       password2: "",
     });
     setUserImage(null);
@@ -215,7 +248,9 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
 
   function submitLoginModal() {
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/login`, userLogin)
+      .post(`${import.meta.env.VITE_BACKEND_URL}/login`, userLogin, {
+        headers,
+      })
       .then((response) => {
         const { token } = response.data;
         Cookies.set("jwt", token, { secure: true, sameSite: "strict" });
@@ -469,7 +504,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
                   name="userConfirmPassword"
                   placeholder="Confirmez votre mot de passe"
                   onChange={(event) => handleInputChange(event)}
-                  value={user.password2}
+                  value={user.password2 || ""}
                 />
                 {user.password !== user.password2 && user.password !== "" && (
                   <p className="text-red-500">
@@ -586,7 +621,7 @@ function Login({ loginModalOpened, setLoginModalOpened }) {
           image: "",
           password: "",
           role: 1,
-          entity_id: "",
+          entityId: null,
           password2: "",
         });
         setUserImage(null);

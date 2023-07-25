@@ -35,7 +35,7 @@ export default function Artist() {
   const filteredArtworks = artwork.filter(
     (el) => el.artist_id === parseInt(artistId, 10)
   );
-  const imageUrls = filteredArtworks.map((el) => el.image_url_medium);
+  const imageUrls = filteredArtworks.map((el) => [el.image_url_medium, el.id]);
 
   const disableRightClick = (e) => {
     e.preventDefault();

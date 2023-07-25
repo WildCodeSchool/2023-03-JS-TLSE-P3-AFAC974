@@ -3,9 +3,8 @@ import axios from "axios";
 import { Turn as Hamburger } from "hamburger-react";
 import { Link, NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import AuthContext from "../context/AuthContext";
-import LanguageMenu from "./LanguageMenu";
 import BurgerMenu from "./BurgerMenu";
 import Login from "./Login";
 import RedButton from "./RedButton";
@@ -13,7 +12,6 @@ import GreyButton from "./GreyButton";
 import navbarLogo from "../assets/navbar_logo.png";
 import hexagonRedBg from "../assets/hexagon_red_bg.png";
 import hexagonBlueBg from "../assets/hexagon_blue_bg.png";
-import frenchFlagLogo from "../assets/french_flag_logo.png";
 import gear from "../assets/Engrenage.png";
 import icon from "../assets/Icon.png";
 import art from "../assets/art.png";
@@ -25,9 +23,8 @@ function NavBarUser() {
   const [homeHovered, setHomeHovered] = useState(false);
   const [galleryHovered, setGalleryHovered] = useState(false);
   const [aboutHovered, setAboutHovered] = useState(false);
+  const [favoritesHovered, setFavoritesHovered] = useState(false);
   const [loginModalOpened, setLoginModalOpened] = useState(false);
-  const [languageModalOpened, setLanguageModalOpened] = useState(false);
-  const [setLanguageChosenFlag] = useState(frenchFlagLogo);
   const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
 
@@ -45,7 +42,7 @@ function NavBarUser() {
   const customModalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
-      zIndex: 1000,
+      zIndex: 1,
     },
   };
   const divRef = useRef(null);
@@ -65,10 +62,12 @@ function NavBarUser() {
   const handleLogOut = () => {
     Cookies.remove("jwt");
     Cookies.remove("role");
+    Cookies.remove("sub");
     setIsModalLogOutOpen(false);
     window.location.href = "/";
   };
   const handleOpenLogOutModal = () => {
+    setIsSectionVisible(false);
     setIsModalLogOutOpen(true);
     document.body.classList.add("disable-scroll");
   };
@@ -114,7 +113,7 @@ function NavBarUser() {
             <div className="desktopLinks hidden lg:flex lg:w-fit navbar-links items-center gap-[50px] text-white ">
               <NavLink
                 to="/"
-                className="hover:font-medium flex items-center"
+                className="hover:font-medium flex w-[100px] items-center"
                 onMouseEnter={() => setHomeHovered(true)}
                 onMouseLeave={() => setHomeHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -124,11 +123,11 @@ function NavBarUser() {
                   alt="hexagon"
                   className="h-[28px] w-[26.32px] mr-2"
                 />
-                <p>HOME</p>
+                <p>ACCUEIL</p>
               </NavLink>
               <NavLink
                 to="/gallery"
-                className="hover:font-medium flex items-center"
+                className="hover:font-medium flex w-[100px] items-center"
                 onMouseEnter={() => setGalleryHovered(true)}
                 onMouseLeave={() => setGalleryHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -140,9 +139,26 @@ function NavBarUser() {
                 />
                 <p>GALERIE</p>
               </NavLink>
+              {userRole === 1 && (
+                <NavLink
+                  to={`/user/${userId}/favorite`}
+                  className="hover:font-medium flex w-[100px] items-center"
+                  onMouseEnter={() => setFavoritesHovered(true)}
+                  onMouseLeave={() => setFavoritesHovered(false)}
+                  onClick={() => setIsSectionVisible(false)}
+                >
+                  <img
+                    src={favoritesHovered ? hexagonRedBg : hexagonBlueBg}
+                    alt="hexagon"
+                    className="h-[28px] w-[26.32px] mr-2"
+                  />
+                  <p>FAVORIS</p>
+                </NavLink>
+              )}
+
               <NavLink
                 to="/about"
-                className="hover:font-medium flex items-center whitespace-nowrap"
+                className="hover:font-medium flex w-[100px] items-center whitespace-nowrap"
                 onMouseEnter={() => setAboutHovered(true)}
                 onMouseLeave={() => setAboutHovered(false)}
                 onClick={() => setIsSectionVisible(false)}
@@ -305,13 +321,17 @@ function NavBarUser() {
                   </section>
                 </div>
 
-                <Modal
+                <ReactModal
                   isOpen={isModalLogOutOpen}
                   style={customModalStyles}
-                  className=" w-[95%] fixed top-[45%] xl:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex"
+                  ariaHideApp={false}
+                  onRequestClose={() => {
+                    setIsModalLogOutOpen(false);
+                  }}
+                  className="h-fit  w-[80vw] sm:w-fit md:w-[40vw] lg:w-[30vw] lg:max-w-[40vw] border-none rounded-2xl p-5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white flex "
                   contentLabel="Modal"
                 >
-                  <div className="bg-white w-[25%] rounded-xl text-center flex flex-col gap-6 mx-auto p-5">
+                  <div className="bg-white  rounded-xl text-center flex flex-col gap-6 mx-auto">
                     <h2 className="text-xl">
                       Etes vous sur de vouloir vous déconnecter ?
                     </h2>
@@ -330,7 +350,7 @@ function NavBarUser() {
                       />
                     </div>
                   </div>
-                </Modal>
+                </ReactModal>
               </div>
               <div className="Hamburger lg:hidden">
                 <Hamburger
@@ -341,12 +361,6 @@ function NavBarUser() {
                 />
               </div>
             </div>
-
-            <LanguageMenu
-              languageModalOpened={languageModalOpened}
-              setLanguageModalOpened={setLanguageModalOpened}
-              setLanguageChosenFlag={setLanguageChosenFlag}
-            />
 
             <Login
               loginModalOpened={loginModalOpened}
