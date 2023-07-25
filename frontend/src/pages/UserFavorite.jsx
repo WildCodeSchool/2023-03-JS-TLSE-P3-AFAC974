@@ -115,7 +115,11 @@ function UserFavorite() {
         setFavoritesCount((prevCount) => prevCount - 1);
         setDeleteFavorite(!deleteFavorite);
         if (currentFavoriteArtworks.length - 1 === 0) {
-          setCurrentPage(1);
+          if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+          } else {
+            setCurrentPage(1);
+          }
         }
       })
       .catch((error) => {
