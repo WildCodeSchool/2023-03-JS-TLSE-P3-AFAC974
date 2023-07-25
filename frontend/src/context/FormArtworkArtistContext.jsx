@@ -10,6 +10,7 @@ export function FormArtworkArtistProvider({ children }) {
   const [technique, setTechnique] = useState("");
   const [artworkPreview, setArtworkPreview] = useState("");
   const [artistPreview, setArtistPreview] = useState("");
+  const [isOpenedBigPicture, setIsOpenedBigPicture] = useState(false);
   const [formArtwork, setFormArtwork] = useState({
     name: "",
     year: 0,
@@ -212,6 +213,8 @@ export function FormArtworkArtistProvider({ children }) {
       setArtistPicture,
       uploadPictureArtist,
       setArtworkPicture,
+      isOpenedBigPicture,
+      setIsOpenedBigPicture,
     }),
     [
       artist,
