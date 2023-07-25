@@ -76,13 +76,7 @@ function ModifyProfilePic({
           const imageData = new FormData();
           imageData.append("myfile", userImageFile);
           axios
-            .post(
-              `${import.meta.env.VITE_BACKEND_URL}/upload-users`,
-              imageData,
-              {
-                headers,
-              }
-            )
+            .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
             .then((response) => {
               const temporaryUser = {
                 ...user,
@@ -126,9 +120,7 @@ function ModifyProfilePic({
       const imageData = new FormData();
       imageData.append("myfile", userImageFile);
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData, {
-          headers,
-        })
+        .post(`${import.meta.env.VITE_BACKEND_URL}/upload-users`, imageData)
         .then((response) => {
           const temporaryUser = {
             ...user,

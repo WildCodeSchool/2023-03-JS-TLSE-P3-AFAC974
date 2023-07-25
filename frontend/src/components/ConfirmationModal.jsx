@@ -50,7 +50,7 @@ function ConfirmationModal({
     setArtistPicture,
     formArtist,
   } = useContext(FormArtworkArtistContext);
-  const { headers } = useContext(AuthContext);
+  const { jwtCookie } = useContext(AuthContext);
 
   const endRequest = () => {
     setStep(1);
@@ -122,7 +122,11 @@ function ConfirmationModal({
         .post(
           `${import.meta.env.VITE_BACKEND_URL}/upload-artworks`,
           artworkPictureData,
-          { headers }
+          {
+            headers: {
+              Authorization: `Bearer ${jwtCookie}`,
+            },
+          }
         )
         .then((resArtwork) => {
           const temporaryFormArtwork = {
@@ -136,7 +140,12 @@ function ConfirmationModal({
             axios
               .post(
                 `${import.meta.env.VITE_BACKEND_URL}/upload-artists`,
-                artistPictureData
+                artistPictureData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${jwtCookie}`,
+                  },
+                }
               )
               .then((resArtist) => {
                 const temporaryFormArtist = {
