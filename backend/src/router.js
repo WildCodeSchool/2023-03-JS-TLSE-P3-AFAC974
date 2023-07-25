@@ -93,6 +93,14 @@ router.get("/entities", entityControllers.browse);
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
 
+// upload-users routes
+
+router.post(
+  "/upload-users",
+  upload.single("myfile"),
+  uploadControllers.uploadusers
+);
+
 // --- TOKEN NEEDED ROUTES --- //
 
 router.use(verifyToken);
@@ -163,14 +171,6 @@ router.post(
   "/upload-artists",
   upload.single("myfile"),
   uploadControllers.uploadartists
-);
-
-// upload-users routes
-
-router.post(
-  "/upload-users",
-  upload.single("myfile"),
-  uploadControllers.uploadusers
 );
 
 // upload routes
