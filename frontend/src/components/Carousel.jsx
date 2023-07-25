@@ -1,8 +1,16 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Carousel({ imageUrls, disableRightClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageDimensions, setImageDimensions] = useState({});
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImageDimensions({ width: img.width, height: img.height });
+    };
+    img.src = imageUrls[currentIndex];
+  }, [currentIndex, imageUrls]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
@@ -16,8 +24,10 @@ export default function Carousel({ imageUrls, disableRightClick }) {
     );
   };
 
+  const isPortrait = imageDimensions.height > imageDimensions.width;
+
   return (
-    <div className="flex flex-row justify-evenly items-center md:w-[95%]">
+    <div className="flex flex-row justify-evenly items-center md:w-[95%] border-4 border-green-700 border-solid mb-5 h-[35dvh] xl:w-[80%] mx-auto bg-blue-900">
       <div className="carousel flex flex-row justify-evenly items-center">
         <button
           className="relative top-1/2 transform-translate-y-1/2"
@@ -60,7 +70,11 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                 <img
                   src={item}
                   alt="art"
-                  className="flex justify-center items-center drop-shadow-xl w-[15dvw] h-[35dvh] object-cover"
+                  className={`flex justify-center items-center drop-shadow-xl object-contain ${
+                    isPortrait
+                      ? "max-w-[30dvw] max-h-[30dvh]"
+                      : "w-[20dvw] h-[25dvh]"
+                  }`}
                   onContextMenu={disableRightClick}
                 />
               </div>

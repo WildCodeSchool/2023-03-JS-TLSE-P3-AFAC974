@@ -61,12 +61,8 @@ export default function Artist() {
       </section>
       <div className="flex flex-col justify-center w-full">
         <h2 className="text-[18px] pt-4 pb-8">SON UNIVERS ARTISTIQUE</h2>
-        <div className="flex mx-auto justify-around bg-[#257492] p-5 w-[80%]  border-4 border-solid border-red-500">
-          <Carousel
-            imageUrls={imageUrls}
-            disableRightClick={disableRightClick}
-          />
-        </div>
+
+        <Carousel imageUrls={imageUrls} disableRightClick={disableRightClick} />
       </div>
     </div>
   );
