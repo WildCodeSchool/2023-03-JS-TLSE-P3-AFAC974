@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Carousel({ imageUrls, disableRightClick }) {
@@ -16,10 +16,6 @@ export default function Carousel({ imageUrls, disableRightClick }) {
       prevIndex === 0 ? imageUrls.length - 1 : prevIndex - 1
     );
   };
-
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [imageUrls]);
 
   return (
     <div className="flex flex-row justify-evenly items-center md:w-[95%]">

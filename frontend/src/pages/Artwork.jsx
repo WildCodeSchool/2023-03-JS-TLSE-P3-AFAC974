@@ -120,7 +120,7 @@ export default function Artwork() {
                     </div>
                   )}
                 </div>
-                <hr className=" bg-black border-t-2 justify-center mt-8 mb-4 lg:mt-4" />
+                <hr className="color-black border-t-2 justify-center mt-8 mb-4 lg:mt-4" />
                 <div className="flex flex-row justify-evenly w-[100%]">
                   <div className="flex flex-col justify-center items-center gap-2">
                     {type.id === artwork.type_id && <h2>{type.name}</h2>}

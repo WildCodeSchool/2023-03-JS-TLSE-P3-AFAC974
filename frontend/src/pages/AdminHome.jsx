@@ -181,8 +181,12 @@ export default function AdminHome() {
                       );
                       return (
                         <div className="w-1/3 flex-col gap-3" key={data.id}>
-                          <img src={data.image_url_medium} alt={data.name} />
-                          <div className="flex justify-between gap-2  text-lg">
+                          <img
+                            src={data.image_url_medium}
+                            alt={data.name}
+                            className="drop-shadow-xl"
+                          />
+                          <div className="flex justify-between gap-2 pt-4 text-lg">
                             <h3 className="font-bold">{data.name}</h3>
                             <p>{data.year}</p>
                           </div>
