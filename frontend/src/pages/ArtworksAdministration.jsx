@@ -794,14 +794,14 @@ export default function ArtworksAdministration() {
             filteredAndSortedData.map((itemArtwork) => (
               <div
                 key={itemArtwork.id}
-                className="flex flex-col lg:hidden m-[40px]"
+                className="flex flex-col lg:hidden m-[40px] items-center"
               >
                 <img
                   src={itemArtwork.image_url_medium}
                   alt="oeuvre"
-                  className="shadow-xl drop-shadow-lg"
+                  className="shadow-xl drop-shadow-lg max-h-[40vw] w-auto"
                 />
-                <div className="flex mt-[20px] justify-between">
+                <div className="flex mt-[20px] justify-between gap-[10px]">
                   <div>
                     <h2 className="text-left ">{itemArtwork.name}</h2>
                     {dataArtist.map((itemArtist) => {
@@ -818,7 +818,7 @@ export default function ArtworksAdministration() {
                       return null;
                     })}
                   </div>
-                  <div className="flex items-center flex-end gap-5">
+                  <div className="flex items-center flex-end gap-5 mb-4">
                     <button
                       type="button"
                       onClick={() => {
@@ -855,7 +855,11 @@ export default function ArtworksAdministration() {
                         });
                       }}
                     >
-                      <img src={engrenage} alt="engrenage" />
+                      <img
+                        src={engrenage}
+                        alt="engrenage"
+                        className="max-w-fit"
+                      />
                       <p className="hidden">Modifier</p>
                     </button>
                     <button
@@ -867,7 +871,11 @@ export default function ArtworksAdministration() {
                         setSelectedUrlArtworkId(itemArtwork.image_url_medium);
                       }}
                     >
-                      <img src={crossDelete} alt="crossDelete" />
+                      <img
+                        src={crossDelete}
+                        alt="crossDelete"
+                        className="max-w-fit"
+                      />
                       <p className="hidden">Supprimer</p>
                     </button>
                   </div>
