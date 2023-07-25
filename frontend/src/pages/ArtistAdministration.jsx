@@ -278,15 +278,15 @@ export default function ArtistAdministration() {
             </div>
             <div className="flex flex-col-reverse xl:flex-row xl:w-[100%] items-center  xl:px-[70px]">
               <div className="flex flex-1 justify-start">
+                <SortBy handleChange={handleChange} className="flex flex-1" />
+              </div>
+              <div className="flex flex-1 justify-center">
                 <SearchBar
                   searchTerm={searchTerm}
                   handleInputChange={handleInputChange}
                   placeholder="Saisir un artiste..."
                   className="flex flex-2"
                 />
-              </div>
-              <div className="flex flex-1 justify-center">
-                <SortBy handleChange={handleChange} className="flex flex-1" />
               </div>
               <div className="flex-1" />
             </div>

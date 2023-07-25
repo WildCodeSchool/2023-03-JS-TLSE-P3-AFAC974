@@ -767,15 +767,15 @@ export default function ArtworksAdministration() {
             </div>
             <div className="flex flex-col-reverse xl:flex-row xl:w-[100%] items-center  xl:px-[70px]">
               <div className="flex flex-1 justify-start">
+                <SortBy handleChange={handleChange} className="flex flex-1" />
+              </div>
+              <div className="flex flex-1 my-[10px]">
                 <SearchBar
                   searchTerm={searchTerm}
                   handleInputChange={handleInputChange}
                   placeholder="Saisir une oeuvre..."
                   className="flex flex-2"
                 />
-              </div>
-              <div className="flex flex-1">
-                <SortBy handleChange={handleChange} className="flex flex-1" />
               </div>
               <button
                 className="flex items-center gap-2 py-1 pl-2 border-2 border-solid border-gray-300 rounded-md p-[10px] text-sm"
