@@ -23,23 +23,55 @@ function DeleteUserConfirmation({
   const { headers } = useContext(AuthContext);
 
   const handleDeleteUser = () => {
-    axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
-        headers,
-      })
-      .then(() => {
-        setIsOpenModalValidation(true);
-      })
-      .then(() => {
-        setIsOpenDeleteConfirmation(false);
-        setTimeout(() => {
-          setDeletedUserId(user.id);
-        }, 1800);
-      })
+    if (
+      user.image !== "" &&
+      user.image.startsWith("https://res.cloudinary.com")
+    ) {
+      const isolationNamePicture = user.image.match(/\/([^/]+)\.[^.]+$/);
+      const namePicture = `user-afac/${isolationNamePicture[1]}`;
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+          data: { namePicture },
+          headers,
+        })
+        .then(() => {
+          axios
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
+              headers,
+            })
+            .then(() => {
+              setIsOpenModalValidation(true);
+            })
+            .then(() => {
+              setIsOpenDeleteConfirmation(false);
+              setTimeout(() => {
+                setDeletedUserId(user.id);
+              }, 1800);
+            })
 
-      .catch((err) => {
-        console.error(err);
-      });
+            .catch((err) => {
+              console.error(err);
+            });
+        });
+    } else {
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
+          headers,
+        })
+        .then(() => {
+          setIsOpenModalValidation(true);
+        })
+        .then(() => {
+          setIsOpenDeleteConfirmation(false);
+          setTimeout(() => {
+            setDeletedUserId(user.id);
+          }, 1800);
+        })
+
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
   return (
     <>
