@@ -43,7 +43,7 @@ export default function AccountSettings() {
     firstname: "",
     pseudo: "",
     email: "",
-    entity_id: "",
+    entity_id: null,
   });
 
   const [password, setPassword] = useState({
@@ -122,12 +122,22 @@ export default function AccountSettings() {
 
   const handleModifyUser = () => {
     if (user.email === loggedUserData[0].email) {
-      const temporaryUser = {
-        lastname: user.lastname,
-        firstname: user.firstname,
-        pseudo: user.pseudo,
-        entity_id: user.entity_id,
-      };
+      let temporaryUser = {};
+      if (user.entity_id === "") {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: null,
+        };
+      } else {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: user.entity_id,
+        };
+      }
       axios
         .put(
           `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
@@ -145,10 +155,30 @@ export default function AccountSettings() {
           setModalErrorModifyUser(true);
         });
     } else {
+      let temporaryUser = {};
+      if (user.entity_id === "") {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: null,
+        };
+      } else {
+        temporaryUser = {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          pseudo: user.pseudo,
+          entity_id: user.entity_id,
+        };
+      }
       axios
-        .put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, user, {
-          headers,
-        })
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
+          temporaryUser,
+          {
+            headers,
+          }
+        )
         .then(() => {
           setModalValidationModifyUser(true);
           setReload(!reLoad);

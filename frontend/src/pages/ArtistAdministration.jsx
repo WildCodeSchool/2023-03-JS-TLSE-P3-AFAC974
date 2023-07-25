@@ -65,25 +65,56 @@ export default function ArtistAdministration() {
 
   const [isLoadedArtist, setIsLoadedArtist] = useState(false);
 
+  const [isLoadedArtworks, setIsLoadedArtworks] = useState(false);
+
+  const [dataArtworks, setDataArtworks] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/artworks`)
+      .then((res) => {
+        setDataArtworks(res.data);
+        setIsLoadedArtworks(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [needToFetch]);
+
   const handleArtistDelete = (id, url) => {
     axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, {
-        headers,
-      })
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, { headers })
       .then(() => {
         if (url !== "") {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
-          const namePicture = `artist-afac/${isolationNamePicture[1]}`;
+          let namePicture = `artist-afac/${isolationNamePicture[1]}`;
           axios
-            .delete(
-              `${import.meta.env.VITE_BACKEND_URL}/upload`,
-              {
-                data: { namePicture },
-              },
-              {
-                headers,
-              }
-            )
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+              data: { namePicture },
+              headers,
+            })
+            .then(() => {
+              dataArtworks.forEach((artwork) => {
+                if (artwork.artist_id === id) {
+                  if (artwork.image_url_medium !== "") {
+                    const isolationNamePictureArtwork =
+                      artwork.image_url_medium.match(/\/([^/]+)\.[^.]+$/);
+                    namePicture = `artwork-afac/${isolationNamePictureArtwork[1]}`;
+                    axios
+                      .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+                        data: { namePicture },
+                        headers,
+                      })
+                      .catch((error) => {
+                        console.error(
+                          "Erreur lors de la suppression sur cloudinary de l'oeuvre :",
+                          error
+                        );
+                        setNeedToFetch(!needToFetch);
+                      });
+                  }
+                }
+              });
+            })
             .then(() => {
               setNeedToFetch(!needToFetch);
               setModalValidationDeleteArtist(true);
@@ -93,15 +124,38 @@ export default function ArtistAdministration() {
                 "Erreur lors de la suppression sur cloudinary de l'artiste :",
                 error
               );
+              setModalErrorDeleteArtist(true);
               setNeedToFetch(!needToFetch);
             });
         } else {
+          dataArtworks.forEach((artwork) => {
+            if (artwork.artist_id === id) {
+              if (artwork.image_url_medium !== "") {
+                const isolationNamePictureArtwork =
+                  artwork.image_url_medium.match(/\/([^/]+)\.[^.]+$/);
+                const namePictureArtwork = `artwork-afac/${isolationNamePictureArtwork[1]}`;
+                axios
+                  .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+                    data: { namePictureArtwork },
+                    headers,
+                  })
+                  .catch((error) => {
+                    console.error(
+                      "Erreur lors de la suppression sur cloudinary de l'oeuvre :",
+                      error
+                    );
+                    setNeedToFetch(!needToFetch);
+                  });
+              }
+            }
+          });
           setNeedToFetch(!needToFetch);
           setModalValidationDeleteArtist(true);
         }
       })
       .catch((error) => {
-        console.error("Erreur lors de la suppression de l'oeuvre :", error);
+        console.error("Erreur lors de la suppression de l'artiste :", error);
+        setModalErrorDeleteArtist(true);
         setNeedToFetch(!needToFetch);
       });
   };
@@ -189,7 +243,7 @@ export default function ArtistAdministration() {
 
   return (
     <div>
-      {isLoadedArtist && isLoadedAdminData && (
+      {isLoadedArtist && isLoadedAdminData && isLoadedArtworks && (
         <div className="pt-[52px]">
           <div className="pt-[20px] flex flex-col items-center">
             <div className="flex justify-center xl:justify-between items-center w-[100%]">

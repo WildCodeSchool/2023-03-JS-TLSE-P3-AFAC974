@@ -9,6 +9,7 @@ cloudinary.config({
 
 class uploadControllers {
   static uploadartworks = (req, res) => {
+    // console.log(req);
     cloudinary.uploader.upload(
       req.file.path,
       { folder: "artwork-afac" },
