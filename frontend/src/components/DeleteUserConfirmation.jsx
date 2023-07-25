@@ -6,6 +6,7 @@ import GreyButton from "./GreyButton";
 import RedButton from "./RedButton";
 import ValidationModal from "./ValidationModal";
 import AuthContext from "../context/AuthContext";
+import ValidationPicture from "../assets/Validation.png";
 
 function DeleteUserConfirmation({
   user,
@@ -106,6 +107,7 @@ function DeleteUserConfirmation({
         isOpenModalValidation={isOpenModalValidation}
         setModalValidation={setIsOpenModalValidation}
         textValidationModal="Utilisateur supprimé"
+        pictureValidationModal={ValidationPicture}
       />
     </>
   );

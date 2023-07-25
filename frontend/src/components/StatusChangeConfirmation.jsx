@@ -5,6 +5,7 @@ import GreyButton from "./GreyButton";
 import RedButton from "./RedButton";
 import ValidationModal from "./ValidationModal";
 import RedArrow from "../assets/red-arrow.png";
+import ValidationPicture from "../assets/Validation.png";
 
 function StatusChangeConfirmation({
   isOpenStatusChangeConfirmation,
@@ -76,6 +77,7 @@ function StatusChangeConfirmation({
         isOpenModalValidation={isOpenModalValidation}
         setModalValidation={setIsOpenModalValidation}
         textValidationModal="Statut validé"
+        pictureValidationModal={ValidationPicture}
       />
     </>
   );
