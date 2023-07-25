@@ -89,7 +89,10 @@ export default function AccountSettings() {
   };
 
   const handleDeleteUser = () => {
-    if (loggedUserData[0].image !== "") {
+    if (
+      loggedUserData[0].image !== "" &&
+      loggedUserData[0].image.startsWith("https://res.cloudinary.com")
+    ) {
       const isolationNamePicture =
         loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
       const namePicture = `user-afac/${isolationNamePicture[1]}`;
