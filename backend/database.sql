@@ -1036,7 +1036,9 @@ VALUES
 INSERT INTO
   entity (name)
 VALUES
-  ('AFAC-974');
+  ('AFAC-974'),
+  ('École'),
+  ('Université');
 
 -- Table user
 INSERT INTO
