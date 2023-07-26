@@ -278,15 +278,15 @@ export default function ArtistAdministration() {
             </div>
             <div className="flex flex-col-reverse xl:flex-row xl:w-[100%] items-center  xl:px-[70px]">
               <div className="flex flex-1 justify-start">
+                <SortBy handleChange={handleChange} className="flex flex-1" />
+              </div>
+              <div className="flex flex-1 justify-center">
                 <SearchBar
                   searchTerm={searchTerm}
                   handleInputChange={handleInputChange}
-                  placeholder="Saisir une oeuvre..."
+                  placeholder="Saisir un artiste..."
                   className="flex flex-2"
                 />
-              </div>
-              <div className="flex flex-1 justify-center">
-                <SortBy handleChange={handleChange} className="flex flex-1" />
               </div>
               <div className="flex-1" />
             </div>
@@ -295,14 +295,14 @@ export default function ArtistAdministration() {
             filteredAndSortedData.map((itemArtist) => (
               <div
                 key={itemArtist.id}
-                className="flex flex-col lg:hidden m-[40px]"
+                className="flex flex-col lg:hidden m-[40px] items-center"
               >
-                <div className="w-[310px] h-[310px] overflow-hidden">
+                <div>
                   {itemArtist.image_url_medium ? (
                     <img
                       src={itemArtist.image_url_medium}
-                      alt="oeuvre"
-                      className="shadow-xl drop-shadow-lg object-cover h-[100%] w-[100%]"
+                      alt="artist"
+                      className="shadow-xl drop-shadow-lg object-cover max-h-[40vw] w-auto"
                     />
                   ) : (
                     <div className="bg-[#7F253E] w-[100%] h-[100%] object-cover rounded-full flex items-center justify-center">
@@ -313,14 +313,14 @@ export default function ArtistAdministration() {
                     </div>
                   )}
                 </div>
-                <div className="flex mt-[20px] justify-between">
+                <div className="flex mt-[20px] justify-between gap-[15px]">
                   <div>
                     <h2 className="text-left ">{itemArtist.name}</h2>
                     <p className="text-left mb-4 text-gray-600">
                       {itemArtist.nickname}
                     </p>
                   </div>
-                  <div className="flex items-center flex-end gap-5">
+                  <div className="flex items-center flex-end gap-5 mb-4">
                     <button
                       type="button"
                       onClick={() => {
@@ -342,7 +342,11 @@ export default function ArtistAdministration() {
                         });
                       }}
                     >
-                      <img src={engrenage} alt="engrenage" />
+                      <img
+                        src={engrenage}
+                        alt="engrenage"
+                        className="max-w-fit"
+                      />
                       <p className="hidden">Modifier</p>
                     </button>
                     <button
@@ -353,7 +357,11 @@ export default function ArtistAdministration() {
                         setModalConfirmationDeleteArtist(true);
                       }}
                     >
-                      <img src={crossDelete} alt="crossDelete" />
+                      <img
+                        src={crossDelete}
+                        alt="crossDelete"
+                        className="max-w-fit"
+                      />
                       <p className="hidden">Supprimer</p>
                     </button>
                   </div>
