@@ -14,6 +14,9 @@ function UserFavorite() {
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [deleteFavorite, setDeleteFavorite] = useState(false);
   const { userId, headers } = React.useContext(AuthContext);
+  const favoriteArtworksPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentFavoriteArtworks, setCurrentFavoriteArtworks] = useState([]);
 
   useEffect(() => {
     axios
@@ -57,31 +60,6 @@ function UserFavorite() {
       });
   }, []);
 
-  const removeFavorite = (artworkId) => {
-    axios
-      .delete(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/user/${userId}/artwork/${artworkId}/favorite`,
-        {
-          headers,
-        }
-      )
-      .then(() => {
-        setFilteredAndSortedData((prevData) =>
-          prevData.filter((item) => item.id !== artworkId)
-        );
-        setArtworksToMap((prevData) =>
-          prevData.filter((item) => item.id !== artworkId)
-        );
-        setFavoritesCount((prevCount) => prevCount - 1);
-        setDeleteFavorite(!deleteFavorite);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   const disableRightClick = (e) => {
     e.preventDefault();
   };
@@ -105,6 +83,64 @@ function UserFavorite() {
     setFilteredAndSortedData(filteredAndSorted);
   }, [artworksToMap, filter]);
 
+  useEffect(() => {
+    const indexOfLastFavoriteArtwork = currentPage * favoriteArtworksPerPage;
+    const indexOfFirstFavoriteArtwork =
+      indexOfLastFavoriteArtwork - favoriteArtworksPerPage;
+    setCurrentFavoriteArtworks(
+      filteredAndSortedData.slice(
+        indexOfFirstFavoriteArtwork,
+        indexOfLastFavoriteArtwork
+      )
+    );
+  }, [filteredAndSortedData, currentPage]);
+
+  const removeFavorite = (artworkId) => {
+    axios
+      .delete(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/user/${userId}/artwork/${artworkId}/favorite`,
+        {
+          headers,
+        }
+      )
+      .then(() => {
+        setFilteredAndSortedData((prevData) =>
+          prevData.filter((item) => item.id !== artworkId)
+        );
+        setArtworksToMap((prevData) =>
+          prevData.filter((item) => item.id !== artworkId)
+        );
+        setFavoritesCount((prevCount) => prevCount - 1);
+        setDeleteFavorite(!deleteFavorite);
+        if (currentFavoriteArtworks.length - 1 === 0) {
+          if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+          } else {
+            setCurrentPage(1);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const totalPages = Math.ceil(
+    filteredAndSortedData.length / favoriteArtworksPerPage
+  );
+
+  const handlePageClick = (pageNumber) => {
+    window.scrollTo(0, 0);
+    setCurrentPage(pageNumber);
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i += 1) {
+    pageNumbers.push(i);
+  }
+
   return (
     isLoaded && (
       <div className="px-[20px] flex flex-col justify-center pt-[70px]">
@@ -115,7 +151,7 @@ function UserFavorite() {
           <SortBy handleChange={handleChange} />
         </div>
         <div className="flex flex-col md:grid md:grid-cols-4 md:gap-5 md:pt-6">
-          {filteredAndSortedData.map((item) => {
+          {currentFavoriteArtworks.map((item) => {
             return (
               <div key={item.id} className="flex flex-col items-center">
                 <Link to={`/gallery/${item.id}`}>
@@ -163,6 +199,24 @@ function UserFavorite() {
             );
           })}
         </div>
+        {pageNumbers.length > 1 && (
+          <div className="flex justify-center items-center mt-4">
+            {pageNumbers.map((pageNumber) => (
+              <button
+                type="button"
+                key={pageNumber}
+                onClick={() => handlePageClick(pageNumber)}
+                className={`${
+                  currentPage === pageNumber
+                    ? `bg-[#7F253E] text-white`
+                    : "bg-white"
+                } border border-[#7F253E] px-6 py-2 mx-2 rounded mb-8`}
+              >
+                {pageNumber}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     )
   );
