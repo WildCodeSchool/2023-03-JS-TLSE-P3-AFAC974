@@ -135,6 +135,7 @@ export default function Gallery() {
                     alt={`art${artwork.id}`}
                     className="flex justify-center shadow-xl"
                     onContextMenu={disableRightClick}
+                    loading="lazy"
                   />
                 </Link>
                 <div className="flex flex-row justify-between mt-4">
