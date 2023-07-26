@@ -121,13 +121,19 @@ export default function Gallery() {
         </div>
         <div className="flex flex-col justify-center md:flex-row md:grid md:grid-cols-4 md:gap-5">
           {currentArtworks.map((artwork) => (
-            <div className="pb-4 flex flex-col" key={artwork.id}>
+            <div
+              className="pb-4 flex flex-col md:justify-center lg:justify-start items-center"
+              key={artwork.id}
+            >
               <div>
-                <Link to={`/gallery/${artwork.id}`}>
+                <Link
+                  to={`/gallery/${artwork.id}`}
+                  className="flex justify-center"
+                >
                   <img
                     src={artwork.image_url_medium}
                     alt={`art${artwork.id}`}
-                    className="flex justify-center shadow-xl"
+                    className="flex justify-center shadow-xl max-h-[600px]"
                     onContextMenu={disableRightClick}
                   />
                 </Link>
