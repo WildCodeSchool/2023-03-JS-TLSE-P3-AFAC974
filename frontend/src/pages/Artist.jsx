@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Carousel from "../components/Carousel";
@@ -54,9 +54,9 @@ export default function Artist() {
         </div>
         <div className="flex flex-col justify-center gap-5 w-[50%]">
           <p className="text-left">{artist.description}</p>
-          <Link to={artist.website_url}>
+          <a href={artist.website_url} target="blank">
             <p className="flex justify-start text-[#2A8DD4] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
-          </Link>
+          </a>
         </div>
       </section>
 
