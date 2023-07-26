@@ -813,7 +813,7 @@ export default function ArtworksAdministration() {
               >
                 <img src={addCircle} alt="add-circle" />
                 <p className="text-base lg:w-[250px]">
-                  Ajouter une oeuvre, un artiste
+                  Ajouter une oeuvre et son artiste
                 </p>
               </button>
             </div>

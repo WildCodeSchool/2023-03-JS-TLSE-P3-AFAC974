@@ -153,46 +153,51 @@ function UserFavorite() {
         <div className="flex flex-col md:grid md:grid-cols-4 md:gap-5 md:pt-6">
           {currentFavoriteArtworks.map((item) => {
             return (
-              <div key={item.id} className="flex flex-col items-center">
-                <Link to={`/gallery/${item.id}`}>
-                  <div className="flex flex-col justify-center items-center">
-                    <img
-                      src={item.image_url_medium}
-                      alt="artwork"
-                      className="flex justify-center shadow-xl"
-                      onContextMenu={disableRightClick}
-                    />
-                  </div>
-                </Link>
-                <div className="flex flex-row justify-between w-[100%] mt-3">
-                  <div className="flex flex-col">
-                    <p className="text-left">{`${item.name}, ${item.year}`}</p>
-                    {dataArtist.map((artist) => {
-                      if (artist.id === item.artist_id) {
-                        return (
-                          <p
-                            key={artist.id}
-                            className="text-left mb-4 text-gray-600"
-                          >
-                            {artist.nickname}
-                          </p>
-                        );
-                      }
-                      return null;
-                    })}
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => removeFavorite(item.id)}
-                      type="button"
-                      className="h-6 w-6"
-                    >
+              <div
+                key={item.id}
+                className="flex flex-col md:justify-center lg:justify-start items-center"
+              >
+                <div>
+                  <Link to={`/gallery/${item.id}`}>
+                    <div className="flex flex-col justify-center items-center">
                       <img
-                        src={Remove}
-                        alt="supprimer"
-                        className="h-6 w-6 md:h-8 md:w-8"
+                        src={item.image_url_medium}
+                        alt="artwork"
+                        className="flex justify-center shadow-xl max-h-[600px]"
+                        onContextMenu={disableRightClick}
                       />
-                    </button>
+                    </div>
+                  </Link>
+                  <div className="flex flex-row justify-between w-[100%] mt-3">
+                    <div className="flex flex-col">
+                      <p className="text-left">{`${item.name}, ${item.year}`}</p>
+                      {dataArtist.map((artist) => {
+                        if (artist.id === item.artist_id) {
+                          return (
+                            <p
+                              key={artist.id}
+                              className="text-left mb-4 text-gray-600"
+                            >
+                              {artist.nickname}
+                            </p>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => removeFavorite(item.id)}
+                        type="button"
+                        className="h-6 w-6"
+                      >
+                        <img
+                          src={Remove}
+                          alt="supprimer"
+                          className="h-6 w-6 md:h-8 md:w-8"
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
