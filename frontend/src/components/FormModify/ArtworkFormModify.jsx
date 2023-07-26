@@ -47,8 +47,6 @@ function ArtworkFormModify({
   const [dataArtistTechnique, setDataArtistTechnique] = useState(false);
   const [dataArtTrendArtist, setDataArtTrendArtist] = useState(false);
 
-  // useEffect for recup all artists, types, techniques, art trends and jonction between art-trend/artist and technique/artist
-
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/artists`)
@@ -120,8 +118,6 @@ function ArtworkFormModify({
         console.error(err.message);
       });
   }, [needToFetch]);
-
-  // useEffect for recup artist, type, technique, art trend of the artwork
 
   const [isLoadedArtistId, setIsLoadedArtistId] = useState(false);
   const [isLoadedTypeId, setIsLoadedTypeId] = useState(false);
@@ -232,7 +228,19 @@ function ArtworkFormModify({
                     placeholder="Saisir le nom de l'oeuvre"
                     onChange={handleInputChangeArtwork}
                     value={formArtwork.name}
+                    maxLength={255}
                   />
+                  {255 - formArtwork.name.length <= 50 ? (
+                    <span
+                      className={
+                        255 - formArtwork.name.length === 0
+                          ? "text-red-500"
+                          : ""
+                      }
+                    >
+                      {255 - formArtwork.name.length} caractères restants
+                    </span>
+                  ) : null}
                 </div>
               </label>
               <label htmlFor="artist_name_artwork" className="w-[100%]">
@@ -426,8 +434,21 @@ function ArtworkFormModify({
                   name="artworkLocation"
                   placeholder=""
                   onChange={handleInputChangeArtwork}
-                  value={formArtwork.artwork_location}
+                  value={formArtwork.artworkLocation}
+                  maxLength={255}
                 />
+                {255 - formArtwork.artworkLocation.length <= 50 ? (
+                  <span
+                    className={
+                      255 - formArtwork.artworkLocation.length === 0
+                        ? "text-red-500"
+                        : ""
+                    }
+                  >
+                    {255 - formArtwork.artworkLocation.length} caractères
+                    restants
+                  </span>
+                ) : null}
               </div>
             </label>
           </div>
@@ -457,16 +478,20 @@ ArtworkFormModify.propTypes = {
   prevStep: PropTypes.func,
   nextStep: PropTypes.func,
   modify: PropTypes.bool,
-  selectedTypeId: PropTypes.number.isRequired,
-  selectedTechniqueId: PropTypes.number.isRequired,
-  selectedArtTrendId: PropTypes.number.isRequired,
-  selectedArtistId: PropTypes.number.isRequired,
+  selectedTypeId: PropTypes.number,
+  selectedTechniqueId: PropTypes.number,
+  selectedArtTrendId: PropTypes.number,
+  selectedArtistId: PropTypes.number,
 };
 
 ArtworkFormModify.defaultProps = {
   prevStep: () => {},
   nextStep: () => {},
   modify: false,
+  selectedTypeId: null,
+  selectedTechniqueId: null,
+  selectedArtTrendId: null,
+  selectedArtistId: null,
 };
 
 export default ArtworkFormModify;

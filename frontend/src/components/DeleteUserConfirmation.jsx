@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import ReactModal from "react-modal";
 import axios from "axios";
 import GreyButton from "./GreyButton";
 import RedButton from "./RedButton";
 import ValidationModal from "./ValidationModal";
+import AuthContext from "../context/AuthContext";
+import ValidationPicture from "../assets/Validation.png";
 
 function DeleteUserConfirmation({
   user,
@@ -19,24 +21,58 @@ function DeleteUserConfirmation({
     },
   };
   const [isOpenModalValidation, setIsOpenModalValidation] = useState(false);
+  const { headers } = useContext(AuthContext);
 
   const handleDeleteUser = () => {
-    axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`)
-      .then(() => {
-        setIsOpenModalValidation(true);
-      })
-      // then wait 1800ms
-      .then(() => {
-        setIsOpenDeleteConfirmation(false);
-        setTimeout(() => {
-          setDeletedUserId(user.id);
-        }, 1800);
-      })
+    if (
+      user.image !== "" &&
+      user.image.startsWith("https://res.cloudinary.com")
+    ) {
+      const isolationNamePicture = user.image.match(/\/([^/]+)\.[^.]+$/);
+      const namePicture = `user-afac/${isolationNamePicture[1]}`;
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+          data: { namePicture },
+          headers,
+        })
+        .then(() => {
+          axios
+            .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
+              headers,
+            })
+            .then(() => {
+              setIsOpenModalValidation(true);
+            })
+            .then(() => {
+              setIsOpenDeleteConfirmation(false);
+              setTimeout(() => {
+                setDeletedUserId(user.id);
+              }, 1800);
+            })
 
-      .catch((err) => {
-        console.error(err);
-      });
+            .catch((err) => {
+              console.error(err);
+            });
+        });
+    } else {
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`, {
+          headers,
+        })
+        .then(() => {
+          setIsOpenModalValidation(true);
+        })
+        .then(() => {
+          setIsOpenDeleteConfirmation(false);
+          setTimeout(() => {
+            setDeletedUserId(user.id);
+          }, 1800);
+        })
+
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
   return (
     <>
@@ -71,6 +107,7 @@ function DeleteUserConfirmation({
         isOpenModalValidation={isOpenModalValidation}
         setModalValidation={setIsOpenModalValidation}
         textValidationModal="Utilisateur supprimé"
+        pictureValidationModal={ValidationPicture}
       />
     </>
   );

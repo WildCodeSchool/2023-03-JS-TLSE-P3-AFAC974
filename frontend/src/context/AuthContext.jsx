@@ -8,11 +8,28 @@ export default AuthContext;
 
 export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [loggedUserData, setLoggedUserData] = useState(null);
+  const [isLoadedUser, setIsLoadedUser] = useState(false);
+  const [jwtCookie, setJwtCookie] = useState(null);
+  const [headers, setHeaders] = useState(null);
+  useEffect(() => {
+    setJwtCookie(Cookies.get("jwt"));
+  }, [Cookies.get("jwt")]);
+
+  useEffect(() => {
+    setHeaders({
+      Authorization: `Bearer ${jwtCookie}`,
+      "Content-Type": "application/json",
+    });
+  }, [jwtCookie]);
 
   useEffect(() => {
     const storedRole = Cookies.get("role");
-    if (storedRole) {
+    const storedId = Cookies.get("sub");
+    if (storedRole && storedId) {
       setUserRole(Number(storedRole));
+      setUserId(Number(storedId));
     }
   }, []);
 
@@ -20,8 +37,17 @@ export function AuthProvider({ children }) {
     () => ({
       userRole,
       setUserRole,
+      userId,
+      setUserId,
+      loggedUserData,
+      setLoggedUserData,
+      isLoadedUser,
+      setIsLoadedUser,
+      headers,
+      jwtCookie,
+      setJwtCookie,
     }),
-    [userRole]
+    [userRole, userId, loggedUserData, isLoadedUser, headers, jwtCookie]
   );
 
   return (

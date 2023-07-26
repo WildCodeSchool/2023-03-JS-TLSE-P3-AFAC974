@@ -7,6 +7,7 @@ import ReactModal from "react-modal";
 import RedButton from "./RedButton";
 import GreyButton from "./GreyButton";
 import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
+import AuthContext from "../context/AuthContext";
 
 function ConfirmationModal({
   isOpenModalConfirmation,
@@ -49,6 +50,7 @@ function ConfirmationModal({
     setArtistPicture,
     formArtist,
   } = useContext(FormArtworkArtistContext);
+  const { jwtCookie } = useContext(AuthContext);
 
   const endRequest = () => {
     setStep(1);
@@ -117,7 +119,15 @@ function ConfirmationModal({
       artworkPictureData.append("myfile", artworkPicture);
 
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/upload`, artworkPictureData)
+        .post(
+          `${import.meta.env.VITE_BACKEND_URL}/upload-artworks`,
+          artworkPictureData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtCookie}`,
+            },
+          }
+        )
         .then((resArtwork) => {
           const temporaryFormArtwork = {
             ...formArtwork,
@@ -129,8 +139,13 @@ function ConfirmationModal({
 
             axios
               .post(
-                `${import.meta.env.VITE_BACKEND_URL}/upload`,
-                artistPictureData
+                `${import.meta.env.VITE_BACKEND_URL}/upload-artists`,
+                artistPictureData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${jwtCookie}`,
+                  },
+                }
               )
               .then((resArtist) => {
                 const temporaryFormArtist = {

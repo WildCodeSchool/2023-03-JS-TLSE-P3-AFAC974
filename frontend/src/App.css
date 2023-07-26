@@ -54,3 +54,30 @@ code {
 button {
   font-size: calc(10px + 2vmin);
 }
+
+.disable-scroll {
+  overflow: hidden;
+}
+
+.h-screen-minus-navbar {
+  height: calc(100vh - 52px);
+}
+
+.bigpicture::-webkit-scrollbar {
+  display: none;
+}
+
+.bigpicture {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+@media (min-width: 1024px) {
+  .h-screen-minus-navbar {
+    height: calc(100vh - 60px);
+  }
+}

@@ -1,9 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 
-const { storage } = require("./services/cloudinary");
-
-const upload = multer({ storage });
+const upload = multer({ dest: "./public/tmp/" });
 
 const router = express.Router();
 
@@ -28,6 +26,8 @@ const typeControllers = require("./controllers/typeControllers");
 const artistTechniqueControllers = require("./controllers/artistTechniqueControllers");
 const artTrendArtistControllers = require("./controllers/artTrendArtistControllers");
 const uploadControllers = require("./controllers/uploadControllers");
+const favoriteControllers = require("./controllers/favoriteControllers");
+const entityControllers = require("./controllers/entityControllers");
 
 // --- PUBLIC ROUTES --- //
 
@@ -56,6 +56,7 @@ router.get("/artists-techniques/:id", artistControllers.readTechniqueName);
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
+router.get("/loggeduser/:id", userControllers.safeRead);
 router.get("/findadmin", userControllers.browseAdmin);
 
 // art_trend routes
@@ -82,11 +83,23 @@ router.get("/artists-techniques", artistTechniqueControllers.browse);
 router.get("/arttrends-artists", artTrendArtistControllers.browse);
 router.get("/findusers", userControllers.browseUsers);
 
+// entity routes
+
+router.get("/entities", entityControllers.browse);
+
 // --- PASSWORD NEEDED ROUTE --- //
-// router.use(verifyIsAdmin);
+
 // user routes
 router.post("/register", verifyEmail, hashPassword, userControllers.add);
 router.post("/login", userControllers.login, verifyPassword);
+
+// upload-users routes
+
+router.post(
+  "/upload-users",
+  upload.single("myfile"),
+  uploadControllers.uploadusers
+);
 
 // --- TOKEN NEEDED ROUTES --- //
 
@@ -102,6 +115,7 @@ router.delete("/artworks/:id", artworkControllers.destroy);
 
 router.put("/users/:id", verifyEmail, userControllers.edit);
 router.delete("/users/:id", userControllers.destroy);
+router.put("/users-password/:id", hashPassword, userControllers.edit);
 
 // technique routes
 
@@ -143,8 +157,42 @@ router.delete("/artists/:id", artistControllers.destroy);
 router.post("/types", typeControllers.addType);
 router.delete("/types/:id", typeControllers.destroy);
 
-router.post("/upload", upload.single("myfile"), uploadControllers.upload);
+// upload-artworks routes
+
+router.post(
+  "/upload-artworks",
+  upload.single("myfile"),
+  uploadControllers.uploadartworks
+);
+
+// upload-artists routes
+
+router.post(
+  "/upload-artists",
+  upload.single("myfile"),
+  uploadControllers.uploadartists
+);
+
+// upload routes
+
 router.delete("/upload", uploadControllers.destroy);
 router.delete("/upload/group", uploadControllers.destroyGroup);
+
+// favorite artwork routes
+
+router.post(
+  "/user/:userId/artwork/:artworkId/favorite",
+  favoriteControllers.addFavorite
+);
+router.delete(
+  "/user/:userId/artwork/:artworkId/favorite",
+  favoriteControllers.deleteFavorite
+);
+
+router.get(
+  "/user/:userId/artworks/favorites",
+  favoriteControllers.browseFavorites
+);
+router.get("/user/:userId/artwork/:artworkId", favoriteControllers.isFavorite);
 
 module.exports = router;

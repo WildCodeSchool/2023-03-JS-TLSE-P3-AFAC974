@@ -74,6 +74,16 @@ const TrendManager = require("./TrendManager");
 models.artTrend = new TrendManager();
 models.artTrend.setDatabase(pool);
 
+const FavoriteManager = require("./FavoriteManager");
+
+models.favorite = new FavoriteManager();
+models.favorite.setDatabase(pool);
+
+const EntityManager = require("./EntityManager");
+
+models.entity = new EntityManager();
+models.entity.setDatabase(pool);
+
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
 

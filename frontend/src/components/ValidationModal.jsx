@@ -15,12 +15,10 @@ function ValidationModal({
     },
   };
 
-  // useEffect for close modal after 2 secondes
   useEffect(() => {
     const timeout = setTimeout(() => {
       setModalValidation(false);
-    }, 2000); // 2 secondes
-
+    }, 2000);
     return () => clearTimeout(timeout);
   }, [isOpenModalValidation]);
 
@@ -31,7 +29,7 @@ function ValidationModal({
       onAfterClose={() => setModalValidation(false)}
       style={customModalStyles}
       ariaHideApp={false}
-      className="h-fit md:h-[30vh] lg:h-[35vh] max-h-[40vh] w-[80vw] sm:w-fit md:w-[40vw] lg:w-[40vw] border-none rounded-2xl p-20 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
+      className="h-fit md:h-[30vh] lg:h-[35vh] max-h-[40vh] w-fit sm:w-fit md:w-[40vw] lg:w-[40vw] border-none rounded-2xl p-[16px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-auto bg-white flex"
     >
       <div className="flex flex-col-reverse justify-center items-center w-full">
         <img
@@ -39,7 +37,7 @@ function ValidationModal({
           src={pictureValidationModal}
           alt="Validate"
         />
-        <h1 className="font-semibold text-[20px] lg:text-[30px] py-[20px] text-center ">
+        <h1 className="font-semibold text-[20px] lg:text-[30px] pb-[20px] text-center ">
           {textValidationModal}
         </h1>
       </div>
