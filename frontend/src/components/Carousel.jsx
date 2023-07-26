@@ -49,10 +49,6 @@ export default function Carousel({ imageUrls, disableRightClick }) {
     );
   };
 
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [imageUrls]);
-
   const isPortrait = imageDimensions.height > imageDimensions.width;
 
   return (
