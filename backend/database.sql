@@ -181,13 +181,13 @@ VALUES
     'Hyppolite Charles Napoléon',
     'Hyppolite Charles Napoléon Mortier de Trévise',
     'Hippolyte Charles Napoléon Mortier de Trévise, 3e duc de Trévise, naquit le 4 mai 1835 à Paris, France. Issu dune famille noble, il fut destiné à jouer un rôle important dans la société. Il embrassa une carrière diplomatique en tant que secrétaire d''ambassade sous Napoléon III et accéda aux titres de pair de France et de sénateur. En 1860, il épousa Marie Angèle Emma Le Coat de Kerveguen, mais le couple n''eut pas d''enfants. Outre ses engagements politiques, Hippolyte se révéla être un talentueux artiste, notamment dans le dessin et l''aquarelle, dont certaines œuvres sont conservées au Musée Léon-Dierx. Impliqué dans les affaires familiales, il géra un empire foncier hérité de son beau-père, comprenant des usines sucrières à La Réunion. Après la chute du Second Empire, il continua d''influencer les sphères économiques. Hippolyte décéda le 13 février 1892, laissant derrière lui un héritage artistique et un rôle marqué au sein de l''aristocratie française du XIXe siècle.',
-    'url_small',
+    '',
     'https://res.cloudinary.com/didpqnqdv/image/upload/v1690293385/artist-afac/xmxkqubx0nqupfx9n69v.jpg',
-    'url_large',
+    '',
     'https://fr.wikipedia.org/wiki/Hippolyte_Mortier_de_Tr%C3%A9vise',
-    'url_facebook',
-    'url_instagram',
-    'url_twitter'
+    '',
+    '',
+    ''
   );
 
 -- Table artwork
