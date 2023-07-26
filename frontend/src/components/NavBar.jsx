@@ -25,7 +25,7 @@ function NavBar() {
             alt="logo"
           />
         </Link>
-        <div className="desktopLinks hidden lg:flex navbar-links items-center gap-[50px] text-white ">
+        <div className="mr-[5%] desktopLinks hidden lg:flex navbar-links items-center gap-[50px] text-white ">
           <Link
             to="/"
             className="hover:font-medium flex items-center"

@@ -108,7 +108,7 @@ export default function Artwork() {
                 <img
                   src={artwork.image_url_medium}
                   alt="art1"
-                  className="shadow-xl align-center max-h-[700px] lg:max-w-lg xl:max-w-xl"
+                  className="shadow-xl align-center max-h-[450px] lg:max-w-lg xl:max-w-xl"
                   onContextMenu={disableRightClick}
                 />
               </div>
