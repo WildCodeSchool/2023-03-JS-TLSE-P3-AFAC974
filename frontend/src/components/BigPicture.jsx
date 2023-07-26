@@ -8,6 +8,10 @@ function BigPicture({ artwork }) {
     FormArtworkArtistContext
   );
 
+  const disableRightClick = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <ReactModal
       isOpen={isOpenedBigPicture}
@@ -32,7 +36,11 @@ function BigPicture({ artwork }) {
         },
       }}
     >
-      <img src={artwork.image_url_medium} alt="tableau choisi" />
+      <img
+        src={artwork.image_url_medium}
+        alt="tableau choisi"
+        onContextMenu={disableRightClick}
+      />
     </ReactModal>
   );
 }

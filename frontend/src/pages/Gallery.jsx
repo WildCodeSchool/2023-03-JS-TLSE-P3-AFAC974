@@ -53,6 +53,7 @@ export default function Gallery() {
   const filterAndSortData = () => {
     let sortedData = [...dataArtworks];
     if (searchTerm) {
+      setCurrentPage(1);
       sortedData = sortedData.filter((item) => {
         if (typeof item.name === "string") {
           return item.name.toLowerCase().includes(searchTerm.toLowerCase());
