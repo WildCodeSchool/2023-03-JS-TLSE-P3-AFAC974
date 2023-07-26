@@ -1036,14 +1036,7 @@ VALUES
 INSERT INTO
   entity (name)
 VALUES
-  ('Company A'),
-  ('Company B');
-
-INSERT INTO
-  entity (name)
-VALUES
-  ('Organization X'),
-  ('Organization Y');
+  ('AFAC-974');
 
 -- Table user
 INSERT INTO
@@ -1162,6 +1155,30 @@ VALUES
     1
   );
 
+  
+INSERT INTO
+  user (
+    lastname,
+    firstname,
+    pseudo,
+    email,
+    image,
+    hashedPassword,
+    role,
+    entity_id
+  )
+VALUES
+  (
+    'Wick',
+    'John',
+    'John Wick',
+    'johnwick@exemple.com',
+    'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    '$argon2id$v=19$m=65536,t=5,p=1$xqg/EtAgnK8Bg07oBXBQEQ$He+fQghs6IVFwzHd4GhUGBgEJU78BcGRN6lPXc0wT00',
+    1,
+    1
+  );
+
 INSERT INTO
   user (
     lastname,
@@ -1189,7 +1206,12 @@ VALUES
 INSERT INTO
   artwork_favorite (user_id, artwork_id)
 VALUES
-  (1, 1);
+  (6, 1),
+  (6, 5),
+  (6, 12),
+  (6, 21),
+  (6, 8),
+  (6, 6);
 
 INSERT INTO
   artwork_favorite (user_id, artwork_id)
@@ -1200,7 +1222,8 @@ VALUES
 INSERT INTO
   artist_technique (artist_id, technique_id)
 VALUES
-  (1, 1);
+  (1, 1),
+  (1, 2);
 
 -- Table art_trend_artist
 INSERT INTO
