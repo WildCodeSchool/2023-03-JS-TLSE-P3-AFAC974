@@ -885,7 +885,7 @@ export default function ArtworksAdministration() {
                     <img
                       src={itemArtwork.image_url_medium}
                       alt="oeuvre"
-                      className="w-[20vw]"
+                      className="w-[20vw] drop-shadow-xl"
                     />
                     <div className="flex mt-[20px] justify-between">
                       <div>

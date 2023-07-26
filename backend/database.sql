@@ -178,9 +178,9 @@ INSERT INTO
 VALUES
   (
     'Mortier de Trévise',
-    'Hyppolite Charles Napoléon',
-    'Hyppolite Charles Napoléon Mortier de Trévise',
-    'Hippolyte Charles Napoléon Mortier de Trévise, 3e duc de Trévise, naquit le 4 mai 1835 à Paris, France. Issu dune famille noble, il fut destiné à jouer un rôle important dans la société. Il embrassa une carrière diplomatique en tant que secrétaire d''ambassade sous Napoléon III et accéda aux titres de pair de France et de sénateur. En 1860, il épousa Marie Angèle Emma Le Coat de Kerveguen, mais le couple n''eut pas d''enfants. Outre ses engagements politiques, Hippolyte se révéla être un talentueux artiste, notamment dans le dessin et l''aquarelle, dont certaines œuvres sont conservées au Musée Léon-Dierx. Impliqué dans les affaires familiales, il géra un empire foncier hérité de son beau-père, comprenant des usines sucrières à La Réunion. Après la chute du Second Empire, il continua d''influencer les sphères économiques. Hippolyte décéda le 13 février 1892, laissant derrière lui un héritage artistique et un rôle marqué au sein de l''aristocratie française du XIXe siècle.',
+    'Hippolyte Charles Napoléon',
+    'Hippolyte Charles Napoléon Mortier de Trévise',
+    'Hippolyte Charles Napoléon Mortier de Trévise, 3e duc de Trévise, est né le 4 mai 1835 à Paris, France. Diplomate, pair de France et sénateur, il était issu d''une famille noble. Malgré un mariage arrangé avec Marie Angèle Emma Le Coat de Kerveguen, le couple n''eut pas d''enfants. Artiste talentueux en dessin et aquarelle, ses œuvres sont conservées au Musée Léon-Dierx. Impliqué dans les affaires familiales, il géra un empire foncier avec des usines sucrières à La Réunion. Après la chute du Second Empire, il continua d''influencer les sphères économiques. Hippolyte décéda le 13 février 1892, laissant un héritage artistique et un rôle marqué dans l''aristocratie française du XIXe siècle.',
     'url_small',
     'https://res.cloudinary.com/didpqnqdv/image/upload/v1690185021/artist-afac/m8rx9vfqkgxfiktjoc8p.jpg',
     'url_large',
