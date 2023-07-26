@@ -584,7 +584,7 @@ export default function ArtworksAdministration() {
         headers,
       })
       .then(() => {
-        if (url !== "") {
+        if (url !== "" && url.startsWith("https://res.cloudinary.com")) {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
           const namePicture = `artwork-afac/${isolationNamePicture[1]}`;
           axios

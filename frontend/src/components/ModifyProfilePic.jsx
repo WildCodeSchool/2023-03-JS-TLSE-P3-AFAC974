@@ -63,7 +63,10 @@ function ModifyProfilePic({
   }
 
   const handleModifyProfilePic = () => {
-    if (loggedUserData[0].image !== "") {
+    if (
+      loggedUserData[0].image !== "" &&
+      loggedUserData[0].image.startsWith("https://res.cloudinary.com")
+    ) {
       const isolationNamePicture =
         loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
       const namePicture = `user-afac/${isolationNamePicture[1]}`;
@@ -217,7 +220,10 @@ function ModifyProfilePic({
               </button>
 
               <button
-                onClick={() => handleModifyProfilePic()}
+                onClick={() => {
+                  handleModifyProfilePic();
+                  setModifyProfileModalOpened(false);
+                }}
                 ref={loginButtonRef}
                 type="button"
                 className={`${

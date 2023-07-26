@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -114,7 +114,9 @@ function ConfirmationModal({
   };
 
   const { handleSubmit } = useForm();
+  const [disabled, setDisabled] = useState(false);
   const onSubmit = () => {
+    setDisabled(true);
     if (artworkPicture) {
       const artworkPictureData = new FormData();
       artworkPictureData.append("myfile", artworkPicture);
@@ -156,21 +158,26 @@ function ConfirmationModal({
                 handleExecution(temporaryFormArtwork, temporaryFormArtist);
               })
               .then(() => {
+                setDisabled(false);
                 endRequest();
               })
               .catch((error) => {
                 console.error("Une erreur s'est produite :", error);
+                setDisabled(false);
               });
           } else {
             handleExecution(temporaryFormArtwork, formArtist);
+            setDisabled(false);
             endRequest();
           }
         })
         .catch((error) => {
           console.error("Une erreur s'est produite :", error);
+          setDisabled(false);
         });
     } else {
       handleExecution(formArtwork, formArtist);
+      setDisabled(false);
       endRequest();
     }
   };
@@ -197,7 +204,11 @@ function ConfirmationModal({
             {add ? (
               <div className="w-[100%] h-[100%]">
                 <form onSubmit={handleSubmit(onSubmit)} className="h-[100%]">
-                  <RedButton text="Confirmer" type="submit" />
+                  <RedButton
+                    text="Confirmer"
+                    type="submit"
+                    disabled={disabled}
+                  />
                 </form>
               </div>
             ) : (
