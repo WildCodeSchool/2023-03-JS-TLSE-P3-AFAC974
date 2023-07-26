@@ -110,7 +110,7 @@ function NavBarUser() {
               </div>
             </Link>
 
-            <div className="desktopLinks hidden lg:flex lg:w-fit navbar-links items-center gap-[50px] text-white ">
+            <div className="mr-[8%] desktopLinks hidden lg:flex lg:w-fit navbar-links items-center gap-[50px] text-white ">
               <NavLink
                 to="/"
                 className="hover:font-medium flex w-[100px] items-center"
