@@ -78,6 +78,7 @@ export default function ArtworksAdministration() {
   const [selectedArtistId, setSelectedArtistId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const artworksPerPage = 5;
+  const [currentArtworks, setCurrentArtworks] = useState([]);
 
   const openModalAdd = () => {
     setModalOpenAdd(true);
@@ -735,12 +736,13 @@ export default function ArtworksAdministration() {
       });
   }, []);
 
-  const indexOfLastArtwork = currentPage * artworksPerPage;
-  const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
-  const currentArtworks = filteredAndSortedData.slice(
-    indexOfFirstArtwork,
-    indexOfLastArtwork
-  );
+  useEffect(() => {
+    const indexOfLastArtwork = currentPage * artworksPerPage;
+    const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
+    setCurrentArtworks(
+      filteredAndSortedData.slice(indexOfFirstArtwork, indexOfLastArtwork)
+    );
+  }, [filteredAndSortedData, currentPage]);
 
   const totalPages = Math.ceil(filteredAndSortedData.length / artworksPerPage);
 
