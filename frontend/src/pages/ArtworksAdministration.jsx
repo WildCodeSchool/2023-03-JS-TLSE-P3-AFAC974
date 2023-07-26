@@ -76,6 +76,9 @@ export default function ArtworksAdministration() {
   const [selectedTechniqueId, setSelectedTechniqueId] = useState(null);
   const [selectedArtTrendId, setSelectedArtTrendId] = useState(null);
   const [selectedArtistId, setSelectedArtistId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const artworksPerPage = 5;
+  const [currentArtworks, setCurrentArtworks] = useState([]);
 
   const openModalAdd = () => {
     setModalOpenAdd(true);
@@ -691,6 +694,7 @@ export default function ArtworksAdministration() {
   const filterAndSortData = () => {
     let sortedData = [...data];
     if (searchTerm) {
+      setCurrentPage(1);
       sortedData = sortedData.filter((item) => {
         if (typeof item.name === "string") {
           return item.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -700,8 +704,10 @@ export default function ArtworksAdministration() {
     }
 
     if (filter === "asc") {
+      setCurrentPage(1);
       sortedData.sort((a, b) => a.name.localeCompare(b.name));
     } else if (filter === "desc") {
+      setCurrentPage(1);
       sortedData.sort((a, b) => b.name.localeCompare(a.name));
     }
     return sortedData;
@@ -729,6 +735,26 @@ export default function ArtworksAdministration() {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    const indexOfLastArtwork = currentPage * artworksPerPage;
+    const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
+    setCurrentArtworks(
+      filteredAndSortedData.slice(indexOfFirstArtwork, indexOfLastArtwork)
+    );
+  }, [filteredAndSortedData, currentPage]);
+
+  const totalPages = Math.ceil(filteredAndSortedData.length / artworksPerPage);
+
+  const handlePageClick = (pageNumber) => {
+    window.scrollTo(0, 0);
+    setCurrentPage(pageNumber);
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i += 1) {
+    pageNumbers.push(i);
+  }
 
   return (
     <div>
@@ -767,15 +793,15 @@ export default function ArtworksAdministration() {
             </div>
             <div className="flex flex-col-reverse xl:flex-row xl:w-[100%] items-center  xl:px-[70px]">
               <div className="flex flex-1 justify-start">
+                <SortBy handleChange={handleChange} className="flex flex-1" />
+              </div>
+              <div className="flex flex-1 my-[10px]">
                 <SearchBar
                   searchTerm={searchTerm}
                   handleInputChange={handleInputChange}
                   placeholder="Saisir une oeuvre..."
                   className="flex flex-2"
                 />
-              </div>
-              <div className="flex flex-1">
-                <SortBy handleChange={handleChange} className="flex flex-1" />
               </div>
               <button
                 className="flex items-center gap-2 py-1 pl-2 border-2 border-solid border-gray-300 rounded-md p-[10px] text-sm"
@@ -791,17 +817,17 @@ export default function ArtworksAdministration() {
             </div>
           </div>
           {isLoadedArtworks &&
-            filteredAndSortedData.map((itemArtwork) => (
+            currentArtworks.map((itemArtwork) => (
               <div
                 key={itemArtwork.id}
-                className="flex flex-col lg:hidden m-[40px]"
+                className="flex flex-col lg:hidden m-[40px] items-center"
               >
                 <img
                   src={itemArtwork.image_url_medium}
                   alt="oeuvre"
-                  className="shadow-xl drop-shadow-lg"
+                  className="shadow-xl drop-shadow-lg max-h-[40vw] w-auto"
                 />
-                <div className="flex mt-[20px] justify-between">
+                <div className="flex mt-[20px] justify-between gap-[10px]">
                   <div>
                     <h2 className="text-left ">{itemArtwork.name}</h2>
                     {dataArtist.map((itemArtist) => {
@@ -818,7 +844,7 @@ export default function ArtworksAdministration() {
                       return null;
                     })}
                   </div>
-                  <div className="flex items-center flex-end gap-5">
+                  <div className="flex items-center flex-end gap-5 mb-4">
                     <button
                       type="button"
                       onClick={() => {
@@ -855,7 +881,11 @@ export default function ArtworksAdministration() {
                         });
                       }}
                     >
-                      <img src={engrenage} alt="engrenage" />
+                      <img
+                        src={engrenage}
+                        alt="engrenage"
+                        className="max-w-fit"
+                      />
                       <p className="hidden">Modifier</p>
                     </button>
                     <button
@@ -867,7 +897,11 @@ export default function ArtworksAdministration() {
                         setSelectedUrlArtworkId(itemArtwork.image_url_medium);
                       }}
                     >
-                      <img src={crossDelete} alt="crossDelete" />
+                      <img
+                        src={crossDelete}
+                        alt="crossDelete"
+                        className="max-w-fit"
+                      />
                       <p className="hidden">Supprimer</p>
                     </button>
                   </div>
@@ -875,7 +909,7 @@ export default function ArtworksAdministration() {
               </div>
             ))}
           {isLoadedArtworks &&
-            filteredAndSortedData.map((itemArtwork) => (
+            currentArtworks.map((itemArtwork) => (
               <div
                 key={itemArtwork.id}
                 className="hidden lg:flex lg:mt-[20px] lg:pr-[70px] lg:pl-[70px]"
@@ -970,6 +1004,24 @@ export default function ArtworksAdministration() {
                 </div>
               </div>
             ))}
+          {pageNumbers.length > 1 && (
+            <div className="flex justify-center items-center mt-4">
+              {pageNumbers.map((pageNumber) => (
+                <button
+                  type="button"
+                  key={pageNumber}
+                  onClick={() => handlePageClick(pageNumber)}
+                  className={`${
+                    currentPage === pageNumber
+                      ? `bg-[#7F253E] text-white`
+                      : "bg-white"
+                  } border border-[#7F253E] px-6 py-2 mx-2 rounded mb-8`}
+                >
+                  {pageNumber}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Modal for Add */}
           <AddArtwork

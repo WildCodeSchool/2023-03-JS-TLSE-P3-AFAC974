@@ -89,7 +89,10 @@ export default function AccountSettings() {
   };
 
   const handleDeleteUser = () => {
-    if (loggedUserData[0].image !== "") {
+    if (
+      loggedUserData[0].image !== "" &&
+      loggedUserData[0].image.startsWith("https://res.cloudinary.com")
+    ) {
       const isolationNamePicture =
         loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
       const namePicture = `user-afac/${isolationNamePicture[1]}`;
@@ -435,7 +438,7 @@ export default function AccountSettings() {
             />
           </div>
           <section className="flex flex-col mt-10 xl:p-4 mx-[20px]">
-            <div className="flex flex-col xl:flex-row flex-wrap w-[90%] xl:w-[80%] gap-5 xl:mt-9 ">
+            <div className="flex flex-col flex-wrap w-[90%] xl:w-[80%] gap-5">
               <h2 className="xl:text-4xl text-2xl text-left font-bold">
                 Mot de Passe
               </h2>
