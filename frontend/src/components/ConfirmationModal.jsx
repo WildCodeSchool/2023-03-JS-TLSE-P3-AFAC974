@@ -22,6 +22,7 @@ function ConfirmationModal({
   isLoadedArtTrend,
   handleCancel,
   add,
+  additionnalText,
 }) {
   const customModalStyles = {
     overlay: {
@@ -185,6 +186,8 @@ function ConfirmationModal({
       <div className="flex flex-col justify-center items-center w-[100%]">
         <p className="font-semibold text-[20px] py-[10px] text-center">
           {textConfirmationModal}
+          <br />
+          <span className="text-red-700">{additionnalText || null}</span>
         </p>
         <div className="flex flex-col-reverse justify-between w-[75%]">
           <div className="w-[100%] py-[5px] text-[16px] h-[55px]">
@@ -233,6 +236,7 @@ ConfirmationModal.propTypes = {
   isLoadedArtTrend: PropTypes.bool,
   handleCancel: PropTypes.func.isRequired,
   add: PropTypes.bool,
+  additionnalText: PropTypes.string,
 };
 
 ConfirmationModal.defaultProps = {
@@ -246,6 +250,7 @@ ConfirmationModal.defaultProps = {
   isLoadedType: false,
   isLoadedTechnique: false,
   isLoadedArtTrend: false,
+  additionnalText: "",
 };
 
 export default ConfirmationModal;

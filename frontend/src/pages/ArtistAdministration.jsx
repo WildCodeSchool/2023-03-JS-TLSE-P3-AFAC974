@@ -133,10 +133,10 @@ export default function ArtistAdministration() {
               if (artwork.image_url_medium !== "") {
                 const isolationNamePictureArtwork =
                   artwork.image_url_medium.match(/\/([^/]+)\.[^.]+$/);
-                const namePictureArtwork = `artwork-afac/${isolationNamePictureArtwork[1]}`;
+                const namePicture = `artwork-afac/${isolationNamePictureArtwork[1]}`;
                 axios
                   .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
-                    data: { namePictureArtwork },
+                    data: { namePicture },
                     headers,
                   })
                   .catch((error) => {
@@ -455,6 +455,7 @@ export default function ArtistAdministration() {
           {/* Modal for Delete */}
           <ConfirmationModal
             textConfirmationModal="Voulez vous réellement supprimer cet artiste ?"
+            additionnalText="Attention cela supprimera également les oeuvres associées"
             isOpenModalConfirmation={modalConfirmationDeleteArtist}
             setModalConfirmation={setModalConfirmationDeleteArtist}
             setModalValidation={setModalValidationDeleteArtist}
