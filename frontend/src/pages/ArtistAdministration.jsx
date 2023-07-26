@@ -84,7 +84,7 @@ export default function ArtistAdministration() {
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/artists/${id}`, { headers })
       .then(() => {
-        if (url !== "") {
+        if (url !== "" && url.startsWith("https://res.cloudinary.com")) {
           const isolationNamePicture = url.match(/\/([^/]+)\.[^.]+$/);
           let namePicture = `artist-afac/${isolationNamePicture[1]}`;
           axios
@@ -95,7 +95,12 @@ export default function ArtistAdministration() {
             .then(() => {
               dataArtworks.forEach((artwork) => {
                 if (artwork.artist_id === id) {
-                  if (artwork.image_url_medium !== "") {
+                  if (
+                    artwork.image_url_medium !== "" &&
+                    artwork.image_url_medium.startsWith(
+                      "https://res.cloudinary.com"
+                    )
+                  ) {
                     const isolationNamePictureArtwork =
                       artwork.image_url_medium.match(/\/([^/]+)\.[^.]+$/);
                     namePicture = `artwork-afac/${isolationNamePictureArtwork[1]}`;
@@ -130,7 +135,12 @@ export default function ArtistAdministration() {
         } else {
           dataArtworks.forEach((artwork) => {
             if (artwork.artist_id === id) {
-              if (artwork.image_url_medium !== "") {
+              if (
+                artwork.image_url_medium !== "" &&
+                artwork.image_url_medium.startsWith(
+                  "https://res.cloudinary.com"
+                )
+              ) {
                 const isolationNamePictureArtwork =
                   artwork.image_url_medium.match(/\/([^/]+)\.[^.]+$/);
                 const namePicture = `artwork-afac/${isolationNamePictureArtwork[1]}`;
