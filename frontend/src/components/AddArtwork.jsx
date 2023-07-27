@@ -20,11 +20,6 @@ function AddArtwork({
       backgroundColor: "rgba(0, 0, 0, 0.5)",
       zIndex: 1000,
     },
-    content: {
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%,-50%)",
-    },
   };
 
   const {
