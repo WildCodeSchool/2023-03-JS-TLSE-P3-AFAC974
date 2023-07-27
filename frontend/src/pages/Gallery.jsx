@@ -106,15 +106,9 @@ export default function Gallery() {
     <div className="flex flex-col pt-[60px] justify-center items-center">
       <div className="px-[20px] justify-center">
         <div className="flex flex-col justify-between items-center">
-          <h1 className="font-semibold text-[42px] drop-shadow-xl pb-4">
+          <h1 className="font-semibold text-[42px] drop-shadow-xl mx-4">
             Galerie
           </h1>
-          <p className="text-left">
-            Ici, vous pouvez consulter la galerie de l'AFAC 974, les oeuvres ne
-            sont pas libres de droit et sont la propriété exclusive de leur(s)
-            auteur(s).
-          </p>
-          <p className="text-[21px] py-4">Rechercher :</p>
           <div className="flex flex-col justify-center items-center gap-4 mt-2 mb-6 md:flex-row-reverse md:mt-5 md:pb-8 md:w-full md:justify-between">
             <div className="sm:invisible md:visible md:bg-white md:w-[125px] md:h-[35px]" />
             <SearchBar
@@ -127,14 +121,21 @@ export default function Gallery() {
         </div>
         <div className="flex flex-col justify-center md:flex-row md:grid md:grid-cols-4 md:gap-5">
           {currentArtworks.map((artwork) => (
-            <div className="pb-4 flex flex-col" key={artwork.id}>
+            <div
+              className="pb-4 flex flex-col md:justify-center lg:justify-start items-center"
+              key={artwork.id}
+            >
               <div>
-                <Link to={`/gallery/${artwork.id}`}>
+                <Link
+                  to={`/gallery/${artwork.id}`}
+                  className="flex justify-center"
+                >
                   <img
                     src={artwork.image_url_medium}
                     alt={`art${artwork.id}`}
-                    className="flex justify-center shadow-xl"
+                    className="flex justify-center shadow-xl max-h-[600px]"
                     onContextMenu={disableRightClick}
+                    loading="lazy"
                   />
                 </Link>
                 <div className="flex flex-row justify-between mt-4">

@@ -3,12 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import BigPicture from "../components/BigPicture";
 import FavoriteButton from "../components/FavoriteButton";
+import FullDescription from "../components/FullDescription";
 import AuthContext from "../context/AuthContext";
 import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 
 export default function Artwork() {
   const { artworkId } = useParams();
-  const [artwork, setArtwork] = useState([{}]);
+  const [artwork, setArtwork] = useState([{ image_url_medium: "" }]);
   const [artist, setArtist] = useState([{}]);
   const [type, setType] = useState([{}]);
   const [technique, setTechnique] = useState([{}]);
@@ -16,6 +17,7 @@ export default function Artwork() {
   const { userRole } = React.useContext(AuthContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const { setIsOpenedBigPicture } = React.useContext(FormArtworkArtistContext);
+  const [fullText, setFullText] = useState("");
 
   useEffect(() => {
     axios
@@ -23,6 +25,7 @@ export default function Artwork() {
       .then((res) => {
         const artworkData = res.data[0];
         setArtwork(artworkData);
+        setFullText(artworkData.description);
         axios
           .get(
             `${import.meta.env.VITE_BACKEND_URL}/artists/${
@@ -84,6 +87,8 @@ export default function Artwork() {
     e.preventDefault();
   };
 
+  const partialText = `${fullText.slice(0, Math.ceil(fullText.length / 2))}...`;
+
   return (
     <div>
       <div className="flex flex-col justify-center items-center pt-[100px] px-[20px]">
@@ -103,15 +108,17 @@ export default function Artwork() {
                 <img
                   src={artwork.image_url_medium}
                   alt="art1"
-                  className="shadow-xl align-center max-h-[700px] lg:max-w-lg xl:max-w-xl"
+                  className="shadow-xl align-center max-h-[450px] lg:max-w-lg xl:max-w-xl"
                   onContextMenu={disableRightClick}
                 />
               </div>
             </button>
             <div className="flex flex-row sm:visible lg:invisible lg:h-0 lg:w-0">
               <div className="flex flex-col justify-start items-start w-full sm:visible lg:invisible">
-                <h2 className="pt-[15px] sm:visible lg:invisible">{`${artwork.name}, ${artwork.year}`}</h2>
-                {artist.id === artwork.artist_id && <h2>{artist.nickname}</h2>}
+                <h2 className="pt-[15px] sm:visible lg:invisible  block mx-auto mt-3">{`${artwork.name}, ${artwork.year}`}</h2>
+                {artist.id === artwork.artist_id && (
+                  <h2 className=" block mx-auto mt-3">{artist.nickname}</h2>
+                )}
               </div>
               {userRole === 1 && (
                 <div className="pt-[15px]">
@@ -125,14 +132,13 @@ export default function Artwork() {
                   <div className="h-0 lg:h-full lg:flex lg:flex-col lg:justify-center">
                     {userRole === 1 && (
                       <div className="invisible lg:visible lg:flex lg:flex-row lg:justify-center lg:gap-6 lg:pt-4">
-                        {isLoaded && <FavoriteButton artworkId={artwork.id} />}
-                        <p className="invisible lg:visible lg:text-[21px] lg:font-semibold">
-                          Ajouter au favoris
-                        </p>
+                        {isLoaded && (
+                          <FavoriteButton artworkId={artwork.id} text="true" />
+                        )}
                       </div>
                     )}
                   </div>
-                  <hr className=" bg-black border-t-2 justify-center mt-8 mb-4 lg:mt-4" />
+                  <hr className="color-black border-t-2 justify-center mt-8 mb-4 lg:mt-4" />
                   <div className="flex flex-row justify-evenly w-[100%]">
                     <div className="flex flex-col justify-center items-center gap-2">
                       {type.id === artwork.type_id && <h2>{type.name}</h2>}
@@ -165,7 +171,7 @@ export default function Artwork() {
                       <Link to={`/artist/${artwork.artist_id}`}>
                         <button
                           type="button"
-                          className="bg-[#273590] text-[#e2e3e4] text-[16px] px-[10px] py-[2px] rounded-[8px]"
+                          className="bg-[#257492] text-[#e2e3e4] text-[16px] px-[10px] py-[2px] rounded-[8px]"
                         >
                           En savoir plus
                         </button>
@@ -180,7 +186,9 @@ export default function Artwork() {
         <h3 className="text-[21px] font-semibold mb-4">
           Description de l'oeuvre
         </h3>
-        <p className="pb-4 text-left lg:pb-4 w-[95%]">{artwork.description}</p>
+        <div className="w-[85%] xl:w-1/2 xl:mb-5 lg:w-2/3 lg:mb-5">
+          <FullDescription partialText={partialText} fullText={fullText} />
+        </div>
         <p className="italic pb-8 lg:pb-14">
           Lieu de conservation : {artwork.artwork_location}
         </p>

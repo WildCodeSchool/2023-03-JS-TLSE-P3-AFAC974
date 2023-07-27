@@ -5,7 +5,7 @@ import AuthContext from "../context/AuthContext";
 import FavIcon from "../assets/heart.svg";
 import RedFavIcon from "../assets/heart_red.svg";
 
-function FavoriteButton({ artworkId }) {
+function FavoriteButton({ artworkId, text }) {
   const { userRole, userId, headers } = useContext(AuthContext);
   const [favorite, setFavorite] = useState(false);
   useEffect(() => {
@@ -66,19 +66,33 @@ function FavoriteButton({ artworkId }) {
   };
 
   return (
-    <div>
+    <div className="flex items-center gap-3">
       {userRole === 1 && (
-        <button
-          onClick={toggleFavorite}
-          type="button"
-          className="h-6 w-6 md:h-8 md:w-8"
-        >
-          {favorite ? (
-            <img src={RedFavIcon} alt="fav" />
-          ) : (
-            <img src={FavIcon} alt="not fav" />
-          )}
-        </button>
+        <>
+          <button
+            onClick={toggleFavorite}
+            type="button"
+            className="h-6 w-6 md:h-8 md:w-8"
+          >
+            {favorite ? (
+              <img src={RedFavIcon} alt="fav" />
+            ) : (
+              <img src={FavIcon} alt="not fav" />
+            )}
+          </button>
+          <div>
+            {text && favorite && (
+              <p className="invisible lg:visible lg:text-[21px] lg:font-semibold">
+                Retirer des favoris
+              </p>
+            )}
+            {text && !favorite && (
+              <p className="invisible lg:visible lg:text-[21px] lg:font-semibold">
+                Ajouter aux favoris
+              </p>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
@@ -86,5 +100,11 @@ function FavoriteButton({ artworkId }) {
 
 FavoriteButton.propTypes = {
   artworkId: PropTypes.number.isRequired,
+  text: PropTypes.string,
 };
+
+FavoriteButton.defaultProps = {
+  text: "",
+};
+
 export default FavoriteButton;

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import arrowR from "../assets/Fleche droite.png";
 import arrowL from "../assets/Fleche gauche.png";
 
@@ -49,26 +49,22 @@ export default function Carousel({ imageUrls, disableRightClick }) {
     );
   };
 
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [imageUrls]);
-
   const isPortrait = imageDimensions.height > imageDimensions.width;
 
   return (
     <section className="flex flex-col justify-center w-full">
-      <div className="flex items-center justify-between w-[80%] mx-auto my-12">
+      <div className="flex items-center justify-between w-full lg:w-[80%] mx-auto my-12">
         <button type="button" onClick={handlePrev}>
           <img src={arrowL} alt="left arrow" className="h-14 w-16 " />
         </button>
-        <h2 className="text-[32px] tracking-[0.32px] text-center">
+        <h2 className="text-[21px] sm:text-[28px] md:text-[32px] tracking-[0.32px] text-center">
           MON UNIVERS ARTISTIQUE
         </h2>
         <button type="button" onClick={handleNext}>
           <img src={arrowR} alt="right arrow" className="h-14 w-16" />
         </button>
       </div>
-      <div className="flex flex-row justify-center  items-center md:w-[95%] mb-5 h-[35dvh] xl:w-[80%] mx-auto bg-[#257593]">
+      <div className="flex flex-row justify-center w-[50dvw] h-[19dvh] items-center md:w-[95%] md:h-[25dvh] sm:w-[95%] sm:h-[25dvh]  mb-5 xl:h-[35dvh] xl:w-[80%] mx-auto bg-[#257593] drop-shadow-[5px_5px_5px_#A49D97]">
         <div className="flex flex-row items-center">
           {isMobile ? (
             <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
@@ -90,24 +86,27 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                       className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
                       key={index}
                     >
-                      <Link to={`/gallery/${imageUrl[1]}`}>
+                      <NavLink
+                        to={`/gallery/${imageUrl[1]}`}
+                        onClick={window.scrollTo(0, 0)}
+                      >
                         <img
                           src={imageUrl[0]}
                           alt="art"
                           className={`flex justify-center items-center drop-shadow-xl object-contain ${
                             isPortrait
-                              ? "max-w-[30dvw] max-h-[40dvh]"
-                              : "w-[20dvw] h-[20dvh]"
+                              ? "max-w-[35dvw] max-h-[17dvh] w-[30dvw] h-[15dvh]"
+                              : " max-w-[45dvw] max-h-[17dvh] w-[40dvw] h-[15dvh]"
                           }`}
                           onContextMenu={disableRightClick}
                         />
-                      </Link>
+                      </NavLink>
                     </div>
                   );
                 })}
             </div>
           ) : (
-            <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
+            <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center gap-10">
               {[
                 (currentIndex - 1 + imageUrls.length) % imageUrls.length,
                 currentIndex,
@@ -124,7 +123,10 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                     className="slide w-1/3 transition-all duration-500 relative flex flex-col justify-center items-center"
                     key={index}
                   >
-                    <Link to={`/gallery/${imageUrl[1]}`}>
+                    <NavLink
+                      to={`/gallery/${imageUrl[1]}`}
+                      onClick={window.scrollTo(0, 0)}
+                    >
                       <img
                         src={imageUrl[0]}
                         alt="art"
@@ -135,7 +137,7 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                         }`}
                         onContextMenu={disableRightClick}
                       />
-                    </Link>
+                    </NavLink>
                   </div>
                 );
               })}
