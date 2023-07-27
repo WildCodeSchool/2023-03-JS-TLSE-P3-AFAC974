@@ -211,7 +211,7 @@ function NavBarUser() {
                         loggedUserData.length > 0 &&
                         loggedUserData[0].image ? (
                           <img
-                            className="rounded-full w-11 h-11  object-cover"
+                            className="rounded-full w-11 h-11 object-cover"
                             src={loggedUserData[0].image}
                             alt="profil-pic"
                           />
