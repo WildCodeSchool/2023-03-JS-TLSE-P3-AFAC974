@@ -24,10 +24,25 @@ function ModifyProfilePic({
   const [userImage, setUserImage] = useState("");
   const [userImageFile, setUserImageFile] = useState(null);
 
+  const [disabled, setDisabled] = useState(false);
+
   const inputRef = useRef();
   const [user, setUser] = useState({
     image: "",
   });
+
+  let buttonClasses =
+    "w-[47%] h-[44px] flex justify-center items-center shadow-xs rounded-lg px-[8px] font-semibold text-base ";
+
+  if (userImageFile) {
+    if (!disabled) {
+      buttonClasses += " bg-[#257492] text-[#E3E4E2] hover:font-bold";
+    } else {
+      buttonClasses += " bg-[#E3E4E2] text-[#b6b8b3]";
+    }
+  } else {
+    buttonClasses += " bg-[#E3E4E2] text-[#b6b8b3]";
+  }
 
   useEffect(() => {
     axios
@@ -63,6 +78,7 @@ function ModifyProfilePic({
   }
 
   const handleModifyProfilePic = () => {
+    setDisabled(true);
     if (
       loggedUserData[0].image !== "" &&
       loggedUserData[0].image.startsWith("https://res.cloudinary.com")
@@ -96,6 +112,7 @@ function ModifyProfilePic({
                 .then(() => {
                   setModalValidationModifyUser(true);
                   setModifyProfileModalOpened(false);
+                  setDisabled(false);
                   setUserImage("");
                   setUserImageFile("");
                   setReload(!reLoad);
@@ -103,6 +120,7 @@ function ModifyProfilePic({
                 .catch((error) => {
                   setUserImage("");
                   setUserImageFile("");
+                  setDisabled(false);
                   console.error(
                     "Erreur lors de la modification de la photo de profil :",
                     error
@@ -114,6 +132,7 @@ function ModifyProfilePic({
         .catch((error) => {
           setUserImage("");
           setUserImageFile("");
+          setDisabled(false);
           console.error(
             "Erreur lors de la suppression de la photo de profil :",
             error
@@ -139,6 +158,57 @@ function ModifyProfilePic({
             )
             .then(() => {
               setModalValidationModifyUser(true);
+              setModifyProfileModalOpened(false);
+              setDisabled(false);
+              setUserImage("");
+              setUserImageFile("");
+              setReload(!reLoad);
+            })
+            .catch((error) => {
+              setUserImage("");
+              setUserImageFile("");
+              setDisabled(false);
+              console.error(
+                "Erreur lors de la modification de la photo de profil :",
+                error
+              );
+              setModalErrorModifyUser(true);
+            });
+        });
+    }
+  };
+
+  const handleDeleteProfilePic = () => {
+    if (
+      loggedUserData[0].image !== "" &&
+      loggedUserData[0].image.startsWith("https://res.cloudinary.com")
+    ) {
+      const isolationNamePicture =
+        loggedUserData[0].image.match(/\/([^/]+)\.[^.]+$/);
+      const namePicture = `user-afac/${isolationNamePicture[1]}`;
+
+      axios
+        .delete(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
+          data: { namePicture },
+          headers,
+        })
+        .then(() => {
+          const temporaryUser = {
+            ...user,
+            image: "",
+          };
+
+          axios
+            .put(
+              `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
+              temporaryUser,
+              {
+                headers,
+              }
+            )
+            .then(() => {
+              setModalValidationModifyUser(true);
+              setModifyProfileModalOpened(false);
               setUserImage("");
               setUserImageFile("");
               setReload(!reLoad);
@@ -147,11 +217,49 @@ function ModifyProfilePic({
               setUserImage("");
               setUserImageFile("");
               console.error(
-                "Erreur lors de la modification de la photo de profil :",
+                "Erreur lors de la modification de la photo de profil:",
                 error
               );
               setModalErrorModifyUser(true);
             });
+        })
+        .catch((error) => {
+          setUserImage("");
+          setUserImageFile("");
+          console.error(
+            "Erreur lors de la suppression de la photo de profil:",
+            error
+          );
+        });
+    } else {
+      const temporaryUser = {
+        ...user,
+        image: "",
+      };
+
+      axios
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
+          temporaryUser,
+          {
+            headers,
+          }
+        )
+        .then(() => {
+          setModalValidationModifyUser(true);
+          setModifyProfileModalOpened(false);
+          setUserImage("");
+          setUserImageFile("");
+          setReload(!reLoad);
+        })
+        .catch((error) => {
+          setUserImage("");
+          setUserImageFile("");
+          console.error(
+            "Erreur lors de la modification de la photo de profil:",
+            error
+          );
+          setModalErrorModifyUser(true);
         });
     }
   };
@@ -175,7 +283,7 @@ function ModifyProfilePic({
 
     return (
       <div className="flex flex-col items-center gap-5">
-        {isLoadedUser && loggedUserData && (
+        {isLoadedUser && loggedUserData[0] && (
           <>
             <p className="text-3xl font-semibold text-[#257492]">
               MODIFICATIONS DE LA PHOTO DE PROFIL
@@ -200,7 +308,7 @@ function ModifyProfilePic({
               >
                 <div className="imageCircleContainer w-[130px] h-[130px] sm:w-[150px] sm:h-[150px] rounded-full overflow-hidden ">
                   <img
-                    src={userImage || userSample}
+                    src={userImage || loggedUserData[0].image || userSample}
                     alt="choose"
                     className="object-cover w-full h-full"
                   />
@@ -211,29 +319,27 @@ function ModifyProfilePic({
             <div className="buttons flex justify-between w-[100%] px-[16px] ">
               <button
                 onClick={() => {
-                  setModifyProfileModalOpened(false);
+                  handleDeleteProfilePic();
                 }}
+                disabled={loggedUserData[0].image === ""}
                 type="button"
-                className="w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px]   bg-[#E3E4E2] text-[#257492] font-semibold text-base  hover:font-bold"
+                className={`w-[47%] h-[44px] flex justify-center items-center shadow-xs rounded-lg px-[8px] bg-[#E3E4E2] text-[#257492] font-semibold text-base ${
+                  loggedUserData[0].image ? "hover:font-bold" : ""
+                }`}
               >
-                Annuler
+                Supprimer
               </button>
 
               <button
                 onClick={() => {
                   handleModifyProfilePic();
-                  setModifyProfileModalOpened(false);
                 }}
                 ref={loginButtonRef}
                 type="button"
-                className={`${
-                  userImageFile
-                    ? "bg-[#257492] text-[#E3E4E2] hover:font-bold"
-                    : "bg-[#E3E4E2] text-[#257492]"
-                } w-[47%] h-[44px] flex justify-center items-center  shadow-xs rounded-lg px-[8px] font-semibold text-base `}
-                disabled={!userImageFile}
+                className={buttonClasses}
+                disabled={userImageFile ? disabled : !userImageFile}
               >
-                Terminer
+                Modifier
               </button>
             </div>
           </>

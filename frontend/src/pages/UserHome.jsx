@@ -2,7 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import settings from "../assets/settings.png";
+import ValidationModal from "../components/ValidationModal";
+import ModifyProfilePic from "../components/ModifyProfilePic";
 import AuthContext from "../context/AuthContext";
+import ValidationPicture from "../assets/Validation.png";
+import ErrorPicture from "../assets/Erreur.png";
 
 export default function UserHome() {
   const [artworksToMap, setArtworksToMap] = useState([]);
@@ -10,6 +14,11 @@ export default function UserHome() {
   const [isLoadedArtworksToMap, setIsLoadedArtworksToMap] = useState(false);
   const [isLoadedArtistsData, setIsLoadedArtistsData] = useState(false);
   const [entities, setEntities] = useState([]);
+  const [modifyProfileModalOpened, setModifyProfileModalOpened] =
+    useState(false);
+  const [modalValidationModifyUser, setModalValidationModifyUser] =
+    useState(false);
+  const [modalErrorModifyUser, setModalErrorModifyUser] = useState(false);
   const {
     userId,
     loggedUserData,
@@ -94,18 +103,32 @@ export default function UserHome() {
             {loggedUserData &&
             loggedUserData.length > 0 &&
             loggedUserData[0].image ? (
-              <img
-                src={loggedUserData[0].image}
-                alt="profil pic"
-                className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
-              />
+              <button
+                type="button"
+                onClick={() => {
+                  setModifyProfileModalOpened(true);
+                }}
+              >
+                <img
+                  src={loggedUserData[0].image}
+                  alt="profil pic"
+                  className="rounded-full object-cover xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw]"
+                />
+              </button>
             ) : (
-              <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[100px] lg:h-[100px] object-cover rounded-full flex items-center justify-center">
-                <h1 className="text-white text-[50px] xl:text-[55px]">
-                  {loggedUserData[0].firstname.charAt(0)}
-                  {loggedUserData[0].lastname.charAt(0)}
-                </h1>
-              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setModifyProfileModalOpened(true);
+                }}
+              >
+                <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[100px] lg:h-[100px] object-cover rounded-full flex items-center justify-center">
+                  <h1 className="text-white text-[50px] xl:text-[55px]">
+                    {loggedUserData[0].firstname.charAt(0)}
+                    {loggedUserData[0].lastname.charAt(0)}
+                  </h1>
+                </div>
+              </button>
             )}
             <h1 className="text-2xl text-black font-bold">
               {loggedUserData[0].pseudo}
@@ -222,6 +245,24 @@ export default function UserHome() {
               </section>
             </section>
           </section>
+          <ModifyProfilePic
+            modifyProfileModalOpened={modifyProfileModalOpened}
+            setModifyProfileModalOpened={setModifyProfileModalOpened}
+            setModalValidationModifyUser={setModalValidationModifyUser}
+            setModalValidation={setModalErrorModifyUser}
+          />
+          <ValidationModal
+            textValidationModal="Modifications prises en compte"
+            isOpenModalValidation={modalValidationModifyUser}
+            setModalValidation={setModalValidationModifyUser}
+            pictureValidationModal={ValidationPicture}
+          />
+          <ValidationModal
+            textValidationModal="Une erreur est survenue lors de la modification"
+            isOpenModalValidation={modalErrorModifyUser}
+            setModalValidation={setModalErrorModifyUser}
+            pictureValidationModal={ErrorPicture}
+          />
         </section>
       )}
     </div>
