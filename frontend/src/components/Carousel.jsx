@@ -88,7 +88,9 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                     >
                       <NavLink
                         to={`/gallery/${imageUrl[1]}`}
-                        onClick={window.scrollTo(0, 0)}
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                        }}
                       >
                         <img
                           src={imageUrl[0]}
