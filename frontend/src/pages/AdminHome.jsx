@@ -201,7 +201,7 @@ export default function AdminHome() {
                 </section>
               </section>
               <section className=" w-full flex flex-col xl:mt-12 gap-10">
-                <div className="flex justify-between w-full xl:mb-7">
+                <div className="flex items-center justify-between w-full xl:mb-7">
                   <h2 className="font-bold text-2xl xl:text-4xl ml-3 xl:ml-0">
                     GESTION DES ARTISTES
                   </h2>
@@ -246,8 +246,8 @@ export default function AdminHome() {
                 </section>
               </section>
               <section className="w-full flex flex-col xl:my-12  gap-10">
-                <div className="flex justify-between w-full mb-7">
-                  <h2 className="font-bold text-2xl xl:text-4xl ml-3 xl:ml-0 whitespace-nowrap">
+                <div className="flex items-center justify-between w-full mb-7">
+                  <h2 className="font-bold text-2xl xl:text-4xl ml-3 xl:ml-0 ">
                     GESTION UTILISATEURS
                   </h2>
                   <Link to="/admin/users">

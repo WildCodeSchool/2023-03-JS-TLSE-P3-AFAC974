@@ -9,7 +9,7 @@ import { FormArtworkArtistContext } from "../context/FormArtworkArtistContext";
 
 export default function Artwork() {
   const { artworkId } = useParams();
-  const [artwork, setArtwork] = useState([{}]);
+  const [artwork, setArtwork] = useState([{ image_url_medium: "" }]);
   const [artist, setArtist] = useState([{}]);
   const [type, setType] = useState([{}]);
   const [technique, setTechnique] = useState([{}]);
