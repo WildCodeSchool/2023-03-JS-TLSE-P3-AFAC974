@@ -317,7 +317,7 @@ VALUES
   (
     'Sortie du Bras de Jean Payet',
     '1865',
-    'Titre complet: "Sortie du Bras de Jean Payet en allant vers le Tampon". Le tilbury à quatre roues est tiré par quatre mules (importées du Poitou). La route, encore reconnaissable aujourd''hui, reliait les chmps de canne situés entre la ravin e Jean Payet (ancienne ravine du Tampon), et la ravine des Cafres. au sommet de ces champs, une scierie fournissait le bois et les planches pour les Etablissements K/Véguen',
+    'Titre complet: "Sortie du Bras de Jean Payet en allant vers le Tampon". Le tilbury à quatre roues est tiré par quatre mules (importées du Poitou). La route, encore reconnaissable aujourd''hui, reliait les champs de canne situés entre la ravine de Jean Payet (ancienne ravine du Tampon), et la ravine des Cafres. au sommet de ces champs, une scierie fournissait le bois et les planches pour les Etablissements K/Véguen',
     'url_small',
     'https://res.cloudinary.com/didpqnqdv/image/upload/v1690292969/artwork-afac/ohuhi0ukanbgjfw8li8k.jpg',
     'url_large',

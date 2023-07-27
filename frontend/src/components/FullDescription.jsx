@@ -11,16 +11,43 @@ export default function FullDescription({ partialText, fullText }) {
   }, [fullText]);
 
   return (
-    <button
-      type="button"
-      className="text-left text-lg leading-8"
-      onClick={() => setShowFullText(!showFullText)}
-    >
-      {showFullText ? partialText : fullText}
-      {showFullText && (
-        <span className="text-[#257492] font-semibold"> Voir plus</span>
-      )}
-    </button>
+    <div className="text-left text-lg leading-8">
+      <p>
+        {showFullText ? (
+          <div>
+            <p className="leading-[45px] xl:mt-5 lg:mt-5">
+              {partialText}
+              <button
+                onClick={() => setShowFullText(!showFullText)}
+                type="button"
+                className="text-left text-lg leading-8"
+              >
+                <span className="text-[#257492] font-semibold">
+                  {" "}
+                  &nbsp; voir plus
+                </span>
+              </button>
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p className="leading-[45px] xl:mt-5 lg:mt-5">
+              {fullText}
+              <button
+                onClick={() => setShowFullText(!showFullText)}
+                type="button"
+                className="text-left text-lg leading-8"
+              >
+                <span className="text-[#257492] font-semibold">
+                  {" "}
+                  &nbsp;voir moins
+                </span>
+              </button>
+            </p>
+          </div>
+        )}
+      </p>
+    </div>
   );
 }
 
