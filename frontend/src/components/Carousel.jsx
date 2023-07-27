@@ -106,7 +106,7 @@ export default function Carousel({ imageUrls, disableRightClick }) {
                 })}
             </div>
           ) : (
-            <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center">
+            <div className="slide-container relative overflow-hidden w-full flex flex-row justify-center items-center gap-10">
               {[
                 (currentIndex - 1 + imageUrls.length) % imageUrls.length,
                 currentIndex,
