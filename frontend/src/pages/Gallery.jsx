@@ -108,7 +108,7 @@ export default function Gallery() {
 
   return (
     <div className="flex flex-col pt-[60px] justify-center items-center">
-      {isLoadedArtworks && isLoadedArtists && (
+      {isLoadedArtworks && isLoadedArtists ? (
         <div className="px-[20px] justify-center">
           <div className="flex flex-col justify-between items-center">
             <h1 className="font-semibold text-[42px] drop-shadow-xl mx-4">
@@ -189,6 +189,8 @@ export default function Gallery() {
             </div>
           )}
         </div>
+      ) : (
+        <p>Chargement...</p>
       )}
     </div>
   );
