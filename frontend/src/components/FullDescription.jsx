@@ -11,16 +11,16 @@ export default function FullDescription({ partialText, fullText }) {
   }, [fullText]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-    <div
-      className="text-left leading-8"
+    <button
+      type="button"
+      className="text-left text-lg leading-8"
       onClick={() => setShowFullText(!showFullText)}
     >
       {showFullText ? partialText : fullText}
       {showFullText && (
         <span className="text-[#257492] font-semibold"> Voir plus</span>
       )}
-    </div>
+    </button>
   );
 }
 
