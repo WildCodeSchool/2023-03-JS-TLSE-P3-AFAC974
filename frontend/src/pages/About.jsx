@@ -83,7 +83,7 @@ export default function About() {
           className="bg-transparent shadow-xl hover:bg-[#275492] text-[#275492] font-semibold hover:text-white py-2 px-4 border border-[#275492] hover:border-transparent rounded mb-5 md:text-[21px]"
           onClick={() => setIsClicked(!isClicked)}
         >
-          {isClicked ? "En savoir moins " : "En savoir plus"}
+          {isClicked ? "Voir moins" : "En savoir plus"}
         </button>
         {isClicked && (
           <p className="text-[18px] text-left p-2 mb-6 w-[90%] md:w-[70%]">
