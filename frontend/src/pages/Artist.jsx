@@ -2,11 +2,13 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Carousel from "../components/Carousel";
+import FullDescription from "../components/FullDescription";
 
 export default function Artist() {
   const { artistId } = useParams();
   const [artist, setArtist] = useState([]);
   const [artwork, setArtwork] = useState([]);
+  const [fullText, setFullText] = useState("");
 
   useEffect(() => {
     axios
@@ -14,6 +16,7 @@ export default function Artist() {
       .then((res) => {
         const artistData = res.data[0];
         setArtist(artistData);
+        setFullText(artistData.description);
       })
       .catch((error) => {
         console.error(error);
@@ -41,10 +44,12 @@ export default function Artist() {
     e.preventDefault();
   };
 
+  const partialText = `${fullText.slice(0, Math.ceil(fullText.length / 2))}...`;
+
   return (
     <div className="flex flex-col justify-center items-center pt-[90px] px-8">
-      <section className="flex gap-[100px] w-full justify-center mt-5">
-        <div className="flex flex-col gap-5 ">
+      <section className="flex flex-col lg:gap-[100px] w-full justify-center mt-5 lg:flex-row">
+        <div className="flex flex-col md:gap-5 ">
           <img
             src={artist.image_url_medium}
             alt={`artist${artistId}`}
@@ -52,11 +57,13 @@ export default function Artist() {
           />
           <h1 className="text-[21px] font-semibold py-8">{artist.firstname}</h1>
         </div>
-        <div className="flex flex-col justify-center gap-5 w-[50%]">
-          <p className="text-left">{artist.description}</p>
-          <a href={artist.website_url} target="blank">
-            <p className="flex justify-start text-[#2A8DD4] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
-          </a>
+        <div className="flex flex-col justify-center gap-5 lg:w-[50%]">
+          <FullDescription partialText={partialText} fullText={fullText} />
+          {artist.website_url ? (
+            <a href={artist.website_url} target="blank">
+              <p className="flex justify-start text-[#257492] py-4">{`En savoir plus sur ${artist.nickname}`}</p>
+            </a>
+          ) : null}
         </div>
       </section>
 
