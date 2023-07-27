@@ -76,7 +76,7 @@ export default function AdminHome() {
           <section className="overflow-hidden flex flex-col gap-5 sm:mx-[60px]">
             <div className="w-full items-center flex flex-col xl:flex-row gap-5 mt-[80px] xl:px-10">
               {adminData && adminData.length > 0 && adminData[0].image ? (
-                <div className=" xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] rounded-full overflow-hidden">
+                <div className=" xl:w-[12vw] xl:h-[12vw] w-[35vw] h-[35vw] max-w-[150px] max-h-[150px] rounded-full overflow-hidden">
                   <img
                     src={adminData[0].image}
                     alt="profil pic"
@@ -84,7 +84,7 @@ export default function AdminHome() {
                   />
                 </div>
               ) : (
-                <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
+                <div className="bg-[#7F253E] min-w-[120px] min-h-[120px] w-[20vw] max-w-[150px] max-h-[150px] h-[20vw] md:w-[15vw] md:h-[15vw] lg:w-[12vw] lg:h-[12vw] xl:w-[12vw] xl:h-[12vw] object-cover rounded-full flex items-center justify-center">
                   <h1 className="text-white text-[50px] xl:text-[70px]">
                     {adminData[0].firstname.charAt(0)}
                     {adminData[0].lastname.charAt(0)}
