@@ -66,7 +66,6 @@ export default function Artist() {
           ) : null}
         </div>
       </section>
-
       <Carousel imageUrls={imageUrls} disableRightClick={disableRightClick} />
     </div>
   );
