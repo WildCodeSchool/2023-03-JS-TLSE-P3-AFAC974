@@ -44,7 +44,10 @@ function ArtworkForm2({
   } = useContext(FormArtworkArtistContext);
 
   return (
-    <div ref={modalRef} className="h-full flex flex-col justify-between">
+    <div
+      ref={modalRef}
+      className="h-full flex flex-col justify-between items-center"
+    >
       <div>
         <h2 className="font-semibold text-[20px]">Informations de l'oeuvre</h2>
       </div>
@@ -399,10 +402,10 @@ function ArtworkForm2({
         </p>
       ) : null}
       <div className="flex justify-between py-4 lg:justify-around">
-        <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%]">
+        <div className="px-[10px] w-[150px] h-[30px] lg:w-[200px]">
           <GreyButton text="Précédent" onClick={prevStep} />
         </div>
-        <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
+        <div className="px-[10px] w-[150px] h-[30px] lg:w-[200px] ">
           {parseInt(artist, 10) ===
             Math.max(...dataArtist.map((item) => item.id)) + 1 &&
           technique &&

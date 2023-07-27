@@ -16,7 +16,7 @@ function ArtworkForm1({
   name,
 }) {
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <div className="w-full h-full flex flex-col justify-between items-center">
       <div />
       <div className="flex justify-center items-center w-full">
         <div className="hidden w-full">
@@ -42,10 +42,10 @@ function ArtworkForm1({
       <div className="items-bottom justify-end">
         <h3 className="text-center w-full text-[16px]">{text}</h3>
         <div className="flex justify-between py-4 w-full lg:justify-around">
-          <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
+          <div className="px-[10px] w-[150px] h-[30px] lg:w-[200px]">
             <GreyButton text={textPrev} onClick={onClickPrev} />
           </div>
-          <div className="px-[10px] w-[100%] h-[30px] lg:w-[30%] ">
+          <div className="px-[10px] w-[150px] h-[30px] lg:w-[200px]">
             <RedButton text={textNext} onClick={onClickNext} />
           </div>
         </div>
